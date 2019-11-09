@@ -1,28 +1,60 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  'extends': [
-    'plugin:vue/essential',
-    'eslint:recommended'
-  ],
+  extends: ['plugin:vue/strongly-recommended', 'eslint:recommended'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'comma-dangle': ['error', 'always-multiline'],
+    'default-case': 'error',
+    'func-style': ['error', 'expression'],
+    indent: [
+      'error',
+      2,
+      {
+        SwitchCase: 1,
+      },
+    ],
+    'no-var': 'error',
+    semi: ['error', 'never'],
+    'vue/order-in-components': [
+      'error',
+      {
+        order: [
+          'el',
+          'name',
+          'components',
+          'props',
+          'data',
+          'computed',
+          'watch',
+          'methods',
+          'beforeCreate',
+          'created',
+          'beforeMount',
+          'mounted',
+          'beforeUpdate',
+          'updated',
+          'beforeDestroy',
+          'destroyed',
+        ],
+      },
+    ],
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
   overrides: [
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
-        jest: true
-      }
-    }
-  ]
+        jest: true,
+      },
+    },
+  ],
 }

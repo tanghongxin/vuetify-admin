@@ -1,0 +1,118 @@
+import axios from 'axios'
+
+const STONE_REQUEST = axios.create({
+  baseURL: 'http://',
+  responseType: 'json',
+  validateStatus: status => status === 200,
+})
+
+const request = {
+  post(url, params) {
+    return STONE_REQUEST.post(url, params, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  },
+  delete(url, params) {
+    return STONE_REQUEST.put(url, params, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  },
+  put(url, params) {
+    return STONE_REQUEST.put(url, params, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  },
+  get(url, params) {
+    return STONE_REQUEST.put(url, params, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  },
+  export(url, params = {}) {
+    // message.loading('导出数据中');
+    return STONE_REQUEST.post(url, params, {
+      responseType: 'blob',
+    })
+      .then(r => {
+        const content = r.data
+        const blob = new Blob([content])
+        const fileName = `${new Date().getTime()}_导出结果.xlsx`
+        if ('download' in document.createElement('a')) {
+          const elink = document.createElement('a')
+          elink.download = fileName
+          elink.style.display = 'none'
+          elink.href = URL.createObjectURL(blob)
+          document.body.appendChild(elink)
+          elink.click()
+          URL.revokeObjectURL(elink.href)
+          document.body.removeChild(elink)
+        } else {
+          navigator.msSaveBlob(blob, fileName)
+        }
+      })
+      .catch(() => {
+        // console.error(r)
+        // message.error('导出失败');
+      })
+  },
+  download(url, params, filename) {
+    // message.loading('文件传输中');
+    return STONE_REQUEST.post(url, params, {
+      transformRequest: [
+        params => {
+          let result = ''
+          Object.keys(params).forEach(key => {
+            if (
+              !Object.is(params[key], undefined) &&
+              !Object.is(params[key], null)
+            ) {
+              result +=
+                encodeURIComponent(key) +
+                '=' +
+                encodeURIComponent(params[key]) +
+                '&'
+            }
+          })
+          return result
+        },
+      ],
+      responseType: 'blob',
+    })
+      .then(r => {
+        const content = r.data
+        const blob = new Blob([content])
+        if ('download' in document.createElement('a')) {
+          const elink = document.createElement('a')
+          elink.download = filename
+          elink.style.display = 'none'
+          elink.href = URL.createObjectURL(blob)
+          document.body.appendChild(elink)
+          elink.click()
+          URL.revokeObjectURL(elink.href)
+          document.body.removeChild(elink)
+        } else {
+          navigator.msSaveBlob(blob, filename)
+        }
+      })
+      .catch(() => {
+        // console.error(r)
+        // message.error('下载失败');
+      })
+  },
+  upload(url, params) {
+    return STONE_REQUEST.post(url, params, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  },
+}
+
+export default request
