@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --mode development",
+    "build:dev": "vue-cli-service build --mode development",
+    "build:pro": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'Git hook lint(代码格式检查)!' && npm run lint --fix",
+      "pre-commit": "npm run lint --fix",
       "pre-push": "npm run test"
     }
   },
@@ -33,6 +34,7 @@
     "@vue/cli-service": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.3",
+    "babel-plugin-lodash": "^3.3.4",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
     "husky": "^3.0.9",
@@ -41,6 +43,7 @@
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "style-resources-loader": "^1.2.1",
+    "terser-webpack-plugin": "^2.2.1",
     "vue-cli-plugin-vuetify": "^2.0.2",
     "vue-template-compiler": "^2.6.10"
   },
