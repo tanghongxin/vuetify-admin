@@ -12,6 +12,7 @@ const addStyleResource = rule => {
 }
 
 module.exports = {
+  publicPath: './',
   chainWebpack: config => {
     config.resolve.alias
       .set('@', path.join(__dirname, 'src'))
