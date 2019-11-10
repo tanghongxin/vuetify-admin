@@ -52,6 +52,7 @@
               class="VDateTimePicker"
               v-model="date"
               v-bind="datePickerProps"
+              :day-format="date => date.slice(-2)"
               @input="showTimePicker"
               full-width
             />
