@@ -31,6 +31,10 @@
         mb-5
         xs12
       >
+        <VDateTimePicker
+          :time-picker-props="timeProps"
+          time-format="HH:mm:ss"
+        />
         <h2 class="headline font-weight-bold mb-3">
           What's next?
         </h2>
@@ -94,9 +98,13 @@
 </template>
 
 <script>
+import VDateTimePicker from '~~/implements/VDateTimePicker'
+
 export default {
   name: 'HelloWorld',
-
+  components: {
+    VDateTimePicker,
+  },
   data: () => ({
     ecosystem: [
       {
@@ -148,6 +156,20 @@ export default {
         href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
       },
     ],
+    nullDatetime: null,
+    datetime: new Date(),
+    datetimeString: '2019-01-01 12:00',
+    formattedDatetime: '09/01/2019 12:00',
+    textFieldProps: {
+      appendIcon: 'event',
+    },
+    dateProps: {
+      headerColor: 'red',
+    },
+    timeProps: {
+      useSeconds: true,
+      ampmInTitle: true,
+    },
   }),
 }
 </script>

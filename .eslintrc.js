@@ -18,6 +18,7 @@ module.exports = {
       },
     ],
     'no-var': 'error',
+    quotes: ['error', 'single', 'avoid-escape'],
     semi: ['error', 'never'],
     'vue/order-in-components': [
       'error',
