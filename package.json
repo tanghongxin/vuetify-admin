@@ -17,11 +17,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@mdi/font": "^3.6.95",
     "axios": "^0.19.0",
     "core-js": "^3.3.2",
     "lodash": "^4.17.15",
-    "roboto-fontface": "*",
+    "material-design-icons-iconfont": "^5.0.1",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
     "vuetify": "^2.1.0",
