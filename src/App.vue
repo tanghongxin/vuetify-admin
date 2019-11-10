@@ -40,6 +40,8 @@
     <v-content>
       <HelloWorld />
     </v-content>
+
+    <vue-snotify />
   </v-app>
 </template>
 
