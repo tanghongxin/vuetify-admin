@@ -31,7 +31,7 @@
         mb-5
         xs12
       >
-        <VDateTimePicker
+        <VDateTimeInput
           :time-picker-props="timeProps"
           time-format="HH:mm:ss"
         />
@@ -98,12 +98,12 @@
 </template>
 
 <script>
-import VDateTimePicker from '~~/implements/VDateTimePicker'
+import VDateTimeInput from '~~/implements/VDateTimeInput'
 
 export default {
   name: 'HelloWorld',
   components: {
-    VDateTimePicker,
+    VDateTimeInput,
   },
   data: () => ({
     ecosystem: [
