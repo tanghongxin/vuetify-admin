@@ -35,6 +35,7 @@
           :time-picker-props="timeProps"
           time-format="HH:mm:ss"
         />
+        <VImgUpload />
         <h2 class="headline font-weight-bold mb-3">
           What's next?
         </h2>
@@ -99,11 +100,13 @@
 
 <script>
 import VDateTimeInput from '~~/implements/VDateTimeInput'
+import VImgUpload from '~~/implements/VImgUpload'
 
 export default {
   name: 'HelloWorld',
   components: {
     VDateTimeInput,
+    VImgUpload,
   },
   data: () => ({
     ecosystem: [
