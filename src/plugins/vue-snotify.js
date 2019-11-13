@@ -8,7 +8,7 @@ const options = {
     pauseOnHover: true,
     newOnTop: true,
     oneAtTime: false,
-    preventDuplicates: true,
+    preventDuplicates: false,
     titleMaxLength: 110,
     bodyMaxLength: 1110,
     timeout: 5000,
