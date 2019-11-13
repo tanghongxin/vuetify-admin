@@ -173,7 +173,8 @@ export default {
       this.resetPicker()
       this.date = DEFAULT_DATE
       this.time = DEFAULT_TIME
-      this.$emit('input', null)
+      // has never changed
+      this.$emit('input', this.datetime)
     },
     resetPicker() {
       this.display = false

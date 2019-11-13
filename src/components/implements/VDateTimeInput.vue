@@ -21,8 +21,8 @@
       />
     </template>
     <VDateTimePicker
-      v-if="menu"
-      :time="time"
+      v-show="menu"
+      :datetime="time"
       full-width
       @input="onDateTimePickerInput"
     />
