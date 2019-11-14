@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    :value="true"
+    :value="false"
     content-class="VMDIconPicker"
     :max-width="1440"
   >
