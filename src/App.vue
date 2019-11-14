@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <router-view />
+    <vue-snotify />
   </v-app>
 </template>
 
