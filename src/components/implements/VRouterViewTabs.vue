@@ -35,6 +35,7 @@
       class="VRouterViewTabs__router-view"
       :style="{ height: `calc(100vh - ${height}px - ${top}px)` }"
     >
+      <VRouterBreadCrumbs />
       <v-fade-transition mode="out-in">
         <keep-alive>
           <router-view
@@ -75,12 +76,15 @@
 </template>
 
 <script>
-import VFollowMenu from '~~/implements/VFollowMenu'
+import VFollowMenu from './VFollowMenu'
+import VRouterBreadCrumbs from './VRouterBreadCrumbs'
+import { removeKeepAliveCache } from '@/utils/vue'
 
 export default {
   name:'VRouterViewTabs',
   components: {
     VFollowMenu,
+    VRouterBreadCrumbs,
   },
   props: {
     sliderColor: {
@@ -112,12 +116,12 @@ export default {
         {
           title: '关闭右侧标签',
           icon: 'keyboard_arrow_right',
-          click: () => this.closeRightTab(this.targetIndex),
+          click: () => this.closeRightTabs(this.targetIndex),
         },
         {
           title: '关闭左侧标签',
           icon: 'keyboard_arrow_left',
-          click: () => this.closeLeftTab(this.targetIndex),
+          click: () => this.closeLeftTabs(this.targetIndex),
         },
         {
           title: '关闭其他标签',
@@ -147,14 +151,7 @@ export default {
     },
     removeCache (index) {
       const vm = this.vmList[index]
-      const key = vm.$vnode.key
-      const { cache, keys } = vm.$vnode.parent.componentInstance
-      if (keys.length && cache[key]) {
-        const index = keys.indexOf(key)
-        keys.splice(index, 1)
-        delete cache[key]
-      }
-      vm.$destroy()
+      removeKeepAliveCache(vm)
       this.vmList.splice(index, 1)
     },
     closeTab (index) {
@@ -169,21 +166,21 @@ export default {
       this.routeList.splice(index, 1)
       this.removeCache(index)
     },
-    closeRightTab (index) {
+    closeRightTabs (index) {
       this.routeList = this.routeList.slice(0, index + 1)
       for (let i = this.vmList.length - 1; i > index; i--) {
         this.removeCache(i)
       }
     },
-    closeLeftTab (index) {
+    closeLeftTabs (index) {
       this.routeList = this.routeList.slice(index)
       for (let i = index - 1; i >= 0; i--) {
         this.removeCache(i)
       }
     },
     closeOtherTabs (index) {
-      this.closeRightTab(index)
-      this.closeLeftTab(index)
+      this.closeRightTabs(index)
+      this.closeLeftTabs(index)
     },
     clear () {
       for (let i = this.vmList.length - 1; i > 0; i--) {

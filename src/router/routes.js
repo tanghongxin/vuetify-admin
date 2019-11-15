@@ -2,7 +2,7 @@ import Page from '@/views/Page.vue'
 
 export default [
   {
-    path :'/',
+    path: '/',
     redirect: '/home',
   },
   {
@@ -11,14 +11,29 @@ export default [
     children: [
       {
         path: '/home',
-        name: 'home',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue'),
+        name: '主页',
+        component: () =>
+          import(/* webpackChunkName: "about" */ '../views/Home.vue'),
       },
       {
         path: '/about',
-        name: 'about',
+        name: '关于',
         component: () =>
           import(/* webpackChunkName: "about" */ '../views/About.vue'),
+      },
+      {
+        path: '/menu-test',
+        name: '菜单',
+        redirect: '/home',
+        component: { render: h => h('router-view') },
+        children: [
+          {
+            path: 'submenu',
+            name: '子菜单',
+            component: () =>
+              import(/* webpackChunkName: "about" */ '../views/Home.vue'),
+          },
+        ],
       },
     ],
   },
