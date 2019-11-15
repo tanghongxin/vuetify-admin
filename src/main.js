@@ -1,6 +1,5 @@
 import '@babel/polyfill'
 import './plugins/vue-snotify'
-import './plugins/vue-fragment'
 import vuetify from './plugins/vuetify'
 import Vue from 'vue'
 import App from './App.vue'
