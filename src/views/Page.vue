@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Page">
     <AppNavigation v-model="drawer" />
     <AppHeader v-model="drawer" /> 
     <AppContent />
@@ -23,3 +23,10 @@ export default {
   }),
 }
 </script>
+
+<style lang="scss">
+.Page {
+  width: 100%;
+  height: 100%;
+}
+</style>
