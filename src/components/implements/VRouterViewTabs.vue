@@ -1,10 +1,12 @@
 <template>
   <div class="VRouterViewTabs">
-    <div :style="{ height }">
+    <!-- / TAB -->
+    <template>
       <v-tabs
         show-arrows
-        :slider-color="sliderColor"
+        slider-color="primary"
         @change="tabChange"
+        :height="tabHeight"
       >
         <v-tab
           v-for="(route, index) in routeList"
@@ -29,49 +31,60 @@
           </v-btn>
         </v-tab>
       </v-tabs>
-    </div>
+    </template>
 
-    <div
-      class="VRouterViewTabs__router-view"
-      :style="{ height: `calc(100vh - ${height}px - ${top}px)` }"
-    >
-      <VRouterBreadCrumbs />
-      <v-fade-transition mode="out-in">
-        <keep-alive>
-          <router-view
-            ref="routerView"
-            :key="$route.name"
-            @hook:activated="routerViewActiviated"
-          />
-        </keep-alive>
-      </v-fade-transition>
-    </div>
+    <!-- / Divider -->
+    <v-divider />
 
-    <VFollowMenu
-      ref="followMenu"
-    >
-      <v-list
-        dense
-        class="VRouterViewTabs__menu-list"
+    <!-- / Content -->
+    <template>
+      <div
+        class="VRouterViewTabs__router-view"
+        :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
-        <v-list-item
+        <VRouterBreadCrumbs :style="{ height: breadCrumbsHeight }" />
+        <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
+          <v-fade-transition mode="out-in">
+            <keep-alive>
+              <router-view
+                ref="routerView"
+                :key="$route.name"
+                @hook:activated="routerViewActiviated"
+              />
+            </keep-alive>
+          </v-fade-transition>
+        </div>
+      </div>
+    </template>
+
+    <!-- / ContextMenu -->
+    <template>
+      <VFollowMenu
+        ref="followMenu"
+      >
+        <v-list
           dense
-          class="VRouterViewTabs__menu-list-item"
-          v-for="(item, index) in menuList"
-          :key="index"
-          @click.prevent="item.click"
+          class="VRouterViewTabs__menu-list"
         >
-          <v-icon
-            class="VRouterViewTabs__menu-list-icon"
-            small
-            :size="16"
-            tag="span"
-            v-text="item.icon"
-          />
-          <v-list-item-title v-text="item.title" />
-        </v-list-item>
-      </v-list>
-    </VFollowMenu>
+          <v-list-item
+            dense
+            class="VRouterViewTabs__menu-list-item"
+            v-for="(item, index) in menuList"
+            :key="index"
+            @click.prevent="item.click"
+          >
+            <v-icon
+              class="VRouterViewTabs__menu-list-icon"
+              small
+              :size="16"
+              tag="span"
+              v-text="item.icon"
+            />
+            <v-list-item-title v-text="item.title" />
+          </v-list-item>
+        </v-list>
+      </VFollowMenu>
+    </template>
   </div>
 </template>
 
@@ -87,17 +100,13 @@ export default {
     VRouterBreadCrumbs,
   },
   props: {
-    sliderColor: {
-      type: String,
-      default: 'primary',
-    },
-    top: {
+    tabHeight: {
       type: Number,
-      default: 60,
+      default: 48,
     },
-    height: {
+    breadCrumbsHeight: {
       type: Number,
-      default: 64,
+      default: 57,
     },
   },
   data: () => ({
