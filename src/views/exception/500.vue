@@ -1,0 +1,23 @@
+<template>
+  <ExceptionPage type="500" />
+</template>
+
+<script>
+import ExceptionPage from '~~/exception/ExceptionPage'
+
+export default {
+  name:'ServerError',
+  components: {
+    ExceptionPage,
+  },
+  props: {},
+  data: () => ({
+  }),
+  computed: {},
+  methods: {},
+}
+</script>
+
+<style lang="scss">
+
+</style>
