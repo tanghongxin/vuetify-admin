@@ -4,6 +4,9 @@
       alt="Vue logo"
       src="../assets/logo.png"
     >
+    <router-link to="/about">
+      about
+    </router-link>
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>

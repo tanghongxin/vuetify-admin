@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "await-timeout": "^0.6.0",
     "axios": "^0.19.0",
     "core-js": "^3.3.2",
     "lodash": "^4.17.15",

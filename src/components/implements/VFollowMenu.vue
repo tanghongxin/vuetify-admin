@@ -1,0 +1,45 @@
+<template>
+  <v-menu
+    v-model="menu"
+    :position-x="x"
+    :position-y="y"
+    absolute
+    offset-y
+    transition="scale-transition"
+    v-bind="{ ...$props, ...$attrs }"
+  >
+    <slot />
+  </v-menu>
+</template>
+
+<script>
+import Timeout from 'await-timeout'
+
+export default {
+  name: 'VFollowMenu',
+  data: () => ({
+    menu: false,
+    x: 0,
+    y: 0,
+  }),
+  methods: {
+    async show (e) {
+      e.preventDefault()
+      if (this.menu) {
+        this.menu = false
+        await Timeout.set(90)
+        this.x = e.clientX
+        this.y = e.clientY
+        this.menu = true
+      } else {
+        await this.$nextTick()
+        this.x = e.clientX
+        this.y = e.clientY
+        this.menu = true
+      }
+    },
+  },
+}
+</script>
+
+<style lang="scss"></style>

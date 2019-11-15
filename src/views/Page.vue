@@ -1,11 +1,9 @@
 <template>
-  <fragment>
+  <div>
     <AppNavigation v-model="drawer" />
-
     <AppHeader v-model="drawer" /> 
-
     <AppContent />
-  </fragment>
+  </div>
 </template>
 
 <script>
@@ -20,15 +18,8 @@ export default {
     AppContent,
     AppNavigation,
   },
-  props: {},
   data: (vm) => ({
     drawer: vm.$vuetify.breakpoint.lgAndUp,
   }),
-  computed: {},
-  methods: {},
 }
 </script>
-
-<style lang="scss">
-
-</style>
