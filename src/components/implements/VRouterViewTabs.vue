@@ -1,6 +1,6 @@
 <template>
   <div class="VRouterViewTabs">
-    <!-- / TAB -->
+    <!-- / Tab -->
     <template>
       <v-tabs
         show-arrows
@@ -8,28 +8,39 @@
         @change="tabChange"
         :height="tabHeight"
       >
-        <v-tab
+        <v-tooltip
+          top
           v-for="(route, index) in routeList"
           :key="index"
-          :exact="route.name === $route.name"
-          :to="route.fullPath"
-          @contextmenu="showContextMenu($event, index)"
         >
-          {{ route.name }}
-          <v-btn
-            class="VRouterViewTabs--tab-btn_close"
-            icon
-            small
-            text
-            @click.prevent="closeTab(index)"
-          >
-            <v-icon
-              class="VRouterViewTabs--tab-icon_close"
-              small
-              v-text="'close'"
-            />
-          </v-btn>
-        </v-tab>
+          <template v-slot:activator="{ on }">
+            <v-tab
+              :exact="route.name === $route.name"
+              :to="route.fullPath"
+              v-on="on"
+              @contextmenu="showContextMenu($event, index)"
+            >
+              {{ route.name }}
+              <v-btn
+                class="VRouterViewTabs--tab-btn_close"
+                icon
+                small
+                text
+                @click.prevent="closeTab(index)"
+              >
+                <v-icon
+                  class="VRouterViewTabs--tab-icon_close"
+                  small
+                  v-text="'close'"
+                />
+              </v-btn>
+            </v-tab>
+          </template>
+          <v-breadcrumbs
+            style="padding: 0;"
+            :items="route.matched.map(route => ({ text: route.name }))"
+          />
+        </v-tooltip>
       </v-tabs>
     </template>
 
@@ -49,7 +60,7 @@
               <router-view
                 ref="routerView"
                 :key="$route.name"
-                @hook:activated="routerViewActiviated"
+                @hook:activated="currentRouteChange"
               />
             </keep-alive>
           </v-slide-x-transition>
@@ -148,7 +159,7 @@ export default {
     tabChange (fullPath) {
       this.$router.push(fullPath || '/home').catch(() => {})
     },
-    routerViewActiviated () {
+    currentRouteChange () {
       const index = this.routeList.findIndex(route => route.name === this.$route.name)
       if (index !== -1) {
         this.routeList.splice(index, 1, this.$route)
@@ -158,10 +169,15 @@ export default {
         this.vmList.push(this.$refs['routerView'])
       }
     },
-    removeCache (index) {
+    clearCache (index) {
       const vm = this.vmList[index]
       removeKeepAliveCache(vm)
       this.vmList.splice(index, 1)
+    },
+    clearAllCaches () {
+      for (let i = this.vmList.length - 1; i > 0; i--) {
+        this.clearCache(i)
+      }
     },
     closeTab (index) {
       if (this.routeList[index].path === '/home' && this.routeList.length <= 1) {
@@ -173,32 +189,27 @@ export default {
         )
       }
       this.routeList.splice(index, 1)
-      this.removeCache(index)
+      this.clearCache(index)
     },
     closeRightTabs (index) {
       this.routeList = this.routeList.slice(0, index + 1)
       for (let i = this.vmList.length - 1; i > index; i--) {
-        this.removeCache(i)
+        this.clearCache(i)
       }
     },
     closeLeftTabs (index) {
       this.routeList = this.routeList.slice(index)
       for (let i = index - 1; i >= 0; i--) {
-        this.removeCache(i)
+        this.clearCache(i)
       }
     },
     closeOtherTabs (index) {
       this.closeRightTabs(index)
       this.closeLeftTabs(index)
     },
-    clear () {
-      for (let i = this.vmList.length - 1; i > 0; i--) {
-        this.removeCache(i)
-      }
-    },
   },
   beforeDestroy () {
-    this.clear()
+    this.clearAllCaches()
   },
 }
 </script>
