@@ -15,15 +15,49 @@
           <v-toolbar-title v-text="'主题'" />
         </v-toolbar>
 
-        <v-color-picker
-          flat
-          v-model="themeColor"
-          hide-inputs
-          :mode.sync="mode"
-          show-swatches
-          :swatches="swatches"
-          canvas-height="200"
-        />
+        <v-container>
+          <v-layout column>
+            <v-flex>
+              <v-subheader
+                class="px-1 my-2"
+                v-text="'颜色选项'"
+              />
+              <div class="color-option">
+                <v-layout wrap>
+                  <label
+                    v-for="(colorConfig, colorName) in colors"
+                    :key="colorName"
+                    class="AppThemes__label flex xs6 pa-1"
+                    v-show="!filterColors.includes(colorName)"
+                  >
+                    <input
+                      type="radio"
+                      name="colorConfig"
+                      :checked="colorConfig.base === themeColor"
+                      @input="themeColor = colorConfig.base"
+                    >
+                    <span class="AppThemes__item bg">
+                      <span class="overlay">
+                        <span class="material-icons">check</span>
+                      </span>
+                      <span
+                        class="AppThemes__item-header"
+                        :class="colorName"
+                      />
+                      <span
+                        class="AppThemes__item-header"
+                        :class="colorName"
+                      />
+                      <span
+                        class="white"
+                      />
+                    </span>
+                  </label>
+                </v-layout>
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-navigation-drawer>
     </template>
 
@@ -59,20 +93,15 @@
 </template>
 
 <script>
+import colors from 'vuetify/lib/util/colors'
 import { ls } from '@/utils/storage'
 
 export default {
   name: 'AppThemes',
-  data: (vm) => ({
+  data: () => ({
     drawer: false,
-    color: vm.$vuetify.theme.currentTheme.primary,
-    mode: 'rgba',
-    swatches: [
-      ['#FF0000', '#AA0000', '#550000'],
-      ['#FFFF00', '#AAAA00', '#555500'],
-      ['#00FF00', '#00AA00', '#005500'],
-      ['#00FFFF', '#00AAAA', '#005555'],
-    ],
+    colors: colors,
+    filterColors: ['blueGrey', 'lightBlue', 'lightGreen', 'deepPurple', 'deepOrange', 'shades'],
   }),
   computed: {
     themeColor: {
@@ -95,22 +124,63 @@ export default {
 
 <style lang="scss">
 .AppThemes {
-
-  .v-color-picker {
-    border-radius: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-
-    .v-color-picker__swatches {
-      max-height: 100% !important;
-      flex: 1;
-    }
-  }
   
   &__trigger-btn {
     top: 50% !important;
+  }
+
+  &__label {
+    position: relative;
+    display: block;
+    cursor: pointer;
+  }
+
+  &__label input[type='radio'] {
+    display: none;
+  }
+
+  &__label input[type='radio'] + span {
+    position: relative;
+  }
+
+  &__label input[type='radio'] + span > .overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    line-height: 30px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0,0,0,.3);
+  }
+
+  &__label input[type='radio']:checked + span > .overlay {
+    display: block;
+  }
+
+  &__label .bg {
+    background-color: #f1f1f1;
+  }
+
+  &__item {
+    display: block;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 2px rgba(0,0,0,.1);
+  }
+
+  &__item-header {
+    height: 10px;
+  }
+
+  &__item > span {
+    display: inline-block;
+    width: 50%;
+    height: 20px;
   }
 }
 </style>
