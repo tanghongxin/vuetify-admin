@@ -1,8 +1,9 @@
 <template>
   <div class="Page">
-    <AppNavigation v-model="drawer" />
-    <AppHeader v-model="drawer" /> 
+    <AppNavigation v-model="navigation" />
+    <AppHeader v-model="navigation" /> 
     <AppContent />
+    <AppThemes />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import AppHeader from '~~/layout/AppHeader'
 import AppContent from '~~/layout/AppContent'
 import AppNavigation from '~~/layout/AppNavigation'
+import AppThemes from '~~/layout/AppThemes'
 
 export default {
   namd: 'Page',
@@ -17,9 +19,10 @@ export default {
     AppHeader,
     AppContent,
     AppNavigation,
+    AppThemes,
   },
   data: (vm) => ({
-    drawer: vm.$vuetify.breakpoint.lgAndUp,
+    navigation: vm.$vuetify.breakpoint.lgAndUp,
   }),
 }
 </script>

@@ -9,18 +9,6 @@
 
 export default {
   namd: 'App',
-  components: {
-  },
-  props: {
-    source: {
-      type: String,
-      default: '',
-    },
-  },
-  data: () => ({
-    dialog: false,
-    drawer: null,
-  }),
 }
 </script>
 

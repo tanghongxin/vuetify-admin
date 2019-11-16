@@ -63,6 +63,10 @@ export default [
           },
         ],
       },
+      {
+        path: '*',
+        redirect: '/exception/404',
+      },
     ],
   },
 ]
