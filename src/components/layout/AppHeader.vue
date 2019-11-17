@@ -2,7 +2,7 @@
   <v-app-bar
     :clipped-left="$vuetify.breakpoint.lgAndUp"
     app
-    color="primary"
+    color="primary darken-2"
     dark
     :flat="$vuetify.breakpoint.xsOnly"
     :height="appHeaderHeight"

@@ -1,11 +1,11 @@
 <template>
-  <div class="ExceptionPage__container d-flex flex-column">
+  <div class="fill-width fill-height d-flex flex-column justify-center align-center">
     <p
-      class="ExceptionPage__p"
+      class="display-4 error--text"
       v-text="config[type].title"
     />
     <p
-      class="ExceptionPage__p-zh"
+      class="headline error--text"
       v-text="config[type].desc"
     />
   </div>
@@ -28,32 +28,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.ExceptionPage {
-
-  &__container {
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__p {
-    margin-top: -150px;
-    margin-bottom: 0;
-    color: #999;
-    font-size: 110px;
-  }
-
-  &__p-eg {
-    margin-bottom: 5px;
-    color: #888;
-    font-size: 20px;
-  }
-
-  &__p-zh {
-    font-size: 30px;
-  }
-}
-</style>

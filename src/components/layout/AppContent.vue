@@ -1,5 +1,5 @@
 <template>
-  <v-content class="AppContent">
+  <v-content class="AppContent fill-height overflow-hidden">
     <VRouterViewTabs />
   </v-content>
 </template>
@@ -17,8 +17,6 @@ export default {
 
 <style lang="scss">
 .AppContent {
-  height: 100%;
   background-color: #fff;
-  overflow: hidden;
 }
 </style>

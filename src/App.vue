@@ -1,5 +1,8 @@
 <template>
-  <v-app id="app">
+  <v-app
+    id="app"
+    class="fill-width fill-height"
+  >
     <router-view />
     <vue-snotify />
   </v-app>
@@ -13,10 +16,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@/assets/styles/index';
-
-#app {
-  width: 100%;
-  height: 100%;
-}
+@import '~@/assets/styles/index.scss';
 </style>

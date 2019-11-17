@@ -3,6 +3,7 @@
     <!-- / Themes -->
     <template>
       <v-navigation-drawer
+        app
         v-model="drawer"
         fixed
         right

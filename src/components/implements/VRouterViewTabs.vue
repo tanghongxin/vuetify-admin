@@ -1,5 +1,5 @@
 <template>
-  <div class="VRouterViewTabs">
+  <div class="VRouterViewTabs fill-height">
     <!-- / Tab -->
     <template>
       <v-tabs
@@ -53,10 +53,14 @@
         fluid
         ref="scroll"
         id="VRouterViewTabs__router-view"
+        class="overflow-x-hidden overflow-y-auto"
         v-scroll:#VRouterViewTabs__router-view="subscribeScroll"
         :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
-        <VRouterBreadCrumbs :style="{ height: breadCrumbsHeight }" />
+        <VRouterBreadCrumbs
+          class="py-1"
+          :style="{ height: breadCrumbsHeight }"
+        />
         <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
           <v-slide-x-transition mode="out-in">
             <keep-alive>
@@ -78,17 +82,16 @@
       >
         <v-list
           dense
-          class="VRouterViewTabs__menu-list"
+          class=" py-0"
         >
           <v-list-item
             dense
-            class="VRouterViewTabs__menu-list-item"
             v-for="(item, index) in menuList"
             :key="index"
             @click.prevent="item.click"
           >
             <v-icon
-              class="VRouterViewTabs__menu-list-icon"
+              class=" mr-1"
               small
               :size="16"
               tag="span"
@@ -243,27 +246,7 @@ export default {
 </script>
 
 <style lang="scss">
-.VRouterViewTabs {
-  height: 100%;
-  width: 100%;
-
-  &__menu-list {
-    padding-top: 0;
-    padding-bottom: 0;
-
-    &-item {
-      font-size: 16px;
-    }
-
-    &-icon {
-      margin-right: 4px;
-    }
-  }
-}
-
 #VRouterViewTabs__router-view {
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 </style>
