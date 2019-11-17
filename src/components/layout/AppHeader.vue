@@ -4,12 +4,14 @@
     app
     color="primary"
     dark
+    :flat="$vuetify.breakpoint.xsOnly"
+    :height="appHeaderHeight"
   >
     <v-toolbar-title
       style="width: 300px"
       class="ml-0 pl-4"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="appNavigation = !appNavigation" />
       <span class="hidden-sm-and-down">Google Contacts</span>
     </v-toolbar-title>
     <v-text-field
@@ -48,21 +50,20 @@
 export default {
   name:'AppHeader',
   components: {},
-  props: {
-    value: {
-      type: Boolean,
-      required: true,
-    },
-  },
   data: () => ({
   }),
   computed: {
-    drawer: {
+    appHeaderHeight: {
       get () {
-        return this.value
+        return this.$store.state.setting.appHeaderHeight
+      },
+    },
+    appNavigation: {
+      get () {
+        return this.$store.state.setting.appNavigation
       },
       set (v) {
-        this.$emit('input', v)
+        this.$store.commit('setting/setAppNavigation', v)
       },
     },
   },

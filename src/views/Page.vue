@@ -1,7 +1,7 @@
 <template>
   <div class="Page">
-    <AppNavigation v-model="navigation" />
-    <AppHeader v-model="navigation" /> 
+    <AppNavigation />
+    <AppHeader /> 
     <AppContent />
     <AppThemes />
   </div>
@@ -21,9 +21,14 @@ export default {
     AppNavigation,
     AppThemes,
   },
-  data: (vm) => ({
-    navigation: vm.$vuetify.breakpoint.lgAndUp,
-  }),
+  watch: {
+    '$vuetify.breakpoint.xsOnly': {
+      immediate: true,
+      handler (e) {
+        this.$store.commit('setting/setAppHeaderHeight', e ? 48 : 64)
+      },
+    },
+  },
 }
 </script>
 

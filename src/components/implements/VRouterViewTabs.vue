@@ -133,6 +133,11 @@ export default {
     vmList: [],
   }),
   computed: {
+    appHeaderHeight: {
+      get () {
+        return this.$store.state.setting.appHeaderHeight
+      },
+    },
     menuList () {
       return [
         {
@@ -159,9 +164,10 @@ export default {
     },
   },
   methods: {
+    // FIMXE: debounce 时间过长，在页面快速切换时无法记忆
     subscribeScroll: _.debounce(function (e) {
       this.$route.meta.scrollTop = e.target.scrollTop
-    }, ANIMATION_TIME),
+    }, 50),
     async scroll (scrollTop) {
       if (scrollTop) {
         this.$route.meta.scrollTop = scrollTop
@@ -169,7 +175,7 @@ export default {
         await Timeout.set(ANIMATION_TIME)
         this.$vuetify.goTo(scrollTop, {
           container: this.$refs['scroll'],
-          offset: -64,
+          offset: this.appHeaderHeight * -1,
         })
       }
     },

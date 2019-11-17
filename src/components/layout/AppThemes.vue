@@ -9,6 +9,7 @@
         temporary
       >
         <v-toolbar
+          :height="appHeaderHeight"
           slot="prepend"
           color="primary lighten-1"
         >
@@ -111,6 +112,11 @@ export default {
       set (v) {
         ls.set('themeColor', v)
         this.$vuetify.theme.currentTheme.primary = v
+      },
+    },
+    appHeaderHeight: {
+      get () {
+        return this.$store.state.setting.appHeaderHeight
       },
     },
   },

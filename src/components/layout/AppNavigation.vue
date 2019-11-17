@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-model="drawer"
+    v-model="appNavigation"
     :clipped="$vuetify.breakpoint.lgAndUp"
     app
   >
@@ -80,12 +80,6 @@
 export default {
   name:'AppNavigation',
   components: {},
-  props: {
-    value: {
-      type: Boolean,
-      required: true,
-    },
-  },
   data: () => ({
     items: [
       { icon: 'contacts', text: 'Contacts' },
@@ -121,12 +115,12 @@ export default {
     ],
   }),
   computed: {
-    drawer: {
+    appNavigation: {
       get () {
-        return this.value
+        return this.$store.state.setting.appNavigation
       },
       set (v) {
-        this.$emit('input', v)
+        this.$store.commit('setting/setAppNavigation', v)
       },
     },
   },
