@@ -49,8 +49,11 @@
 
     <!-- / Content -->
     <template>
-      <div
-        class="VRouterViewTabs__router-view"
+      <v-container
+        fluid
+        ref="scroll"
+        id="VRouterViewTabs__router-view"
+        v-scroll:#VRouterViewTabs__router-view="subscribeScroll"
         :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
         <VRouterBreadCrumbs :style="{ height: breadCrumbsHeight }" />
@@ -60,12 +63,12 @@
               <router-view
                 ref="routerView"
                 :key="$route.name"
-                @hook:activated="currentRouteChange"
+                @hook:activated="routerViewActivated"
               />
             </keep-alive>
           </v-slide-x-transition>
         </div>
-      </div>
+      </v-container>
     </template>
 
     <!-- / ContextMenu -->
@@ -103,6 +106,10 @@
 import VFollowMenu from './VFollowMenu'
 import VRouterBreadCrumbs from './VRouterBreadCrumbs'
 import { removeKeepAliveCache } from '@/utils/vue'
+import _ from 'lodash'
+import Timeout from 'await-timeout'
+
+const ANIMATION_TIME = 300
 
 export default {
   name:'VRouterViewTabs',
@@ -152,6 +159,20 @@ export default {
     },
   },
   methods: {
+    subscribeScroll: _.debounce(function (e) {
+      this.$route.meta.scrollTop = e.target.scrollTop
+    }, ANIMATION_TIME),
+    async scroll (scrollTop) {
+      if (scrollTop) {
+        this.$route.meta.scrollTop = scrollTop
+        await this.$nextTick()
+        await Timeout.set(ANIMATION_TIME)
+        this.$vuetify.goTo(scrollTop, {
+          container: this.$refs['scroll'],
+          offset: -64,
+        })
+      }
+    },
     showContextMenu (e, index) {
       this.targetIndex = index
       this.$refs['followMenu'].show(e)
@@ -159,9 +180,10 @@ export default {
     tabChange (fullPath) {
       this.$router.push(fullPath || '/home').catch(() => {})
     },
-    currentRouteChange () {
+    routerViewActivated () {
       const index = this.routeList.findIndex(route => route.name === this.$route.name)
       if (index !== -1) {
+        this.scroll(this.routeList[index].meta.scrollTop)
         this.routeList.splice(index, 1, this.$route)
         this.vmList.splice(index, 1, this.$refs['routerView'])
       } else {
@@ -219,12 +241,6 @@ export default {
   height: 100%;
   width: 100%;
 
-  &__router-view {
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
   &__menu-list {
     padding-top: 0;
     padding-bottom: 0;
@@ -237,5 +253,11 @@ export default {
       margin-right: 4px;
     }
   }
+}
+
+#VRouterViewTabs__router-view {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>
