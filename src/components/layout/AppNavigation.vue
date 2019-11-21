@@ -120,7 +120,7 @@ export default {
         return this.$store.state.setting.appNavigation
       },
       set (v) {
-        this.$store.commit('setting/setAppNavigation', v)
+        this.$store.commit('setting/toggleAppNavigation', v)
       },
     },
   },

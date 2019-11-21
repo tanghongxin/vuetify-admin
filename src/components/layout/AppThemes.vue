@@ -4,7 +4,7 @@
     <template>
       <v-navigation-drawer
         app
-        v-model="drawer"
+        v-model="appThemes"
         fixed
         right
         temporary
@@ -62,35 +62,6 @@
         </v-container>
       </v-navigation-drawer>
     </template>
-
-    <!-- / Trigger Button -->
-    <template>
-      <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            class="AppThemes__trigger-btn"
-            color="primary"
-            depressed
-            falt
-            fixed
-            ripple
-            small
-            top="top"
-            right="right"
-            width="40"
-            height="40"
-            v-on="on"
-            @click="drawer = true"
-          >
-            <v-icon
-              size="20"
-              v-text="'settings'"
-            />
-          </v-btn>
-        </template>
-        切换主题色
-      </v-tooltip>
-    </template>
   </div>
 </template>
 
@@ -118,6 +89,14 @@ export default {
     appHeaderHeight: {
       get () {
         return this.$store.state.setting.appHeaderHeight
+      },
+    },
+    appThemes: {
+      get () {
+        return this.$store.state.setting.appThemes
+      },
+      set (v) {
+        this.$store.commit('setting/toggleAppThemes', v)
       },
     },
   },

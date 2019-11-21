@@ -23,12 +23,22 @@
       class="hidden-sm-and-down"
     />
     <v-spacer />
-    <v-btn icon>
-      <v-icon>mdi-apps</v-icon>
-    </v-btn>
-    <v-btn icon>
-      <v-icon>mdi-bell</v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          icon
+          color="white"
+          v-on="on"
+          @click="appThemes = !appThemes"
+        >
+          <v-icon
+            size="20"
+            v-text="'settings'"
+          />
+        </v-btn>
+      </template>
+      个性化设置
+    </v-tooltip>
     <v-btn
       icon
       large
@@ -63,7 +73,15 @@ export default {
         return this.$store.state.setting.appNavigation
       },
       set (v) {
-        this.$store.commit('setting/setAppNavigation', v)
+        this.$store.commit('setting/toggleAppNavigation', v)
+      },
+    },
+    appThemes: {
+      get () {
+        return this.$store.state.setting.appThemes
+      },
+      set (v) {
+        this.$store.commit('setting/toggleAppThemes', v)
       },
     },
   },

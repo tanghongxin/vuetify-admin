@@ -1,8 +1,11 @@
 export default {
-  setAppHeaderHeight (state, val) {
+  setAppHeaderHeight(state, val) {
     state.appHeaderHeight = val
   },
-  setAppNavigation (state, val) {
+  toggleAppNavigation(state, val) {
     state.appNavigation = val
+  },
+  toggleAppThemes(state, val) {
+    state.appThemes = val
   },
 }
