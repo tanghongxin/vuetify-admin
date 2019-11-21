@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    :clipped-left="$vuetify.breakpoint.lgAndUp"
+    :clipped-left="permanentAppNavition ? true : $vuetify.breakpoint.lgAndUp"
     app
     color="primary darken-2"
     dark
@@ -11,17 +11,21 @@
       style="width: 300px"
       class="ml-0 pl-4"
     >
-      <v-app-bar-nav-icon @click.stop="appNavigation = !appNavigation" />
-      <span class="hidden-sm-and-down">Google Contacts</span>
+      <v-app-bar-nav-icon
+        v-show="!permanentAppNavition"
+        @click.stop="appNavigation = !appNavigation"
+      />
+      <!-- class="hidden-sm-and-down" -->
+      <span>Google Contacts</span>
     </v-toolbar-title>
-    <v-text-field
+    <!-- <v-text-field
       flat
       solo-inverted
       hide-details
       prepend-inner-icon="search"
       label="Search"
       class="hidden-sm-and-down"
-    />
+    /> -->
     <v-spacer />
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
@@ -29,7 +33,7 @@
           icon
           color="white"
           v-on="on"
-          @click="appThemes = !appThemes"
+          @click="appSetting = !appSetting"
         >
           <v-icon
             size="20"
@@ -76,12 +80,17 @@ export default {
         this.$store.commit('setting/toggleAppNavigation', v)
       },
     },
-    appThemes: {
+    appSetting: {
       get () {
-        return this.$store.state.setting.appThemes
+        return this.$store.state.setting.appSetting
       },
       set (v) {
-        this.$store.commit('setting/toggleAppThemes', v)
+        this.$store.commit('setting/toggleAppSetting', v)
+      },
+    },
+    permanentAppNavition: {
+      get () {
+        return this.$store.state.setting.permanentAppNavition
       },
     },
   },

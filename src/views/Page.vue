@@ -3,7 +3,7 @@
     <AppNavigation />
     <AppHeader /> 
     <AppContent />
-    <AppThemes />
+    <AppSetting />
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import AppHeader from '~~/layout/AppHeader'
 import AppContent from '~~/layout/AppContent'
 import AppNavigation from '~~/layout/AppNavigation'
-import AppThemes from '~~/layout/AppThemes'
+import AppSetting from '~~/layout/AppSetting'
 
 export default {
   namd: 'Page',
@@ -19,7 +19,7 @@ export default {
     AppHeader,
     AppContent,
     AppNavigation,
-    AppThemes,
+    AppSetting,
   },
   watch: {
     '$vuetify.breakpoint.xsOnly': {

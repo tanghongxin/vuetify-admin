@@ -1,8 +1,11 @@
 <template>
+  <!-- v-model="appNavigation" -->
   <v-navigation-drawer
-    v-model="appNavigation"
-    :clipped="$vuetify.breakpoint.lgAndUp"
     app
+    :clipped="permanentAppNavition || $vuetify.breakpoint.lgAndUp"
+    :value="permanentAppNavition || appNavigation"
+    :permanent="permanentAppNavition"
+    @input="e => permanentAppNavition ? '' : appNavigation = e"
   >
     <v-list dense>
       <template v-for="item in items">
@@ -121,6 +124,11 @@ export default {
       },
       set (v) {
         this.$store.commit('setting/toggleAppNavigation', v)
+      },
+    },
+    permanentAppNavition: {
+      get () {
+        return this.$store.state.setting.permanentAppNavition
       },
     },
   },
