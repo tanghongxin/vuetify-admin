@@ -28,9 +28,10 @@
             range
             :show-current="false"
             :selected-items-text="dates[0]"
-            v-model="dates"
+            :value="dates"
             v-bind="datePickerProps"
             width="285"
+            @input="dateInput"
           />
           <!-- / TODO: 默认展示到下一月 -->
           <v-date-picker
@@ -40,11 +41,12 @@
             locale="zh-cn"
             :min="dates[0]"
             range
-            v-model="dates"
+            :value="dates"
             v-bind="datePickerProps"
             :show-current="false"
             :selected-items-text="dates[1]"
             width="285"
+            @input="dateInput"
           />
         </v-tab-item>
         <v-tab-item key="timer">
@@ -156,6 +158,17 @@ export default {
         this.dates[0] + ' ' + this.timeStart,
         this.dates[1] + ' ' + this.timeEnd,
       ])
+    },
+    dateInput ([first, end]) {
+      if (!end) {
+        this.dates = [first]
+        return
+      }
+      // 先选择结束日期，后选择开始日期
+      if (moment(end, DATE_FORMAT).isBefore(moment(first, DATE_FORMAT))) {
+        [first, end] = [end, first]
+      }
+      this.dates = [first, end]
     },
   },
   created () {
