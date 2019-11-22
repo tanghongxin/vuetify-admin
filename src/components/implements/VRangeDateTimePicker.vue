@@ -22,44 +22,52 @@
         </v-tab>
         <v-tab-item key="calendar">
           <v-date-picker
-            range
             color="primary"
-            v-model="dates"
-            v-bind="datePickerProps"
             :day-format="date => date.slice(-2)"
+            locale="zh-cn"
+            range
             :show-current="false"
             :selected-items-text="dates[0]"
-          />
-          <v-date-picker
-            range
-            color="primary"
             v-model="dates"
-            class="VRangeDateTimePicker"
             v-bind="datePickerProps"
+            width="285"
+          />
+          <!-- / TODO: 默认展示到下一月 -->
+          <v-date-picker
+            class="VRangeDateTimePicker"
+            color="primary"
             :day-format="date => date.slice(-2)"
+            locale="zh-cn"
+            :min="dates[0]"
+            range
+            v-model="dates"
+            v-bind="datePickerProps"
             :show-current="false"
             :selected-items-text="dates[1]"
+            width="285"
           />
         </v-tab-item>
         <v-tab-item key="timer">
           <v-time-picker
-            color="primary"
-            ref="timer"
-            format="24hr"
-            scrollable
             class="VRangeDateTimePicker"
+            color="primary"
+            format="24hr"
+            locale="zh-cn"
+            scrollable
             v-model="timeStart"
             v-bind="timePickerProps"
+            width="285"
           />
           <v-time-picker
-            color="primary"
-            ref="timer"
-            format="24hr"
-            scrollable
             class="VRangeDateTimePicker"
-            v-model="timeEnd"
+            color="primary"
+            format="24hr"
+            locale="zh-cn"
             :min="sameDate ? timeStart : null"
+            scrollable
+            v-model="timeEnd"
             v-bind="timePickerProps"
+            width="285"
           />
         </v-tab-item>
       </v-tabs>
@@ -135,7 +143,6 @@ export default {
   }),
   computed: {
     sameDate () {
-      // const [startDay, endDay]
       return moment(this.dates[0], DATE_FORMAT).isSame(
         moment(this.dates[1], DATE_FORMAT),
         'date'
@@ -143,6 +150,7 @@ export default {
     },
   },
   methods: {
+    moment,
     okHandler() {
       this.$emit('input', [
         this.dates[0] + ' ' + this.timeStart,
