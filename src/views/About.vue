@@ -4,7 +4,7 @@
     <router-link to="/home">
       home
     </router-link>
-    <div style="width: 700px">
+    <div style="width: 580px">
       <VRangeDateTimePicker />
     </div>
     <!-- <VRangeTimePicker /> -->

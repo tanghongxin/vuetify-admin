@@ -1,9 +1,11 @@
 <template>
-  <v-card>
+  <v-card class="VRangeDateTimePicker">
     <v-card-text class="px-0 py-0">
       <v-tabs
         fixed-tabs
         v-model="activeTab"
+        :slider-size="3"
+        slider-color="primary darken-1"
       >
         <v-tab key="calendar">
           <slot name="dateIcon">
@@ -12,7 +14,7 @@
         </v-tab>
         <v-tab
           key="timer"
-          :disabled="dateSelected"
+          :disabled="dates.length !== 2"
         >
           <slot name="timeIcon">
             <v-icon>access_time</v-icon>
@@ -22,12 +24,11 @@
           <v-date-picker
             range
             color="primary"
-            class="VRangeDateTimePicker"
             v-model="dates"
             v-bind="datePickerProps"
             :day-format="date => date.slice(-2)"
+            :show-current="false"
             :selected-items-text="dates[0]"
-            @input="showTimePicker"
           />
           <v-date-picker
             range
@@ -36,31 +37,28 @@
             class="VRangeDateTimePicker"
             v-bind="datePickerProps"
             :day-format="date => date.slice(-2)"
+            :show-current="false"
             :selected-items-text="dates[1]"
-            @input="showTimePicker"
           />
         </v-tab-item>
         <v-tab-item key="timer">
           <v-time-picker
             color="primary"
-            :use-seconds="timeFormat.includes(':ss')"
-            ref="timer"
-            format="24hr"
-            scrollable
-            class="VRangeDateTimePicker"
-            v-model="timeEnd"
-            :min="timeStart"
-            v-bind="timePickerProps"
-          />
-          <v-time-picker
-            color="primary"
-            :use-seconds="timeFormat.includes(':ss')"
             ref="timer"
             format="24hr"
             scrollable
             class="VRangeDateTimePicker"
             v-model="timeStart"
-            :min="timeEnd"
+            v-bind="timePickerProps"
+          />
+          <v-time-picker
+            color="primary"
+            ref="timer"
+            format="24hr"
+            scrollable
+            class="VRangeDateTimePicker"
+            v-model="timeEnd"
+            :min="sameDate ? timeStart : null"
             v-bind="timePickerProps"
           />
         </v-tab-item>
@@ -73,11 +71,21 @@
         :parent="this"
       >
         <v-btn
+          v-show="activeTab === 0"
           color="primary"
           text
-          @click.native="clearHandler"
+          :disabled="dates.length !== 2"
+          @click="activeTab = 1"
         >
-          {{ '取消' }}
+          选择时间
+        </v-btn>
+        <v-btn
+          v-show="activeTab === 1"
+          color="primary"
+          text
+          @click="activeTab = 0"
+        >
+          选择日期
         </v-btn>
         <v-btn
           color="primary"
@@ -92,14 +100,12 @@
 </template>
 
 <script>
-import { format, parse } from 'date-fns'
 import moment from 'moment'
 moment.locale('zh-cn')
 
-const DEFAULT_DATE = moment().locale('zh-cn').format('YYYY-MM-DD')
-const DEFAULT_TIME = moment().locale('zh-cn').format('HH:mm:ss')
-const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD'
-const DEFAULT_TIME_FORMAT = 'HH:mm:ss'
+const DATE_FORMAT = 'YYYY-MM-DD'
+const TIME_FORMAT = 'HH:mm:ss'
+const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 
 export default {
   name: 'VRangeDateTimePicker',
@@ -108,21 +114,9 @@ export default {
     event: 'input',
   },
   props: {
-    datetime: {
-      type: [Date, String],
-      default: null,
-    },
-    dateFormat: {
-      type: String,
-      default: DEFAULT_DATE_FORMAT,
-    },
-    timeFormat: {
-      type: String,
-      default: DEFAULT_TIME_FORMAT,
-    },
-    textFieldProps: {
-      type: Object,
-      default: () => ({}),
+    value: {
+      type: Array,
+      default: () => [moment().format(DATE_TIME_FORMAT), moment().format(DATE_TIME_FORMAT)],
     },
     datePickerProps: {
       type: Object,
@@ -133,96 +127,36 @@ export default {
       default: () => ({}),
     },
   },
-  data() {
-    return {
-      // dates: ['2018-09-15', '2018-09-20'],
-      dates: [],
-      // TODO
-      dateStart: null,
-      dateEnd: null,
-      timeStart: null,
-      timeEnd: null,
-      display: false,
-      activeTab: 0,
-      date: DEFAULT_DATE,
-      time: DEFAULT_TIME,
-    }
-  },
+  data: () => ({
+    dates: null,
+    timeStart: null,
+    timeEnd: null,
+    activeTab: 0,
+  }),
   computed: {
-    dateTimeFormat() {
-      return this.dateFormat + ' ' + this.timeFormat
-    },
-    defaultDateTimeFormat() {
-      return DEFAULT_DATE_FORMAT + ' ' + DEFAULT_TIME_FORMAT
-    },
-    formattedDatetime() {
-      return this.selectedDatetime ? format(this.selectedDatetime, this.dateTimeFormat) : ''
-    },
-    selectedDatetime() {
-      if (this.date && this.time) {
-        let datetimeString = this.date + ' ' + this.time
-        if (this.time.length === 5) {
-          datetimeString += ':00'
-        }
-        return parse(datetimeString, this.defaultDateTimeFormat, new Date())
-      } else {
-        return null
-      }
-    },
-    dateSelected() {
-      return !this.date
-    },
-  },
-  watch: {
-    datetime: function() {
-      this.init()
+    sameDate () {
+      // const [startDay, endDay]
+      return moment(this.dates[0], DATE_FORMAT).isSame(
+        moment(this.dates[1], DATE_FORMAT),
+        'date'
+      )
     },
   },
   methods: {
-    init() {
-      if (!this.datetime) {
-        return
-      }
-
-      let initDateTime
-      if (this.datetime instanceof Date) {
-        initDateTime = this.datetime
-      } else if (typeof this.datetime === 'string' || this.datetime instanceof String) {
-        // see https://stackoverflow.com/a/9436948
-        initDateTime = parse(this.datetime, this.dateTimeFormat, new Date())
-      }
-
-      this.date = format(initDateTime, DEFAULT_DATE_FORMAT)
-      this.time = format(initDateTime, DEFAULT_TIME_FORMAT)
-    },
     okHandler() {
-      this.resetPicker()
-      this.$emit('input', this.formattedDatetime)
-    },
-    clearHandler() {
-      this.resetPicker()
-      this.date = DEFAULT_DATE
-      this.time = DEFAULT_TIME
-      // has never changed
-      this.$emit('input', this.datetime)
-    },
-    resetPicker() {
-      this.display = false
-      this.activeTab = 0
-      if (this.$refs.timer) {
-        this.$refs.timer.selectingHour = true
-      }
-    },
-    showTimePicker(rangeDate) {
-      if (rangeDate.length === 2){
-        setTimeout(() => {
-          this.activeTab = 1
-        }, 400)
-      }
+      this.$emit('input', [
+        this.dates[0] + ' ' + this.timeStart,
+        this.dates[1] + ' ' + this.timeEnd,
+      ])
     },
   },
-  mounted() {
-    this.init()
+  created () {
+    this.dates = [
+      moment(this.value[0], DATE_TIME_FORMAT).format(DATE_FORMAT),
+      moment(this.value[1], DATE_TIME_FORMAT).format(DATE_FORMAT),
+    ]
+    this.timeStart = moment(this.value[0], DATE_TIME_FORMAT).format(TIME_FORMAT)
+    this.timeEnd = moment(this.value[1], DATE_TIME_FORMAT).format(TIME_FORMAT)
   },
 }
 </script>
@@ -230,13 +164,27 @@ export default {
 <style lang="scss">
 .VRangeDateTimePicker {
   // 保证 VDatePicker 与 VTimePicker等高
+  width: 570px;
   min-height: 374px;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+
+  .v-picker {
+    width: 50%;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
 
   .v-picker__title {
     height: 84px;
     padding-top: 10px;
+  }
+
+  .v-picker__title {
+    margin-left: -1px;
+  }
+
+  .v-time-picker-title {
+    // 时分居中
+    justify-content: center !important;
   }
     
 }
