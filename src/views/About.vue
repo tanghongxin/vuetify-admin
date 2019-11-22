@@ -4,17 +4,22 @@
     <router-link to="/home">
       home
     </router-link>
-    <VRangeTimePicker />
+    <div style="width: 700px">
+      <VRangeDateTimePicker />
+    </div>
+    <!-- <VRangeTimePicker /> -->
   </div>
 </template>
 
 <script>
-import VRangeTimePicker from '~~/implements/VRangeTimePicker'
+import VRangeDateTimePicker from '~~/implements/VRangeDateTimePicker'
+// import VRangeTimePicker from '~~/implements/VRangeTimePicker'
 
 export default {
   name: 'About',
   components: {
-    VRangeTimePicker,
+    VRangeDateTimePicker,
+    // VRangeTimePicker,
   },
 }
 </script>

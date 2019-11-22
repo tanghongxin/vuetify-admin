@@ -4,7 +4,6 @@
       <v-tabs
         fixed-tabs
         v-model="activeTab"
-        slider-color="primary darken-1"
       >
         <v-tab key="calendar">
           <slot name="dateIcon">
@@ -21,12 +20,23 @@
         </v-tab>
         <v-tab-item key="calendar">
           <v-date-picker
+            range
             color="primary"
-            class="VDateTimePicker"
-            v-model="date"
+            class="VRangeDateTimePicker"
+            v-model="dates"
             v-bind="datePickerProps"
             :day-format="date => date.slice(-2)"
-            full-width
+            :selected-items-text="dates[0]"
+            @input="showTimePicker"
+          />
+          <v-date-picker
+            range
+            color="primary"
+            v-model="dates"
+            class="VRangeDateTimePicker"
+            v-bind="datePickerProps"
+            :day-format="date => date.slice(-2)"
+            :selected-items-text="dates[1]"
             @input="showTimePicker"
           />
         </v-tab-item>
@@ -37,10 +47,21 @@
             ref="timer"
             format="24hr"
             scrollable
-            class="VDateTimePicker"
-            v-model="time"
+            class="VRangeDateTimePicker"
+            v-model="timeEnd"
+            :min="timeStart"
             v-bind="timePickerProps"
-            full-width
+          />
+          <v-time-picker
+            color="primary"
+            :use-seconds="timeFormat.includes(':ss')"
+            ref="timer"
+            format="24hr"
+            scrollable
+            class="VRangeDateTimePicker"
+            v-model="timeStart"
+            :min="timeEnd"
+            v-bind="timePickerProps"
           />
         </v-tab-item>
       </v-tabs>
@@ -73,6 +94,7 @@
 <script>
 import { format, parse } from 'date-fns'
 import moment from 'moment'
+moment.locale('zh-cn')
 
 const DEFAULT_DATE = moment().locale('zh-cn').format('YYYY-MM-DD')
 const DEFAULT_TIME = moment().locale('zh-cn').format('HH:mm:ss')
@@ -80,7 +102,7 @@ const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD'
 const DEFAULT_TIME_FORMAT = 'HH:mm:ss'
 
 export default {
-  name: 'VDateTimePicker',
+  name: 'VRangeDateTimePicker',
   model: {
     prop: 'datetime',
     event: 'input',
@@ -113,6 +135,13 @@ export default {
   },
   data() {
     return {
+      // dates: ['2018-09-15', '2018-09-20'],
+      dates: [],
+      // TODO
+      dateStart: null,
+      dateEnd: null,
+      timeStart: null,
+      timeEnd: null,
       display: false,
       activeTab: 0,
       date: DEFAULT_DATE,
@@ -184,8 +213,12 @@ export default {
         this.$refs.timer.selectingHour = true
       }
     },
-    showTimePicker() {
-      this.activeTab = 1
+    showTimePicker(rangeDate) {
+      if (rangeDate.length === 2){
+        setTimeout(() => {
+          this.activeTab = 1
+        }, 400)
+      }
     },
   },
   mounted() {
@@ -195,7 +228,7 @@ export default {
 </script>
 
 <style lang="scss">
-.VDateTimePicker {
+.VRangeDateTimePicker {
   // 保证 VDatePicker 与 VTimePicker等高
   min-height: 374px;
   border-radius: 0 !important;

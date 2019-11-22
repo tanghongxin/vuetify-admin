@@ -4,7 +4,7 @@
     <template>
       <v-tabs
         show-arrows
-        slider-color="primary"
+        slider-color="primary darken-1"
         @change="tabChange"
         :height="tabHeight"
       >
