@@ -4,6 +4,7 @@
       <v-tabs
         fixed-tabs
         v-model="activeTab"
+        :slider-size="3"
         slider-color="primary darken-1"
       >
         <v-tab key="calendar">
@@ -13,7 +14,7 @@
         </v-tab>
         <v-tab
           key="timer"
-          :disabled="dateSelected"
+          :disabled="!date"
         >
           <slot name="timeIcon">
             <v-icon>access_time</v-icon>
@@ -27,7 +28,6 @@
             v-bind="datePickerProps"
             :day-format="date => date.slice(-2)"
             full-width
-            @input="showTimePicker"
           />
         </v-tab-item>
         <v-tab-item key="timer">
@@ -52,11 +52,21 @@
         :parent="this"
       >
         <v-btn
+          v-show="activeTab === 0"
           color="primary"
           text
-          @click.native="clearHandler"
+          :disabled="!date"
+          @click="activeTab = 1"
         >
-          {{ '取消' }}
+          选择时间
+        </v-btn>
+        <v-btn
+          v-show="activeTab === 1"
+          color="primary"
+          text
+          @click="activeTab = 0"
+        >
+          选择日期
         </v-btn>
         <v-btn
           color="primary"
@@ -140,9 +150,6 @@ export default {
         return null
       }
     },
-    dateSelected() {
-      return !this.date
-    },
   },
   watch: {
     datetime: function() {
@@ -183,9 +190,6 @@ export default {
       if (this.$refs.timer) {
         this.$refs.timer.selectingHour = true
       }
-    },
-    showTimePicker() {
-      this.activeTab = 1
     },
   },
   mounted() {
