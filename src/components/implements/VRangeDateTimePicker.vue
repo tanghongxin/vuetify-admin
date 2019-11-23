@@ -35,7 +35,6 @@
           />
           <!-- / TODO: 默认展示到下一月 -->
           <v-date-picker
-            class="VRangeDateTimePicker"
             color="primary"
             :day-format="date => date.slice(-2)"
             locale="zh-cn"
@@ -51,7 +50,6 @@
         </v-tab-item>
         <v-tab-item key="timer">
           <v-time-picker
-            class="VRangeDateTimePicker"
             color="primary"
             format="24hr"
             locale="zh-cn"
@@ -61,7 +59,6 @@
             width="285"
           />
           <v-time-picker
-            class="VRangeDateTimePicker"
             color="primary"
             format="24hr"
             locale="zh-cn"
@@ -119,10 +116,6 @@ const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 
 export default {
   name: 'VRangeDateTimePicker',
-  model: {
-    prop: 'datetime',
-    event: 'input',
-  },
   props: {
     value: {
       type: Array,
