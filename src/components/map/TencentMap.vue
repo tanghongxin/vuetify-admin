@@ -1,5 +1,11 @@
 <template>
-  <div class="TencentMap" />
+  <div class="TencentMap">
+    <slot
+      name="controls"
+      v-bind="{ map }"
+      v-if="map"
+    />
+  </div>
 </template>
 
 <script>
@@ -23,7 +29,7 @@ export default {
   }),
   computed: {},
   methods: {},
-  async created () {
+  async mounted () {
     try {
       await (new TencentMapLoader().load())
       this.map = new qq.maps.Map(this.$el, {
@@ -39,6 +45,7 @@ export default {
 
 <style lang="scss">
 .TencentMap {
+  position: relative;
   width: 100%;
   height: 100%;
 }

@@ -3,7 +3,7 @@ const DEFAULT_TencentMap_CONFIG = {
   v: '2.exp',
   protocol: 'https',
   hostAndPath: 'map.qq.com/api/js',
-  plugin: ['Autocomplete'],
+  libraries: ['place'],
   callback: 'TencentMapInit',
 }
 
@@ -55,26 +55,26 @@ export default class TencentMapLoader {
    * @private
    */
   getScriptSrc() {
-    // TencentMap plugin prefix reg
+    // TencentMap libraries prefix reg
     const TencentMapPrefixReg = /^AMap./
 
     const config = this._config
-    const paramKeys = ['v', 'key', 'plugin', 'callback']
+    const paramKeys = ['v', 'key', 'libraries', 'callback']
 
-    if (config.plugin && config.plugin.length > 0) {
-      const plugins = []
+    if (config.libraries && config.libraries.length > 0) {
+      const librariess = []
 
       // 插件兼容
-      config.plugin.forEach(item => {
+      config.libraries.forEach(item => {
         const prefixName = TencentMapPrefixReg.test(item)
           ? item
           : 'AMap.' + item
         const pureName = prefixName.replace(TencentMapPrefixReg, '')
 
-        plugins.push(prefixName, pureName)
+        librariess.push(prefixName, pureName)
       })
 
-      config.plugin = plugins
+      config.libraries = librariess
     }
 
     const params = Object.keys(config)

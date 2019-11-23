@@ -5,7 +5,11 @@
       home
     </router-link>
     <div style="width: 100%; height: 100%">
-      <TencentMap />
+      <TencentMap>
+        <template v-slot:controls="{ map }">
+          <Autocomplete :map="map" />
+        </template>
+      </TencentMap>
     </div>
     <VRangeDatePicker />
 
@@ -20,6 +24,7 @@ import VRangeDatePicker from '~~/implements/VRangeDatePicker'
 import VRangeDateTimePicker from '~~/implements/VRangeDateTimePicker'
 // import VRangeTimePicker from '~~/implements/VRangeTimePicker'
 import TencentMap from '~~/map/TencentMap'
+import Autocomplete from '~~/map/Autocomplete'
 
 export default {
   name: 'About',
@@ -27,6 +32,7 @@ export default {
     VRangeDateTimePicker,
     VRangeDatePicker,
     TencentMap,
+    Autocomplete,
     // VRangeTimePicker,
   },
 }
