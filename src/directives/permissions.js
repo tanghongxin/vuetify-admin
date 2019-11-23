@@ -127,4 +127,6 @@ const hasAnyRole = {
   },
 };
 
-[hasPermission, hasNoPermission, hasAnyPermission, hasRole, hasAnyRole].forEach(Vue.use)
+[hasPermission, hasNoPermission, hasAnyPermission, hasRole, hasAnyRole].forEach(plugin => {
+  Vue.use(plugin)
+})
