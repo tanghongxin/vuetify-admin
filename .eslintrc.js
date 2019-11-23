@@ -1,9 +1,19 @@
+
+const TencentMap_VARS = ['qq'];
+
+const globals = {};
+TencentMap_VARS.forEach(v => (globals[v] = true));
+
 module.exports = {
   root: true,
   env: {
     node: true,
   },
   extends: ['plugin:vue/strongly-recommended', 'eslint:recommended'],
+  globals: {
+    'window': true,
+    ...globals
+  },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
