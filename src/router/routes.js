@@ -16,6 +16,12 @@ export default [
           import(/* webpackChunkName: "about" */ '../views/Home.vue'),
       },
       {
+        path: '/table',
+        name: '美疗师列表',
+        component: () =>
+          import(/* webpackChunkName: "about" */ '../views/Table.vue'),
+      },
+      {
         path: '/about',
         name: '关于',
         component: () =>
