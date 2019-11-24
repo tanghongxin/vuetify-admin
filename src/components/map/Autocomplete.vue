@@ -22,6 +22,7 @@
       return-object
       solo
       :search-input.sync="search"
+      v-model="value"
       @change="selectPosition"
     >
       <template v-slot:item="{ item }">
@@ -33,7 +34,7 @@
       </template>
     </v-autocomplete>
 
-    <!-- / Infowindow -->
+    <!-- / Marker -->
     <TMarker
       v-if="selectedPosition"
       :map="map"
@@ -58,15 +59,19 @@ export default {
     },
   },
   data: () => ({
+    value: null,
     positionList: [],
     selectedPosition: null,
     search: '',
     loading: false,
   }),
   watch: {
-    // TODO: animation shake
     search: _.debounce(function (v) {
-      v && this.setPosition()
+      if (this.value && v) {
+        v !== this.value.name && this.setPosition()
+      } else {
+        this.setPosition()
+      }
     }, 300),
   },
   methods: {
@@ -92,7 +97,7 @@ export default {
         this.loading = false
       }
     },
-    async selectPosition (e) {
+    selectPosition (e) {
       if (e) {
         this.selectedPosition = [
           e.latLng.lat,
@@ -102,7 +107,6 @@ export default {
         latlngBounds.extend(e.latLng)
         this.map.fitBounds(latlngBounds)
         this.map.panTo(e.latLng)
-        await this.$nextTick()
       }
     },
     clickPosition (e) {
