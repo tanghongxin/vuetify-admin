@@ -123,7 +123,7 @@ export default {
   },
   beforeCreate () {
     this.$vuetify.theme.currentTheme.primary =
-      ls.get('themeColor', this.$vuetify.theme.currentTheme.primary)
+      ls.get('themeColor') || this.$vuetify.theme.currentTheme.primary
   },
 }
 </script>
