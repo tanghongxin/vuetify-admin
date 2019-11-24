@@ -1,10 +1,7 @@
-<template>
-  <div class="" />
-</template>
-
 <script>
 export default {
-  name:'Marker',
+  name:'TMarker',
+  render: h => h(),
   components: {},
   props: {
     animation: {
@@ -19,6 +16,10 @@ export default {
     position: {
       type: Array,
       required: true,
+    },
+    zIndex: {
+      type: Number,
+      default: 99,
     },
   },
   data: () => ({
@@ -40,6 +41,7 @@ export default {
       animation: qq.maps.MarkerAnimation[this.animation],
       center: new qq.maps.LatLng(...this.position),
       map: this.map,
+      zIndex: this.zIndex,
     })
     qq.maps.event.addListener(this.marker, 'click', e => {
       this.$emit('click', e)
@@ -50,7 +52,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-
-</style>

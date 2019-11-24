@@ -2,7 +2,7 @@
   <div>
     <!-- / Search autocomplete -->
     <v-autocomplete
-      :cache-items="true"
+      :cache-items="false"
       class="Autocomplete"
       clearable
       color="primary"
@@ -12,6 +12,7 @@
       :items="positionList"
       item-text="name"
       :loading="loading"
+      :no-data-text="loading ? '加载中' : '无匹配数据'"
       :menu-props="{
         maxHeight: 520,
         maxWidth: 350,
@@ -33,42 +34,22 @@
     </v-autocomplete>
 
     <!-- / Infowindow -->
-    <MarkerInfoWindow
+    <TMarker
       v-if="selectedPosition"
       :map="map"
-      :position="[
-        selectedPosition.latLng.lat,
-        selectedPosition.latLng.lng,
-      ]"
-    >
-      <template v-slot:content>
-        <v-list
-          color="rgb(250, 250, 250)"
-          class="pa-0"
-          max-width="350"
-          min-width="200"
-        >
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title v-text="selectedPosition.name" />
-              <v-list-item-subtitle v-text="selectedPosition.address" />
-              <v-list-item-subtitle v-text="selectedPosition.phone" />
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </template>
-    </MarkerInfoWindow>
+      :position="selectedPosition"
+    />
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
-import MarkerInfoWindow from './MarkerInfoWindow'
+import TMarker from './Marker'
 
 export default {
   name: 'Autocomplete',
   components: {
-    MarkerInfoWindow,
+    TMarker,
   },
   props: {
     map: {
@@ -111,28 +92,38 @@ export default {
         this.loading = false
       }
     },
-    selectPosition (e) {
+    async selectPosition (e) {
       if (e) {
-        this.selectedPosition = e
+        this.selectedPosition = [
+          e.latLng.lat,
+          e.latLng.lng,
+        ]
         const latlngBounds = new qq.maps.LatLngBounds()
         latlngBounds.extend(e.latLng)
         this.map.fitBounds(latlngBounds)
         this.map.panTo(e.latLng)
+        await this.$nextTick()
       }
     },
     clickPosition (e) {
-      console.log(e)
+      this.selectedPosition = [
+        e.latLng.lat,
+        e.latLng.lng,
+      ]
     },
   },
   mounted () {
-    qq.maps.event.addListener(this.map, 'click', this.clickPosition)
+    this.listener = qq.maps.event.addListener(this.map, 'click', this.clickPosition)
+  },
+  beforeDestroy () {
+    qq.maps.event.removeListener(this.listener)
   },
 }
 </script>
 
 <style lang="scss">
 .Autocomplete {
-  position: absolute;
+  position: relative;
   top: 20px;
   left: 75px;
   z-index: 99;
