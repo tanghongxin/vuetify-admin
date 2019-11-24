@@ -1,15 +1,14 @@
 <template>
-  <div>
+  <div class="Autocomplete">
     <!-- / Search autocomplete -->
     <v-autocomplete
       :cache-items="false"
-      class="Autocomplete"
       clearable
       color="primary"
       flat
       height="30"
       hide-no-data
-      :items="positionList"
+      :items="places"
       item-text="name"
       :loading="loading"
       :no-data-text="loading ? '加载中' : '无匹配数据'"
@@ -21,9 +20,9 @@
       placeholder="输入地址搜索"
       return-object
       solo
-      :search-input.sync="search"
-      v-model="value"
-      @change="selectPosition"
+      v-model="place"
+      @change="select"
+      @update:search-input="search"
     >
       <template v-slot:item="{ item }">
         <v-list-item-content>
@@ -36,9 +35,9 @@
 
     <!-- / Marker -->
     <TMarker
-      v-if="selectedPosition"
+      v-if="selectedPlacePosition"
       :map="map"
-      :position="selectedPosition"
+      :position="selectedPlacePosition"
     />
   </div>
 </template>
@@ -46,6 +45,7 @@
 <script>
 import _ from 'lodash'
 import TMarker from './Marker'
+import { searchPlaces } from './service'
 
 export default {
   name: 'Autocomplete',
@@ -59,47 +59,45 @@ export default {
     },
   },
   data: () => ({
-    value: null,
-    positionList: [],
-    selectedPosition: null,
-    search: '',
+    // VAutocomplete loading
     loading: false,
+    // 查询出的地点列表
+    places: [],
+    // 选中的地点
+    place: null,
+    // 选中的地点坐标
+    selectedPlacePosition: null,
   }),
-  watch: {
-    search: _.debounce(function (v) {
-      if (this.value && v) {
-        v !== this.value.name && this.setPosition()
-      } else {
-        this.setPosition()
-      }
-    }, 300),
-  },
   methods: {
-    fetch () {
-      return new Promise((resolve, reject) => {
-        this.searchService = new qq.maps.SearchService({
-          complete : results => results.type === 'CITY_LIST' ? reject() : resolve(results.detail.pois),
-          error: reject,
-        })
-        // 每页条数
-        this.searchService.setPageCapacity(15)
-        this.searchService.search(this.search)
-      })
-    },
-    async setPosition () {
+    /**
+     * 搜索栏搜索
+     * @event
+     * @param {String} query 搜索内容
+     */
+    search: _.debounce(async function (query = '') {
+      // 条件为空或条件结果已存在时，不进行搜索
+      if (!query || (this.place && this.place.name === query)) {
+        return
+      }
       try {
         this.loading = true
-        this.positionList = await this.fetch()
+        const result = await searchPlaces(query)
+        this.places = result.type === 'CITY_LIST' ? [] : result.detail.pois
       } catch (e) {
-        this.positionList = []
+        this.places = []
         throw e
       } finally {
         this.loading = false
       }
-    },
-    selectPosition (e) {
+    }),
+    /**
+     * 下拉列表选中一项
+     * @event
+     * @param {Object} e 选中的地图点
+     */
+    select (e) {
       if (e) {
-        this.selectedPosition = [
+        this.selectedPlacePosition = [
           e.latLng.lat,
           e.latLng.lng,
         ]
@@ -109,15 +107,19 @@ export default {
         this.map.panTo(e.latLng)
       }
     },
-    clickPosition (e) {
-      this.selectedPosition = [
+    /**
+     * 鼠标点击地图任一点选中该坐标
+     * @event
+     */
+    click (e) {
+      this.selectedPlacePosition = [
         e.latLng.lat,
         e.latLng.lng,
       ]
     },
   },
   mounted () {
-    this.listener = qq.maps.event.addListener(this.map, 'click', this.clickPosition)
+    this.listener = qq.maps.event.addListener(this.map, 'click', this.click)
   },
   beforeDestroy () {
     qq.maps.event.removeListener(this.listener)
@@ -127,7 +129,7 @@ export default {
 
 <style lang="scss">
 .Autocomplete {
-  position: relative;
+  position: absolute;
   top: 20px;
   left: 75px;
   z-index: 99;
