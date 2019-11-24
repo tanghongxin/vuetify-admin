@@ -34,7 +34,6 @@ export default {
       await (new TencentMapLoader().load())
       this.map = new qq.maps.Map(this.$el, {
         center: new qq.maps.LatLng(...this.center),
-        // center: new qq.maps.LatLng(this.center),
         zoom: this.zoom,
       })
     } catch (e) {
