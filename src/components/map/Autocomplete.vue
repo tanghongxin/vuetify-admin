@@ -1,7 +1,12 @@
 <template>
-  <div class="Autocomplete">
+  <div
+    class="Autocomplete"
+    :id="`Autocomplete${_uid}`"
+  >
     <!-- / Search autocomplete -->
     <v-autocomplete
+      :attach="`#Autocomplete${_uid}`"
+      autofocus
       :cache-items="false"
       clearable
       color="primary"
@@ -13,6 +18,7 @@
       :loading="loading"
       :no-data-text="loading ? '加载中' : '无匹配数据'"
       :menu-props="{
+        attach: `#Autocomplete${_uid}`,
         maxHeight: 520,
         maxWidth: 350,
         transition: 'slide-y-transition',
@@ -89,7 +95,7 @@ export default {
       } finally {
         this.loading = false
       }
-    }, 300),
+    }, 800),
     /**
      * 下拉列表选中一项
      * @event
