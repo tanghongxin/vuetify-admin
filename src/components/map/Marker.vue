@@ -1,0 +1,56 @@
+<template>
+  <div class="" />
+</template>
+
+<script>
+export default {
+  name:'Marker',
+  components: {},
+  props: {
+    animation: {
+      type: String,
+      default: 'DOWN',
+      validator: animation => ['BOUNCE', 'DROP', 'DOWN', 'UP'].includes(animation),
+    },
+    map: {
+      type: Object,
+      required: true,
+    },
+    position: {
+      type: Array,
+      required: true,
+    },
+  },
+  data: () => ({
+    marker: null,
+  }),
+  computed: {},
+  watch: {
+    position () {
+      if (this.marker) {
+        this.marker.setPosition(
+          new qq.maps.LatLng(...this.position)
+        )
+      }
+    },
+  },
+  methods: {},
+  mounted () {
+    this.marker = new qq.maps.Marker({
+      animation: qq.maps.MarkerAnimation[this.animation],
+      center: new qq.maps.LatLng(...this.position),
+      map: this.map,
+    })
+    qq.maps.event.addListener(this.marker, 'click', e => {
+      this.$emit('click', e)
+    })
+  },
+  beforeDestroy () {
+    this.marker && this.marker.setMap && this.marker.setMap(null)
+  },
+}
+</script>
+
+<style lang="scss">
+
+</style>
