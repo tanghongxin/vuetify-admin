@@ -65,6 +65,7 @@ export default class TencentMapLoader {
       const librariess = []
 
       // 插件兼容
+      // TODO: remove
       config.libraries.forEach(item => {
         const prefixName = TencentMapPrefixReg.test(item)
           ? item

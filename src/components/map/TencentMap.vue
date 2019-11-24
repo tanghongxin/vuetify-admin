@@ -17,11 +17,11 @@ export default {
   props: {
     zoom: {
       type: Number,
-      default: 5,
+      default: 10,
     },
     center: {
       type: Array,
-      default: () =>[116.404, 39.915],
+      default: () =>[39.916527,116.397128],
     },
   },
   data: () => ({
@@ -33,6 +33,7 @@ export default {
     try {
       await (new TencentMapLoader().load())
       this.map = new qq.maps.Map(this.$el, {
+        center: new qq.maps.LatLng(...this.center),
         // center: new qq.maps.LatLng(this.center),
         zoom: this.zoom,
       })
