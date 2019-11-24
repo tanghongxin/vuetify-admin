@@ -32,17 +32,20 @@ export default {
   data: () => ({
     infoWindow: null,
   }),
-  computed: {},
   watch: {
     position () {
       if (this.infoWindow) {
-        setTimeout(() => {
-          this.infoWindow.setPosition(new qq.maps.LatLng(...this.position))
-        }, 150)
+        this.infoWindow.setPosition(new qq.maps.LatLng(...this.position))
       }
     },
   },
-  methods: {},
+  methods: {
+    toggleInfoWindow () {
+      if (this.infoWindow) {
+        this.infoWindow.visible ? this.infoWindow.close() : this.infoWindow.open()
+      }
+    },
+  },
   mounted () {
     this.infoWindow = new qq.maps.InfoWindow({
       content: this.$el,
