@@ -9,6 +9,15 @@ export default {
       default: 'DOWN',
       validator: animation => ['BOUNCE', 'DROP', 'DOWN', 'UP'].includes(animation),
     },
+    clickable: {
+      type: Boolean,
+      default: false,
+    },
+    // TODO: $watch and v-model
+    draggable: {
+      type: Boolean,
+      default: false,
+    },
     map: {
       type: Object,
       required: true,
@@ -36,10 +45,12 @@ export default {
     },
   },
   methods: {},
-  mounted () {
+  created () {
     this.marker = new qq.maps.Marker({
       animation: qq.maps.MarkerAnimation[this.animation],
       center: new qq.maps.LatLng(...this.position),
+      clickable: this.clickable,
+      draggable: this.draggable,
       map: this.map,
       zIndex: this.zIndex,
     })

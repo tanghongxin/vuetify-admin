@@ -35,9 +35,9 @@
 
     <!-- / Marker -->
     <TMarker
-      v-if="selectedPlacePosition"
       :map="map"
       :position="selectedPlacePosition"
+      v-if="selectedPlacePosition.length"
     />
   </div>
 </template>
@@ -66,7 +66,7 @@ export default {
     // 选中的地点
     place: null,
     // 选中的地点坐标
-    selectedPlacePosition: null,
+    selectedPlacePosition: [],
   }),
   methods: {
     /**
@@ -89,7 +89,7 @@ export default {
       } finally {
         this.loading = false
       }
-    }),
+    }, 300),
     /**
      * 下拉列表选中一项
      * @event
