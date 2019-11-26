@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { items } from './mock'
+import items from './mock'
 
 export default {
   name:'AppNavigation',
@@ -112,6 +112,7 @@ export default {
         if (to.path !== from.path) {
           (function recursive (items) {
             items.forEach(item => {
+              console.log(to.path.includes(item.to), item.to)
               item.model = to.path.includes(item.to)
               item.children && recursive(item.children)
             })
