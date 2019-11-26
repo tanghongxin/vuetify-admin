@@ -107,14 +107,16 @@ export default {
   watch: {
     '$route': {
       immediate: true,
-      handler (to) {
-        // 初次进入页面时，导航菜单自动展开到页面匹配的层级
-        (function recursive (items) {
-          items.forEach(item => {
-            item.model = to.path.includes(item.to)
-            item.children && recursive(item.children)
-          })
-        })(this.items)
+      handler (to, from = {}) {
+      // 进入页面时，导航菜单自动展开到页面匹配的层级
+        if (to.path !== from.path) {
+          (function recursive (items) {
+            items.forEach(item => {
+              item.model = to.path.includes(item.to)
+              item.children && recursive(item.children)
+            })
+          })(this.items)
+        }
       },
     },
   },
