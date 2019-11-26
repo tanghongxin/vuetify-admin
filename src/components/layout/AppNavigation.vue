@@ -81,13 +81,11 @@
 </template>
 
 <script>
-import items from './mock'
-
 export default {
   name:'AppNavigation',
   components: {},
   data: () => ({
-    items: items,
+    items: [],
   }),
   computed: {
     appNavigation: {
@@ -108,20 +106,44 @@ export default {
     '$route': {
       immediate: true,
       handler (to, from = {}) {
-      // 进入页面时，导航菜单自动展开到页面匹配的层级
         if (to.path !== from.path) {
-          (function recursive (items) {
-            items.forEach(item => {
-              console.log(to.path.includes(item.to), item.to)
-              item.model = to.path.includes(item.to)
-              item.children && recursive(item.children)
-            })
-          })(this.items)
+          this.buildMenus()
         }
       },
     },
   },
-  methods: {},
+  methods: {
+    buildMenus () {
+      const menus = [];
+      (function recursive (items) {
+        const children = []
+        items.forEach(item => {
+          let menu = {
+            text: item.text,
+            icon: item.icon,
+            model: this.$route.path.includes(item.to),
+            to: item.to,
+          }
+          switch (item.type) {
+            case 'MENU':
+              menu = {
+                ...menu,
+                children: recursive.bind(this)(item.children || []),
+              }
+              !menu.hidden && menus.push(menu)
+              break
+            case 'VIEW':
+              !menu.hidden && children.push(menu)
+              break
+            default:
+              break
+          }
+        })
+        return children
+      }.bind(this))(this.$store.state.account.menus)
+      this.items = menus
+    },
+  },
 }
 </script>
 
