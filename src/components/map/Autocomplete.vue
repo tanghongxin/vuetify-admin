@@ -16,9 +16,9 @@
       :items="places"
       item-text="name"
       :loading="loading"
-      :no-data-text="loading ? '加载中' : '无匹配数据'"
       :menu-props="{
         attach: `#Autocomplete${_uid}`,
+        contentClass: 'elevation-0_',
         maxHeight: 520,
         maxWidth: 350,
         transition: 'slide-y-transition',
@@ -43,8 +43,9 @@
     <TMarker
       :map="map"
       :position="selectedPlacePosition"
-      v-if="selectedPlacePosition.length"
     />
+    <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
+    <!-- v-if="selectedPlacePosition.length" -->
   </div>
 </template>
 
@@ -125,10 +126,12 @@ export default {
     },
   },
   mounted () {
-    this.listener = qq.maps.event.addListener(this.map, 'click', this.click)
+    // TODO: 数据测试与需求确认
+    // this.listener = qq.maps.event.addListener(this.map, 'click', this.click)
   },
   beforeDestroy () {
-    qq.maps.event.removeListener(this.listener)
+    // TODO: 数据测试与需求确认
+    // qq.maps.event.removeListener(this.listener)
   },
 }
 </script>
