@@ -8,39 +8,28 @@
         @change="tabChange"
         :height="tabHeight"
       >
-        <v-tooltip
-          top
+        <v-tab
           v-for="(route, index) in routeList"
           :key="index"
+          :exact="route.name === $route.name"
+          :to="route.fullPath"
+          @contextmenu="showContextMenu($event, index)"
         >
-          <template v-slot:activator="{ on }">
-            <v-tab
-              :exact="route.name === $route.name"
-              :to="route.fullPath"
-              v-on="on"
-              @contextmenu="showContextMenu($event, index)"
-            >
-              {{ route.name }}
-              <v-btn
-                class="VRouterViewTabs--tab-btn_close"
-                icon
-                small
-                text
-                @click.prevent="closeTab(index)"
-              >
-                <v-icon
-                  class="VRouterViewTabs--tab-icon_close"
-                  small
-                  v-text="'close'"
-                />
-              </v-btn>
-            </v-tab>
-          </template>
-          <v-breadcrumbs
-            style="padding: 0;"
-            :items="route.matched.map(route => ({ text: route.name }))"
-          />
-        </v-tooltip>
+          {{ route.name }}
+          <v-btn
+            class="VRouterViewTabs--tab-btn_close"
+            icon
+            small
+            text
+            @click.prevent="closeTab(index)"
+          >
+            <v-icon
+              class="VRouterViewTabs--tab-icon_close"
+              small
+              v-text="'close'"
+            />
+          </v-btn>
+        </v-tab>
       </v-tabs>
     </template>
 
@@ -57,10 +46,11 @@
         v-scroll:#VRouterViewTabs__router-view="subscribeScroll"
         :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
-        <VRouterBreadCrumbs
+        <!-- / TDOO -->
+        <!-- <VRouterBreadCrumbs
           class="py-1"
           :style="{ height: breadCrumbsHeight }"
-        />
+        /> -->
         <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
           <v-slide-x-transition mode="out-in">
             <keep-alive>
@@ -107,7 +97,7 @@
 
 <script>
 import VFollowMenu from './VFollowMenu'
-import VRouterBreadCrumbs from './VRouterBreadCrumbs'
+// import VRouterBreadCrumbs from './VRouterBreadCrumbs'
 import { removeKeepAliveCache } from '@/utils/vue'
 import _ from 'lodash'
 import Timeout from 'await-timeout'
@@ -118,7 +108,7 @@ export default {
   name:'VRouterViewTabs',
   components: {
     VFollowMenu,
-    VRouterBreadCrumbs,
+    // VRouterBreadCrumbs,
   },
   props: {
     tabHeight: {

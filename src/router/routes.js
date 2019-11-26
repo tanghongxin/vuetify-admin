@@ -1,24 +1,5 @@
-import Page from '@/views/Page.vue'
-
-const lazyLoad = function(path) {
-  return function(resolve) {
-    import(`@/views/${path}.vue`)
-      .then(mod => {
-        resolve(mod)
-      })
-      .catch(handleLazyLoadError)
-  }
-}
-
-const handleLazyLoadError = function (error) {
-  const pattern = /Loading chunk (\d)+ failed/g
-  const isChunkLoadFailed = error.message.match(pattern)
-  if (isChunkLoadFailed) {
-    // toast show
-  } else {
-    throw error
-  }
-}
+import dynamicallyRoutes from './dynamicallyRoutes'
+import { lazyLoad } from './utils'
 
 export default [
   {
@@ -27,75 +8,18 @@ export default [
   },
   {
     path: '/',
-    component: Page,
+    component: lazyLoad('Page'),
     children: [
-      {
-        path: 'project',
-        name: '项目管理',
-        component: { render: h => h('router-view') },
-        children: [
-          {
-            path: 'list',
-            name: '项目列表',
-            component: lazyLoad('project/ProjectList'),
-          },
-        ],
-      },
-      {
-        path: 'shop',
-        name: '门店管理',
-        component: { render: h => h('router-view') },
-        children: [
-          {
-            path: 'list',
-            name: '门店列表',
-            component: lazyLoad('shop/ShopList'),
-          },
-        ],
-      },
-      {
-        path: 'employee',
-        name: '员工管理',
-        component: { render: h => h('router-view') },
-        children: [
-          {
-            path: 'list',
-            name: '员工列表',
-            component: lazyLoad('employee/EmployeeList'),
-          },
-        ],
-      },
+      ...dynamicallyRoutes,
       {
         path: '/home',
-        name: '主页',
-        component: () =>
-          import(/* webpackChunkName: "about" */ '../views/Home.vue'),
-      },
-      {
-        path: '/table',
-        name: '美疗师列表',
-        component: () =>
-          import(/* webpackChunkName: "about" */ '../views/Table.vue'),
+        name: 'home',
+        component: lazyLoad('Home'),
       },
       {
         path: '/about',
-        name: '关于',
-        component: () =>
-          import(/* webpackChunkName: "about" */ '../views/About.vue'),
-      },
-      {
-        path: '/menu-test',
-        name: '菜单',
-        redirect: '/home',
-        component: { render: h => h('router-view') },
-        children: [
-          {
-            path: 'submenu',
-            name: '子菜单',
-            component: () =>
-              import(/* webpackChunkName: "about" */ '../views/Home.vue'),
-          },
-        ],
+        name: 'about',
+        component: lazyLoad('About'),
       },
       {
         path: '/exception',
@@ -106,22 +30,22 @@ export default [
           {
             path: '401',
             name: '401',
-            component: () => import('../views/exception/401.vue'),
+            component: lazyLoad('exception/401'),
           },
           {
             path: '403',
             name: '403',
-            component: () => import('../views/exception/403.vue'),
+            component: lazyLoad('exception/403'),
           },
           {
             path: '404',
             name: '404',
-            component: () => import('../views/exception/404.vue'),
+            component: lazyLoad('exception/404'),
           },
           {
             path: '500',
             name: '500',
-            component: () => import('../views/exception/500.vue'),
+            component: lazyLoad('exception/500'),
           },
         ],
       },
