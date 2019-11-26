@@ -1,3 +1,4 @@
+import store from '@/store'
 import dynamicallyRoutes from './dynamicallyRoutes'
 import { lazyLoad } from './utils'
 
@@ -17,6 +18,14 @@ export default [
   {
     path: '/',
     component: lazyLoad('Page'),
+    redirect: '/home',
+    beforeEnter: (to, from, next) => {
+      if (store.getters['account/hasLoginned']) {
+        next()
+      } else {
+        next('/login')
+      }
+    },
     children: [
       ...dynamicallyRoutes,
       {
