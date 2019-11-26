@@ -1,5 +1,25 @@
 import Page from '@/views/Page.vue'
 
+const lazyLoad = function(path) {
+  return function(resolve) {
+    import(`@/views/${path}.vue`)
+      .then(mod => {
+        resolve(mod)
+      })
+      .catch(handleLazyLoadError)
+  }
+}
+
+const handleLazyLoadError = function (error) {
+  const pattern = /Loading chunk (\d)+ failed/g
+  const isChunkLoadFailed = error.message.match(pattern)
+  if (isChunkLoadFailed) {
+    // toast show
+  } else {
+    throw error
+  }
+}
+
 export default [
   {
     path: '/',
@@ -9,6 +29,18 @@ export default [
     path: '/',
     component: Page,
     children: [
+      {
+        path: 'shop',
+        name: '门店管理',
+        component: { render: h => h('router-view') },
+        children: [
+          {
+            path: 'list',
+            name: '门店列表',
+            component: lazyLoad('shop/ShopList'),
+          },
+        ],
+      },
       {
         path: '/home',
         name: '主页',

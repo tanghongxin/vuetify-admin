@@ -13,7 +13,7 @@ export const headers = [
   { text: '', value: 'data-table-expand' },
 ]
 
-export const desserts = [
+export const items = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
