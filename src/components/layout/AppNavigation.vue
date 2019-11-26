@@ -123,6 +123,7 @@ export default {
             icon: item.icon,
             model: this.$route.path.includes(item.to),
             to: item.to,
+            hidden: item.hidden,
           }
           switch (item.type) {
             case 'MENU':
