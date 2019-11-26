@@ -4,7 +4,15 @@ import { lazyLoad } from './utils'
 export default [
   {
     path: '/',
+    component: { render: h => h('router-view') },
     redirect: '/home',
+    children: [
+      {
+        path: '/login',
+        name: '登陆',
+        component: lazyLoad('Login'),
+      },
+    ],
   },
   {
     path: '/',
