@@ -30,6 +30,18 @@ export default [
     component: Page,
     children: [
       {
+        path: 'project',
+        name: '项目管理',
+        component: { render: h => h('router-view') },
+        children: [
+          {
+            path: 'list',
+            name: '项目列表',
+            component: lazyLoad('project/ProjectList'),
+          },
+        ],
+      },
+      {
         path: 'shop',
         name: '门店管理',
         component: { render: h => h('router-view') },
@@ -38,6 +50,18 @@ export default [
             path: 'list',
             name: '门店列表',
             component: lazyLoad('shop/ShopList'),
+          },
+        ],
+      },
+      {
+        path: 'employee',
+        name: '员工管理',
+        component: { render: h => h('router-view') },
+        children: [
+          {
+            path: 'list',
+            name: '员工列表',
+            component: lazyLoad('employee/EmployeeList'),
           },
         ],
       },

@@ -33,8 +33,8 @@
           v-else-if="item.children"
           :key="item.text"
           v-model="item.model"
-          :prepend-icon="item.model ? item.icon : item['icon-alt']"
-          append-icon=""
+          :prepend-icon="item.icon"
+          :append-icon="item.model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
         >
           <template v-slot:activator>
             <v-list-item>
@@ -49,6 +49,7 @@
             v-for="(child, i) in item.children"
             :key="i"
             link
+            :to="child.to" 
           >
             <v-list-item-action v-if="child.icon">
               <v-icon>{{ child.icon }}</v-icon>
@@ -80,42 +81,13 @@
 </template>
 
 <script>
+import { items } from './mock'
+
 export default {
   name:'AppNavigation',
   components: {},
   data: () => ({
-    items: [
-      { icon: 'contacts', text: 'Contacts' },
-      { icon: 'history', text: 'Frequently contacted' },
-      { icon: 'content_copy', text: 'Duplicates' },
-      {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'keyboard_arrow_down',
-        text: 'Labels',
-        model: true,
-        children: [
-          { icon: 'add', text: 'Create label' },
-        ],
-      },
-      {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'keyboard_arrow_down',
-        text: 'More',
-        model: false,
-        children: [
-          { text: 'Import' },
-          { text: 'Export' },
-          { text: 'Print' },
-          { text: 'Undo changes' },
-          { text: 'Other contacts' },
-        ],
-      },
-      { icon: 'settings', text: 'Settings' },
-      { icon: 'chat_bubble', text: 'Send feedback' },
-      { icon: 'help', text: 'Help' },
-      { icon: 'phonelink', text: 'App downloads' },
-      { icon: 'keyboard', text: 'Go to the old version' },
-    ],
+    items: items,
   }),
   computed: {
     appNavigation: {
@@ -129,6 +101,20 @@ export default {
     permanentAppNavition: {
       get () {
         return this.$store.state.setting.permanentAppNavition
+      },
+    },
+  },
+  watch: {
+    '$route': {
+      immediate: true,
+      handler (to) {
+        // 初次进入页面时，导航菜单自动展开到页面匹配的层级
+        (function recursive (items) {
+          items.forEach(item => {
+            item.model = to.path.includes(item.to)
+            item.children && recursive(item.children)
+          })
+        })(this.items)
       },
     },
   },
