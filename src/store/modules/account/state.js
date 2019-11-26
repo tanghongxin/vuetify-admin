@@ -1,6 +1,23 @@
 export default {
   permissions: [],
   menus: [
+    // TODO
+    {
+      text: '主页',
+      icon: 'home',
+      hidden: false,
+      to: '/home',
+      type: 'VIEW',
+      resource: 'Home',
+    },
+    {
+      text: '关于',
+      icon: '',
+      hidden: true,
+      to: '/about',
+      type: 'VIEW',
+      resource: 'About',
+    },
     {
       text: '项目管理',
       icon: 'apps',
@@ -49,6 +66,48 @@ export default {
           to: '/employee/list',
           type: 'VIEW',
           resource: 'employee/EmployeeList',
+        },
+      ],
+    },
+    {
+      text: '异常',
+      icon: 'error',
+      hidden: true,
+      to: '/exception',
+      type: 'MENU',
+      resource: '',
+      children: [
+        {
+          text: '401',
+          icon: '',
+          hidden: false,
+          to: '/exception/401',
+          type: 'VIEW',
+          resource: 'exception/401',
+        },
+        {
+          text: '403',
+          icon: '',
+          hidden: false,
+          to: '/exception/403',
+          type: 'VIEW',
+          resource: 'exception/403',
+        },
+        {
+          text: '404',
+          icon: '',
+          hidden: false,
+          to: '/exception/404',
+          type: 'VIEW',
+          resource: 'exception/404',
+        },
+        {
+          text: '500',
+          icon: '',
+          hidden: false,
+          to: '/exception/500',
+          type: 'VIEW',
+          resource: 'exception/500',
         },
       ],
     },

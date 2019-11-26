@@ -1,4 +1,4 @@
-const handleLazyLoadError = function(error) {
+const handleLazyLoadError = function (error) {
   const pattern = /Loading chunk (\d)+ failed/g
   const isChunkLoadFailed = error.message.match(pattern)
   if (isChunkLoadFailed) {
@@ -8,7 +8,7 @@ const handleLazyLoadError = function(error) {
   }
 }
 
-export const lazyLoad = function(path) {
+export const lazyLoad = function (path) {
   return function(resolve) {
     import(`@/views/${path}.vue`)
       .then(mod => {
