@@ -166,6 +166,19 @@ export default {
       ]
     },
   },
+  watch: {
+    '$route': {
+      immediate: true,
+      handler () {
+        const index = this.routeList.findIndex(route => route.name === this.$route.name)
+        if (index !== -1) {
+          this.routeList.splice(index, 1, this.$route)
+        } else {
+          this.routeList.push(this.$route)
+        }
+      },
+    },
+  },
   methods: {
     // FIMXE: debounce 时间过长，在页面快速切换时无法记忆
     subscribeScroll: _.debounce(function (e) {
@@ -193,10 +206,10 @@ export default {
       const index = this.routeList.findIndex(route => route.name === this.$route.name)
       if (index !== -1) {
         this.scroll(this.routeList[index].meta.scrollTop)
-        this.routeList.splice(index, 1, this.$route)
+        // this.routeList.splice(index, 1, this.$route)
         this.vmList.splice(index, 1, this.$refs['routerView'])
       } else {
-        this.routeList.push(this.$route)
+        // this.routeList.push(this.$route)
         this.vmList.push(this.$refs['routerView'])
       }
     },
