@@ -34,12 +34,22 @@ Mock.mock('/api/login', 'post', () => ({
       resource: '',
       children: [
         {
-          text: '项目列表',
+          text: '二级菜单',
           hidden: false,
-          to: '/project/list',
+          to: '/project/menu',
           permissions: [],
-          type: 'VIEW',
-          resource: 'project/ProjectList',
+          type: 'MENU',
+          resource: '',
+          children: [
+            {
+              text: '项目列表',
+              hidden: false,
+              to: '/project/menu/list',
+              permissions: [],
+              type: 'VIEW',
+              resource: 'project/ProjectList',
+            },
+          ],
         },
       ],
     },

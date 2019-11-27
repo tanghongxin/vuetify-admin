@@ -1,5 +1,4 @@
 <template>
-  <!-- v-model="appNavigation" -->
   <v-navigation-drawer
     app
     :clipped="permanentAppNavition || $vuetify.breakpoint.lgAndUp"
@@ -7,65 +6,19 @@
     :permanent="permanentAppNavition"
     @input="e => permanentAppNavition ? '' : appNavigation = e"
   >
-    <v-list dense>
-      <template v-for="item in items">
-        <v-list-group
-          v-if="item.type === 'MENU' && !item.hidden"
-          :key="item.text"
-          v-model="item.model"
-          :prepend-icon="item.icon"
-          :append-icon="item.model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-        >
-          <template v-slot:activator>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.text }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-          <v-list-item
-            v-for="(child, i) in item.children"
-            :key="i"
-            link
-            :to="child.to" 
-          >
-            <template v-if="!child.hidden">
-              <v-list-item-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ child.text }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </v-list-item>
-        </v-list-group>
-        <v-list-item
-          v-if="item.type === 'VIEW' && !item.hidden"
-          :key="item.text"
-          link
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ item.text }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-    </v-list>
+    <RecursiveMenus :items="items" />
   </v-navigation-drawer>
 </template>
 
 <script>
+import RecursiveMenus from './RecursiveMenus'
+import _ from 'lodash'
+
 export default {
   name:'AppNavigation',
-  components: {},
+  components: {
+    RecursiveMenus,
+  },
   data: () => ({
     items: [],
   }),
@@ -83,6 +36,24 @@ export default {
         return this.$store.state.setting.permanentAppNavition
       },
     },
+    menus: {
+      get () {
+        return this.$store.state.account.menus
+      },
+    },
+    flatMenus: {
+      get () {
+        const result = [];
+        (function recursive (items, parent) {
+          items.forEach(item => {
+            item.parent = parent
+            result.push(item)
+            item.children && recursive.bind(this)(item.children, item)
+          })
+        }.bind(this))(this.menus)
+        return result
+      },
+    },
   },
   watch: {
     '$route': {
@@ -96,37 +67,14 @@ export default {
   },
   methods: {
     buildMenus () {
-      const menus = [];
-      (function recursive (items) {
-        const children = []
-        items.forEach(item => {
-          let menu = {
-            text: item.text,
-            icon: item.icon,
-            hidden: item.hidden,
-            model: this.$route.path.includes(item.to),
-            permission: item.permissions || [],
-            to: item.to,
-            type: item.type,
-          }
-          switch (item.type) {
-            case 'MENU':
-              menu = {
-                ...menu,
-                children: recursive.bind(this)(item.children || []),
-              }
-              menus.push(menu)
-              break
-            case 'VIEW':
-              children.push(menu)
-              break
-            default:
-              break
-          }
-        })
-        return children
-      }.bind(this))(this.$store.state.account.menus)
-      this.items = menus
+      // FIXME: animation shake
+      _.forEachRight(this.flatMenus, menu => {
+        this.$set(menu, 'model', this.$route.path.includes(menu.to))
+      })
+      // this.flatMenus.forEach(menu => {
+      //   this.$set(menu, 'model', this.$route.path.includes(menu.to))
+      // })
+      this.items = this.menus
     },
   },
 }

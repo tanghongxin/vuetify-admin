@@ -13,10 +13,8 @@ export default {
     state.token = token
   },
   buildRoutes (state) {
-    let dynamicallyRoutes = [];
-    (function recursive(items) {
-      const children = []
-      items.forEach(item => {
+    buildDynamicallyRoutes((function recursive (items) {
+      return items.map(item => {
         let route = {
           meta: {
             permissions: item.permissions || [],
@@ -32,7 +30,6 @@ export default {
               children: recursive(item.children || []),
               redirect: '/exception/404',
             }
-            dynamicallyRoutes.push(route)
             break
           case 'VIEW':
             route = {
@@ -46,14 +43,12 @@ export default {
               },
               component: lazyLoad(item.resource),
             }
-            children.push(route)
             break
           default:
             break
         }
+        return route
       })
-      return children
-    })(state.menus)
-    buildDynamicallyRoutes(dynamicallyRoutes)
+    })(state.menus))
   },
 }

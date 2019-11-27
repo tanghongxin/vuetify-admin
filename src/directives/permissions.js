@@ -8,7 +8,7 @@ const hasPermission = {
     Vue.directive('hasPermission', {
       bind(el, binding, vnode) {
         let permissions = vnode.context.$store.state.account.permissions
-        let value = binding.value.split(',')
+        let value = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
         let flag = true
         for (let v of value) {
           if (!permissions.includes(v)) {
