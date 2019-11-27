@@ -1,6 +1,6 @@
 export default {
   // TODO
-  hasLoginned () {
-    return true
+  hasLoginned (state) {
+    return state.menus.length > 0
   },
 }

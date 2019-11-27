@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const STONE_REQUEST = axios.create({
-  baseURL: 'http://',
+  baseURL: '/api',
   responseType: 'json',
   validateStatus: status => status === 200,
 })

@@ -9,28 +9,8 @@
   >
     <v-list dense>
       <template v-for="item in items">
-        <v-row
-          v-if="item.heading"
-          :key="item.heading"
-          align="center"
-        >
-          <v-col cols="6">
-            <v-subheader v-if="item.heading">
-              {{ item.heading }}
-            </v-subheader>
-          </v-col>
-          <v-col
-            cols="6"
-            class="text-center"
-          >
-            <a
-              href="#!"
-              class="body-2 black--text"
-            >EDIT</a>
-          </v-col>
-        </v-row>
         <v-list-group
-          v-else-if="item.children"
+          v-if="item.type === 'MENU' && !item.hidden"
           :key="item.text"
           v-model="item.model"
           :prepend-icon="item.icon"
@@ -51,18 +31,20 @@
             link
             :to="child.to" 
           >
-            <v-list-item-action v-if="child.icon">
-              <v-icon>{{ child.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ child.text }}
-              </v-list-item-title>
-            </v-list-item-content>
+            <template v-if="!child.hidden">
+              <v-list-item-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ child.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
           </v-list-item>
         </v-list-group>
         <v-list-item
-          v-else
+          v-if="item.type === 'VIEW' && !item.hidden"
           :key="item.text"
           link
         >
@@ -121,9 +103,11 @@ export default {
           let menu = {
             text: item.text,
             icon: item.icon,
-            model: this.$route.path.includes(item.to),
-            to: item.to,
             hidden: item.hidden,
+            model: this.$route.path.includes(item.to),
+            permission: item.permissions || [],
+            to: item.to,
+            type: item.type,
           }
           switch (item.type) {
             case 'MENU':
@@ -131,10 +115,10 @@ export default {
                 ...menu,
                 children: recursive.bind(this)(item.children || []),
               }
-              !menu.hidden && menus.push(menu)
+              menus.push(menu)
               break
             case 'VIEW':
-              !menu.hidden && children.push(menu)
+              children.push(menu)
               break
             default:
               break

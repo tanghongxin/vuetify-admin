@@ -1,6 +1,6 @@
 const config = {
   401: {
-    title: '403',
+    title: '401',
     desc: '抱歉，请先登录获取权限',
   },
   403: {

@@ -2,7 +2,7 @@ const handleLazyLoadError = function (error) {
   const pattern = /Loading chunk (\d)+ failed/g
   const isChunkLoadFailed = error.message.match(pattern)
   if (isChunkLoadFailed) {
-    // toast show
+    // TODO: toast show
   } else {
     throw error
   }

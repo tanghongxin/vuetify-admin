@@ -1,6 +1,6 @@
-import store from '@/store'
+// import store from '@/store'
 import { lazyLoad } from './utils'
-import router from './index'
+import router, { resetRouter } from './index'
 
 export default [
   {
@@ -18,17 +18,11 @@ export default [
 ]
 
 export const buildDynamicallyRoutes = function(dynamicallyRoutes = []) {
-  const logicRoutes = {
+  resetRouter()
+  const logicRoutes = [{
     path: '/',
     component: lazyLoad('Page'),
     redirect: '/home',
-    beforeEnter: (to, from, next) => {
-      if (store.getters['account/hasLoginned']) {
-        next()
-      } else {
-        next('/login')
-      }
-    },
     children: [
       ...dynamicallyRoutes,
       {
@@ -36,6 +30,6 @@ export const buildDynamicallyRoutes = function(dynamicallyRoutes = []) {
         redirect: '/exception/404',
       },
     ],
-  }
-  router.addRoutes([logicRoutes])
+  }]
+  router.addRoutes(logicRoutes)
 }

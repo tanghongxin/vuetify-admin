@@ -47,10 +47,10 @@
         :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
         <!-- / TDOO -->
-        <!-- <VRouterBreadCrumbs
+        <VRouterBreadCrumbs
           class="py-1"
           :style="{ height: breadCrumbsHeight }"
-        /> -->
+        />
         <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
           <v-slide-x-transition mode="out-in">
             <keep-alive>
@@ -97,7 +97,7 @@
 
 <script>
 import VFollowMenu from './VFollowMenu'
-// import VRouterBreadCrumbs from './VRouterBreadCrumbs'
+import VRouterBreadCrumbs from './VRouterBreadCrumbs'
 import { removeKeepAliveCache } from '@/utils/vue'
 import _ from 'lodash'
 import Timeout from 'await-timeout'
@@ -108,7 +108,7 @@ export default {
   name:'VRouterViewTabs',
   components: {
     VFollowMenu,
-    // VRouterBreadCrumbs,
+    VRouterBreadCrumbs,
   },
   props: {
     tabHeight: {
