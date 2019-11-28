@@ -8,32 +8,79 @@
     @change="fetch"
   >
     <template v-slot:search>
-      <v-container class="py-0">
-        <v-row>
-          <v-col
-            xs="6"
-            sm="4"
-            md="2"
-          >
-            <v-text-field
-              placeholder="门店名称"
-              v-model="search.name"
-              clearable
-            />
-          </v-col>
-          <v-col
-            xs="6"
-            sm="4"
-            md="2"
-          >
-            <v-text-field
-              placeholder="开业年份"
-              v-model="search.date"
-              clearable
-            />
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row>
+
+        <v-col
+          class="py-0"
+          xs="6"
+          sm="4"
+          md="2"
+        >
+          <v-text-field
+            placeholder="门店名称"
+            v-model="search.name"
+            clearable
+          />
+        </v-col>
+        <v-col
+          class="py-0"
+          xs="6"
+          sm="4"
+          md="2"
+        >
+          <v-text-field
+            placeholder="门店名称"
+            v-model="search.name"
+            clearable
+          />
+        </v-col>
+        <v-col
+          class="py-0"
+          xs="6"
+          sm="4"
+          md="2"
+        >
+          <v-text-field
+            placeholder="省"
+            v-model="search.province"
+            clearable
+          />
+        </v-col>
+        <v-col
+          class="py-0"
+          xs="6"
+          sm="4"
+          md="2"
+        >
+          <v-text-field
+            placeholder="市"
+            v-model="search.city"
+            clearable
+          />
+        </v-col>
+        <v-col
+          class="py-0"
+          xs="6"
+          sm="4"
+          md="2"
+        >
+          <v-text-field
+            placeholder="状态"
+            v-model="search.status"
+            clearable
+          />
+        </v-col>
+      </v-row>
+    </template>
+    <template v-slot:actions>
+      <v-btn
+        class="mr-2"
+        depressed 
+        tile 
+        @click="handleAddShop"
+      >
+        新增门店
+      </v-btn>
     </template>
   </DataTable>
 </template>
@@ -55,7 +102,13 @@ export default {
       pageCount: 0,
       itemsPerPage: 10,
     },
-    search: {},
+    search: {
+      city: '',
+      date: '',
+      name: '',
+      status: '',
+      province: '',
+    },
   }),
   methods: {
     fetch (query) {
@@ -65,6 +118,7 @@ export default {
       // TODO: 刷新页码
       this.loading = false
     },
+    handleAddShop () {},
   },
 }
 </script>

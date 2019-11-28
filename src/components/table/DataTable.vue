@@ -2,25 +2,38 @@
   <div class="DateTable">
     <!-- / Search -->
     <v-toolbar
+      class="py-0"
       flat
       color="white"
     >
       <slot name="search" />
     </v-toolbar>
 
-    <v-btn
-      text
-      @click="handleSearch"
+    <!-- / Actions -->
+    <v-toolbar
+      class="py-0"
+      flat
+      color
     >
-      查询
-    </v-btn>
+      <slot name="actions" />
+      <v-spacer />
+      <v-btn
+        class="mr-2"
+        depressed 
+        tile 
+        @click="handleSearch"
+      >
+        查询
+      </v-btn>
 
-    <v-btn
-      text
-      @click="handleRefresh"
-    >
-      刷新
-    </v-btn>
+      <v-btn
+        depressed 
+        tile 
+        @click="handleRefresh"
+      >
+        刷新
+      </v-btn>
+    </v-toolbar>
 
     <!-- / Table -->
     <v-data-table
@@ -164,6 +177,11 @@ export default {
   .v-pagination {
     width: auto !important;
     text-align: right !important;
+  }
+
+  .v-toolbar__content {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 </style>

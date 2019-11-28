@@ -5,9 +5,8 @@ Mock.mock('/api/login', 'post', () => ({
   token: '',
   permissions: [],
   menus: [
-    // TODO: 递归导航菜单
     {
-      text: '主页',
+      text: '首页',
       icon: 'home',
       hidden: false,
       to: '/home',
