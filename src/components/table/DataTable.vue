@@ -8,7 +8,7 @@
     <v-didiver />
 
     <!-- / Actions -->
-    <div class="d-flex flex-row fill-height">
+    <div class="d-flex flex-row fill-height pb-1 px-2">
       <slot name="actions" />
       <v-spacer />
       <v-btn
@@ -39,6 +39,7 @@
       :items="items"
       item-key="name"
       :loading="loading"
+      :no-data-text="loading ? '加载中...' : ''"
       show-expand
       :page.sync="options.page"
       :items-per-page="options.itemsPerPage"
