@@ -6,13 +6,12 @@
     :permanent="permanentAppNavition"
     @input="e => permanentAppNavition ? '' : appNavigation = e"
   >
-    <RecursiveMenus :items="items" />
+    <RecursiveMenus :items="menus" />
   </v-navigation-drawer>
 </template>
 
 <script>
 import RecursiveMenus from './RecursiveMenus'
-import _ from 'lodash'
 
 export default {
   name:'AppNavigation',
@@ -20,7 +19,7 @@ export default {
     RecursiveMenus,
   },
   data: () => ({
-    items: [],
+    menus: [],
   }),
   computed: {
     appNavigation: {
@@ -36,24 +35,6 @@ export default {
         return this.$store.state.setting.permanentAppNavition
       },
     },
-    menus: {
-      get () {
-        return this.$store.state.account.menus
-      },
-    },
-    flatMenus: {
-      get () {
-        const result = [];
-        (function recursive (items, parent) {
-          items.forEach(item => {
-            item.parent = parent
-            result.push(item)
-            item.children && recursive.bind(this)(item.children, item)
-          })
-        }.bind(this))(this.menus)
-        return result
-      },
-    },
   },
   watch: {
     '$route': {
@@ -67,14 +48,27 @@ export default {
   },
   methods: {
     buildMenus () {
-      // FIXME: animation shake
-      _.forEachRight(this.flatMenus, menu => {
-        this.$set(menu, 'model', this.$route.path.includes(menu.to))
-      })
-      // this.flatMenus.forEach(menu => {
-      //   this.$set(menu, 'model', this.$route.path.includes(menu.to))
-      // })
-      this.items = this.menus
+      this.menus = (function recursive (items) {
+        return items.map(item => {
+          let menu = {
+            ...item,
+            model: this.$route.path.includes(item.to),
+          }
+          switch (item.type) {
+            case 'MENU':
+              menu = {
+                ...menu,
+                children: recursive.call(this, item.children || []),
+              }
+              break
+            case 'VIEW':
+              break
+            default:
+              break
+          }
+          return menu
+        })
+      }.bind(this))(this.$store.state.account.menus)
     },
   },
 }
