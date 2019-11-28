@@ -1,20 +1,14 @@
 <template>
   <div class="DateTable">
     <!-- / Search -->
-    <v-toolbar
-      class="py-0"
-      flat
-      color="white"
-    >
+    <div>
       <slot name="search" />
-    </v-toolbar>
+    </div>
+
+    <v-didiver />
 
     <!-- / Actions -->
-    <v-toolbar
-      class="py-0"
-      flat
-      color
-    >
+    <div class="d-flex flex-row fill-height">
       <slot name="actions" />
       <v-spacer />
       <v-btn
@@ -33,7 +27,7 @@
       >
         刷新
       </v-btn>
-    </v-toolbar>
+    </div>
 
     <!-- / Table -->
     <v-data-table
