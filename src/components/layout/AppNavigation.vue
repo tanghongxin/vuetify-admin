@@ -69,20 +69,24 @@ export default {
       }.bind(this))(this.$store.state.account.menus)
     },
     expandMenuMatchRoute (path) {
-      // 需要展开的（子）菜单
-      const menus = [];
-      // 由外到内递归遍历
+      const toBeOpendMenus = []
+      const toBeClosedMenus = [];
       (function recursive (items) {
-        items.some(item => {
+        items.forEach(item => {
           if (path.includes(item.to)) {
-            menus.unshift(item)
+            toBeOpendMenus.unshift(item)
             recursive(item.children || [])
+          } else {
+            toBeClosedMenus.push(item)
+            // recursive(item.children || [])
           }
         })
       })(this.menus)
-      // 由内到外展开：保证当最外层展开时，动画一步到位
-      menus.forEach(menu => {
+      toBeOpendMenus.forEach(menu => {
         menu.expanded = true
+      })
+      toBeClosedMenus.forEach(menu => {
+        menu.expanded = false
       })
     },
   },
