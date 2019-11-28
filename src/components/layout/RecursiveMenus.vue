@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list :class="!sub ? 'py-0' : ''">
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group
