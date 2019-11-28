@@ -15,12 +15,12 @@
           :to="route.fullPath"
           @contextmenu="showContextMenu($event, index)"
         >
-          <span>{{ route.name }}</span>
+          <span class="subtitle-1">{{ route.name }}</span>
           <v-btn
             class="VRouterViewTabs--tab-btn_close"
-            height="22"
             icon
             ripple
+            small
             text
             @click.prevent="closeTab(index)"
           >
@@ -114,7 +114,7 @@ export default {
   props: {
     tabHeight: {
       type: Number,
-      default: 48,
+      default: 56,
     },
     breadCrumbsHeight: {
       type: Number,
