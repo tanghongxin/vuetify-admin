@@ -1,80 +1,3 @@
-<template>
-  <div class="DateTable">
-    <!-- / Search -->
-    <div>
-      <slot name="search" />
-    </div>
-
-    <v-didiver />
-
-    <!-- / Actions -->
-    <div class="d-flex flex-row fill-height pb-1 px-2">
-      <slot name="actions" />
-      <v-spacer />
-      <v-btn
-        class="mr-2"
-        depressed 
-        tile 
-        @click="handleSearch"
-      >
-        查询
-      </v-btn>
-
-      <v-btn
-        depressed 
-        tile 
-        @click="handleRefresh"
-      >
-        刷新
-      </v-btn>
-    </div>
-
-    <!-- / Table -->
-    <v-data-table
-      :expanded.sync="expanded"
-      class="elevation-0"
-      fixed-header
-      :headers="headers"
-      hide-default-footer
-      :items="items"
-      item-key="name"
-      :loading="loading"
-      :no-data-text="loading ? '加载中...' : ''"
-      show-expand
-      :page.sync="options.page"
-      :items-per-page="options.itemsPerPage"
-      @page-count="options.pageCount = $event"
-      @update:options="handleTableChange"
-    >
-      <template v-slot:expanded-item="{ headers }">
-        <td :colspan="headers.length">
-          Peek-a-boo!
-        </td>
-      </template>
-    </v-data-table>
-
-    <!-- / Pagination -->
-    <div class="d-flex flex-row pa-2">
-      <v-spacer />
-      <v-select
-        style="flex: 0"
-        class="px-4"
-        flat
-        :items="[10, 15, 20, 50]"
-        v-model="options.itemsPerPage"
-      />
-      <v-pagination
-        class="elevation-0"
-        v-model="options.page"
-        :length="options.pageCount"
-        :total-visible="7"
-        next-icon="keyboard_arrow_right"
-        prev-icon="keyboard_arrow_left"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'DateTable',
@@ -101,6 +24,73 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  render (h) {
+    const search =
+      <div>{ this.$slots.search }</div>
+    const actions =
+      <div class="d-flex flex-row fill-height pb-1 px-2">
+        { this.$slots.actions }
+        <v-spacer />
+        <v-btn
+          class="mr-2"
+          depressed 
+          tile 
+          onClick="handleSearch"
+        >
+          查询
+        </v-btn>
+
+        <v-btn
+          depressed 
+          tile 
+          onClick="handleRefresh"
+        >
+          刷新
+        </v-btn>
+      </div>
+    const table = h('v-data-table', {
+      class: 'elevation-0',
+      props: {
+        fixedHeader: true,
+        headers: this.headers,
+        hideDefaultFooter: true,
+        items: this.items,
+        itemKey: 'name',
+        itemsPerPage: this.options.itemsPerPage,
+        loading: this.loading,
+        noDataText: this.loading ? '加载中...' : '暂无数据',
+        page: this.options.page,
+      },
+      on: {
+        pageCount: e => this.options.pageCount = e,
+        'update:options': this.handleTableChange,
+        'updata:page': e => this.options.page = e,
+      },
+      scopedSlots: this.$scopedSlots,
+    })
+    const pagination =
+      <div class="d-flex flex-row pa-2">
+        <v-spacer />
+        <v-select
+          style="flex: 0"
+          class="px-4"
+          flat
+          items={ [10, 15, 20, 50] }
+          value={ this.options.itemsPerPage }
+          onInput={ e => this.options.itemsPerPage = e }
+        />
+        <v-pagination
+          class="elevation-0"
+          value={ this.options.page }
+          onInput={ e => this.options.page = e }
+          length={ this.options.pageCount }
+          totalVisible={ 7 }
+          next-icon="keyboard_arrow_right"
+          prev-icon="keyboard_arrow_left"
+        />
+      </div>
+    return <div class="DateTable">{ search }{ actions }{ table }{ pagination }</div>
   },
   data: () => ({
     expanded: [],

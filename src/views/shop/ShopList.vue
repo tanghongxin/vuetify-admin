@@ -86,8 +86,16 @@
         新增门店
       </v-btn>
     </template>
+    <template v-slot:item.name="{ item }">
+      <v-chip
+        dark
+      >
+        {{ item.name }}
+      </v-chip>
+    </template>
   </DataTable>
 </template>
+
 <script>
 import DataTable from '~~/table/DataTable'
 import { headers, items } from './mock'
@@ -103,7 +111,7 @@ export default {
     loading: false,
     options: {
       page: 1,
-      pageCount: 0,
+      pageCount: 1,
       itemsPerPage: 10,
     },
     search: {
