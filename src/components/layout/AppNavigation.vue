@@ -49,7 +49,13 @@ export default {
       this.menus = (function recursive (items) {
         return items.map(item => {
           let menu = {
-            ...item,
+            // ...item,
+            hidden: !!item.hidden,
+            icon: item.icon || '',
+            permissions: item.permissions || [],
+            text: item.text || '',
+            to: item.to || '',
+            type: item.type || '',
             expanded: this.$route.path.includes(item.to),
           }
           switch (item.type) {
