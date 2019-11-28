@@ -15,11 +15,12 @@
           :to="route.fullPath"
           @contextmenu="showContextMenu($event, index)"
         >
-          {{ route.name }}
+          <span>{{ route.name }}</span>
           <v-btn
             class="VRouterViewTabs--tab-btn_close"
+            height="22"
             icon
-            small
+            ripple
             text
             @click.prevent="closeTab(index)"
           >
