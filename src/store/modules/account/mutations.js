@@ -12,7 +12,7 @@ export default {
   setToken (state, token = '') {
     state.token = token
   },
-  buildRoutes (state) {
+  buildRoutes (state, menus = []) {
     buildDynamicallyRoutes((function recursive (items) {
       return items.map(item => {
         let route = {
@@ -49,6 +49,6 @@ export default {
         }
         return route
       })
-    })(state.menus))
+    })(menus))
   },
 }

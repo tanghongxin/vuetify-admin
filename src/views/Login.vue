@@ -89,8 +89,8 @@ export default {
         this.setPermissions(data.permissons)
         this.setMenus(data.menus)
         this.setToken(data.token)
-        this.buildRoutes()
-        this.$router.push('/shop/list')
+        this.buildRoutes(data.menus)
+        this.$router.push('/home')
       } catch (e) {
         throw e
       } finally {
