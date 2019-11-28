@@ -38,11 +38,9 @@ export default {
   },
   watch: {
     '$route': {
-      immediate: true,
+      immediate: false,
       handler (to, from = {}) {
-        if (to.path !== from.path) {
-          this.buildMenus()
-        }
+        to.path !== from.path && this.expandMenuMatchRoute(to.path)
       },
     },
   },
@@ -52,7 +50,7 @@ export default {
         return items.map(item => {
           let menu = {
             ...item,
-            model: this.$route.path.includes(item.to),
+            expanded: this.$route.path.includes(item.to),
           }
           switch (item.type) {
             case 'MENU':
@@ -70,6 +68,26 @@ export default {
         })
       }.bind(this))(this.$store.state.account.menus)
     },
+    expandMenuMatchRoute (path) {
+      // 需要展开的（子）菜单
+      const menus = [];
+      // 由外到内递归遍历
+      (function recursive (items) {
+        items.some(item => {
+          if (path.includes(item.to)) {
+            menus.unshift(item)
+            recursive(item.children || [])
+          }
+        })
+      })(this.menus)
+      // 由内到外展开：保证当最外层展开时，动画一步到位
+      menus.forEach(menu => {
+        menu.expanded = true
+      })
+    },
+  },
+  created () {
+    this.buildMenus()
   },
 }
 </script>

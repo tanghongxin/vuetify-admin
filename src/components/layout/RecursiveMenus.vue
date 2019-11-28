@@ -6,7 +6,7 @@
         v-if="item.type === 'MENU' && !item.hidden"
         v-hasPermission="item.permissions"
         :key="item.text"
-        v-model="item.model"
+        v-model="item.expanded"
         :prepend-icon="item.icon"
         :append-icon="item.model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
         :sub-group="sub"
