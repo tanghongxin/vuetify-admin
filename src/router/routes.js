@@ -17,7 +17,7 @@ export default [
   },
 ]
 
-const recursive = function (items = []) {
+const recursiveBuildRoutes = function (items = []) {
   return items.map(item => {
     let route = {
       meta: {
@@ -31,7 +31,7 @@ const recursive = function (items = []) {
         route = {
           ...route,
           component: { render: h => h('router-view') },
-          children: recursive(item.children || []),
+          children: recursiveBuildRoutes(item.children || []),
           redirect: '/exception/404',
         }
         break
@@ -50,7 +50,7 @@ const recursive = function (items = []) {
 
 export const buildDynamicallyRoutes = function() {
   resetRouter()
-  const dynamicallyRoutes = recursive(store.state.account.menus || [])
+  const dynamicallyRoutes = recursiveBuildRoutes(store.state.account.menus || [])
   const logicRoutes = [{
     path: '/',
     component: lazyLoad('Page'),
