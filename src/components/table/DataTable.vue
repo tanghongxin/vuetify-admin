@@ -26,8 +26,10 @@ export default {
     },
   },
   render (h) {
+    // 搜索栏
     const search =
       <div>{ this.$slots.search }</div>
+    // 工具栏
     const actions =
       <div class="d-flex flex-row fill-height pb-1 px-2">
         { this.$slots.actions }
@@ -49,6 +51,7 @@ export default {
           刷新
         </v-btn>
       </div>
+    // 表格
     const table = h('v-data-table', {
       class: 'elevation-0',
       props: {
@@ -69,6 +72,7 @@ export default {
       },
       scopedSlots: this.$scopedSlots,
     })
+    // 分页
     const pagination =
       <div class="d-flex flex-row pa-2">
         <v-spacer />

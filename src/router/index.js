@@ -1,7 +1,7 @@
 import store from '@/store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import routes from './routes'
+import routes, { buildDynamicallyRoutes } from './routes'
 
 Vue.use(VueRouter)
 const createRouter = () => new VueRouter({
@@ -13,3 +13,4 @@ router.beforeEach((to, from, next) => {
 })
 export default router
 export const resetRouter = () => (router.matcher = createRouter().matcher)
+buildDynamicallyRoutes()

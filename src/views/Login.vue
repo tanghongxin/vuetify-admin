@@ -80,7 +80,6 @@ export default {
       setPermissions: 'account/setPermissions',
       setMenus: 'account/setMenus',
       setToken: 'account/setToken',
-      buildRoutes: 'account/buildRoutes',
     }),
     async handleSubmit () {
       try {
@@ -89,7 +88,6 @@ export default {
         this.setPermissions(data.permissons)
         this.setMenus(data.menus)
         this.setToken(data.token)
-        this.buildRoutes(data.menus)
         this.$router.push('/home')
       } catch (e) {
         throw e
