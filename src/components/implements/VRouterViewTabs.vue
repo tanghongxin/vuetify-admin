@@ -52,7 +52,7 @@
           class="py-1"
           :style="{ height: breadCrumbsHeight }"
         />
-        <div :style="{ minHeight: `calc(100% - ${breadCrumbsHeight}px)` }">
+        <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
           <v-slide-x-transition mode="out-in">
             <keep-alive>
               <router-view
@@ -253,4 +253,9 @@ export default {
 #VRouterViewTabs__router-view {
   position: relative;
 }
+
+// .slide-x-transition-enter-active,
+// .slide-x-transition-leave-active {
+//   transition-duration: .15s !important;
+// }
 </style>

@@ -31,7 +31,7 @@ export default {
       <div>{ this.$slots.search }</div>
     // 工具栏
     const actions =
-      <div class="d-flex flex-row fill-height pb-1 px-2">
+      <div class="d-flex flex-row pb-1 px-2">
         { this.$slots.actions }
         <v-spacer />
         <v-btn
