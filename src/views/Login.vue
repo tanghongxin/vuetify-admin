@@ -65,6 +65,7 @@
 <script>
 import { login } from 'api/account'
 import { mapMutations } from 'vuex'
+import { buildDynamicallyRoutes } from '@/router/routes'
 
 export default {
   name:'Login',
@@ -88,6 +89,7 @@ export default {
         this.setPermissions(data.permissons)
         this.setMenus(data.menus)
         this.setToken(data.token)
+        buildDynamicallyRoutes()
         this.$router.push('/home')
       } catch (e) {
         throw e

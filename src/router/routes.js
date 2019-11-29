@@ -1,7 +1,6 @@
 import { lazyLoad } from './utils'
 import router, { resetRouter } from './index'
 import store from '@/store'
-import _ from 'lodash'
 
 export default [
   {
@@ -18,11 +17,7 @@ export default [
   },
 ]
 
-// const hasPermissons = function (expectedPermissions) {
-//   return _.difference(expectedPermissions, store.state.account.permissions).length === 0
-// }
-
-const recursiveBuildRoutes = function (items) {
+const recursive = function (items = []) {
   return items.map(item => {
     let route = {
       meta: {
@@ -36,20 +31,13 @@ const recursiveBuildRoutes = function (items) {
         route = {
           ...route,
           component: { render: h => h('router-view') },
-          children: recursiveBuildRoutes(item.children || []),
+          children: recursive(item.children || []),
           redirect: '/exception/404',
         }
         break
       case 'VIEW':
         route = {
           ...route,
-          beforeEnter: (to, from, next) => {
-            if (_.difference(to.meta.permissions, store.state.account.permissions).length !== 0) {
-              next('/exception/403')
-            } else {
-              next()
-            }
-          },
           component: lazyLoad(item.resource),
         }
         break
@@ -62,7 +50,7 @@ const recursiveBuildRoutes = function (items) {
 
 export const buildDynamicallyRoutes = function() {
   resetRouter()
-  const dynamicallyRoutes = recursiveBuildRoutes(store.state.account.menus)
+  const dynamicallyRoutes = recursive(store.state.account.menus || [])
   const logicRoutes = [{
     path: '/',
     component: lazyLoad('Page'),
@@ -71,7 +59,7 @@ export const buildDynamicallyRoutes = function() {
       ...dynamicallyRoutes,
       {
         path: '*',
-        redirect: '/exception/404',
+        redirect: () => store.getters['account/hasLoginned'] ? '/exception/404' : '/login',
       },
     ],
   }]
