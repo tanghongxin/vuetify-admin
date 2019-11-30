@@ -1,4 +1,4 @@
-# stone-management
+# Management-fe-RS
 
 ## Project setup
 ```
