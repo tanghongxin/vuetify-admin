@@ -53,14 +53,23 @@ module.exports = {
       name: 'ci:       持续集成配置（GitLab等）',
     },
   ],
+  // scopes: [
+  //   {name: 'component'},
+  //   {name: 'config'},
+  //   {name: 'css'},
+  //   {name: 'format'},
+  //   {name: 'empty'},
+  // ],
   messages: {
-    type: '选择一种你的提交类型:',
-    scope: '选择一个scope (可选):',
-    customScope: 'Denote the SCOPE of this change:',
+    type: '选择一种你的提交类型:\n',
+    // scope: '选择作用范围 (可选):\n',
+    allowCustomScopes: true,
+    allowBreakingChanges: ['feat', 'fix'],
+    customScope: '代码作用范围 (可选) :\n',
     subject: '标题简短说明:\n',
     body: '长说明，使用"|"换行(可选)：\n',
     breaking: '兼容性更改 (可选):\n',
     footer: '关联关闭的issue，例如：#31, #34(可选):\n',
-    confirmCommit: '确定提交说明?'
+    confirmCommit: '确定提交说明?',
   },
 }
