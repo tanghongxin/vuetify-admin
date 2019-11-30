@@ -188,8 +188,8 @@ export default {
   }
 
   .v-picker__title {
-    height: 84px;
     padding-top: 10px;
+    height: 84px;
   }
 
   .v-picker__title {

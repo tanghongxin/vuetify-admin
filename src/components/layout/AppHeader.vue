@@ -8,7 +8,7 @@
     :height="appHeaderHeight"
   >
     <v-toolbar-title
-      style="width: 300px"
+      style="width: 300px;"
       class="ml-0 pl-4"
     >
       <v-app-bar-nav-icon

@@ -1,6 +1,8 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const StyleLintPlugin = require('stylelint-webpack-plugin')
+const CodeframeFormatter = require('stylelint-codeframe-formatter')
 
 const addStyleResource = rule => {
   rule
@@ -31,6 +33,17 @@ module.exports = {
         new LodashModuleReplacementPlugin(),
       ])
     }
+
+    config.plugin('stylelint')
+      .use(StyleLintPlugin, [{
+        cache: true,
+        emitErrors: true,
+        failOnError: false,
+        formatter: CodeframeFormatter,
+        files: ['**/*.{html,vue,css,sass,scss}'],
+        fix: true,
+      }])
+      .end()
 
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type =>

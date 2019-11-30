@@ -206,10 +206,8 @@ export default {
   box-shadow: none !important;
 
   .v-picker__title {
-    height: 84px;
     padding-top: 10px;
+    height: 84px;
   }
-    
 }
-  
 </style>
