@@ -12,6 +12,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint --fix",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
       "pre-push": "npm run test"
     }
   },
@@ -33,6 +34,8 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-plugin-unit-jest": "^4.0.0",
