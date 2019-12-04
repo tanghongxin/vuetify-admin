@@ -1,80 +1,82 @@
 <template>
   <DataTable
     :headers="headers"
+    item-key="name"
     :items="items"
     :loading="loading"
-    :search="search"
-    v-model="options"
-    @change="fetch"
+    :options="options"
+    @update:options="handleTableChange"
   >
     <template v-slot:search>
-      <v-row class="px-4">
-        <v-col
-          class="py-0"
-          cols="12"
-          sm="6"
-          md="3"
-          lg="2"
-        >
-          <v-text-field
-            placeholder="门店名称"
-            v-model="search.name"
-            clearable
-          />
-        </v-col>
-        <v-col
-          class="py-0"
-          cols="12"
-          sm="6"
-          md="3"
-          lg="2"
-        >
-          <v-text-field
-            placeholder="省"
-            v-model="search.province"
-            clearable
-          />
-        </v-col>
-        <v-col
-          class="py-0"
-          cols="12"
-          sm="6"
-          md="3"
-          lg="2"
-        >
-          <v-text-field
-            placeholder="市"
-            v-model="search.city"
-            clearable
-          />
-        </v-col>
-        <v-col
-          class="py-0"
-          cols="12"
-          sm="6"
-          md="3"
-          lg="2"
-        >
-          <v-text-field
-            placeholder="状态"
-            v-model="search.status"
-            clearable
-          />
-        </v-col>
-        <v-col
-          class="py-0"
-          cols="12"
-          sm="6"
-          md="3"
-          lg="2"
-        >
-          <v-text-field
-            placeholder="开业年份"
-            v-model="search.name"
-            clearable
-          />
-        </v-col>
-      </v-row>
+      <v-form ref="form">
+        <v-row class="px-4">
+          <v-col
+            class="py-0"
+            cols="12"
+            sm="6"
+            md="3"
+            lg="2"
+          >
+            <v-text-field
+              placeholder="门店名称"
+              v-model="query.name"
+              clearable
+            />
+          </v-col>
+          <v-col
+            class="py-0"
+            cols="12"
+            sm="6"
+            md="3"
+            lg="2"
+          >
+            <v-text-field
+              placeholder="省"
+              v-model="query.province"
+              clearable
+            />
+          </v-col>
+          <v-col
+            class="py-0"
+            cols="12"
+            sm="6"
+            md="3"
+            lg="2"
+          >
+            <v-text-field
+              placeholder="市"
+              v-model="query.city"
+              clearable
+            />
+          </v-col>
+          <v-col
+            class="py-0"
+            cols="12"
+            sm="6"
+            md="3"
+            lg="2"
+          >
+            <v-text-field
+              placeholder="状态"
+              v-model="query.status"
+              clearable
+            />
+          </v-col>
+          <v-col
+            class="py-0"
+            cols="12"
+            sm="6"
+            md="3"
+            lg="2"
+          >
+            <v-text-field
+              placeholder="开业年份"
+              v-model="query.name"
+              clearable
+            />
+          </v-col>
+        </v-row>
+      </v-form>
     </template>
     <template v-slot:actions>
       <v-btn
@@ -98,15 +100,13 @@
 
 <script>
 import DataTable from '~~/table/DataTable'
-import { headers, items } from './mock'
-
+import { getShopList } from 'api/shop'
 export default {
   name: 'ShopList',
   components: {
     DataTable,
   },
   data: () => ({
-    headers,
     items: [],
     loading: false,
     options: {
@@ -114,7 +114,7 @@ export default {
       pageCount: 1,
       itemsPerPage: 10,
     },
-    search: {
+    query: {
       city: '',
       date: '',
       name: '',
@@ -122,13 +122,44 @@ export default {
       province: '',
     },
   }),
+  computed: {
+    headers () {
+      return [
+        {
+          text: 'Dessert (100g serving)',
+          align: 'left',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Calories', value: 'calories' },
+        { text: 'Fat (g)', value: 'fat' },
+        { text: 'Carbs (g)', value: 'carbs' },
+        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Iron (%)', value: 'iron' },
+        { text: '', value: 'data-table-expand' },
+      ]
+    },
+  },
   methods: {
-    fetch (query) {
-      this.loading = true
-      console.log(query)
-      this.items = items
-      // TODO: 刷新页码
-      this.loading = false
+    async fetch () {
+      try {
+        this.loading = true
+        const { data } = await getShopList({ ...this.query, ...this.options })
+        this.items = data.items
+        this.options.total = data.total
+        this.options.pageCount = data.pageCount
+      } catch (e) {
+        this.items = []
+        this.options.total = 0
+        this.options.pageCount = 1
+        throw e
+      } finally {
+        this.loading = false
+      }
+    },
+    handleTableChange (options) {
+      this.options = options
+      this.$refs['form'].validate() && this.fetch()
     },
     handleAddShop () {},
   },

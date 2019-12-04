@@ -9,6 +9,7 @@ export default {
     },
     itemKey: {
       type: String,
+      default: 'id',
       required: true,
     },
     items: {
@@ -20,13 +21,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    search: {
-      type: Object,
-      default: () => ({}),
-    },
-    value: {
+    options: {
       type: Object,
       required: true,
+      default: () => ({}),
     },
   },
   render (h) {
@@ -61,110 +59,57 @@ export default {
       props: {
         fixedHeader: true,
         headers: this.headers,
-        hideDefaultFooter: true,
+        hideDefaultFooter: false,
+        footerProps: {
+          itemsPerPageText: '每页条数',
+          // itemsPerPageAllText: '全部',
+          itemsPerPageOptions: [10, 15, 20, 50],
+          showCurrentPage: true,
+          showFirstLastPage: true,
+        },
         items: this.items,
         itemKey: this.itemKey,
-        itemsPerPage: this.options.itemsPerPage,
+        locale: 'zh-cn',
+        options: this.options,
+        serverItemsLength: this.options.total || 0,
         loading: this.loading,
         noDataText: this.loading ? '加载中...' : '暂无数据',
-        page: this.options.page,
       },
       on: {
-        pageCount: e => this.options.pageCount = e,
         'update:options': this.handleTableChange,
-        'updata:page': e => this.options.page = e,
       },
-      scopedSlots: this.$scopedSlots,
+      scopedSlots: {
+        ...this.$scopedSlots,
+        // 'footer.page-text': ({ itemsLength }) => `共 ${itemsLength} 条记录`,
+      },
     })
-    // 分页
-    const pagination =
-      <div class="d-flex flex-row pa-2">
-        <v-spacer />
-        <v-select
-          style="flex: 0"
-          class="px-4"
-          flat
-          items={ [10, 15, 20, 50] }
-          value={ this.options.itemsPerPage }
-          onInput={ e => this.options.itemsPerPage = e }
-        />
-        <v-pagination
-          class="elevation-0"
-          value={ this.options.page }
-          onInput={ e => this.options.page = e }
-          length={ this.options.pageCount }
-          totalVisible={ 7 }
-          next-icon="keyboard_arrow_right"
-          prev-icon="keyboard_arrow_left"
-        />
-      </div>
     const defaultSlot = <div>{ this.$slots.default }</div>
     return <div class="DateTable">
       { search }
       { actions }
       { table }
-      { pagination }
       { defaultSlot }
     </div>
   },
-  data: () => ({
-    expanded: [],
-    options: {
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-    },
-  }),
-  watch: {
-    options: {
-      immediate: false,
-      deep: true,
-      handler (v) {
-        this.$emit('input', v)
-      },
-    },
-  },
+  data: () => ({}),
   methods: {
-    handleRefresh () {
-      this.$emit('change', {
-        ...this.options,
-      })
-    },
     handleSearch () {
-      this.options = {
+      this.$emit('update:options', {
         ...this.options,
         page: 1,
-      }
-      this.$emit('change', {
+      })
+    },
+    handleRefresh () {
+      this.$emit('update:options', {
         ...this.options,
       })
     },
-    /**
-     * 表格翻页、修改每页条数、数据排序
-     * @event
-     */
-    handleTableChange ({ itemsPerPage, page, sortBy: [sortField], sortDesc: [desc] }) {
-      this.options = {
+    handleTableChange (options) {
+      this.$emit('update:options', {
         ...this.options,
-        itemsPerPage: itemsPerPage,
-        page: page,
-        sortField: sortField || '',
-        sortOrder: desc ? 'desc' : 'asc',
-      }
-      this.$emit('change', {
-        page: page,
-        itemsPerPage: itemsPerPage,
-        sortField: sortField || '',
-        sortOrder: desc ? 'desc' : 'asc',
-        ...this.search,
+        ...options,
       })
     },
-  },
-  created () {
-    this.options = {
-      ...this.options,
-      ...this.value,
-    }
   },
 }
 </script>
@@ -182,6 +127,15 @@ export default {
   .v-toolbar__content {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .v-data-footer {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    @extend .text-no-wrap !optional;
   }
 }
 </style>

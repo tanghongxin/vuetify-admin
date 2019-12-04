@@ -9,6 +9,7 @@ Mock.mock(/\/api\/project/, 'post', () => new Promise(async resolve => {
 Mock.mock(/\/api\/project\/list/, 'get', () => new Promise(async resolve => {
   await Timeout.set(300)
   resolve({
+    total: 30,
     pageCount: 3,
     items: [
       {
