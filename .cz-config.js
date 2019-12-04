@@ -21,8 +21,8 @@ module.exports = {
       name: 'merge:    分支合并',
     },
     {
-      value: 'WIP',
-      name: 'WIP:      仍在进行中',
+      value: 'wip',
+      name: 'wip:      仍在进行中',
     },
     {
       value: 'perf',

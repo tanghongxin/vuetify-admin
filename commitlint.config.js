@@ -14,10 +14,9 @@ module.exports = {
       'test', 
       'revert', 
       'chore',
-      'WIP',
+      'wip',
     ]],
-    'subject-full-stop': [2, 'never'],
-    'subject-case': [2, 'never'],
-    'type-case': [2, 'never'],
+    'subject-full-stop': [0, 'never'],
+    'subject-case': [0, 'never'],
   },
 }
