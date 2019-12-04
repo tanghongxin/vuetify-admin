@@ -2,6 +2,7 @@
   <!-- auto-upload -->
   <!-- action="//jsonplaceholder.typicode.com/posts/" -->
   <VueImgInputer
+    :class="flat ? 'elevation-0' : ''"
     ref="vueImgInputer"
     v-model="file"
     icon="img"
@@ -33,13 +34,17 @@ export default {
     VueImgInputer,
   },
   props: {
+    flat: {
+      type: Boolean,
+      default: false,
+    },
     imgSrc: {
       type: String,
       default: '',
     },
     maxSize: {
       type: Number,
-      default: 102.4,
+      default: 1024,
     },
     placeholder: {
       type: String,

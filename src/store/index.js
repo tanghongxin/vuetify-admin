@@ -15,13 +15,9 @@ const vuexSession = new VuexPersistence({
   modules: ['account'],
 })
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-  modules: ['setting'],
-})
 
 export default new Vuex.Store({
-  plugins: [vuexLocal.plugin, vuexSession.plugin],
+  plugins: [vuexSession.plugin],
   modules,
   getters,
   state,

@@ -4,9 +4,10 @@
     app
     color="primary darken-2"
     dark
-    :flat="$vuetify.breakpoint.xsOnly"
+    flat
     :height="appHeaderHeight"
   >
+    <!-- :flat="$vuetify.breakpoint.xsOnly" -->
     <v-toolbar-title
       style="width: 300px;"
       class="ml-0 pl-4"
@@ -16,7 +17,7 @@
         @click.stop="appNavigation = !appNavigation"
       />
       <!-- class="hidden-sm-and-down" -->
-      <span>Google Contacts</span>
+      <span>若石管理系统</span>
     </v-toolbar-title>
     <!-- <v-text-field
       flat

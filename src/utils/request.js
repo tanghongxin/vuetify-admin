@@ -14,12 +14,19 @@ const request = {
       },
     })
   },
-  delete(url, params) {
-    return STONE_REQUEST.put(url, params, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+  delete (url, params) {
+    let _params
+    if (Object.is(params, undefined)) {
+      _params = ''
+    } else {
+      _params = '?'
+      for (let key in params) {
+        if (params.hasOwnProperty(key) && params[key] !== null) {
+          _params += `${key}=${params[key]}&`
+        }
+      }
+    }
+    return STONE_REQUEST.delete(`${url}${_params}`)
   },
   put(url, params) {
     return STONE_REQUEST.put(url, params, {
@@ -28,12 +35,19 @@ const request = {
       },
     })
   },
-  get(url, params) {
-    return STONE_REQUEST.put(url, params, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+  get (url, params) {
+    let _params
+    if (Object.is(params, undefined)) {
+      _params = ''
+    } else {
+      _params = '?'
+      for (let key in params) {
+        if (params.hasOwnProperty(key) && params[key] !== null) {
+          _params += `${key}=${params[key]}&`
+        }
+      }
+    }
+    return STONE_REQUEST.get(`${url}${_params}`)
   },
   export(url, params = {}) {
     // message.loading('导出数据中');

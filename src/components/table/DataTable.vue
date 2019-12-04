@@ -7,6 +7,10 @@ export default {
       default: () => [],
       required: true,
     },
+    itemKey: {
+      type: String,
+      required: true,
+    },
     items: {
       type: Array,
       default: () => [],
@@ -38,7 +42,7 @@ export default {
           class="mr-2"
           depressed 
           tile 
-          onClick="handleSearch"
+          onClick={ this.handleSearch }
         >
           查询
         </v-btn>
@@ -46,7 +50,7 @@ export default {
         <v-btn
           depressed 
           tile 
-          onClick="handleRefresh"
+          onClick={ this.handleRefresh }
         >
           刷新
         </v-btn>
@@ -59,7 +63,7 @@ export default {
         headers: this.headers,
         hideDefaultFooter: true,
         items: this.items,
-        itemKey: 'name',
+        itemKey: this.itemKey,
         itemsPerPage: this.options.itemsPerPage,
         loading: this.loading,
         noDataText: this.loading ? '加载中...' : '暂无数据',
@@ -94,7 +98,14 @@ export default {
           prev-icon="keyboard_arrow_left"
         />
       </div>
-    return <div class="DateTable">{ search }{ actions }{ table }{ pagination }</div>
+    const defaultSlot = <div>{ this.$slots.default }</div>
+    return <div class="DateTable">
+      { search }
+      { actions }
+      { table }
+      { pagination }
+      { defaultSlot }
+    </div>
   },
   data: () => ({
     expanded: [],
