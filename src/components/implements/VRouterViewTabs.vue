@@ -53,7 +53,10 @@
           :style="{ height: breadCrumbsHeight }"
         />
         <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
-          <v-slide-x-transition mode="out-in">
+          <v-slide-x-transition
+            leave-absolute
+            mode="out-in"
+          >
             <keep-alive>
               <router-view
                 ref="routerView"
