@@ -53,6 +53,18 @@ export default {
           刷新
         </v-btn>
       </div>
+    const loading = <v-overlay
+      absolute
+      color="rgba(255, 255, 255, 0.7)"
+      opacity="1"
+      value={ this.loading }
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+        size="64"
+      />
+    </v-overlay>
     // 表格
     const table = h('v-data-table', {
       class: 'elevation-0',
@@ -72,7 +84,7 @@ export default {
         locale: 'zh-cn',
         options: this.options,
         serverItemsLength: this.options.total || 0,
-        loading: this.loading,
+        // loading: this.loading,
         noDataText: this.loading ? '加载中...' : '暂无数据',
       },
       on: {
@@ -87,7 +99,10 @@ export default {
     return <div class="DateTable">
       { search }
       { actions }
-      { table }
+      <div style="position: relative">
+        { table }
+        { loading }
+      </div>
       { defaultSlot }
     </div>
   },
