@@ -1,0 +1,11 @@
+$vuetify-error: #FF5252;
+$vuetify-info: #2196F3;
+$vuetify-success: #4CAF50;
+$vuetify-warning: #FFC107;
+
+$snotify-success-bg: $vuetify-success;
+$snotify-info-bg: $vuetify-info;
+$snotify-warning-bg: $vuetify-warning;
+$snotify-error-bg: $vuetify-error;
+
+@import '~vue-snotify/styles/material.scss';

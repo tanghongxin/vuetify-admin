@@ -1,4 +1,4 @@
-import 'vue-snotify/styles/material.css'
+import './vue-snotify.scss'
 import Vue from 'vue'
 import Snotify, { SnotifyPosition } from 'vue-snotify'
 
