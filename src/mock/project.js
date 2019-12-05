@@ -25,6 +25,12 @@ Mock.mock(/\/api\/project\/\d+/, 'get', () => new Promise(async resolve => {
   })
 }))
 
+// 删除项目
+Mock.mock(/\/api\/project\/\d+/, 'delete', () => new Promise(async resolve => {
+  await Timeout.set(300)
+  resolve()
+}))
+
 // 项目列表
 Mock.mock(/\/api\/project\/list/, 'get', () => new Promise(async resolve => {
   await Timeout.set(300)

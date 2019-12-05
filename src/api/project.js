@@ -10,6 +10,15 @@ export const addProject = function (data = {}) {
 }
 
 /**
+ * 删除一个项目
+ * @param {*} id 
+ * @return {Promise<any>}
+ */
+export const deleteProject = function (id) {
+  return request.delete(`/project/${id}`)
+}
+
+/**
  * 根据id查询项目详情
  * @param {Number | String} id 
  * @return {Promise<any>}

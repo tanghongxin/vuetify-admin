@@ -83,7 +83,7 @@
         class="mr-2"
         depressed 
         tile 
-        @click="addProject"
+        @click="handleAdd"
       >
         新增项目
       </v-btn>
@@ -92,7 +92,7 @@
       <v-btn
         color="blue darken-3"
         text
-        @click="editProject(item.id)"
+        @click="handleEdit(item.id)"
       >
         编辑
       </v-btn>
@@ -105,6 +105,7 @@
       <v-btn
         color="error"
         text
+        @click="handleDelete(item.id)"
       >
         删除
       </v-btn>
@@ -122,7 +123,7 @@
 <script>
 import DataTable from '~~/table/DataTable'
 import ProjectAdd from './ProjectAdd'
-import { getProjectList } from 'api/project'
+import { deleteProject, getProjectList } from 'api/project'
 
 export default {
   name: 'ProjectList',
@@ -234,11 +235,23 @@ export default {
       this.options = options
       this.$refs['form'].validate() && this.fetch()
     },
-    addProject () {
+    handleAdd () {
       this.$refs['projectAdd'].add()
     },
-    editProject (id) {
+    handleEdit (id) {
       this.$refs['projectAdd'].edit(id)
+    },
+    async handleDelete (id) {
+      // TODO: confirm
+      try {
+        this.loading = true
+        await deleteProject(id)
+        this.fetch()
+      } catch (e) {
+        throw e
+      } finally {
+        this.loading = false
+      }
     },
   },
 }
