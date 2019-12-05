@@ -43,13 +43,13 @@
         fluid
         ref="scroll"
         id="VRouterViewTabs__router-view"
-        class="overflow-x-hidden overflow-y-auto py-1"
+        class="overflow-x-hidden overflow-y-auto py-1 px-1"
         v-scroll:#VRouterViewTabs__router-view="subscribeScroll"
         :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
         <!-- / TDOO -->
         <VRouterBreadCrumbs
-          class="pt-2 pb-4"
+          class="pt-2 pb-2"
           :style="{ height: breadCrumbsHeight }"
         />
         <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">

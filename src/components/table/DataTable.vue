@@ -131,6 +131,7 @@ export default {
 
 <style lang="scss">
 .DateTable {
+  position: static !important;
   width: 100%;
   height: 100%;
 
