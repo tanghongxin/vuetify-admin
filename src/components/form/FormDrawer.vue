@@ -33,6 +33,23 @@
       </v-card-text>
     </v-card>
     
+    <!-- TODO: actions 部分是否也应当遮挡？与需求确认 -->
+    <v-overlay
+      color="rgba(255, 255, 255, 0.7)"
+      absolute
+      opacity="1"
+      :style="{
+        top: appHeaderHeight + 'px'
+      }"
+      :value="loading"
+    >
+      <v-progress-circular
+        color="blue"
+        indeterminate
+        size="64"
+      />
+    </v-overlay>
+    
     <!-- / Actions -->
     <template v-slot:append>
       <v-divider dark />
@@ -49,6 +66,10 @@ export default {
   components: {},
   props: {
     flat: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     },
@@ -73,5 +94,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>
