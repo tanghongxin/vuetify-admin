@@ -83,7 +83,7 @@
         class="mr-2"
         depressed 
         tile 
-        @click="handleAddProject"
+        @click="addProject"
       >
         新增项目
       </v-btn>
@@ -92,6 +92,7 @@
       <v-btn
         color="blue darken-3"
         text
+        @click="editProject(item.id)"
       >
         编辑
       </v-btn>
@@ -111,7 +112,8 @@
     <template #default>
       <ProjectAdd
         ref="projectAdd"
-        @success="fetch"
+        @success:add="fetch"
+        @success:edit="fetch"
       />
     </template>
   </DataTable>
@@ -135,6 +137,7 @@ export default {
       itemsPerPage: 10,
       page: 1,
       pageCount: 1,
+      total: 0,
     },
     query: {
       city: '',
@@ -231,8 +234,11 @@ export default {
       this.options = options
       this.$refs['form'].validate() && this.fetch()
     },
-    handleAddProject () {
-      this.$refs['projectAdd'].show()
+    addProject () {
+      this.$refs['projectAdd'].add()
+    },
+    editProject (id) {
+      this.$refs['projectAdd'].edit(id)
     },
   },
 }

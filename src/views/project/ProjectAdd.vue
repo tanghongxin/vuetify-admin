@@ -4,9 +4,10 @@
       flat
       v-model="visible"
       :width="680"
+      :loading="loading"
     >
       <template #title>
-        新增项目
+        {{ title }}
       </template>
 
       <template #content>
@@ -125,7 +126,6 @@
         </v-btn>
         <v-btn
           x-large
-          :loading="loading"
           text
           @click="$refs['form'].validate() && submit()"
         >
@@ -139,7 +139,7 @@
 <script>
 import VImgUpload from '~~/implements/VImgUpload'
 import FormDrawer from '~~/form/FormDrawer'
-import { addProject } from 'api/project'
+import { addProject, getProject } from 'api/project'
 
 export default {
   name:'ProjectAdd',
@@ -150,6 +150,7 @@ export default {
   props: {},
   data: () => ({
     formData: {
+      id: '',
       name: '',
       type: '',
       category: '',
@@ -161,6 +162,7 @@ export default {
     },
     loading: false,
     visible: false,
+    title: '',
   }),
   computed: {
     typeList () {
@@ -189,9 +191,34 @@ export default {
     },
   },
   methods: {
-    show () {
+    /**
+     * 新增项目
+     */
+    add () {
+      this.title = '新增项目'
       this.visible = true
     },
+    /**
+     * 编辑项目
+     * @param {String | Number} id 项目id
+     * @return {Promise<any>}
+     */
+    async edit (id) {
+      this.title = '编辑项目'
+      this.visible = true
+      try {
+        this.loading = true
+        const { data } = await getProject(id)
+        this.formData  = data
+      } catch (e) {
+        throw e
+      } finally {
+        this.loading =  false
+      }
+    },
+    /**
+     * 关闭弹窗
+     */
     close () {
       this.visible = false
       this.reset()
@@ -200,6 +227,10 @@ export default {
       Object.assign(this.$data, this.$options.data.apply(this))
       this.$refs['form'].resetValidation()
     },
+    /**
+     * 提交表单
+     * @return {Promise<any>}
+     */
     async submit () {
       try {
         this.loading = true
