@@ -42,7 +42,7 @@ export default {
           tile 
           onClick={ this.handleSearch }
         >
-          查询
+        查询
         </v-btn>
 
         <v-btn
@@ -96,10 +96,10 @@ export default {
       },
     })
     const defaultSlot = <div>{ this.$slots.default }</div>
-    return <div class="DateTable">
+    return <div class="DateTable fill-width fill-height d-flex flex-column">
       { search }
       { actions }
-      <div style="position: relative">
+      <div style="position: relative" class="flex-grow-1">
         { table }
         { loading }
       </div>
