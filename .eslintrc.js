@@ -17,8 +17,10 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'comma-dangle': ['error', 'always-multiline'],
     'default-case': 'error',
+    'eol-last': ['error', 'always'],
     'func-style': ['error', 'expression'],
     indent: [
       'error',
@@ -27,6 +29,8 @@ module.exports = {
         SwitchCase: 1,
       },
     ],
+    // 行注释必须在上方
+    'line-comment-position': ['error', 'above'],
     'no-var': 'error',
     quotes: ['error', 'single', 'avoid-escape'],
     semi: ['error', 'never'],

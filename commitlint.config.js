@@ -18,5 +18,6 @@ module.exports = {
     ]],
     'subject-full-stop': [0, 'never'],
     'subject-case': [0, 'never'],
+    'scope-case': [0, 'never'],
   },
 }
