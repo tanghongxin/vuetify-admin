@@ -122,7 +122,7 @@
         ref="projectEdit"
         @success="handleEditSuccess"
       />
-      <ProjectInfo ref="projectInfo" /> 
+      <ProjectDetail ref="ProjectDetail" /> 
     </template>
   </DataTable>
 </template>
@@ -131,7 +131,7 @@
 import DataTable from '~~/table/DataTable'
 import ProjectAdd from './ProjectAdd'
 import ProjectEdit from './ProjectEdit'
-import ProjectInfo from './ProjectInfo'
+import ProjectDetail from './ProjectDetail'
 import { deleteProject, getProjectList } from 'api/project'
 
 export default {
@@ -140,7 +140,7 @@ export default {
     DataTable,
     ProjectAdd,
     ProjectEdit,
-    ProjectInfo,
+    ProjectDetail,
   },
   data: () => ({
     items: [],
