@@ -7,6 +7,12 @@ Mock.mock(/\/api\/project/, 'post', () => new Promise(async resolve => {
   resolve()
 }))
 
+// 编辑项目
+Mock.mock(/\/api\/project/, 'put', () => new Promise(async resolve => {
+  await Timeout.set(300)
+  resolve()
+}))
+
 // 项目详情
 Mock.mock(/\/api\/project\/\d+/, 'get', () => new Promise(async resolve => {
   await Timeout.set(300)

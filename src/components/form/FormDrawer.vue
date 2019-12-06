@@ -19,7 +19,12 @@
       color="primary darken-1"
     >
       <v-toolbar-title>
-        <slot name="title" />
+        <template v-if="$slots.title">
+          <slot name="title" />
+        </template>
+        <template v-else>
+          {{ title }}
+        </template>
       </v-toolbar-title>
     </v-toolbar>
     <v-card
@@ -72,6 +77,10 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+    title: {
+      type: String,
+      default: '',
     },
     value: {
       type: Boolean,

@@ -78,6 +78,7 @@
         </v-row>
       </v-form>
     </template>
+
     <template v-slot:actions>
       <v-btn
         class="mr-2"
@@ -88,6 +89,7 @@
         新增项目
       </v-btn>
     </template>
+
     <template v-slot:item.actions="{ item }">
       <v-btn
         color="blue darken-3"
@@ -103,19 +105,24 @@
         查看
       </v-btn>
       <v-btn
-        color="error"
+        color="warning"
         text
         @click="handleDelete(item.id)"
       >
         删除
       </v-btn>
     </template>
+
     <template #default>
       <ProjectAdd
         ref="projectAdd"
-        @success:add="fetch"
-        @success:edit="fetch"
+        @success="hanldeAddSuccess"
       />
+      <ProjectEdit 
+        ref="projectEdit"
+        @success="handleEditSuccess"
+      />
+      <ProjectInfo ref="projectInfo" /> 
     </template>
   </DataTable>
 </template>
@@ -123,6 +130,8 @@
 <script>
 import DataTable from '~~/table/DataTable'
 import ProjectAdd from './ProjectAdd'
+import ProjectEdit from './ProjectEdit'
+import ProjectInfo from './ProjectInfo'
 import { deleteProject, getProjectList } from 'api/project'
 
 export default {
@@ -130,6 +139,8 @@ export default {
   components: {
     DataTable,
     ProjectAdd,
+    ProjectEdit,
+    ProjectInfo,
   },
   data: () => ({
     items: [],
@@ -215,6 +226,10 @@ export default {
     },
   },
   methods: {
+    /**
+     * 调取接口数据并初始化表格
+     * @return {Promise<Undefined>}
+     */
     async fetch () {
       try {
         this.loading = true
@@ -231,27 +246,83 @@ export default {
         this.loading = false
       }
     },
+    /**
+     * 表格翻页、排序、更改每页条数等
+     * @event
+     * @param {Object} options 表格配置
+     * @return {Undefined}
+     */
     handleTableChange (options) {
       this.options = options
       this.$refs['form'].validate() && this.fetch()
     },
+    /**
+     * 新增项目
+     * @event
+     * @return {Undefined}
+     */
     handleAdd () {
-      this.$refs['projectAdd'].add()
+      this.$refs['projectAdd'].open()
     },
+    /**
+     * 新增项目成功
+     * @event
+     * @return {Undefined}
+     */
+    hanldeAddSuccess () {
+      this.$snotify.success('系统提示', '新增项目成功')
+      this.query = this.$options.data.apply(this).query
+      this.options.page = 1
+      this.fetch()
+    },
+    /**
+     * 编辑项目
+     * @event
+     * @param {Number | String} id 项目id
+     * @return {Undefined}
+     */
     handleEdit (id) {
-      this.$refs['projectAdd'].edit(id)
+      this.$refs['projectEdit'].open(id)
     },
+    /**
+     * 编辑项目成功
+     * @event
+     * @return {Undefined}
+     */
+    handleEditSuccess () {
+      this.$snotify.success('系统提示', '编辑项目成功')
+      this.fetch()
+    },
+    /**
+     * 删除项目
+     * @event
+     * @param {Number | String} id 项目id
+     * @return {Promise<Undefined>}
+     */
     async handleDelete (id) {
-      // TODO: confirm
       try {
+        await this.confirmDelete()
         this.loading = true
         await deleteProject(id)
-        this.fetch()
+        this.$snotify.success('系统提示', '删除项目成功')
+        await this.fetch()
       } catch (e) {
         throw e
       } finally {
         this.loading = false
       }
+    },
+    /**
+     * 确认删除项目
+     * @return {Promise<Undefined>}
+     */
+    confirmDelete () {
+      return new Promise(async (resolve, reject) => {
+        await this.$dialog.confirm({
+          title: '删除项目',
+          text: '确定删除该项目么？',
+        }) ? resolve() : reject()
+      })
     },
   },
 }

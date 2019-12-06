@@ -2,7 +2,7 @@
   <FormDrawer
     flat
     :loading="loading"
-    title="新增项目"
+    title="编辑项目"
     v-model="visible"
     :width="680"
   >
@@ -134,8 +134,9 @@
 <script>
 import VImgUpload from '~~/implements/VImgUpload'
 import FormDrawer from '~~/form/FormDrawer'
-import { addProject } from 'api/project'
+import { editProject, getProject } from 'api/project'
 import Timeout from 'await-timeout'
+import _ from 'lodash'
 
 export default {
   name:'ProjectEdit',
@@ -186,8 +187,17 @@ export default {
     },
   },
   methods: {
-    async open () {
-      this.visible = true
+    async open (id) {
+      try {
+        this.visible = true
+        this.loading = true
+        const { data } = await getProject(id)
+        this.formData  = _.pick(data, Object.keys(this.formData))
+      } catch (e) {
+        throw e
+      } finally {
+        this.loading = false
+      }
     },
     async close () {
       this.visible = false
@@ -198,7 +208,7 @@ export default {
     async submit () {
       try {
         this.loading = true
-        await addProject(this.formData)
+        await editProject(this.formData)
         this.$emit('success')
         this.close()
       } catch (e) {

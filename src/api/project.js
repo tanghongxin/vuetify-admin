@@ -10,8 +10,17 @@ export const addProject = function (data = {}) {
 }
 
 /**
+ * 编辑项目
+ * @param {Object} data 
+ * @return {Promise<any>}
+ */
+export const editProject = function (data = {}) {
+  return request.put('/project', data)
+}
+
+/**
  * 删除一个项目
- * @param {*} id 
+ * @param {Number | String} id 
  * @return {Promise<any>}
  */
 export const deleteProject = function (id) {
@@ -29,7 +38,7 @@ export const getProject = function (id) {
 
 /**
  * 查询项目列表
- * @param {*} query 
+ * @param {Object} query 
  * @return {Promise<any>}
  */
 export const getProjectList = function (query = {}) {
