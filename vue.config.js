@@ -15,24 +15,17 @@ const addStyleResource = rule => {
 
 module.exports = {
   publicPath: './',
+  lintOnSave: process.env.NODE_ENV === 'development',
   chainWebpack: config => {
     config.resolve.alias
       .set('@', path.join(__dirname, 'src'))
       .set('api', path.join(__dirname, 'src/api'))
       .set('~~', path.join(__dirname, 'src/components'))
 
-    if (process.env.NODE_ENV === 'production') {
-      config.optimization.minimizer([
-        new TerserPlugin({
-          terserOptions: {
-            compress: {
-              drop_console: true,
-            },
-          },
-        }),
-        new LodashModuleReplacementPlugin(),
-      ])
-    }
+    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+    types.forEach(type =>
+      addStyleResource(config.module.rule('scss').oneOf(type))
+    )
 
     config.plugin('stylelint')
       .use(StyleLintPlugin, [{
@@ -45,9 +38,26 @@ module.exports = {
       }])
       .end()
 
-    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-    types.forEach(type =>
-      addStyleResource(config.module.rule('scss').oneOf(type))
-    )
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('lodash')
+        .use(LodashModuleReplacementPlugin)
+        .end()
+  
+      config.plugin('terser')
+        .use(TerserPlugin, [{
+          test: /\.js|\.vue$/,
+          exclude: /node_modules/,
+          terserOptions: {
+            compress: {
+              drop_console: true,
+              toplevel: true,
+            },
+            output: {
+              comments: false,
+            },
+          },
+        }])
+        .end()
+    }
   },
 }
