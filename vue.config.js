@@ -15,7 +15,7 @@ const addStyleResource = rule => {
 
 module.exports = {
   publicPath: './',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: process.env.NODE_ENV !== 'production',
   chainWebpack: config => {
     config.resolve.alias
       .set('@', path.join(__dirname, 'src'))
@@ -27,22 +27,43 @@ module.exports = {
       addStyleResource(config.module.rule('scss').oneOf(type))
     )
 
-    config.plugin('stylelint')
-      .use(StyleLintPlugin, [{
-        cache: true,
-        emitErrors: true,
-        failOnError: false,
-        formatter: CodeframeFormatter,
-        files: ['**/*.{html,vue,css,sass,scss}'],
-        fix: true,
-      }])
-      .end()
-
     if (process.env.NODE_ENV === 'production') {
+      // cdn
+      config.plugin('html')
+        .tap(args => {
+          const [options] = args
+          const dependencies = require('./package.json')['dependencies']
+          const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
+          const BASE_URL = 'https://cdn.bootcss.com'
+          options.cdn = {
+            js: jsList.map(packageName => {
+              const name = packageName
+              const version = dependencies[packageName].replace('^', '')
+              const suffix = `${name}.min.js`
+              return [BASE_URL, name, version, suffix].join('/')
+              // return `${BASE_URL}/${packageName}/${dependencies[packageName].replace('^', '')}/${packageName}.min.js`
+            }),
+          }
+          return [
+            options,
+          ]
+        })
+      
+      // cdn global variables
+      config.externals({
+        ...config.get('externals'),
+        vue: 'Vue',
+        'vue-router': 'VueRouter',
+        vuex: 'Vuex',
+        vuetify: 'Vuetify',
+        axios: 'axios',
+      })
+
+      // lodash tree-shaking
       config.plugin('lodash')
         .use(LodashModuleReplacementPlugin)
-        .end()
-  
+      
+      // code minify
       config.plugin('terser')
         .use(TerserPlugin, [{
           test: /\.js|\.vue$/,
@@ -57,7 +78,17 @@ module.exports = {
             },
           },
         }])
-        .end()
+    } else {
+      // stylilint
+      config.plugin('stylelint')
+        .use(StyleLintPlugin, [{
+          cache: true,
+          emitErrors: true,
+          failOnError: false,
+          formatter: CodeframeFormatter,
+          files: ['**/*.{html,vue,css,sass,scss}'],
+          fix: true,
+        }])
     }
   },
 }

@@ -165,6 +165,12 @@
       <circle id="app_spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30" />
     </svg>
   </div>
+  <!-- / cdn -->
+  <% if(htmlWebpackPlugin.options.cdn) {%>
+		<% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+			<script src="<%=js%>"></script>
+		<% } %>
+	<% } %>
   <!-- built files will be auto injected -->
 </body>
 
