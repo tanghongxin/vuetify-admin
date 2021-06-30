@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ExceptionPage from '~~/exception/ExceptionPage'
+import ExceptionPage from '@/components/exception/ExceptionPage'
 
 export default {
   name:'ServerError',

@@ -19,9 +19,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import TencentMap from '~~/map/TencentMap'
-import Autocomplete from '~~/map/Autocomplete'
+import TencentMap from '@/components/map/TencentMap'
+import Autocomplete from '@/components/map/Autocomplete'
 
 export default {
   name: 'Home',

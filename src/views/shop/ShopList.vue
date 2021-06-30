@@ -99,8 +99,8 @@
 </template>
 
 <script>
-import DataTable from '~~/table/DataTable'
-import { getShopList } from 'api/shop'
+import DataTable from '@/components/table/DataTable'
+import { getShopList } from '@/api/shop'
 export default {
   name: 'ShopList',
   components: {

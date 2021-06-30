@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import DataTable from '~~/table/DataTable'
+import DataTable from '@/components/table/DataTable'
 
 export default {
   name: 'About',

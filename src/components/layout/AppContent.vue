@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import VRouterViewTabs from '~~/implements/VRouterViewTabs'
+import VRouterViewTabs from '@/components/implements/VRouterViewTabs'
 
 export default {
   name: 'AppContent',

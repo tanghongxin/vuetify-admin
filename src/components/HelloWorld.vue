@@ -100,9 +100,9 @@
 </template>
 
 <script>
-import VDateTimeInput from '~~/implements/VDateTimeInput'
-import VImgUpload from '~~/implements/VImgUpload'
-import VMDIconPicker from '~~/implements/VMDIconPicker'
+import VDateTimeInput from '@/components/implements/VDateTimeInput'
+import VImgUpload from '@/components/implements/VImgUpload'
+import VMDIconPicker from '@/components/implements/VMDIconPicker'
 
 export default {
   name: 'HelloWorld',

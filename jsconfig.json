@@ -2,14 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "~~/*": ["src/components/*"],
-      "api/*": ["src/api/*"]
+      "@/*": ["src/*"]
     },
     "target": "ES6",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

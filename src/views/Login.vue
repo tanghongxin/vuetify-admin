@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { login } from 'api/account'
+import { login } from '@/api/account'
 import { mapMutations } from 'vuex'
 import { buildDynamicallyRoutes } from '@/router/routes'
 

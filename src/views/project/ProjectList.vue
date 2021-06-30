@@ -128,11 +128,11 @@
 </template>
 
 <script>
-import DataTable from '~~/table/DataTable'
+import DataTable from '@/components/table/DataTable'
 import ProjectAdd from './ProjectAdd'
 import ProjectEdit from './ProjectEdit'
 import ProjectDetail from './ProjectDetail'
-import { deleteProject, getProjectList } from 'api/project'
+import { deleteProject, getProjectList } from '@/api/project'
 
 export default {
   name: 'ProjectList',

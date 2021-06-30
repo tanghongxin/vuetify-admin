@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import AppHeader from '~~/layout/AppHeader'
-import AppContent from '~~/layout/AppContent'
-import AppNavigation from '~~/layout/AppNavigation'
-import AppSetting from '~~/layout/AppSetting'
+import AppHeader from '@/components/layout/AppHeader'
+import AppContent from '@/components/layout/AppContent'
+import AppNavigation from '@/components/layout/AppNavigation'
+import AppSetting from '@/components/layout/AppSetting'
 
 export default {
-  namd: 'Page',
+  name: 'Page',
   components: {
     AppHeader,
     AppContent,

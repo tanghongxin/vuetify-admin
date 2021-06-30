@@ -132,9 +132,9 @@
 </template>
 
 <script>
-import VImgUpload from '~~/implements/VImgUpload'
-import FormDrawer from '~~/form/FormDrawer'
-import { editProject, getProject } from 'api/project'
+import VImgUpload from '@/components/implements/VImgUpload'
+import FormDrawer from '@/components/form/FormDrawer'
+import { editProject, getProject } from '@/api/project'
 import Timeout from 'await-timeout'
 import _ from 'lodash'
 

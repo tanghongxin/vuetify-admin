@@ -4,6 +4,8 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const CodeframeFormatter = require('stylelint-codeframe-formatter')
 
+const isProd = process.env.NODE_ENV === 'production'
+
 const addStyleResource = rule => {
   rule
     .use('style-resource')
@@ -15,19 +17,17 @@ const addStyleResource = rule => {
 
 module.exports = {
   publicPath: './',
-  lintOnSave: process.env.NODE_ENV !== 'production',
+  lintOnSave: !isProd,
   chainWebpack: config => {
     config.resolve.alias
       .set('@', path.join(__dirname, 'src'))
-      .set('api', path.join(__dirname, 'src/api'))
-      .set('~~', path.join(__dirname, 'src/components'))
 
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type =>
       addStyleResource(config.module.rule('scss').oneOf(type))
     )
 
-    if (process.env.NODE_ENV === 'production') {
+    if (isProd) {
       // cdn
       config.plugin('html')
         .tap(args => {
@@ -41,7 +41,6 @@ module.exports = {
               const version = dependencies[packageName].replace('^', '')
               const suffix = `${name}.min.js`
               return [BASE_URL, name, version, suffix].join('/')
-              // return `${BASE_URL}/${packageName}/${dependencies[packageName].replace('^', '')}/${packageName}.min.js`
             }),
           }
           return [
@@ -79,7 +78,6 @@ module.exports = {
           },
         }])
     } else {
-      // stylilint
       config.plugin('stylelint')
         .use(StyleLintPlugin, [{
           cache: true,
