@@ -1,6 +1,6 @@
 import { login } from '@/api/account'
 import router from '@/router'
-import { buildDynamicallyRoutes, resetRouter } from '@/router'
+import { buildDynamicRoutes, resetRouter } from '@/router'
 
 export const AccountMutations = {
   SET_PERMISSIONS: 'SET_PERMISSIONS',
@@ -42,7 +42,7 @@ export default {
       await dispatch(AccountActions.BUILD_ROUTES)
     },
     async [AccountActions.BUILD_ROUTES] ({ state }) {
-      buildDynamicallyRoutes(state.menus)
+      buildDynamicRoutes(state.menus)
       await router.push('/home')
     },
     async [AccountActions.LOGOUT] ({ commit }) {
