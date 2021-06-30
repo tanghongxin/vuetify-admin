@@ -1,8 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import _ from 'lodash'
+import Page from '@/layout/Page.vue'
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.use(VueRouter)
+
+const lazyLoad = function (path) {
+  return function (resolve) {
+    // TODO: 适配主题色
+    nprogress.start()
+    import(`@/views/${path}.vue`)
+      .then(resolve)
+      .finally(nprogress.done)
+  }
+}
 
 const createRouter = () => new VueRouter({
   routes: [
@@ -14,7 +27,7 @@ const createRouter = () => new VueRouter({
         {
           path: '/login',
           name: '登陆',
-          component: () => import('@/views/login/index.vue'),
+          component: lazyLoad('login/index'),
         },
       ],
     },
@@ -46,7 +59,7 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
           break
         case 'VIEW':
           Object.assign(route, {
-            component: () => import(`@/views/${item.resource}.vue`),
+            component: lazyLoad(item.resource),
             beforeEnter(to, from, next) {
               if (!to.meta.permissions || !to.meta.permissions.length) {
                 return next()
@@ -68,13 +81,13 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
   resetRouter()
   router.addRoutes([{
     path: '/',
-    component: () => import('@/layout/Page.vue'),
+    component: Page,
     redirect: '/home',
     children: [
       ...recursive(menus),
       {
         path: '/exception/:type',
-        component: () => import('@/views/exception/index.vue'),
+        component: lazyLoad('exception/index'),
       },
       {
         path: '*',
