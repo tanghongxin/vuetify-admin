@@ -88,6 +88,7 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
       {
         path: '/exception/:type',
         component: lazyLoad('exception/index'),
+        props: true,
       },
       {
         path: '*',

@@ -45,7 +45,7 @@ export default {
       buildDynamicRoutes(state.menus)
       await router.push('/home')
     },
-    async [AccountActions.LOGOUT] ({ commit }) {
+    async [AccountActions.LOGOUT]({ commit }) {
       commit(AccountMutations.SET_PERMISSIONS, [])
       commit(AccountMutations.SET_MENUS, [])
       commit(AccountMutations.SET_TOKEN, '')

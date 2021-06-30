@@ -6,8 +6,7 @@ import store from './store'
 import './components/global_components'
 import { vuetify } from './plugins'
 import './directives'
-
-import './mock'
+import './bootstrap'
 
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'
