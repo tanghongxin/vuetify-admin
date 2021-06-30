@@ -12,13 +12,11 @@
 </template>
 
 <script>
-import DataTable from '@/components/table/DataTable.vue'
+
 
 export default {
   name: 'About',
-  components: {
-    DataTable,
-  },
+  components: {},
   data: () => ({
     headers: [
       {

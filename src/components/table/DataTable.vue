@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'DateTable',
+  name: 'DataTable',
   props: {
     headers: {
       type: Array,

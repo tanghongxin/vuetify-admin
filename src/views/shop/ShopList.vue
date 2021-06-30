@@ -99,13 +99,11 @@
 </template>
 
 <script>
-import DataTable from '@/components/table/DataTable.vue'
 import { getShopList } from '@/api/shop'
+
 export default {
   name: 'ShopList',
-  components: {
-    DataTable,
-  },
+  components: {},
   data: () => ({
     items: [],
     loading: false,

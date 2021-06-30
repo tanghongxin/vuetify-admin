@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import DataTable from '@/components/table/DataTable.vue'
+
 import ProjectAdd from './ProjectAdd.vue'
 import ProjectEdit from './ProjectEdit.vue'
 import ProjectDetail from './ProjectDetail.vue'
@@ -137,7 +137,6 @@ import { deleteProject, getProjectList } from '@/api/project'
 export default {
   name: 'ProjectList',
   components: {
-    DataTable,
     ProjectAdd,
     ProjectEdit,
     ProjectDetail,

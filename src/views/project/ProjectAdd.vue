@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import VImgUpload from '@/components/implements/VImgUpload.vue'
+
 import FormDrawer from '@/components/form/FormDrawer.vue'
 import { addProject } from '@/api/project'
 import Timeout from 'await-timeout'
@@ -141,7 +141,7 @@ export default {
   name:'ProjectEdit',
   components: {
     FormDrawer,
-    VImgUpload,
+    
   },
   props: {},
   data: () => ({
