@@ -107,8 +107,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-moment.locale('zh-cn')
+import dayjs from 'dayjs'
+dayjs.locale('zh-cn')
 
 const DATE_FORMAT = 'YYYY-MM-DD'
 const TIME_FORMAT = 'HH:mm:ss'
@@ -119,7 +119,7 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => [moment().format(DATE_TIME_FORMAT), moment().format(DATE_TIME_FORMAT)],
+      default: () => [dayjs().format(DATE_TIME_FORMAT), dayjs().format(DATE_TIME_FORMAT)],
     },
     datePickerProps: {
       type: Object,
@@ -138,14 +138,14 @@ export default {
   }),
   computed: {
     sameDate () {
-      return moment(this.dates[0], DATE_FORMAT).isSame(
-        moment(this.dates[1], DATE_FORMAT),
+      return dayjs(this.dates[0], DATE_FORMAT).isSame(
+        dayjs(this.dates[1], DATE_FORMAT),
         'date'
       )
     },
   },
   methods: {
-    moment,
+    dayjs,
     okHandler() {
       this.$emit('input', [
         this.dates[0] + ' ' + this.timeStart,
@@ -158,7 +158,7 @@ export default {
         return
       }
       // 先选择结束日期，后选择开始日期
-      if (moment(end, DATE_FORMAT).isBefore(moment(first, DATE_FORMAT))) {
+      if (dayjs(end, DATE_FORMAT).isBefore(dayjs(first, DATE_FORMAT))) {
         [first, end] = [end, first]
       }
       this.dates = [first, end]
@@ -166,11 +166,11 @@ export default {
   },
   created () {
     this.dates = [
-      moment(this.value[0], DATE_TIME_FORMAT).format(DATE_FORMAT),
-      moment(this.value[1], DATE_TIME_FORMAT).format(DATE_FORMAT),
+      dayjs(this.value[0], DATE_TIME_FORMAT).format(DATE_FORMAT),
+      dayjs(this.value[1], DATE_TIME_FORMAT).format(DATE_FORMAT),
     ]
-    this.timeStart = moment(this.value[0], DATE_TIME_FORMAT).format(TIME_FORMAT)
-    this.timeEnd = moment(this.value[1], DATE_TIME_FORMAT).format(TIME_FORMAT)
+    this.timeStart = dayjs(this.value[0], DATE_TIME_FORMAT).format(TIME_FORMAT)
+    this.timeEnd = dayjs(this.value[1], DATE_TIME_FORMAT).format(TIME_FORMAT)
   },
 }
 </script>

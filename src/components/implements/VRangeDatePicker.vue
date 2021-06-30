@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-moment.locale('zh-cn')
+import dayjs from 'dayjs'
+dayjs.locale('zh-cn')
 
 const DATE_FORMAT = 'YYYY-MM-DD'
 
@@ -58,7 +58,7 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => [moment().format(DATE_FORMAT), moment().format(DATE_FORMAT)],
+      default: () => [dayjs().format(DATE_FORMAT), dayjs().format(DATE_FORMAT)],
     },
     datePickerProps: {
       type: Object,
@@ -82,7 +82,7 @@ export default {
         return
       }
       // 先选择结束日期，后选择开始日期
-      if (moment(end, DATE_FORMAT).isBefore(moment(first, DATE_FORMAT))) {
+      if (dayjs(end, DATE_FORMAT).isBefore(dayjs(first, DATE_FORMAT))) {
         [first, end] = [end, first]
       }
       this.dates = [first, end]
@@ -90,8 +90,8 @@ export default {
   },
   created () {
     this.dates = [
-      moment(this.value[0], DATE_FORMAT).format(DATE_FORMAT),
-      moment(this.value[1], DATE_FORMAT).format(DATE_FORMAT),
+      dayjs(this.value[0], DATE_FORMAT).format(DATE_FORMAT),
+      dayjs(this.value[1], DATE_FORMAT).format(DATE_FORMAT),
     ]
   },
 }

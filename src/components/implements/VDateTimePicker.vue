@@ -82,10 +82,10 @@
 
 <script>
 import { format, parse } from 'date-fns'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
-const DEFAULT_DATE = moment().locale('zh-cn').format('YYYY-MM-DD')
-const DEFAULT_TIME = moment().locale('zh-cn').format('HH:mm:ss')
+const DEFAULT_DATE = dayjs().locale('zh-cn').format('YYYY-MM-DD')
+const DEFAULT_TIME = dayjs().locale('zh-cn').format('HH:mm:ss')
 const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD'
 const DEFAULT_TIME_FORMAT = 'HH:mm:ss'
 
