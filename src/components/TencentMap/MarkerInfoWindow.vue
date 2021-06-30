@@ -6,7 +6,6 @@
     <!-- / InfoWindow -->
     <InfoWindow 
       :position="position"
-      :map="map"
       ref="infoWindow"
     >
       <!-- / 传递 slot -->
@@ -18,7 +17,6 @@
     <!-- / Marker -->
     <TMarker 
       :position="position"
-      :map="map"
       @click="toggleInfoWindow"
     />
   </div>
@@ -34,6 +32,7 @@ export default {
     InfoWindow,
     TMarker,
   },
+  inject: ['map'],
   props: {
     ...InfoWindow.props,
     ...TMarker.props,

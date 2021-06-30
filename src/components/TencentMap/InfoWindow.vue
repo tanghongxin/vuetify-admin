@@ -11,11 +11,8 @@
 export default {
   name:'InfoWindow',
   components: {},
+  inject: ['map'],
   props: {
-    map: {
-      type: Object,
-      required: true,
-    },
     position: {
       type: Array,
       required: true,

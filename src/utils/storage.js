@@ -4,7 +4,7 @@ export const ls = {
   },
   get(key, defaultValue) {
     try {
-      return JSON.parse(localStorage.getItem(key))
+      return JSON.parse(localStorage.getItem(key)) || defaultValue
     } catch (e) {
       return defaultValue
     }

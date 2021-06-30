@@ -4,7 +4,8 @@
     :clipped="permanentAppNavigation || $vuetify.breakpoint.lgAndUp"
     :value="permanentAppNavigation || appNavigation"
     :permanent="permanentAppNavigation"
-    @input="e => permanentAppNavigation ? '' : appNavigation = e"
+    @input="handleInput"
+    ref="drawer"
   >
     <RecursiveMenus :items="menus" />
   </v-navigation-drawer>
@@ -12,41 +13,17 @@
 
 <script>
 import RecursiveMenus from './RecursiveMenus.vue'
+import mixin from './mixin.vue'
 
 export default {
   name:'AppNavigation',
   components: {
     RecursiveMenus,
   },
-  data: () => ({
-    menus: [],
-  }),
+  mixins: [mixin],
   computed: {
-    appNavigation: {
-      get () {
-        return this.$store.state.setting.appNavigation
-      },
-      set (v) {
-        this.$store.commit('setting/toggleAppNavigation', v)
-      },
-    },
-    permanentAppNavigation: {
-      get () {
-        return this.$store.state.setting.permanentAppNavigation
-      },
-    },
-  },
-  watch: {
-    '$route': {
-      immediate: false,
-      handler (to, from = {}) {
-        to.path !== from.path && this.expandMenuMatchRoute(to.path)
-      },
-    },
-  },
-  methods: {
-    buildMenus () {
-      this.menus = (function recursive (items) {
+    menus () {
+      const menus = (function recursive (items) {
         return items.map(item => {
           let menu = {
             // ...item,
@@ -73,14 +50,25 @@ export default {
           return menu
         })
       }.bind(this))(this.$store.state.account.menus)
+      return menus
     },
+  },
+  watch: {
+    '$route': {
+      immediate: false,
+      handler (to, from = {}) {
+        to.path !== from.path && this.expandMenuMatchRoute(to.path)
+      },
+    },
+  },
+  methods: {
     expandMenuMatchRoute (path) {
-      const toBeOpendMenus = []
+      const willOpenMenus = []
       const toBeClosedMenus = [];
       (function recursive (items) {
         items.forEach(item => {
           if (path.includes(item.to)) {
-            toBeOpendMenus.unshift(item)
+            willOpenMenus.unshift(item)
             recursive(item.children || [])
           } else {
             toBeClosedMenus.push(item)
@@ -88,16 +76,19 @@ export default {
           }
         })
       })(this.menus)
-      toBeOpendMenus.forEach(menu => {
+      willOpenMenus.forEach(menu => {
         menu.expanded = true
       })
       toBeClosedMenus.forEach(menu => {
         menu.expanded = false
       })
     },
-  },
-  created () {
-    this.buildMenus()
+    handleInput () {
+      // HACK
+      if (this.$refs.drawer.isActive !== this.appNavigation) {
+        this.toggleAppNavigation()
+      }
+    },
   },
 }
 </script>

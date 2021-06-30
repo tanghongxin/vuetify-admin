@@ -2,7 +2,7 @@
 export default {
   name:'TMarker',
   render: h => h(),
-  components: {},
+  inject: ['map'],
   props: {
     animation: {
       type: String,
@@ -17,10 +17,6 @@ export default {
     draggable: {
       type: Boolean,
       default: false,
-    },
-    map: {
-      type: Object,
-      required: true,
     },
     position: {
       type: Array,

@@ -13,7 +13,6 @@ import TencentMapLoader from './TencentMapLoader'
 
 export default {
   name:'TencentMap',
-  components: {},
   props: {
     zoom: {
       type: Number,
@@ -24,14 +23,24 @@ export default {
       default: () =>[39.916527,116.397128],
     },
   },
+  provide () {
+    return {
+      map: this.map,
+    }
+  },
   data: () => ({
+    loader: new TencentMapLoader({
+      key: process.env.VUE_APP_TENCENT_MAP_KEY,
+      v: process.env.VUE_APP_TENCENT_MAP_VERSION,
+      protocol: process.env.VUE_APP_TENCENT_MAP_PROTOCOL,
+      hostAndPath: process.env.VUE_APP_TENCENT_MAP_HOST_AND_PATH,
+      libraries: ['place'],
+    }),
     map: null,
   }),
-  computed: {},
-  methods: {},
   async mounted () {
     try {
-      await (new TencentMapLoader().load())
+      await this.loader.init()
       this.map = new qq.maps.Map(this.$el, {
         center: new qq.maps.LatLng(...this.center),
         zoom: this.zoom,

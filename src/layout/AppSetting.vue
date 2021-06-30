@@ -2,10 +2,12 @@
   <div class="AppSetting">
     <v-navigation-drawer
       app
-      v-model="appSetting"
+      :value="appSetting"
       fixed
       right
       temporary
+      @input="handleInput"
+      ref="drawer"
     >
       <!-- / Header -->
       <v-toolbar
@@ -27,9 +29,10 @@
             />
             <v-switch
               color="primary"
-              v-model="permanentAppNavigation"
+              :value="permanentAppNavigation"
               primary
               label="导航栏固定左侧"
+              @change="togglePermanentAppNavigation"
             />
           </v-flex>
           <!-- / Theme -->
@@ -81,9 +84,11 @@
 <script>
 import colors from 'vuetify/lib/util/colors'
 import { ls } from '@/utils/storage'
+import mixin from './mixin.vue'
 
 export default {
   name: 'AppSetting',
+  mixins: [mixin],
   data: () => ({
     drawer: false,
     colors: colors,
@@ -99,31 +104,14 @@ export default {
         this.$vuetify.theme.currentTheme.primary = v
       },
     },
-    appHeaderHeight: {
-      get () {
-        return this.$store.state.setting.appHeaderHeight
-      },
-    },
-    appSetting: {
-      get () {
-        return this.$store.state.setting.appSetting
-      },
-      set (v) {
-        this.$store.commit('setting/toggleAppSetting', v)
-      },
-    },
-    permanentAppNavigation: {
-      get () {
-        return this.$store.state.setting.permanentAppNavigation
-      },
-      set (v) {
-        this.$store.commit('setting/togglePermanentAppNavigation', v)
-      },
-    },
   },
-  beforeCreate () {
-    this.$vuetify.theme.currentTheme.primary =
-      ls.get('themeColor') || this.$vuetify.theme.currentTheme.primary
+  methods: {
+    handleInput () {
+      // HACK
+      if (this.$refs.drawer.isActive !== this.appSetting) {
+        this.toggleAppSetting()
+      }
+    },
   },
 }
 </script>

@@ -1,40 +1,31 @@
 <template>
   <v-app-bar
-    :clipped-left="permanentAppNavigation ? true : $vuetify.breakpoint.lgAndUp"
+    :clipped-left="permanentAppNavigation || $vuetify.breakpoint.lgAndUp"
     app
     color="primary darken-2"
     dark
     flat
     :height="appHeaderHeight"
   >
-    <!-- :flat="$vuetify.breakpoint.xsOnly" -->
     <v-toolbar-title
       style="width: 300px;"
       class="ml-0 pl-4"
     >
       <v-app-bar-nav-icon
         v-show="!permanentAppNavigation"
-        @click.stop="appNavigation = !appNavigation"
+        @click.stop="toggleAppNavigation"
       />
-      <!-- class="hidden-sm-and-down" -->
       <span>若石管理系统</span>
     </v-toolbar-title>
-    <!-- <v-text-field
-      flat
-      solo-inverted
-      hide-details
-      prepend-inner-icon="search"
-      label="Search"
-      class="hidden-sm-and-down"
-    /> -->
     <v-spacer />
     <v-tooltip bottom>
+      <!-- FIXME: 需点击两次生效 -->
       <template v-slot:activator="{ on }">
         <v-btn
           icon
           color="white"
           v-on="on"
-          @click="appSetting = !appSetting"
+          @click="toggleAppSetting"
         >
           <v-icon
             size="20"
@@ -62,40 +53,11 @@
 </template>
 
 <script>
+import mixin from './mixin.vue'
+
 export default {
   name:'AppHeader',
-  components: {},
-  data: () => ({
-  }),
-  computed: {
-    appHeaderHeight: {
-      get () {
-        return this.$store.state.setting.appHeaderHeight
-      },
-    },
-    appNavigation: {
-      get () {
-        return this.$store.state.setting.appNavigation
-      },
-      set (v) {
-        this.$store.commit('setting/toggleAppNavigation', v)
-      },
-    },
-    appSetting: {
-      get () {
-        return this.$store.state.setting.appSetting
-      },
-      set (v) {
-        this.$store.commit('setting/toggleAppSetting', v)
-      },
-    },
-    permanentAppNavigation: {
-      get () {
-        return this.$store.state.setting.permanentAppNavigation
-      },
-    },
-  },
-  methods: {},
+  mixins: [mixin],
 }
 </script>
 

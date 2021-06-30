@@ -1,12 +1,3 @@
-<template>
-  <div class="Page">
-    <AppNavigation />
-    <AppHeader />
-    <AppContent />
-    <AppSetting />
-  </div>
-</template>
-
 <script>
 import AppHeader from '@/layout/AppHeader.vue'
 import AppContent from '@/layout/AppContent.vue'
@@ -15,19 +6,15 @@ import AppSetting from '@/layout/AppSetting.vue'
 
 export default {
   name: 'Page',
-  components: {
-    AppHeader,
-    AppContent,
-    AppNavigation,
-    AppSetting,
-  },
-  watch: {
-    '$vuetify.breakpoint.xsOnly': {
-      immediate: true,
-      handler (e) {
-        this.$store.commit('setting/setAppHeaderHeight', e ? 48 : 64)
-      },
-    },
+  render () {
+    return (
+      <div class="Page">
+        <AppNavigation />
+        <AppHeader />
+        <AppSetting />
+        <AppContent />
+      </div>
+    )
   },
 }
 </script>

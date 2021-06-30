@@ -41,7 +41,6 @@
 
     <!-- / Marker -->
     <TMarker
-      :map="map"
       :position="selectedPlacePosition"
     />
     <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
@@ -52,19 +51,14 @@
 <script>
 import _ from 'lodash'
 import TMarker from './Marker'
-import { searchPlaces } from './service'
+import Service from './service'
 
 export default {
   name: 'Autocomplete',
   components: {
     TMarker,
   },
-  props: {
-    map: {
-      type: Object,
-      required: true,
-    },
-  },
+  inject: ['map'],
   data: () => ({
     // VAutocomplete loading
     loading: false,
@@ -74,6 +68,7 @@ export default {
     place: null,
     // 选中的地点坐标
     selectedPlacePosition: [],
+    service: new Service(),
   }),
   methods: {
     /**
@@ -88,7 +83,7 @@ export default {
       }
       try {
         this.loading = true
-        const result = await searchPlaces(query)
+        const result = await this.service.searchPlaces(query)
         this.places = result.type === 'CITY_LIST' ? [] : result.detail.pois
       } catch (e) {
         this.places = []

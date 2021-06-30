@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import account from './modules/account'
-import setting from './modules/setting'
+import modules from './modules'
 
 Vue.use(Vuex)
 
@@ -13,8 +12,5 @@ const vuexSession = new VuexPersistence({
 
 export default new Vuex.Store({
   plugins: [vuexSession.plugin],
-  modules: {
-    account,
-    setting,
-  },
+  modules,
 })

@@ -1,118 +1,56 @@
-const DEFAULT_TencentMap_CONFIG = {
-  key: 'KZQBZ-DV5CI-SJLGK-5HYYA-2DWBT-JTFFO',
-  v: '2.exp',
-  protocol: 'https',
-  hostAndPath: 'map.qq.com/api/js',
-  libraries: ['place'],
-  callback: 'TencentMapInit',
-}
+import qs from 'qs'
 
 export default class TencentMapLoader {
-  constructor(config) {
-    this._config = {
-      ...DEFAULT_TencentMap_CONFIG,
-      ...config,
+  constructor({ key, v, protocol, hostAndPath, libraries }) {
+    if (!TencentMapLoader.prototype.instance) {
+      this._config = {
+        key, v, protocol, hostAndPath, libraries,
+        callback: `TENCENT_MAP_INIT_CALLBACK${Date.now()}`,
+      }
+      TencentMapLoader.prototype.instance = this
     }
+    return TencentMapLoader.prototype.instance
   }
 
-  /**
-   * 载入地图脚本
-   * @returns {Promise<any>}
-   */
-  load() {
+  init() {
     return new Promise((resolve, reject) => {
-      if (window.AMap) {
-        return resolve
+      if (window.qq && window.qq.maps && window.qq.maps.Map) {
+        return resolve()
       }
-      const scriptElement = document.createElement('script')
-      scriptElement.type = 'text/javascript'
-      scriptElement.async = true
-      scriptElement.defer = true
-      scriptElement.id = 'TencentMap_plus_js'
-      scriptElement.src = this.getScriptSrc()
-      document.head.appendChild(scriptElement)
-      // 地图加载完成后回调，移除已加载完成的脚本
-      window.TencentMapInit = () => {
-        this.removeScript(scriptElement)
+
+      const script = document.createElement('script')
+      Object.assign(script, {
+        type: 'text/javascript',
+        async: true,
+        defer: true,
+        id: 'TencentMap_plus_js',
+        src: this.getScriptSrc(),
+      })
+      document.head.appendChild(script)
+
+      window[this._config.callback] = () => {
+        this.dispose(script)
         resolve()
       }
 
-      // 脚本载入失败删除错误脚本
-      scriptElement.addEventListener(
-        'error',
-        e => {
-          this.removeScript(scriptElement)
-          reject(e)
-        },
-        false
-      )
+      script.addEventListener('error', (err) => {
+        this.dispose(script)
+        reject(err)
+      })
     })
   }
 
-  /**
-   * 载入脚本地址
-   * @returns {string}
-   * @private
-   */
   getScriptSrc() {
-    // TencentMap libraries prefix reg
-    const TencentMapPrefixReg = /^AMap./
-
-    const config = this._config
-    const paramKeys = ['v', 'key', 'libraries', 'callback']
-
-    if (config.libraries && config.libraries.length > 0) {
-      const librariess = []
-
-      // 插件兼容
-      // TODO: remove
-      config.libraries.forEach(item => {
-        const prefixName = TencentMapPrefixReg.test(item)
-          ? item
-          : 'AMap.' + item
-        const pureName = prefixName.replace(TencentMapPrefixReg, '')
-
-        librariess.push(prefixName, pureName)
-      })
-
-      config.libraries = librariess
+    const { key, v, protocol, hostAndPath, libraries, callback } = this._config
+    const params = {
+      key, v, callback,
+      libraries: libraries.join(','),
     }
-
-    const params = Object.keys(config)
-      .filter(k => ~paramKeys.indexOf(k))
-      .filter(k => config[k] != null)
-      .filter(k => {
-        return (
-          !Array.isArray(config[k]) ||
-          (Array.isArray(config[k]) && config[k].length > 0)
-        )
-      })
-      .map(k => {
-        let v = config[k]
-        if (Array.isArray(v))
-          return {
-            key: k,
-            value: v.join(','),
-          }
-        return {
-          key: k,
-          value: v,
-        }
-      })
-      .map(entry => `${entry.key}=${entry.value}`)
-      .join('&')
-    return `${this._config.protocol}://${this._config.hostAndPath}?${params}`
+    return `${protocol}://${hostAndPath}?${qs.stringify(params)}`
   }
 
-  /**
-   * 移除脚本
-   * @param scriptElement 脚本元素
-   * @private
-   */
-  removeScript(scriptElement) {
-    // TODO
-    document.head.removeChild(scriptElement)
-    // const autoAMapScript = document.getElementById('TencentMap_plus_js')
-    // document.head.removeChild(autoAMapScript)
+  dispose(script) {
+    document.head.removeChild(script)
+    Reflect.deleteProperty(window, this._config.callback)
   }
 }

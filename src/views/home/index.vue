@@ -1,18 +1,15 @@
 <template>
   <div class="home">
-    <div style="width: 1200px; height: 500px;">
-      <TencentMap>
-        <template v-slot:controls="{ map }">
-          <Autocomplete :map="map" />
-        </template>
-      </TencentMap>
-    </div>
+    <TencentMap>
+      <template #controls>
+        <Autocomplete />
+      </template>
+    </TencentMap>
   </div>
 </template>
 
 <script>
-import TencentMap from '@/components/TencentMap/TencentMap.vue'
-import Autocomplete from '@/components/TencentMap/Autocomplete.vue'
+import { TencentMap, Autocomplete } from '@/components/TencentMap/index'
 
 export default {
   name: 'Home',
@@ -22,3 +19,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.home {
+  width: 1200px;
+  height: 500px;
+}
+</style>
