@@ -2,18 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import _ from 'lodash'
 import Page from '@/layout/Page.vue'
-import nprogress from 'nprogress'
-import 'nprogress/nprogress.css'
+import NProgress from '@/components/NProgress'
 
 Vue.use(VueRouter)
 
 const lazyLoad = function (path) {
   return function (resolve) {
-    // TODO: 适配主题色
-    nprogress.start()
+    NProgress.start()
     import(`@/views/${path}.vue`)
       .then(resolve)
-      .finally(nprogress.done)
+      .finally(NProgress.done)
   }
 }
 
@@ -33,6 +31,7 @@ const createRouter = () => new VueRouter({
     },
   ],
 })
+
 const router = createRouter()
 
 const resetRouter = () => {
