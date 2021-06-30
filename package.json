@@ -13,7 +13,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint --fix",
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
       "pre-push": "npm run test"
     }
   },
@@ -35,8 +34,6 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-eslint": "^4.5.13",
     "@vue/cli-plugin-unit-jest": "^4.5.13",
@@ -48,7 +45,6 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
-    "cz-customizable": "^6.2.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
     "husky": "^3.0.9",
@@ -75,10 +71,5 @@
       "vue-cli-service lint",
       "git add"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-customizable"
-    }
   }
 }
