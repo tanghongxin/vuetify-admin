@@ -1,7 +1,7 @@
 
 import Mock from 'mockjs-async'
 
-Mock.mock('/api/login', 'post', () => ({
+Mock.mock(/api\/login/, 'post', () => ({
   token: '',
   permissions: [],
   menus: [
@@ -12,7 +12,7 @@ Mock.mock('/api/login', 'post', () => ({
       to: '/home',
       permissions: [],
       type: 'VIEW',
-      resource: 'Home',
+      resource: 'home/index',
     },
     {
       text: '关于',
@@ -21,7 +21,7 @@ Mock.mock('/api/login', 'post', () => ({
       to: '/about',
       permissions: [],
       type: 'VIEW',
-      resource: 'About',
+      resource: 'about/index',
     },
     {
       text: '项目管理',
@@ -35,7 +35,7 @@ Mock.mock('/api/login', 'post', () => ({
         {
           text: '二级菜单',
           hidden: false,
-          to: '/project/menu',
+          to: '/project',
           permissions: [],
           type: 'MENU',
           resource: '',
@@ -43,10 +43,10 @@ Mock.mock('/api/login', 'post', () => ({
             {
               text: '项目列表',
               hidden: false,
-              to: '/project/menu/list',
+              to: '/project/list',
               permissions: [],
               type: 'VIEW',
-              resource: 'project/ProjectList',
+              resource: 'project/index',
             },
           ],
         },
@@ -67,7 +67,7 @@ Mock.mock('/api/login', 'post', () => ({
           to: '/shop/list',
           permissions: [],
           type: 'VIEW',
-          resource: 'shop/ShopList',
+          resource: 'shop/index',
         },
       ],
     },
@@ -86,54 +86,7 @@ Mock.mock('/api/login', 'post', () => ({
           to: '/employee/list',
           permissions: ['test'],
           type: 'VIEW',
-          resource: 'employee/EmployeeList',
-        },
-      ],
-    },
-    {
-      text: '异常',
-      icon: 'error',
-      hidden: true,
-      to: '/exception',
-      permissions: [],
-      type: 'MENU',
-      resource: '',
-      children: [
-        {
-          text: '401',
-          icon: '',
-          hidden: true,
-          to: '/exception/401',
-          permissions: [],
-          type: 'VIEW',
-          resource: 'exception/401',
-        },
-        {
-          text: '403',
-          icon: '',
-          hidden: true,
-          to: '/exception/403',
-          permissions: [],
-          type: 'VIEW',
-          resource: 'exception/403',
-        },
-        {
-          text: '404',
-          icon: '',
-          hidden: true,
-          to: '/exception/404',
-          permissions: [],
-          type: 'VIEW',
-          resource: 'exception/404',
-        },
-        {
-          text: '500',
-          icon: '',
-          hidden: true,
-          to: '/exception/500',
-          permissions: [],
-          type: 'VIEW',
-          resource: 'exception/500',
+          resource: 'employee/index',
         },
       ],
     },

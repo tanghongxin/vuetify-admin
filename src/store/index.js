@@ -1,26 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-
-import actions from './actions'
-import getters from './getters'
-import modules from './modules'
-import mutations from './mutations'
-import state from './state'
+import account from './modules/account'
+import setting from './modules/setting'
 
 Vue.use(Vuex)
 
 const vuexSession = new VuexPersistence({
-  storage: window.sessionStorage,
+  storage: window.localStorage,
   modules: ['account'],
 })
 
-
 export default new Vuex.Store({
   plugins: [vuexSession.plugin],
-  modules,
-  getters,
-  state,
-  mutations,
-  actions,
+  modules: {
+    account,
+    setting,
+  },
 })

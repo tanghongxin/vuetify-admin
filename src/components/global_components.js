@@ -1,16 +1,18 @@
 import Vue from 'vue'
-import DataTable from './table/DataTable.vue'
-import VDateTimeInput from './implements/VDateTimeInput.vue'
-import VDateTimePicker from './implements/VDateTimePicker.vue'
-import VFollowMenu from './implements/VFollowMenu.vue'
-import VImgUpload from './implements/VImgUpload.vue'
-import VMDIconPicker from './implements/VMDIconPicker.vue'
-import VRangeDatePicker from './implements/VRangeDatePicker.vue'
-import VRangeDateTimePicker from './implements/VRangeDateTimePicker.vue'
-import VRouterBreadCrumbs from './implements/VRouterBreadCrumbs.vue'
-import VRouterViewTabs from './implements/VRouterViewTabs.vue'
+import DataTable from './DataTable/index.vue'
+import FormDrawer from './FormDrawer/index.vue'
+import VDateTimeInput from './Implements/VDateTimeInput.vue'
+import VDateTimePicker from './Implements/VDateTimePicker.vue'
+import VFollowMenu from './Implements/VFollowMenu.vue'
+import VImgUpload from './Implements/VImgUpload.vue'
+import VMDIconPicker from './Implements/VMDIconPicker.vue'
+import VRangeDatePicker from './Implements/VRangeDatePicker.vue'
+import VRangeDateTimePicker from './Implements/VRangeDateTimePicker.vue'
+import VRouterBreadCrumbs from './Implements/VRouterBreadCrumbs.vue'
+import VRouterViewTabs from './Implements/VRouterViewTabs.vue'
 
 Vue.component(DataTable.name, DataTable)
+Vue.component(FormDrawer.name, FormDrawer)
 Vue.component(VDateTimeInput.name, VDateTimeInput)
 Vue.component(VDateTimePicker.name, VDateTimePicker)
 Vue.component(VFollowMenu.name, VFollowMenu)

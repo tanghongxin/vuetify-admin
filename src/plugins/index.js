@@ -1,6 +1,4 @@
-const requirePlugins = require.context('./', true, /\.js$/)
+import './vue-snotify'
+import './vuetify-dialog'
 
-requirePlugins.keys().forEach(fileName => {
-  if (fileName === './index.js') return
-  requirePlugins(fileName)
-})
+export { default as vuetify } from './vuetify'

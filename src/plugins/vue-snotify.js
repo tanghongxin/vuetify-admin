@@ -2,7 +2,7 @@ import './vue-snotify.scss'
 import Vue from 'vue'
 import Snotify, { SnotifyPosition } from 'vue-snotify'
 
-const options = {
+Vue.use(Snotify, {
   global: {
     showProgressBar: false,
     pauseOnHover: true,
@@ -16,8 +16,4 @@ const options = {
   toast: {
     position: SnotifyPosition.rightTop,
   },
-}
-
-Vue.use(Snotify, options)
-
-export const snotify = Vue.prototype.$snotify
+})
