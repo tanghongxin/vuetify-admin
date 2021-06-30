@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import DataTable from '@/components/table/DataTable'
+import DataTable from '@/components/table/DataTable.vue'
 
 export default {
   name: 'About',

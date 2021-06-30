@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import RecursiveMenus from './RecursiveMenus'
+import RecursiveMenus from './RecursiveMenus.vue'
 
 export default {
   name:'AppNavigation',

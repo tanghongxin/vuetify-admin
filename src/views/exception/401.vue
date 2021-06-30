@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ExceptionPage from '@/components/exception/ExceptionPage'
+import ExceptionPage from '@/components/exception/ExceptionPage.vue'
 
 export default {
   name:'NoAuthentication',

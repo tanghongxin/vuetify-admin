@@ -26,7 +26,7 @@
 
 <script>
 import 'vue-img-inputer/dist/index.css'
-import VueImgInputer from 'vue-img-inputer'
+import VueImgInputer from 'vue-img-inputer.vue'
 
 export default {
   name:'VImgUpload',

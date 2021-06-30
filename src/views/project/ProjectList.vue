@@ -128,10 +128,10 @@
 </template>
 
 <script>
-import DataTable from '@/components/table/DataTable'
-import ProjectAdd from './ProjectAdd'
-import ProjectEdit from './ProjectEdit'
-import ProjectDetail from './ProjectDetail'
+import DataTable from '@/components/table/DataTable.vue'
+import ProjectAdd from './ProjectAdd.vue'
+import ProjectEdit from './ProjectEdit.vue'
+import ProjectDetail from './ProjectDetail.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 
 export default {

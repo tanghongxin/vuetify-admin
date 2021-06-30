@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import VDateTimePicker from './VDateTimePicker'
+import VDateTimePicker from './VDateTimePicker.vue'
 
 export default {
   name:'VDateTimeInput',

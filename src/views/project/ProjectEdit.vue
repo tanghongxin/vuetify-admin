@@ -132,8 +132,8 @@
 </template>
 
 <script>
-import VImgUpload from '@/components/implements/VImgUpload'
-import FormDrawer from '@/components/form/FormDrawer'
+import VImgUpload from '@/components/implements/VImgUpload.vue'
+import FormDrawer from '@/components/form/FormDrawer.vue'
 import { editProject, getProject } from '@/api/project'
 import Timeout from 'await-timeout'
 import _ from 'lodash'

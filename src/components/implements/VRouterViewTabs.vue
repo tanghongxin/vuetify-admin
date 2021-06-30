@@ -100,8 +100,8 @@
 </template>
 
 <script>
-import VFollowMenu from './VFollowMenu'
-import VRouterBreadCrumbs from './VRouterBreadCrumbs'
+import VFollowMenu from './VFollowMenu.vue'
+import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
 import { removeKeepAliveCache } from '@/utils/vue'
 import _ from 'lodash'
 import Timeout from 'await-timeout'

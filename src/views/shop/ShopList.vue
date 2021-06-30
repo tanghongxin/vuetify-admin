@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import DataTable from '@/components/table/DataTable'
+import DataTable from '@/components/table/DataTable.vue'
 import { getShopList } from '@/api/shop'
 export default {
   name: 'ShopList',

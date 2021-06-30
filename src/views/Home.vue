@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import TencentMap from '@/components/map/TencentMap'
-import Autocomplete from '@/components/map/Autocomplete'
+import TencentMap from '@/components/map/TencentMap.vue'
+import Autocomplete from '@/components/map/Autocomplete.vue'
 
 export default {
   name: 'Home',

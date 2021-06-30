@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import AppHeader from '@/components/layout/AppHeader'
-import AppContent from '@/components/layout/AppContent'
-import AppNavigation from '@/components/layout/AppNavigation'
-import AppSetting from '@/components/layout/AppSetting'
+import AppHeader from '@/components/layout/AppHeader.vue'
+import AppContent from '@/components/layout/AppContent.vue'
+import AppNavigation from '@/components/layout/AppNavigation.vue'
+import AppSetting from '@/components/layout/AppSetting.vue'
 
 export default {
   name: 'Page',
