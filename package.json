@@ -39,7 +39,7 @@
     "@vue/cli-plugin-unit-jest": "^4.5.13",
     "@vue/cli-service": "^4.5.13",
     "@vue/test-utils": "1.0.0-beta.29",
-    "babel-eslint": "^10.1.0",
+    "babel-eslint": "^7.2.3",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-syntax-jsx": "^6.18.0",
