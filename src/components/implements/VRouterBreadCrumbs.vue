@@ -1,6 +1,6 @@
 <template>
   <v-breadcrumbs
-    class="VRouterBreadCrumbs"
+    class="v-router-bread-crumns"
     :items="breadcrumbs"
   />
 </template>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss">
-.VRouterBreadCrumbs {
+.v-router-bread-crumns {
   padding-left: 12px !important;
 }
 </style>

@@ -5,7 +5,7 @@ export default {
   name: 'AppContent',
   render () {
     return (
-      <v-content class="AppContent fill-height overflow-hidden">
+      <v-content class="app-content fill-height overflow-hidden">
         <VRouterViewTabs />
       </v-content>
     )
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss">
-.AppContent {
+.app-content {
   background-color: #fff;
 }
 </style>

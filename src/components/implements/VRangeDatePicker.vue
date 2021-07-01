@@ -1,5 +1,5 @@
 <template>
-  <v-card class="VRangeDatePicker">
+  <v-card class="v-range-date-picker">
     <v-card-text class="px-0 py-0">
       <v-date-picker
         color="primary"
@@ -98,14 +98,14 @@ export default {
 </script>
 
 <style lang="scss">
-.VRangeDatePicker {
-  width: 570px;
+.v-range-date-picker {
   min-height: 374px;
+  width: 570px;
 
   .v-picker {
-    width: 50%;
     border-radius: 0 !important;
     box-shadow: none !important;
+    width: 50%;
   }
 }
 </style>

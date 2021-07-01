@@ -8,7 +8,7 @@ export default {
   name: 'Page',
   render () {
     return (
-      <div class="Page">
+      <div class="page">
         <AppNavigation />
         <AppHeader />
         <AppSetting />
@@ -20,8 +20,8 @@ export default {
 </script>
 
 <style lang="scss">
-.Page {
-  width: 100%;
+.page {
   height: 100%;
+  width: 100%;
 }
 </style>

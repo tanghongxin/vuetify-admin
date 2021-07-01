@@ -22,7 +22,7 @@ export default {
 
 <style lang="scss">
 .home {
-  width: 1200px;
   height: 500px;
+  width: 1200px;
 }
 </style>

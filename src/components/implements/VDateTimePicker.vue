@@ -23,7 +23,7 @@
         <v-tab-item key="calendar">
           <v-date-picker
             color="primary"
-            class="VDateTimePicker"
+            class="v-date-time-picker"
             v-model="date"
             v-bind="datePickerProps"
             :day-format="date => date.slice(-2)"
@@ -37,7 +37,7 @@
             ref="timer"
             format="24hr"
             scrollable
-            class="VDateTimePicker"
+            class="v-date-time-picker"
             v-model="time"
             v-bind="timePickerProps"
             full-width
@@ -199,15 +199,15 @@ export default {
 </script>
 
 <style lang="scss">
-.VDateTimePicker {
-  // 保证 VDatePicker 与 VTimePicker等高
-  min-height: 374px;
+.v-date-time-picker {
   border-radius: 0 !important;
   box-shadow: none !important;
+  // 保证 VDatePicker 与 VTimePicker等高
+  min-height: 374px;
 
   .v-picker__title {
-    padding-top: 10px;
     height: 84px;
+    padding-top: 10px;
   }
 }
 </style>

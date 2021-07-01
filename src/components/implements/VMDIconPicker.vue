@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     :value="false"
-    content-class="VMDIconPicker"
+    content-class="v-md-icon-picker"
     :max-width="1440"
   >
     <v-card
@@ -135,8 +135,7 @@ export default {
 </script>
 
 <style lang="scss">
-.VMDIconPicker {
-
+.v-md-icon-picker {
   .v-card__text {
     padding: 0 !important;
   }
@@ -146,8 +145,8 @@ export default {
   }
 
   .v-tabs-items {
-    width: 100%;
     overflow-y: scroll;
+    width: 100%;
 
     .v-window-item {
       height: 768px;

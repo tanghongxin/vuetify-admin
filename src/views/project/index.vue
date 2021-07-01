@@ -116,7 +116,7 @@
     <template #default>
       <ProjectAdd
         ref="projectAdd"
-        @success="hanldeAddSuccess"
+        @success="handleAddSuccess"
       />
       <ProjectEdit
         ref="projectEdit"
@@ -268,7 +268,7 @@ export default {
      * @event
      * @return {Undefined}
      */
-    hanldeAddSuccess () {
+    handleAddSuccess () {
       this.$snotify.success('系统提示', '新增项目成功')
       this.query = this.$options.data.apply(this).query
       this.options.page = 1

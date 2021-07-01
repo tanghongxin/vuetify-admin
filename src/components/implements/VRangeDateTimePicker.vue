@@ -1,5 +1,5 @@
 <template>
-  <v-card class="VRangeDateTimePicker">
+  <v-card class="v-range-date-time-picker">
     <v-card-text class="px-0 py-0">
       <v-tabs
         fixed-tabs
@@ -176,20 +176,20 @@ export default {
 </script>
 
 <style lang="scss">
-.VRangeDateTimePicker {
+.v-range-date-time-picke {
+  min-height: 374px;
   // 保证 VDatePicker 与 VTimePicker等高
   width: 570px;
-  min-height: 374px;
 
   .v-picker {
-    width: 50%;
     border-radius: 0 !important;
     box-shadow: none !important;
+    width: 50%;
   }
 
   .v-picker__title {
-    padding-top: 10px;
     height: 84px;
+    padding-top: 10px;
   }
 
   .v-picker__title {

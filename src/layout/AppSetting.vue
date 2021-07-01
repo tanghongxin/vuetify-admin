@@ -1,5 +1,5 @@
 <template>
-  <div class="AppSetting">
+  <div class="app-setting">
     <v-navigation-drawer
       app
       :value="appSetting"
@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss">
-.AppSetting {
+.app-setting {
   &__trigger-btn {
     top: 50% !important;
   }
