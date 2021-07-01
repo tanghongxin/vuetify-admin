@@ -56,7 +56,7 @@
     "style-resources-loader": "^1.2.1",
     "stylelint": "^13.13.1",
     "stylelint-codeframe-formatter": "^1.0.4",
-    "stylelint-order": "^3.1.1",
+    "stylelint-config-sass-guidelines": "^8.0.0",
     "stylelint-scss": "^3.19.0",
     "stylelint-webpack-plugin": "^1.1.0",
     "terser-webpack-plugin": "^2.2.1",

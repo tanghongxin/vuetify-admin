@@ -1,8 +1,4 @@
-
-const TencentMap_VARS = ['qq']
-
-const globals = {}
-TencentMap_VARS.forEach(v => (globals[v] = true))
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   root: true,
@@ -12,51 +8,17 @@ module.exports = {
   extends: ['plugin:vue/strongly-recommended', 'eslint:recommended'],
   globals: {
     'window': true,
-    ...globals,
+    'qq': true,
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-console': isProd ? 'error' : 'off',
+    'no-debugger': isProd ? 'error' : 'off',
+    'no-unused-vars': isProd ? 'error' : 'warn',
     'comma-dangle': ['error', 'always-multiline'],
     'default-case': 'error',
     'eol-last': ['error', 'always'],
     'func-style': ['error', 'expression'],
-    indent: [
-      'error',
-      2,
-      {
-        SwitchCase: 1,
-      },
-    ],
-    // 行注释必须在上方
-    'line-comment-position': ['error', 'above'],
-    'no-var': 'error',
-    quotes: ['error', 'single', 'avoid-escape'],
-    semi: ['error', 'never'],
-    'vue/order-in-components': [
-      'error',
-      {
-        order: [
-          'el',
-          'name',
-          'components',
-          'props',
-          'data',
-          'computed',
-          'watch',
-          'methods',
-          'beforeCreate',
-          'created',
-          'beforeMount',
-          'mounted',
-          'beforeUpdate',
-          'updated',
-          'beforeDestroy',
-          'destroyed',
-        ],
-      },
-    ],
+    indent: ['error', 2, { SwitchCase: 1 }],
   },
   parserOptions: {
     parser: 'babel-eslint',
