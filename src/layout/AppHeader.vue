@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    :clipped-left="permanentAppNavigation || $vuetify.breakpoint.lgAndUp"
+    :clipped-left="appPermanentNavigation || $vuetify.breakpoint.lgAndUp"
     app
     color="primary darken-2"
     dark
@@ -12,7 +12,7 @@
       class="ml-0 pl-4"
     >
       <v-app-bar-nav-icon
-        v-show="!permanentAppNavigation"
+        v-show="!appPermanentNavigation"
         @click.stop="toggleAppNavigation"
       />
       <span>若石管理系统</span>

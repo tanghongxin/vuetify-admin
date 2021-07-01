@@ -13,6 +13,7 @@ const hasPermission = {
         for (let v of value) {
           if (!permissions.includes(v)) {
             flag = false
+            break
           }
         }
         if (!flag) {
@@ -38,6 +39,7 @@ const hasNoPermission = {
         for (let v of value) {
           if (permissions.includes(v)) {
             flag = false
+            break
           }
         }
         if (!flag) {
@@ -63,6 +65,7 @@ const hasAnyPermission = {
         for (let v of value) {
           if (permissions.includes(v)) {
             flag = true
+            break
           }
         }
         if (!flag) {
@@ -88,6 +91,7 @@ const hasRole = {
         for (let v of value) {
           if (!permissions.includes(v)) {
             flag = false
+            break
           }
         }
         if (!flag) {
@@ -113,6 +117,7 @@ const hasAnyRole = {
         for (let v of value) {
           if (permissions.includes(v)) {
             flag = true
+            break
           }
         }
         if (!flag) {

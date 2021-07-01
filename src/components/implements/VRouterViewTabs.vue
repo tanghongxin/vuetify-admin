@@ -47,7 +47,7 @@
         v-scroll:#VRouterViewTabs__router-view="subscribeScroll"
         :style="{ height: `calc(100% - ${tabHeight}px)` }"
       >
-        <!-- / TDOO -->
+        <!-- / TODO -->
         <VRouterBreadCrumbs
           class="pt-2 pb-2"
           :style="{ height: breadCrumbsHeight }"
@@ -105,8 +105,7 @@ import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
 import { removeKeepAliveCache } from '@/utils/vue'
 import _ from 'lodash'
 import Timeout from 'await-timeout'
-
-const ANIMATION_TIME = 300
+import { mapState } from 'vuex'
 
 export default {
   name:'VRouterViewTabs',
@@ -130,11 +129,7 @@ export default {
     vmList: [],
   }),
   computed: {
-    appHeaderHeight: {
-      get () {
-        return this.$store.state.setting.appHeaderHeight
-      },
-    },
+    ...mapState('setting', ['appHeaderHeight']),
     menuList () {
       return [
         {
@@ -174,7 +169,7 @@ export default {
     },
   },
   methods: {
-    // FIMXE: debounce 时间过长，在页面快速切换时无法记忆
+    // FIXME: debounce 时间过长，在页面快速切换时无法记忆
     subscribeScroll: _.debounce(function (e) {
       this.$route.meta.scrollTop = e.target.scrollTop
     }, 50),
@@ -182,7 +177,7 @@ export default {
       if (scrollTop) {
         this.$route.meta.scrollTop = scrollTop
         await this.$nextTick()
-        await Timeout.set(ANIMATION_TIME)
+        await Timeout.set(300)
         this.$vuetify.goTo(scrollTop, {
           container: this.$refs['scroll'],
           offset: this.appHeaderHeight * -1,
@@ -256,9 +251,4 @@ export default {
 #VRouterViewTabs__router-view {
   position: relative;
 }
-
-// .slide-x-transition-enter-active,
-// .slide-x-transition-leave-active {
-//   transition-duration: .15s !important;
-// }
 </style>

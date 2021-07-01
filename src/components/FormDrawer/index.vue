@@ -19,12 +19,7 @@
       color="primary darken-1"
     >
       <v-toolbar-title>
-        <template v-if="$slots.title">
-          <slot name="title" />
-        </template>
-        <template v-else>
-          {{ title }}
-        </template>
+        {{ title }}
       </v-toolbar-title>
     </v-toolbar>
     <v-card
@@ -38,7 +33,6 @@
       </v-card-text>
     </v-card>
     
-    <!-- TODO: actions 部分是否也应当遮挡？与需求确认 -->
     <v-overlay
       color="rgba(255, 255, 255, 0.7)"
       absolute

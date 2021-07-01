@@ -29,7 +29,7 @@
             />
             <v-switch
               color="primary"
-              :value="permanentAppNavigation"
+              :value="appPermanentNavigation"
               primary
               label="导航栏固定左侧"
               @change="togglePermanentAppNavigation"
@@ -118,15 +118,14 @@ export default {
 
 <style lang="scss">
 .AppSetting {
-  
   &__trigger-btn {
     top: 50% !important;
   }
 
   &__label {
-    position: relative;
-    display: block;
     cursor: pointer;
+    display: block;
+    position: relative;
   }
 
   &__label input[type='radio'] {
@@ -138,18 +137,18 @@ export default {
   }
 
   &__label input[type='radio'] + span > .overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
     bottom: 0;
-    left: 0;
-    display: none;
-    width: 100%;
-    height: 100%;
-    line-height: 30px;
     color: #fff;
+    display: none;
+    height: 100%;
+    left: 0;
+    line-height: 30px;
+    position: absolute;
+    right: 0;
     text-align: center;
-    background-color: rgba(0,0,0,.3);
+    top: 0;
+    width: 100%;
   }
 
   &__label input[type='radio']:checked + span > .overlay {
@@ -161,10 +160,10 @@ export default {
   }
 
   &__item {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
     display: block;
     margin-bottom: 15px;
     overflow: hidden;
-    box-shadow: 0 0 2px rgba(0,0,0,.1);
   }
 
   &__item-header {
@@ -173,8 +172,8 @@ export default {
 
   &__item > span {
     display: inline-block;
-    width: 50%;
     height: 20px;
+    width: 50%;
   }
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <v-navigation-drawer
     app
-    :clipped="permanentAppNavigation || $vuetify.breakpoint.lgAndUp"
-    :value="permanentAppNavigation || appNavigation"
-    :permanent="permanentAppNavigation"
+    :clipped="appPermanentNavigation || $vuetify.breakpoint.lgAndUp"
+    :value="appPermanentNavigation || appNavigation"
+    :permanent="appPermanentNavigation"
     @input="handleInput"
     ref="drawer"
   >
