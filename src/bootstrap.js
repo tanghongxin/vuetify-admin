@@ -1,7 +1,7 @@
 import { AccountActions, SettingMutations } from '@/store/modules'
 
-export default function () {
-  const { $store, $vuetify } = this
+export default function bootstrap () {
+  const { $store, $vuetify, $nextTick } = this
   
   this.$watch(
     () => $vuetify.breakpoint.xsOnly,
@@ -11,7 +11,7 @@ export default function () {
 
   this.$watch(
     () => $store.state.setting.appPrimaryColor,
-    (val) => $vuetify.theme.currentTheme.primary =val,
+    (val) => $nextTick(() => $vuetify.theme.currentTheme.primary = val),
     { immediate: true }
   )
 
