@@ -1,21 +1,14 @@
-<template>
-  <div class="home">
-    <TencentMap>
-      <template #controls>
-        <Autocomplete />
-      </template>
-    </TencentMap>
-  </div>
-</template>
-
 <script>
-import { TencentMap, Autocomplete } from '@/components/TencentMap/index'
-
 export default {
   name: 'Home',
-  components: {
-    TencentMap,
-    Autocomplete,
+  render () {
+    return (
+      <div class="home">
+        <TMap>
+          <TAutocomplete />
+        </TMap>
+      </div>
+    )
   },
 }
 </script>

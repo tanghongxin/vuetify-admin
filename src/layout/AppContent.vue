@@ -5,9 +5,9 @@ export default {
   name: 'AppContent',
   render () {
     return (
-      <v-content class="app-content fill-height overflow-hidden">
+      <v-main class="app-content fill-height overflow-hidden">
         <VRouterViewTabs />
-      </v-content>
+      </v-main>
     )
   },
 }

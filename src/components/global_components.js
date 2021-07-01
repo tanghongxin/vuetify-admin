@@ -10,6 +10,9 @@ import VRangeDatePicker from './Implements/VRangeDatePicker.vue'
 import VRangeDateTimePicker from './Implements/VRangeDateTimePicker.vue'
 import VRouterBreadCrumbs from './Implements/VRouterBreadCrumbs.vue'
 import VRouterViewTabs from './Implements/VRouterViewTabs.vue'
+import TMap from './TencentMap/TMap.vue'
+import TAutocomplete from './TencentMap/TAutocomplete.vue'
+import TMarker from './TencentMap/TMarker.vue'
 
 Vue.component(DataTable.name, DataTable)
 Vue.component(FormDrawer.name, FormDrawer)
@@ -22,3 +25,6 @@ Vue.component(VRangeDatePicker.name, VRangeDatePicker)
 Vue.component(VRangeDateTimePicker.name, VRangeDateTimePicker)
 Vue.component(VRouterBreadCrumbs.name, VRouterBreadCrumbs)
 Vue.component(VRouterViewTabs.name, VRouterViewTabs)
+Vue.component(TMap.name, TMap)
+Vue.component(TAutocomplete.name, TAutocomplete)
+Vue.component(TMarker.name, TMarker)

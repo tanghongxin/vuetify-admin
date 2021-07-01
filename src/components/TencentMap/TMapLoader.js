@@ -1,15 +1,25 @@
 import qs from 'qs'
 
-export default class TencentMapLoader {
-  constructor({ key, v, protocol, hostAndPath, libraries }) {
-    if (!TencentMapLoader.prototype.instance) {
-      this._config = {
-        key, v, protocol, hostAndPath, libraries,
+export default class TMapLoader {
+  static getInstance() {
+    if (!TMapLoader.prototype.instance) {
+      TMapLoader.prototype.instance = new TMapLoader({
+        key: process.env.VUE_APP_TENCENT_MAP_KEY,
+        v: process.env.VUE_APP_TENCENT_MAP_VERSION,
+        protocol: process.env.VUE_APP_TENCENT_MAP_PROTOCOL,
+        hostAndPath: process.env.VUE_APP_TENCENT_MAP_HOST_AND_PATH,
+        libraries: ['place'],
         callback: `TENCENT_MAP_INIT_CALLBACK${Date.now()}`,
-      }
-      TencentMapLoader.prototype.instance = this
+      })
     }
-    return TencentMapLoader.prototype.instance
+    return TMapLoader.prototype.instance
+  }
+  
+  constructor({ key, v, protocol, hostAndPath, libraries }) {
+    this._config = {
+      key, v, protocol, hostAndPath, libraries,
+      callback: `TENCENT_MAP_INIT_CALLBACK${Date.now()}`,
+    }
   }
 
   init() {

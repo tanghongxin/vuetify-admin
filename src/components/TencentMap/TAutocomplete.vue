@@ -1,11 +1,11 @@
 <template>
   <div
-    class="Autocomplete"
-    :id="`Autocomplete${_uid}`"
+    class="t-auto-complete"
+    :id="`t-auto-complete${id}`"
   >
     <!-- / Search autocomplete -->
     <v-autocomplete
-      :attach="`#Autocomplete${_uid}`"
+      :attach="`#t-auto-complete${id}`"
       autofocus
       :cache-items="false"
       clearable
@@ -13,11 +13,11 @@
       flat
       height="30"
       hide-no-data
-      :items="places"
+      :items="searchResults"
       item-text="name"
       :loading="loading"
       :menu-props="{
-        attach: `#Autocomplete${_uid}`,
+        attach: `#t-auto-complete${id}`,
         contentClass: 'elevation-0_',
         maxHeight: 520,
         maxWidth: 350,
@@ -50,25 +50,27 @@
 
 <script>
 import _ from 'lodash'
-import TMarker from './Marker'
-import Service from './service'
+import TMarker from './TMarker'
+import TMapService from './TMapService'
+import { v4 as uuid } from 'uuid'
 
 export default {
-  name: 'Autocomplete',
+  name: 'TAutocomplete',
   components: {
     TMarker,
   },
   inject: ['map'],
   data: () => ({
+    id: uuid(),
     // VAutocomplete loading
     loading: false,
     // 查询出的地点列表
-    places: [],
+    searchResults: [],
     // 选中的地点
     place: null,
     // 选中的地点坐标
     selectedPlacePosition: [],
-    service: new Service(),
+    service: new TMapService(),
   }),
   methods: {
     /**
@@ -76,7 +78,7 @@ export default {
      * @event
      * @param {String} query 搜索内容
      */
-    search: _.debounce(async function (query = '') {
+    async search (query = '') {
       // 条件为空或条件结果已存在时，不进行搜索
       if (!query || (this.place && this.place.name === query)) {
         return
@@ -84,14 +86,14 @@ export default {
       try {
         this.loading = true
         const result = await this.service.searchPlaces(query)
-        this.places = result.type === 'CITY_LIST' ? [] : result.detail.pois
+        this.searchResults = result.type === 'CITY_LIST' ? [] : result.detail.pois
       } catch (e) {
-        this.places = []
+        this.searchResults = []
         throw e
       } finally {
         this.loading = false
       }
-    }, 800),
+    },
     /**
      * 下拉列表选中一项
      * @event
@@ -120,24 +122,19 @@ export default {
       ]
     },
   },
-  mounted () {
-    // TODO: 数据测试与需求确认
-    // this.listener = qq.maps.event.addListener(this.map, 'click', this.click)
-  },
-  beforeDestroy () {
-    // TODO: 数据测试与需求确认
-    // qq.maps.event.removeListener(this.listener)
+  created () {
+    this.search = _.debounce(this.search, 800)
   },
 }
 </script>
 
 <style lang="scss">
-.Autocomplete {
+.t-auto-complete {
+  height: 30px;
+  left: 75px;
   position: absolute;
   top: 20px;
-  left: 75px;
-  z-index: 99;
   width: 350px;
-  height: 30px;
+  z-index: 99;
 }
 </style>

@@ -1,9 +1,12 @@
 <script>
+import { Props } from './common'
+import _ from 'lodash'
+
 export default {
   name:'TMarker',
-  render: h => h(),
   inject: ['map'],
   props: {
+    ..._.pick(Props, ['animation', 'clickable', 'draggable', 'position', 'zIndex']),
     animation: {
       type: String,
       default: 'DOWN',
@@ -17,14 +20,6 @@ export default {
     draggable: {
       type: Boolean,
       default: false,
-    },
-    position: {
-      type: Array,
-      required: true,
-    },
-    zIndex: {
-      type: Number,
-      default: 99,
     },
   },
   data: () => ({
@@ -47,7 +42,8 @@ export default {
       center: new qq.maps.LatLng(...this.position),
       clickable: this.clickable,
       draggable: this.draggable,
-      map: this.map,
+      // TODO: ref
+      map: this.map.value,
       zIndex: this.zIndex,
     })
     qq.maps.event.addListener(this.marker, 'click', e => {
@@ -57,5 +53,6 @@ export default {
   beforeDestroy () {
     this.marker && this.marker.setMap && this.marker.setMap(null)
   },
+  render: h => h(),
 }
 </script>

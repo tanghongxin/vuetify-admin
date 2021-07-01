@@ -1,3 +1,4 @@
+import './composition'
 import './vue-snotify'
 import './vuetify-dialog'
 
