@@ -4,7 +4,7 @@ export const SettingMutations = {
   SET_APP_HEADER_HEIGHT: 'SET_APP_HEADER_HEIGHT',
   TOGGLE_APP_NAVIGATION: 'TOGGLE_APP_NAVIGATION',
   TOGGLE_PERMANENT_APP_NAVIGATION: 'TOGGLE_PERMANENT_APP_NAVIGATION',
-  TOGGLE_SETTING: 'TOGGLE_SETTING',
+  TOGGLE_APP_SETTING: 'TOGGLE_APP_SETTING',
 }
 
 export default {
@@ -26,7 +26,7 @@ export default {
       state.permanentAppNavigation = !state.permanentAppNavigation
       ls.set('permanentAppNavigation', !state.permanentAppNavigation)
     },
-    [SettingMutations.TOGGLE_SETTING] (state) {
+    [SettingMutations.TOGGLE_APP_SETTING] (state) {
       state.appSetting = !state.appSetting
     },
   },

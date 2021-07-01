@@ -6,28 +6,19 @@ import NProgress from '@/components/NProgress'
 
 Vue.use(VueRouter)
 
-const lazyLoad = function (path) {
-  return function (resolve) {
-    NProgress.start()
-    import(`@/views/${path}.vue`)
-      .then(resolve)
-      .finally(NProgress.done)
-  }
+const lazyLoad = (path) => (resolve) => {
+  NProgress.start()
+  return import(`@/views/${path}.vue`)
+    .then(resolve)
+    .finally(NProgress.done)
 }
 
 const createRouter = () => new VueRouter({
   routes: [
     {
-      path: '/',
-      component: { render: h => h('router-view') },
-      redirect: '/login',
-      children: [
-        {
-          path: '/login',
-          name: '登陆',
-          component: lazyLoad('login/index'),
-        },
-      ],
+      path: '/login',
+      name: '登陆',
+      component: lazyLoad('login/index'),
     },
   ],
 })
@@ -78,23 +69,23 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
     })
   }
   resetRouter()
-  router.addRoutes([{
-    path: '/',
-    component: Page,
-    redirect: '/home',
-    children: [
-      ...recursive(menus),
-      {
-        path: '/exception/:type',
-        component: lazyLoad('exception/index'),
-        props: true,
-      },
-      {
-        path: '*',
-        redirect: () => '/exception/404',
-      },
-    ],
-  }])
+  router.addRoutes([
+    {
+      path: '/',
+      component: Page,
+      redirect: '/home',
+      children: recursive(menus),
+    },
+    {
+      path: '/exception/:type',
+      component: lazyLoad('exception/index'),
+      props: true,
+    },
+    {
+      path: '*',
+      redirect: () => '/exception/404',
+    },
+  ])
 }
 
 export {
