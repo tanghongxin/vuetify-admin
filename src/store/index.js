@@ -21,4 +21,9 @@ export default new Vuex.Store({
     settingStorage.plugin,
   ],
   modules,
+  getters: {
+    vm() {
+      return this._vm
+    },
+  },
 })

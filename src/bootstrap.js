@@ -1,10 +1,19 @@
 import { AccountActions, SettingMutations } from '@/store/modules'
-import { ls } from '@/utils/storage'
 
 export default function () {
-  this.$store.dispatch(`account/${AccountActions.BUILD_ROUTES}`)
-  this.$vuetify.theme.currentTheme.primary = ls.get('themeColor', this.$vuetify.theme.currentTheme.primary)
-  this.$watch('$vuetify.breakpoint.xsOnly', function (e) {
-    this.$store.commit(`setting/${SettingMutations.SET_APP_HEADER_HEIGHT}`, e ? 48 : 64)
-  }, { immediate: true })
+  const { $store, $vuetify } = this
+  
+  this.$watch(
+    () => $vuetify.breakpoint.xsOnly,
+    (xs) => $store.commit(`setting/${SettingMutations.SET_APP_HEADER_HEIGHT}`, xs ? 48 : 64),
+    { immediate: true }
+  )
+
+  this.$watch(
+    () => $store.state.setting.appPrimaryColor,
+    (val) => $vuetify.theme.currentTheme.primary =val,
+    { immediate: true }
+  )
+
+  $store.dispatch(`account/${AccountActions.BUILD_ROUTES}`)
 }

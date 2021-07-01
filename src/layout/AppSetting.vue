@@ -46,25 +46,25 @@
                 <label
                   v-for="(colorConfig, colorName) in colors"
                   :key="colorName"
-                  class="AppSetting__label flex xs6 pa-1"
+                  class="app-setting__label flex xs6 pa-1"
                   v-show="!filterColors.includes(colorName)"
                 >
                   <input
                     type="radio"
                     name="colorConfig"
-                    :checked="colorConfig.base === themeColor"
-                    @input="themeColor = colorConfig.base"
+                    :checked="colorConfig.base === appPrimaryColor"
+                    @input="setAppPrimaryColor(colorConfig.base)"
                   >
-                  <span class="AppSetting__item bg">
+                  <span class="app-setting__item bg">
                     <span class="overlay">
                       <span class="material-icons">check</span>
                     </span>
                     <span
-                      class="AppSetting__item-header"
+                      class="app-setting__item-header"
                       :class="colorName"
                     />
                     <span
-                      class="AppSetting__item-header"
+                      class="app-setting__item-header"
                       :class="colorName"
                     />
                     <span
@@ -83,7 +83,6 @@
 
 <script>
 import colors from 'vuetify/lib/util/colors'
-import { ls } from '@/utils/storage'
 import mixin from './mixin.vue'
 
 export default {
@@ -94,17 +93,6 @@ export default {
     colors: colors,
     filterColors: ['blueGrey', 'lightBlue', 'lightGreen', 'deepPurple', 'deepOrange', 'shades'],
   }),
-  computed: {
-    themeColor: {
-      get () {
-        return this.$vuetify.theme.currentTheme.primary
-      },
-      set (v) {
-        ls.set('themeColor', v)
-        this.$vuetify.theme.currentTheme.primary = v
-      },
-    },
-  },
   methods: {
     handleInput () {
       // HACK
