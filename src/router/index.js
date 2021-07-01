@@ -4,6 +4,8 @@ import _ from 'lodash'
 import Page from '@/layout/Page.vue'
 import NProgress from '@/components/NProgress'
 
+// router.addRoutes() is deprecated and has been removed in Vue Router 4
+
 Vue.use(VueRouter)
 
 const lazyLoad = (path) => (resolve) => {
@@ -13,28 +15,24 @@ const lazyLoad = (path) => (resolve) => {
     .finally(NProgress.done)
 }
 
-const DEFAULT_ROUTES = [
-  {
-    path: '/login',
-    name: '登陆',
-    component: lazyLoad('login/index'),
-  },
-]
+const DEFAULT_ROUTE = {
+  path: '/login',
+  name: '登陆',
+  component: lazyLoad('login/index'),
+}
 
-const DEFAULT_FALLBACK_ROUTES = [
-  {
-    path: '*',
-    redirect: '/login',
-  },
-]
+const DEFAULT_FALLBACK_ROUTE = {
+  path: '*',
+  redirect: '/login',
+}
 
-const createRouter = () => new VueRouter({ routes: DEFAULT_ROUTES })
+const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE] })
 const router = createRouter()
-router.addRoutes(DEFAULT_FALLBACK_ROUTES)
+router.addRoute(DEFAULT_FALLBACK_ROUTE)
 
 const resetRouter = () => {
   router.matcher = createRouter().matcher
-  router.addRoutes(DEFAULT_FALLBACK_ROUTES)
+  router.addRoute(DEFAULT_FALLBACK_ROUTE)
 }
 
 const buildDynamicRoutes = (menus = [], permissions = []) => {
@@ -77,22 +75,20 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
     })
   }
   router.matcher = createRouter().matcher
-  router.addRoutes([
-    {
-      path: '/',
-      component: Page,
-      redirect: '/home',
-      children: recursive(menus),
-    },
-    {
-      path: '/exception/:type',
-      component: lazyLoad('exception/index'),
-    },
-    {
-      path: '*',
-      redirect: () => '/exception/404',
-    },
-  ])
+  router.addRoute({
+    path: '/',
+    component: Page,
+    redirect: '/home',
+    children: recursive(menus),
+  })
+  router.addRoute({
+    path: '/exception/:type',
+    component: lazyLoad('exception/index'),
+  })
+  router.addRoute({
+    path: '*',
+    redirect: () => '/exception/404',
+  })
 }
 
 export {
