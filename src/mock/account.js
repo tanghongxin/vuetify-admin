@@ -2,7 +2,7 @@
 import Mock from 'mockjs-async'
 
 Mock.mock(/api\/login/, 'post', () => ({
-  token: '',
+  token: 'ac21ebab-bddc-41a3-bef5-4ecf3325c888',
   permissions: [],
   menus: [
     {

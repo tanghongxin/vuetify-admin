@@ -19,26 +19,22 @@ const DEFAULT_ROUTES = [
     name: '登陆',
     component: lazyLoad('login/index'),
   },
-  {
-    path: '/exception/:type',
-    component: lazyLoad('exception/index'),
-  },
 ]
 
-const FALLBACK_ROUTES = [
+const DEFAULT_FALLBACK_ROUTES = [
   {
     path: '*',
-    redirect: () => '/exception/404',
+    redirect: '/login',
   },
 ]
 
 const createRouter = () => new VueRouter({ routes: DEFAULT_ROUTES })
 const router = createRouter()
-router.addRoutes(FALLBACK_ROUTES)
+router.addRoutes(DEFAULT_FALLBACK_ROUTES)
 
 const resetRouter = () => {
   router.matcher = createRouter().matcher
-  router.addRoutes(FALLBACK_ROUTES)
+  router.addRoutes(DEFAULT_FALLBACK_ROUTES)
 }
 
 const buildDynamicRoutes = (menus = [], permissions = []) => {
@@ -88,7 +84,14 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
       redirect: '/home',
       children: recursive(menus),
     },
-    ...FALLBACK_ROUTES,
+    {
+      path: '/exception/:type',
+      component: lazyLoad('exception/index'),
+    },
+    {
+      path: '*',
+      redirect: () => '/exception/404',
+    },
   ])
 }
 

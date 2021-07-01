@@ -41,9 +41,11 @@ export default {
       commit(AccountMutations.SET_TOKEN, token)
       await dispatch(AccountActions.BUILD_ROUTES)
     },
-    async [AccountActions.BUILD_ROUTES] ({ state }) {
-      buildDynamicRoutes(state.menus)
-      await router.push('/home')
+    async [AccountActions.BUILD_ROUTES] ({ state, getters }) {
+      if (getters.hasLoggedIn) {
+        buildDynamicRoutes(state.menus)
+        await router.push('/home')
+      }
     },
     async [AccountActions.LOGOUT]({ commit }) {
       commit(AccountMutations.SET_PERMISSIONS, [])
