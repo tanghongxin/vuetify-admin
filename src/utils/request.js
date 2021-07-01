@@ -1,132 +1,50 @@
 import axios from 'axios'
 
-const STONE_REQUEST = axios.create({
+const request = axios.create({
   baseURL: '/api',
   responseType: 'json',
   validateStatus: status => status === 200,
 })
 
-const request = {
-  post(url, params) {
-    return STONE_REQUEST.post(url, params, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  },
-  delete (url, params) {
-    let _params
-    if (Object.is(params, undefined)) {
-      _params = ''
-    } else {
-      _params = '?'
-      for (let key in params) {
-        if (params.hasOwnProperty(key) && params[key] !== null) {
-          _params += `${key}=${params[key]}&`
-        }
-      }
+request.interceptors.request.use(
+  config => {
+    const store = require('@/store').default
+    const { token } = store.state.account
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
     }
-    return STONE_REQUEST.delete(`${url}${_params}`)
+    return config
   },
-  put(url, params) {
-    return STONE_REQUEST.put(url, params, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  },
-  get (url, params) {
-    let _params
-    if (Object.is(params, undefined)) {
-      _params = ''
-    } else {
-      _params = '?'
-      for (let key in params) {
-        if (params.hasOwnProperty(key) && params[key] !== null) {
-          _params += `${key}=${params[key]}&`
-        }
+)
+
+request.interceptors.response.use(
+  response => response,
+  error => {
+    let message = ''
+    if (error.response) {
+      switch (error.response.status) {
+        case 404:
+          message = '资源未找到'
+          break
+        case 403:
+          message = '操作被禁止'
+          break
+        case 401:
+          message = '暂无权限'
+          break
+        case 500:
+          message = '服务器异常'
+          break
+        default:
+          break
       }
+    } else {
+      message = error.message === 'Network Error' ? '服务器或网络异常' : error.message
     }
-    return STONE_REQUEST.get(`${url}${_params}`)
-  },
-  export(url, params = {}) {
-    // message.loading('导出数据中');
-    return STONE_REQUEST.post(url, params, {
-      responseType: 'blob',
-    })
-      .then(r => {
-        const content = r.data
-        const blob = new Blob([content])
-        const fileName = `${new Date().getTime()}_导出结果.xlsx`
-        if ('download' in document.createElement('a')) {
-          const elink = document.createElement('a')
-          elink.download = fileName
-          elink.style.display = 'none'
-          elink.href = URL.createObjectURL(blob)
-          document.body.appendChild(elink)
-          elink.click()
-          URL.revokeObjectURL(elink.href)
-          document.body.removeChild(elink)
-        } else {
-          navigator.msSaveBlob(blob, fileName)
-        }
-      })
-      .catch(() => {
-        // console.error(r)
-        // message.error('导出失败');
-      })
-  },
-  download(url, params, filename) {
-    // message.loading('文件传输中');
-    return STONE_REQUEST.post(url, params, {
-      transformRequest: [
-        params => {
-          let result = ''
-          Object.keys(params).forEach(key => {
-            if (
-              !Object.is(params[key], undefined) &&
-              !Object.is(params[key], null)
-            ) {
-              result +=
-                encodeURIComponent(key) +
-                '=' +
-                encodeURIComponent(params[key]) +
-                '&'
-            }
-          })
-          return result
-        },
-      ],
-      responseType: 'blob',
-    })
-      .then(r => {
-        const content = r.data
-        const blob = new Blob([content])
-        if ('download' in document.createElement('a')) {
-          const elink = document.createElement('a')
-          elink.download = filename
-          elink.style.display = 'none'
-          elink.href = URL.createObjectURL(blob)
-          document.body.appendChild(elink)
-          elink.click()
-          URL.revokeObjectURL(elink.href)
-          document.body.removeChild(elink)
-        } else {
-          navigator.msSaveBlob(blob, filename)
-        }
-      })
-      .catch(() => {
-        // console.error(r)
-        // message.error('下载失败');
-      })
-  },
-  upload(url, params) {
-    return STONE_REQUEST.post(url, params, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-  },
-}
+    // TODO: notify
+    console.error('请求失败', message)
+    return Promise.reject(error)
+  }
+)
 
 export default request
