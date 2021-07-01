@@ -13,20 +13,32 @@ const lazyLoad = (path) => (resolve) => {
     .finally(NProgress.done)
 }
 
-const createRouter = () => new VueRouter({
-  routes: [
-    {
-      path: '/login',
-      name: '登陆',
-      component: lazyLoad('login/index'),
-    },
-  ],
-})
+const DEFAULT_ROUTES = [
+  {
+    path: '/login',
+    name: '登陆',
+    component: lazyLoad('login/index'),
+  },
+  {
+    path: '/exception/:type',
+    component: lazyLoad('exception/index'),
+  },
+]
 
+const FALLBACK_ROUTES = [
+  {
+    path: '*',
+    redirect: () => '/exception/404',
+  },
+]
+
+const createRouter = () => new VueRouter({ routes: DEFAULT_ROUTES })
 const router = createRouter()
+router.addRoutes(FALLBACK_ROUTES)
 
 const resetRouter = () => {
   router.matcher = createRouter().matcher
+  router.addRoutes(FALLBACK_ROUTES)
 }
 
 const buildDynamicRoutes = (menus = [], permissions = []) => {
@@ -68,7 +80,7 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
       return route
     })
   }
-  resetRouter()
+  router.matcher = createRouter().matcher
   router.addRoutes([
     {
       path: '/',
@@ -76,15 +88,7 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
       redirect: '/home',
       children: recursive(menus),
     },
-    {
-      path: '/exception/:type',
-      component: lazyLoad('exception/index'),
-      props: true,
-    },
-    {
-      path: '*',
-      redirect: () => '/exception/404',
-    },
+    ...FALLBACK_ROUTES,
   ])
 }
 
