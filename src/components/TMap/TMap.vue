@@ -1,6 +1,6 @@
 <template>
   <div class="t-map-wrapper">
-    <v-loading v-if="!initialized" :value="true" />
+    <v-loading v-if="!initialized" :absolute="true" :value="true" />
     <div class="t-map" ref="$el">
       <slot v-if="initialized" />
     </div>
@@ -41,10 +41,11 @@ export default defineComponent({
         () => options.value,
         () => {
           if (!map.value) {
-            setMap(new qq.maps.Map(ctx.refs.$el))
-            setTimeout(setInitialized, 700, true)
+            setMap(new qq.maps.Map(ctx.refs.$el, options.value))
+            setTimeout(setInitialized, 600, true)
+          } else {
+            map.value.setOptions(_.omit(options.value, ['center', 'zoom']))
           }
-          map.value.setOptions(options.value)
         },
         { deep: true, immediate: true }
       )
