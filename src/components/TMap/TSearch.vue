@@ -1,11 +1,8 @@
 <template>
-  <div
-    class="t-search"
-    :id="`t-search${state.id}`"
-  >
+  <div class="t-search" :id="`${state.id}`">
     <!-- / Search autocomplete -->
     <v-autocomplete
-      :attach="`#t-search${state.id}`"
+      :attach="`#${state.id}`"
       autofocus
       :cache-items="false"
       clearable
@@ -17,7 +14,7 @@
       item-text="name"
       :loading="state.loading"
       :menu-props="{
-        attach: `#t-search${state.id}`,
+        attach: `#${state.id}`,
         contentClass: 'elevation-0_',
         maxHeight: 520,
         maxWidth: 350,
@@ -40,9 +37,7 @@
     </v-autocomplete>
 
     <!-- / Marker -->
-    <TMarker
-      :position="position"
-    />
+    <TMarker :position="position" />
     <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
     <!-- v-if="position.length" -->
   </div>
@@ -62,7 +57,7 @@ export default defineComponent({
   },
   setup () {
     const state = reactive({
-      id: `${Date.now()}`,
+      id: `t-search${Date.now()}`,
       loading: false,
       searchResults: [],
       place: null,
