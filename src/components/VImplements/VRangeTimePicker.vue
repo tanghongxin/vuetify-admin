@@ -6,7 +6,8 @@
       align="center"
     >
       <v-col style=" flex: 0 1 auto;
-  width: 290px;">
+  width: 290px;"
+      >
         <h2>Start:</h2>
         <v-time-picker
           v-model="start"
@@ -17,7 +18,8 @@
         />
       </v-col>
       <v-col style=" flex: 0 1 auto;
-  width: 290px;">
+  width: 290px;"
+      >
         <h2>End:</h2>
         <v-time-picker
           v-model="end"

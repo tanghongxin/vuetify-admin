@@ -19,6 +19,7 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'func-style': ['error', 'expression'],
     indent: ['error', 2, { SwitchCase: 1 }],
+    'vue/max-attributes-per-line': 5,
   },
   parserOptions: {
     parser: 'babel-eslint',

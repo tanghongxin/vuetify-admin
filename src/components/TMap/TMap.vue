@@ -1,9 +1,19 @@
-<script>
+<template>
+  <div class="t-map-wrapper">
+    <v-loading v-if="!state.initialized" :value="true" />
+    <div class="t-map" ref="$el">
+      <slot v-if="state.initialized" />
+    </div>
+  </div>
+</template>
+
+<script setup>
 import _ from 'lodash'
 import { Props } from './mixin'
-import { h, defineComponent, provide, ref, onMounted } from '@vue/composition-api'
+import { defineComponent, provide, ref, onMounted, reactive } from '@vue/composition-api'
 import { injectMapKey } from './composable'
 import TMapLoader from './TMapLoader'
+import Timeout from 'await-timeout'
 
 export default defineComponent({
   name:'TMap',
@@ -12,8 +22,8 @@ export default defineComponent({
   },
   setup (props, ctx) {
     const map = ref(null)
-    const initialized = ref(false)
-    
+    const state = reactive({ initialized: false })
+
     provide(injectMapKey, map)
 
     onMounted(async () => {
@@ -22,18 +32,18 @@ export default defineComponent({
         center: new qq.maps.LatLng(...props.position),
         zoom: props.zoom,
       })
-      initialized.value = true
+      // wait for map init
+      await Timeout.set(500)
+      state.initialized = true
     })
-
-    return () => h('div', {
-      class: 't-map',
-      ref: '$el',
-    }, initialized.value ? ctx.slots.default() : null)
+    
+    return { state }
   },
 })
 </script>
 
 <style lang="scss">
+.t-map-wrapper,
 .t-map {
   height: 100%;
   position: relative;
