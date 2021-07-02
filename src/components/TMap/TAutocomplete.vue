@@ -50,7 +50,7 @@
 
 <script>
 import _ from 'lodash'
-import TMarker from './TMarker'
+import TMarker from './TMarker.vue'
 import TMapService from './TMapService'
 import { v4 as uuid } from 'uuid'
 import { defineComponent, reactive } from '@vue/composition-api'
