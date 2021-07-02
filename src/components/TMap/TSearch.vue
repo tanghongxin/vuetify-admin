@@ -1,11 +1,11 @@
 <template>
   <div
-    class="t-auto-complete"
-    :id="`t-auto-complete${state.id}`"
+    class="t-search"
+    :id="`t-search${state.id}`"
   >
     <!-- / Search autocomplete -->
     <v-autocomplete
-      :attach="`#t-auto-complete${state.id}`"
+      :attach="`#t-search${state.id}`"
       autofocus
       :cache-items="false"
       clearable
@@ -17,7 +17,7 @@
       item-text="name"
       :loading="state.loading"
       :menu-props="{
-        attach: `#t-auto-complete${state.id}`,
+        attach: `#t-search${state.id}`,
         contentClass: 'elevation-0_',
         maxHeight: 520,
         maxWidth: 350,
@@ -41,10 +41,10 @@
 
     <!-- / Marker -->
     <TMarker
-      :position="state.placePosition"
+      :position="position"
     />
     <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
-    <!-- v-if="placePosition.length" -->
+    <!-- v-if="position.length" -->
   </div>
 </template>
 
@@ -53,11 +53,11 @@ import _ from 'lodash'
 import TMarker from './TMarker.vue'
 import TMapService from './TMapService'
 import { v4 as uuid } from 'uuid'
-import { defineComponent, reactive } from '@vue/composition-api'
+import { computed, defineComponent, reactive } from '@vue/composition-api'
 import { useMap } from './composable'
 
 export default defineComponent({
-  name: 'TAutocomplete',
+  name: 'TSearch',
   components: {
     TMarker,
   },
@@ -67,7 +67,13 @@ export default defineComponent({
       loading: false,
       searchResults: [],
       place: null,
-      placePosition: [],
+    })
+    const position = computed(() => {
+      if (!state.place) return []
+      return [
+        state.place.latLng.lat,
+        state.place.latLng.lng,
+      ]
     })
     const service = new TMapService()
     const map = useMap()
@@ -82,34 +88,23 @@ export default defineComponent({
       } finally {
         state.loading = false
       }
-    }, 80)
+    }, 200)
 
     const select = (e) => {
       if (!e) return
-      state.placePosition = [
-        e.latLng.lat,
-        e.latLng.lng,
-      ]
       const latLngBounds = new qq.maps.LatLngBounds()
       latLngBounds.extend(e.latLng)
       map.fitBounds(latLngBounds)
       map.panTo(e.latLng)
     }
 
-    const click = (e) => {
-      state.placePosition = [
-        e.latLng.lat,
-        e.latLng.lng,
-      ]
-    }
-
-    return { state, search, select, click }
+    return { state, search, select, position }
   },
 })
 </script>
 
 <style lang="scss">
-.t-auto-complete {
+.t-search {
   height: 30px;
   left: 75px;
   position: absolute;

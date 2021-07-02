@@ -5,7 +5,8 @@
       justify="space-around"
       align="center"
     >
-      <v-col style="width: 290px; flex: 0 1 auto;">
+      <v-col style=" flex: 0 1 auto;
+  width: 290px;">
         <h2>Start:</h2>
         <v-time-picker
           v-model="start"
@@ -15,7 +16,8 @@
           scrollable
         />
       </v-col>
-      <v-col style="width: 290px; flex: 0 1 auto;">
+      <v-col style=" flex: 0 1 auto;
+  width: 290px;">
         <h2>End:</h2>
         <v-time-picker
           v-model="end"

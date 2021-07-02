@@ -5,7 +5,7 @@ export default {
     return (
       <div class="home">
         <TMap>
-          <TAutocomplete />
+          <TSearch />
         </TMap>
       </div>
     )
@@ -16,6 +16,7 @@ export default {
 <style lang="scss">
 .home {
   height: 100%;
+  position: relative;
   width: 100%;
 }
 </style>

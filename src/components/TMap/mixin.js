@@ -14,13 +14,7 @@ const Props = {
     default: 10,
   },
 }
-const Mixin = {
-  library: {
-    inject: ['map'],
-  },
-}
 
 export {
   Props,
-  Mixin,
 }

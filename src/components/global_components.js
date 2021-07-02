@@ -1,17 +1,18 @@
 import Vue from 'vue'
 import DataTable from './DataTable/index.vue'
 import FormDrawer from './FormDrawer/index.vue'
-import VDateTimeInput from './Implements/VDateTimeInput.vue'
-import VDateTimePicker from './Implements/VDateTimePicker.vue'
-import VFollowMenu from './Implements/VFollowMenu.vue'
-import VImgUpload from './Implements/VImgUpload.vue'
-import VMDIconPicker from './Implements/VMDIconPicker.vue'
-import VRangeDatePicker from './Implements/VRangeDatePicker.vue'
-import VRangeDateTimePicker from './Implements/VRangeDateTimePicker.vue'
-import VRouterBreadCrumbs from './Implements/VRouterBreadCrumbs.vue'
-import VRouterViewTabs from './Implements/VRouterViewTabs.vue'
+import VDateTimeInput from './VImplements/VDateTimeInput.vue'
+import VDateTimePicker from './VImplements/VDateTimePicker.vue'
+import VFollowMenu from './VImplements/VFollowMenu.vue'
+import VImgUpload from './VImplements/VImgUpload.vue'
+import VLoading from './VImplements/VLoading.vue'
+import VMDIconPicker from './VImplements/VMDIconPicker.vue'
+import VRangeDatePicker from './VImplements/VRangeDatePicker.vue'
+import VRangeDateTimePicker from './VImplements/VRangeDateTimePicker.vue'
+import VRouterBreadCrumbs from './VImplements/VRouterBreadCrumbs.vue'
+import VRouterViewTabs from './VImplements/VRouterViewTabs.vue'
 import TMap from './TMap/TMap.vue'
-import TAutocomplete from './TMap/TAutocomplete.vue'
+import TSearch from './TMap/TSearch.vue'
 import TMarker from './TMap/TMarker.vue'
 
 Vue.component(DataTable.name, DataTable)
@@ -20,11 +21,12 @@ Vue.component(VDateTimeInput.name, VDateTimeInput)
 Vue.component(VDateTimePicker.name, VDateTimePicker)
 Vue.component(VFollowMenu.name, VFollowMenu)
 Vue.component(VImgUpload.name, VImgUpload)
+Vue.component(VLoading.name, VLoading)
 Vue.component(VMDIconPicker.name, VMDIconPicker)
 Vue.component(VRangeDatePicker.name, VRangeDatePicker)
 Vue.component(VRangeDateTimePicker.name, VRangeDateTimePicker)
 Vue.component(VRouterBreadCrumbs.name, VRouterBreadCrumbs)
 Vue.component(VRouterViewTabs.name, VRouterViewTabs)
 Vue.component(TMap.name, TMap)
-Vue.component(TAutocomplete.name, TAutocomplete)
+Vue.component(TSearch.name, TSearch)
 Vue.component(TMarker.name, TMarker)

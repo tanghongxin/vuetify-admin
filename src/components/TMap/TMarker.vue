@@ -1,5 +1,5 @@
 <script>
-import { Props } from './common'
+import { Props } from './mixin'
 import _ from 'lodash'
 import { defineComponent, h, onMounted, onBeforeUnmount, watch } from '@vue/composition-api'
 import { useMap } from './composable'
@@ -25,7 +25,7 @@ export default defineComponent({
         center: new qq.maps.LatLng(...props.position),
         clickable: true,
         draggable: false,
-        zIndex: props.zIndex,
+        zIndex: 99,
         map,
       })
       // https://lbs.qq.com/webApi/javascriptV2/jsGuide/jsEvent
@@ -45,7 +45,7 @@ export default defineComponent({
       marker.setMap(null)
       qq.maps.event.removeListener(listener)
     })
-    
+
     return () => h()
   },
 })

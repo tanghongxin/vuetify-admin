@@ -1,6 +1,6 @@
 <script>
 import _ from 'lodash'
-import { Props } from './common'
+import { Props } from './mixin'
 import { h, defineComponent, provide, ref, onMounted } from '@vue/composition-api'
 import { injectMapKey } from './composable'
 import TMapLoader from './TMapLoader'
