@@ -1,7 +1,7 @@
 import qs from 'qs'
 
 export default class TMapLoader {
-  static getInstance() {
+  static getInstance () {
     if (!TMapLoader.prototype.instance) {
       TMapLoader.prototype.instance = new TMapLoader({
         key: process.env.VUE_APP_TENCENT_MAP_KEY,
@@ -15,14 +15,14 @@ export default class TMapLoader {
     return TMapLoader.prototype.instance
   }
   
-  constructor({ key, v, protocol, hostAndPath, libraries }) {
+  constructor ({ key, v, protocol, hostAndPath, libraries }) {
     this._config = {
       key, v, protocol, hostAndPath, libraries,
       callback: `TENCENT_MAP_INIT_CALLBACK${Date.now()}`,
     }
   }
 
-  init() {
+  init () {
     return new Promise((resolve, reject) => {
       if (window.qq && window.qq.maps && window.qq.maps.Map) {
         return resolve()
@@ -50,7 +50,7 @@ export default class TMapLoader {
     })
   }
 
-  getScriptSrc() {
+  getScriptSrc () {
     const { key, v, protocol, hostAndPath, libraries, callback } = this._config
     const params = {
       key, v, callback,
@@ -59,7 +59,7 @@ export default class TMapLoader {
     return `${protocol}://${hostAndPath}?${qs.stringify(params)}`
   }
 
-  dispose(script) {
+  dispose (script) {
     document.head.removeChild(script)
     Reflect.deleteProperty(window, this._config.callback)
   }

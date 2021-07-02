@@ -18,10 +18,10 @@ export default {
     [SettingMutations.SET_APP_HEADER_HEIGHT] (state, payload) {
       state.appHeaderHeight = payload
     },
-    [SettingMutations.SET_APP_PRIMARY_COLOR](state, payload) {
+    [SettingMutations.SET_APP_PRIMARY_COLOR] (state, payload) {
       state.appPrimaryColor = payload
     },
-    [SettingMutations.TOGGLE_APP_NAVIGATION](state) {
+    [SettingMutations.TOGGLE_APP_NAVIGATION] (state) {
       state.appNavigation = !state.appNavigation
     },
     [SettingMutations.TOGGLE_APP_PERMANENT_NAVIGATION] (state) {

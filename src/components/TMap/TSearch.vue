@@ -78,7 +78,7 @@ export default defineComponent({
     const service = new TMapService()
     const map = useMap()
 
-    const search = _.debounce(async(query) => {
+    const search = _.debounce(async (query) => {
       if (!query) return
       if (state.place && state.place === query) return
       try {

@@ -121,7 +121,7 @@ export default {
       default: () => ({}),
     },
   },
-  data() {
+  data () {
     return {
       display: false,
       activeTab: 0,
@@ -130,16 +130,16 @@ export default {
     }
   },
   computed: {
-    dateTimeFormat() {
+    dateTimeFormat () {
       return this.dateFormat + ' ' + this.timeFormat
     },
-    defaultDateTimeFormat() {
+    defaultDateTimeFormat () {
       return DEFAULT_DATE_FORMAT + ' ' + DEFAULT_TIME_FORMAT
     },
-    formattedDatetime() {
+    formattedDatetime () {
       return this.selectedDatetime ? format(this.selectedDatetime, this.dateTimeFormat) : ''
     },
-    selectedDatetime() {
+    selectedDatetime () {
       if (this.date && this.time) {
         let datetimeString = this.date + ' ' + this.time
         if (this.time.length === 5) {
@@ -152,12 +152,12 @@ export default {
     },
   },
   watch: {
-    datetime: function() {
+    datetime: function () {
       this.init()
     },
   },
   methods: {
-    init() {
+    init () {
       if (!this.datetime) {
         return
       }
@@ -173,18 +173,18 @@ export default {
       this.date = format(initDateTime, DEFAULT_DATE_FORMAT)
       this.time = format(initDateTime, DEFAULT_TIME_FORMAT)
     },
-    okHandler() {
+    okHandler () {
       this.resetPicker()
       this.$emit('input', this.formattedDatetime)
     },
-    clearHandler() {
+    clearHandler () {
       this.resetPicker()
       this.date = DEFAULT_DATE
       this.time = DEFAULT_TIME
       // has never changed
       this.$emit('input', this.datetime)
     },
-    resetPicker() {
+    resetPicker () {
       this.display = false
       this.activeTab = 0
       if (this.$refs.timer) {
@@ -192,7 +192,7 @@ export default {
       }
     },
   },
-  mounted() {
+  mounted () {
     this.init()
   },
 }

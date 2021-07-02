@@ -70,7 +70,7 @@ export default {
   }),
   computed: {},
   methods: {
-    okHandler() {
+    okHandler () {
       this.$emit('input', [
         this.dates[0],
         this.dates[1],

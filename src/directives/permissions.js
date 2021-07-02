@@ -4,9 +4,9 @@ import Vue from 'vue'
 
 // 必须包含列出的所有权限，元素才显示
 const hasPermission = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasPermission', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         let permissions = vnode.context.$store.state.account.permissions
         let value = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
         let flag = true
@@ -30,9 +30,9 @@ const hasPermission = {
 
 // 当不包含列出的权限时，渲染该元素
 const hasNoPermission = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasNoPermission', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         let permissions = vnode.context.$store.state.account.permissions
         let value = binding.value.split(',')
         let flag = true
@@ -56,9 +56,9 @@ const hasNoPermission = {
 
 // 只要包含列出的任意一个权限，元素就会显示
 const hasAnyPermission = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasAnyPermission', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         let permissions = vnode.context.$store.state.account.permissions
         let value = binding.value.split(',')
         let flag = false
@@ -82,9 +82,9 @@ const hasAnyPermission = {
 
 // 必须包含列出的所有角色，元素才显示
 const hasRole = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasRole', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         let permissions = vnode.context.$store.state.account.roles
         let value = binding.value.split(',')
         let flag = true
@@ -108,9 +108,9 @@ const hasRole = {
 
 // 只要包含列出的任意一个角色，元素就会显示
 const hasAnyRole = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasAnyRole', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         let permissions = vnode.context.$store.state.account.roles
         let value = binding.value.split(',')
         let flag = false

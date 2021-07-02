@@ -20,6 +20,7 @@ module.exports = {
     'func-style': ['error', 'expression'],
     indent: ['error', 2, { SwitchCase: 1 }],
     'vue/max-attributes-per-line': 5,
+    "space-before-function-paren": ["warn", "always"],
   },
   parserOptions: {
     parser: 'babel-eslint',

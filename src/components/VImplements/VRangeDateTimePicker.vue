@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     dayjs,
-    okHandler() {
+    okHandler () {
       this.$emit('input', [
         this.dates[0] + ' ' + this.timeStart,
         this.dates[1] + ' ' + this.timeEnd,
