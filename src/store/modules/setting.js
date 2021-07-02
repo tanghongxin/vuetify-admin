@@ -4,6 +4,7 @@ export const SettingMutations = {
   TOGGLE_APP_NAVIGATION: 'TOGGLE_APP_NAVIGATION',
   TOGGLE_APP_PERMANENT_NAVIGATION: 'TOGGLE_APP_PERMANENT_NAVIGATION',
   TOGGLE_APP_SETTING: 'TOGGLE_APP_SETTING',
+  TOGGLE_APP_THEME_DARK: 'TOGGLE_APP_THEME_DARK',
 }
 
 export default {
@@ -12,6 +13,7 @@ export default {
     appHeaderHeight: document.body.clientWidth <= 600 ? 48 : 64,
     appNavigation: document.body.clientWidth > 1264,
     appPrimaryColor: '#1976D2',
+    appThemeDark: false,
     appSetting: false,
   },
   mutations: {
@@ -20,6 +22,9 @@ export default {
     },
     [SettingMutations.SET_APP_PRIMARY_COLOR] (state, payload) {
       state.appPrimaryColor = payload
+    },
+    [SettingMutations.TOGGLE_APP_THEME_DARK] (state) {
+      state.appThemeDark = !state.appThemeDark
     },
     [SettingMutations.TOGGLE_APP_NAVIGATION] (state) {
       state.appNavigation = !state.appNavigation

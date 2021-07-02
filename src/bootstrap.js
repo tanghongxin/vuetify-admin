@@ -15,5 +15,11 @@ export default function bootstrap () {
     { immediate: true }
   )
 
+  this.$watch(
+    () => $store.state.setting.appThemeDark,
+    (val) => $nextTick(() => $vuetify.theme.dark = val),
+    { immediate: true }
+  )
+
   $store.dispatch(`account/${AccountActions.BUILD_ROUTES}`)
 }

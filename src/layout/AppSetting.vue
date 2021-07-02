@@ -35,6 +35,19 @@
               @change="togglePermanentAppNavigation"
             />
           </v-flex>
+          <v-flex>
+            <v-subheader
+              class="px-1 my-2"
+              v-text="'外观'"
+            />
+            <v-switch
+              color="primary"
+              :value="appThemeDark"
+              primary
+              label="暗黑模式"
+              @change="toggleAppThemeDark"
+            />
+          </v-flex>
           <!-- / Theme -->
           <v-flex>
             <v-subheader
