@@ -52,7 +52,6 @@
 import _ from 'lodash'
 import TMarker from './TMarker.vue'
 import TMapService from './TMapService'
-import { v4 as uuid } from 'uuid'
 import { computed, defineComponent, reactive } from '@vue/composition-api'
 import { useMap } from './composable'
 
@@ -63,7 +62,7 @@ export default defineComponent({
   },
   setup () {
     const state = reactive({
-      id: uuid(),
+      id: `${Date.now()}`,
       loading: false,
       searchResults: [],
       place: null,
