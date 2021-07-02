@@ -2,7 +2,7 @@
 import { Props } from './mixin'
 import _ from 'lodash-es'
 import { defineComponent, h, onMounted, onBeforeUnmount, watch } from '@vue/composition-api'
-import { useMap } from './composable'
+import { useInject } from './composable'
 
 export default defineComponent({
   name:'TMarker',
@@ -15,7 +15,7 @@ export default defineComponent({
     },
   },
   setup (props, ctx) {
-    const map = useMap()
+    const map = useInject()
     let marker
     let listener
 

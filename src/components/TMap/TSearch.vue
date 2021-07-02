@@ -48,7 +48,7 @@ import _ from 'lodash-es'
 import TMarker from './TMarker.vue'
 import TMapService from './TMapService'
 import { computed, defineComponent, reactive } from '@vue/composition-api'
-import { useMap } from './composable'
+import { useInject } from './composable'
 
 export default defineComponent({
   name: 'TSearch',
@@ -70,7 +70,7 @@ export default defineComponent({
       ]
     })
     const service = new TMapService()
-    const map = useMap()
+    const map = useInject()
 
     const search = _.debounce(async (query) => {
       if (!query) return
