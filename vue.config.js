@@ -35,7 +35,7 @@ module.exports = {
         .tap(args => {
           const [options] = args
           const dependencies = require('./package.json')['dependencies']
-          const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
+          const jsList = ['vue', 'vue-router', 'vuex', 'axios']
           const BASE_URL = 'https://cdn.bootcss.com'
           options.cdn = {
             js: jsList.map(packageName => {
@@ -56,7 +56,7 @@ module.exports = {
         vue: 'Vue',
         'vue-router': 'VueRouter',
         vuex: 'Vuex',
-        vuetify: 'Vuetify',
+        // vuetify: 'Vuetify',
         axios: 'axios',
       })
 

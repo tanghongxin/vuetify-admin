@@ -300,7 +300,6 @@ export default {
      */
     async handleDelete (id) {
       try {
-        await this.confirmDelete()
         this.loading = true
         await deleteProject(id)
         this.$snotify.success('系统提示', '删除项目成功')
@@ -310,18 +309,6 @@ export default {
       } finally {
         this.loading = false
       }
-    },
-    /**
-     * 确认删除项目
-     * @return {Promise<Undefined>}
-     */
-    confirmDelete () {
-      return new Promise(async (resolve, reject) => {
-        await this.$dialog.confirm({
-          title: '删除项目',
-          text: '确定删除该项目么？',
-        }) ? resolve() : reject()
-      })
     },
   },
 }
