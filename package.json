@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build --mode production",
-    "build:report": "vue-cli-service build --report --mode production && live-server --open=./dist/report.html",
+    "build:report": "vue-cli-service build --report --mode production && cd dist && live-server --open=./report.html",
     "lint": "vue-cli-service lint",
     "lint:style": "stylelint **/*.{html,vue} --custom-syntax postcss-html",
     "lint:css": "stylelint **/*.{css,sass,scss} --syntax scss",
@@ -50,6 +50,7 @@
     "eslint-plugin-vue": "^5.2.3",
     "husky": "^3.0.9",
     "lint-staged": "^9.5.0",
+    "live-server": "^1.2.1",
     "lodash-webpack-plugin": "^0.11.5",
     "mockjs-async": "^0.0.5",
     "sass": "^1.35.1",
