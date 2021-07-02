@@ -1,6 +1,5 @@
 <template>
   <div class="t-search" :id="`${state.id}`">
-    <!-- / Search autocomplete -->
     <v-autocomplete
       :attach="`#${state.id}`"
       autofocus
@@ -29,26 +28,24 @@
     >
       <template v-slot:item="{ item }">
         <v-list-item-content>
-          <v-list-item-title v-text="item.name" />
-          <v-list-item-subtitle v-text="item.address" />
-          <v-list-item-subtitle v-text="item.phone" />
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
+          <v-list-item-subtitle>{{ item.address }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ item.phone }}</v-list-item-subtitle>
         </v-list-item-content>
       </template>
     </v-autocomplete>
 
-    <!-- / Marker -->
-    <TMarker :position="position" />
     <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
     <!-- v-if="position.length" -->
+    <TMarker :position="position" />
   </div>
 </template>
 
 <script>
 import _ from 'lodash-es'
 import TMarker from './TMarker.vue'
-import TMapService from './TMapService'
 import { computed, defineComponent, reactive } from '@vue/composition-api'
-import { useInject } from './composable'
+import { useInject, useService } from './composable'
 
 export default defineComponent({
   name: 'TSearch',
@@ -69,7 +66,7 @@ export default defineComponent({
         state.place.latLng.lng,
       ]
     })
-    const service = new TMapService()
+    const service = useService()
     const map = useInject()
 
     const search = _.debounce(async (query) => {

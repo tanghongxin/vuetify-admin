@@ -52,9 +52,10 @@
               color="primary"
               :loading="loading"
               type="submit"
-              v-text="'登陆'"
               @click="$refs['form'].validate() && handleSubmit()"
-            />
+            >
+              登录
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

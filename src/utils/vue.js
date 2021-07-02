@@ -4,7 +4,7 @@ export const removeKeepAliveCache = vm => {
   if (keys.length && cache[key]) {
     const index = keys.indexOf(key)
     keys.splice(index, 1)
-    delete cache[key]
+    Reflect.deleteProperty(cache, key)
   }
   vm.$destroy()
 }

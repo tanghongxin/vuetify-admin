@@ -13,8 +13,7 @@ import { Props } from './mixin'
 import { 
   defineComponent, onMounted, watch, computed,
 } from '@vue/composition-api'
-import { useProvide, useState } from './composable'
-import TMapLoader from './TMapLoader'
+import { useProvide, useState, useLoader } from './composable'
 
 export default defineComponent({
   name:'TMap',
@@ -24,11 +23,12 @@ export default defineComponent({
   setup (props, ctx) {
     const [map, setMap] = useState(null)
     const [initialized, setInitialized] = useState(false)
+    const loader = useLoader()
 
     useProvide(map)
 
     onMounted(async () => {
-      await TMapLoader.getInstance().init()
+      await loader.init()
 
       const options = computed(() => ({
         center: new qq.maps.LatLng(...props.position),

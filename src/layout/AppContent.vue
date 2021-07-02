@@ -1,6 +1,4 @@
 <script>
-import VRouterViewTabs from '@/components/VImplements/VRouterViewTabs.vue'
-
 export default {
   name: 'AppContent',
   render () {

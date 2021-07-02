@@ -24,11 +24,9 @@
             text
             @click.prevent="closeTab(index)"
           >
-            <v-icon
-              class="VRouterViewTabs--tab-icon_close"
-              small
-              v-text="'close'"
-            />
+            <v-icon class="VRouterViewTabs--tab-icon_close" small>
+              close
+            </v-icon>
           </v-btn>
         </v-tab>
       </v-tabs>
@@ -89,9 +87,10 @@
               small
               :size="16"
               tag="span"
-              v-text="item.icon"
-            />
-            <v-list-item-title v-text="item.title" />
+            >
+              {{ item.icon }}
+            </v-icon>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </VFollowMenu>

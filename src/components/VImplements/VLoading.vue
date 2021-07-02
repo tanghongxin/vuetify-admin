@@ -1,9 +1,8 @@
 <template>
   <v-overlay
-    absolute
-    color="rgba(255, 255, 255, 0.7)"
+    :color="value ? 'rgba(255, 255, 255, 0.7)' : 'transparent'"
     opacity="1"
-    :value="value"
+    v-bind="$props"
   >
     <v-progress-circular
       color="primary"
@@ -17,8 +16,16 @@
 <script>
 export default {
   name: 'VLoading',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['value', 'absolute'],
+  props: {
+    value: {
+      type: Boolean,
+      default: false,
+    },
+    absolute: {
+      type: Boolean,
+      default: false,
+    },
+  },
 }
 </script>
 

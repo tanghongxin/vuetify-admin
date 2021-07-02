@@ -10,9 +10,9 @@ export default class TMapService {
   searchPlaces (query, options = {}) {
     return new Promise((resolve, reject) => {
       const service = new qq.maps.SearchService({
-        ...options,
         complete: resolve,
         error: reject,
+        ...options,
         pageIndex:1,
         pageCapacity:10,
         location:"北京",

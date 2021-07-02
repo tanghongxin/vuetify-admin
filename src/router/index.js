@@ -57,7 +57,7 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
           Object.assign(route, {
             component: lazyLoad(item.resource),
             beforeEnter (to, from, next) {
-              if (!to.meta.permissions || !to.meta.permissions.length) {
+              if (!to.meta.permissions.length) {
                 return next()
               } else if (_.difference(to.meta.permissions, permissions).length === 0) {
                 return next()

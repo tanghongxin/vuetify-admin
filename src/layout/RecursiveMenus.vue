@@ -16,10 +16,7 @@
             {{ item.text }}
           </v-list-item-title>
         </template>
-        <RecursiveMenus
-          sub
-          :items="item.children"
-        />
+        <RecursiveMenus sub :items="item.children" />
       </v-list-group>
 
       <!-- / leaf nodes -->

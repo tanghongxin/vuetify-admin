@@ -15,7 +15,7 @@
         slot="prepend"
         color="primary lighten-1"
       >
-        <v-toolbar-title v-text="'个性化设置'" />
+        <v-toolbar-title>个性化设置</v-toolbar-title>
       </v-toolbar>
 
       <!-- / Content -->
@@ -23,10 +23,9 @@
         <v-layout column>
           <!-- / Navigation -->
           <v-flex>
-            <v-subheader
-              class="px-1 my-2"
-              v-text="'导航栏设置'"
-            />
+            <v-subheader class="px-1 my-2">
+              导航栏设置
+            </v-subheader>
             <v-switch
               color="primary"
               :value="appPermanentNavigation"
@@ -36,10 +35,9 @@
             />
           </v-flex>
           <v-flex>
-            <v-subheader
-              class="px-1 my-2"
-              v-text="'外观'"
-            />
+            <v-subheader class="px-1 my-2">
+              外观
+            </v-subheader>
             <v-switch
               color="primary"
               :value="appThemeDark"
@@ -50,10 +48,9 @@
           </v-flex>
           <!-- / Theme -->
           <v-flex>
-            <v-subheader
-              class="px-1 my-2"
-              v-text="'主题色设置'"
-            />
+            <v-subheader class="px-1 my-2">
+              主题色设置
+            </v-subheader>
             <div class="color-option">
               <v-layout wrap>
                 <label
