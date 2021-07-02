@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import _ from 'lodash'
+import _ from 'lodash-es'
 import Page from '@/layout/Page.vue'
 import NProgress from '@/components/NProgress'
 

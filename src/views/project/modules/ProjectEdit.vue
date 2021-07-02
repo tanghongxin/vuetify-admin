@@ -135,7 +135,7 @@
 
 import { editProject, getProject } from '@/api/project'
 import Timeout from 'await-timeout'
-import _ from 'lodash'
+import _ from 'lodash-es'
 
 export default {
   name:'ProjectEdit',

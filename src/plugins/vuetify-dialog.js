@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VuetifyDialog from 'vuetify-dialog'
 import 'vuetify-dialog/dist/vuetify-dialog.css'
 import vuetify from './vuetify'
-import _ from 'lodash'
+import _ from 'lodash-es'
 
 const defaultOptions = {
   icon: false,

@@ -19,8 +19,10 @@ module.exports = {
   publicPath: './',
   lintOnSave: !isProd,
   chainWebpack: config => {
+    // HACK: tree shaking does not work on lodash-es directly
     config.resolve.alias
       .set('@', path.join(__dirname, 'src'))
+      .set('lodash', path.join(__dirname, './node_modules/lodash-es'))
 
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type =>

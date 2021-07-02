@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import _ from 'lodash'
+import _ from 'lodash-es'
 import { Props } from './mixin'
 import { defineComponent, provide, ref, onMounted, reactive } from '@vue/composition-api'
 import { injectMapKey } from './composable'

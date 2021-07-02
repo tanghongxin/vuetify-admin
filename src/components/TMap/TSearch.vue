@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _ from 'lodash-es'
 import TMarker from './TMarker.vue'
 import TMapService from './TMapService'
 import { computed, defineComponent, reactive } from '@vue/composition-api'

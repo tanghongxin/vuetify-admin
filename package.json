@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build --mode production",
+    "build:report": "vue-cli-service build --report --mode production && live-server --open=./dist/report.html",
     "lint": "vue-cli-service lint",
     "lint:style": "stylelint **/*.{html,vue} --custom-syntax postcss-html",
     "lint:css": "stylelint **/*.{css,sass,scss} --syntax scss",
@@ -22,7 +23,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.15.2",
     "dayjs": "^1.10.5",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "material-design-icons-iconfont": "^6.1.0",
     "nprogress": "^0.2.0",
     "vue": "^2.6.14",

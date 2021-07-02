@@ -1,6 +1,6 @@
 <script>
 import { Props } from './mixin'
-import _ from 'lodash'
+import _ from 'lodash-es'
 import { defineComponent, h, onMounted, onBeforeUnmount, watch } from '@vue/composition-api'
 import { useMap } from './composable'
 

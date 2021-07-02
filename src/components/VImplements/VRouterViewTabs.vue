@@ -103,7 +103,7 @@
 import VFollowMenu from './VFollowMenu.vue'
 import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
 import { removeKeepAliveCache } from '@/utils/vue'
-import _ from 'lodash'
+import _ from 'lodash-es'
 import Timeout from 'await-timeout'
 import { mapState } from 'vuex'
 
