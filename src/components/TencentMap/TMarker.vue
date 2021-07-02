@@ -1,58 +1,52 @@
 <script>
 import { Props } from './common'
 import _ from 'lodash'
+import { defineComponent, h, onMounted, onBeforeUnmount, watch } from '@vue/composition-api'
+import { useMap } from './composable'
 
-export default {
+export default defineComponent({
   name:'TMarker',
-  inject: ['map'],
   props: {
-    ..._.pick(Props, ['animation', 'clickable', 'draggable', 'position', 'zIndex']),
+    ..._.pick(Props, ['clickable', 'draggable', 'position', 'zIndex']),
     animation: {
       type: String,
       default: 'DOWN',
       validator: animation => ['BOUNCE', 'DROP', 'DOWN', 'UP'].includes(animation),
     },
-    clickable: {
-      type: Boolean,
-      default: false,
-    },
-    // TODO: $watch and v-model
-    draggable: {
-      type: Boolean,
-      default: false,
-    },
   },
-  data: () => ({
-    marker: null,
-  }),
-  computed: {},
-  watch: {
-    position () {
-      if (this.marker) {
-        this.marker.setPosition(
-          new qq.maps.LatLng(...this.position)
+  setup (props, ctx) {
+    const map = useMap()
+    let marker
+    let listener
+
+    onMounted(() => {
+      marker = new qq.maps.Marker({
+        animation: qq.maps.MarkerAnimation[props.animation],
+        center: new qq.maps.LatLng(...props.position),
+        clickable: true,
+        draggable: false,
+        zIndex: props.zIndex,
+        map,
+      })
+      // https://lbs.qq.com/webApi/javascriptV2/jsGuide/jsEvent
+      listener = qq.maps.event.addListener(marker, 'click', e => ctx.emit('click', e))
+    })
+
+    watch(
+      () => props.position,
+      () => {
+        marker.setPosition(
+          new qq.maps.LatLng(...props.position)
         )
       }
-    },
-  },
-  methods: {},
-  created () {
-    this.marker = new qq.maps.Marker({
-      animation: qq.maps.MarkerAnimation[this.animation],
-      center: new qq.maps.LatLng(...this.position),
-      clickable: this.clickable,
-      draggable: this.draggable,
-      // TODO: ref
-      map: this.map.value,
-      zIndex: this.zIndex,
+    )
+
+    onBeforeUnmount(() => {
+      marker.setMap(null)
+      qq.maps.event.removeListener(listener)
     })
-    qq.maps.event.addListener(this.marker, 'click', e => {
-      this.$emit('click', e)
-    })
+    
+    return () => h()
   },
-  beforeDestroy () {
-    this.marker && this.marker.setMap && this.marker.setMap(null)
-  },
-  render: h => h(),
-}
+})
 </script>

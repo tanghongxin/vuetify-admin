@@ -15,7 +15,7 @@ export default {
 
 <style lang="scss">
 .home {
-  height: 500px;
-  width: 1200px;
+  height: 100%;
+  width: 100%;
 }
 </style>

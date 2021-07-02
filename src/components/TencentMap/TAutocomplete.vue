@@ -1,11 +1,11 @@
 <template>
   <div
     class="t-auto-complete"
-    :id="`t-auto-complete${id}`"
+    :id="`t-auto-complete${state.id}`"
   >
     <!-- / Search autocomplete -->
     <v-autocomplete
-      :attach="`#t-auto-complete${id}`"
+      :attach="`#t-auto-complete${state.id}`"
       autofocus
       :cache-items="false"
       clearable
@@ -13,11 +13,11 @@
       flat
       height="30"
       hide-no-data
-      :items="searchResults"
+      :items="state.searchResults"
       item-text="name"
-      :loading="loading"
+      :loading="state.loading"
       :menu-props="{
-        attach: `#t-auto-complete${id}`,
+        attach: `#t-auto-complete${state.id}`,
         contentClass: 'elevation-0_',
         maxHeight: 520,
         maxWidth: 350,
@@ -26,7 +26,7 @@
       placeholder="输入地址搜索"
       return-object
       solo
-      v-model="place"
+      v-model="state.place"
       @change="select"
       @update:search-input="search"
     >
@@ -41,10 +41,10 @@
 
     <!-- / Marker -->
     <TMarker
-      :position="selectedPlacePosition"
+      :position="state.placePosition"
     />
     <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
-    <!-- v-if="selectedPlacePosition.length" -->
+    <!-- v-if="placePosition.length" -->
   </div>
 </template>
 
@@ -53,79 +53,59 @@ import _ from 'lodash'
 import TMarker from './TMarker'
 import TMapService from './TMapService'
 import { v4 as uuid } from 'uuid'
+import { defineComponent, reactive } from '@vue/composition-api'
+import { useMap } from './composable'
 
-export default {
+export default defineComponent({
   name: 'TAutocomplete',
   components: {
     TMarker,
   },
-  inject: ['map'],
-  data: () => ({
-    id: uuid(),
-    // VAutocomplete loading
-    loading: false,
-    // 查询出的地点列表
-    searchResults: [],
-    // 选中的地点
-    place: null,
-    // 选中的地点坐标
-    selectedPlacePosition: [],
-    service: new TMapService(),
-  }),
-  methods: {
-    /**
-     * 搜索栏搜索
-     * @event
-     * @param {String} query 搜索内容
-     */
-    async search (query = '') {
-      // 条件为空或条件结果已存在时，不进行搜索
-      if (!query || (this.place && this.place.name === query)) {
-        return
-      }
+  setup () {
+    const state = reactive({
+      id: uuid(),
+      loading: false,
+      searchResults: [],
+      place: null,
+      placePosition: [],
+    })
+    const service = new TMapService()
+    const map = useMap()
+
+    const search = _.debounce(async(query) => {
+      if (!query) return
+      if (state.place && state.place === query) return
       try {
-        this.loading = true
-        const result = await this.service.searchPlaces(query)
-        this.searchResults = result.type === 'CITY_LIST' ? [] : result.detail.pois
-      } catch (e) {
-        this.searchResults = []
-        throw e
+        state.loading = true
+        const searchResults = await service.searchPlaces(query)
+        state.searchResults = searchResults.type === 'CITY_LIST' ? [] : searchResults.detail.pois
       } finally {
-        this.loading = false
+        state.loading = false
       }
-    },
-    /**
-     * 下拉列表选中一项
-     * @event
-     * @param {Object} e 选中的地图点
-     */
-    select (e) {
-      if (e) {
-        this.selectedPlacePosition = [
-          e.latLng.lat,
-          e.latLng.lng,
-        ]
-        const latlngBounds = new qq.maps.LatLngBounds()
-        latlngBounds.extend(e.latLng)
-        this.map.fitBounds(latlngBounds)
-        this.map.panTo(e.latLng)
-      }
-    },
-    /**
-     * 鼠标点击地图任一点选中该坐标
-     * @event
-     */
-    click (e) {
-      this.selectedPlacePosition = [
+    }, 80)
+
+    const select = (e) => {
+      if (!e) return
+      state.placePosition = [
         e.latLng.lat,
         e.latLng.lng,
       ]
-    },
+      const latLngBounds = new qq.maps.LatLngBounds()
+      latLngBounds.extend(e.latLng)
+      map.fitBounds(latLngBounds)
+      map.panTo(e.latLng)
+    }
+
+    const click = (e) => {
+      state.placePosition = [
+        e.latLng.lat,
+        e.latLng.lng,
+      ]
+    }
+
+    return { state, search, select, click }
   },
-  created () {
-    this.search = _.debounce(this.search, 800)
-  },
-}
+})
 </script>
 
 <style lang="scss">

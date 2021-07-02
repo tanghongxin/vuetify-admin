@@ -1,8 +1,9 @@
 <script>
 import _ from 'lodash'
 import { Props } from './common'
-import { h, defineComponent, provide, ref } from '@vue/composition-api'
-import { useInit } from './composable'
+import { h, defineComponent, provide, ref, onMounted } from '@vue/composition-api'
+import { injectMapKey } from './composable'
+import TMapLoader from './TMapLoader'
 
 export default defineComponent({
   name:'TMap',
@@ -13,9 +14,10 @@ export default defineComponent({
     const map = ref(null)
     const initialized = ref(false)
     
-    provide('map', map)
+    provide(injectMapKey, map)
 
-    useInit(() => {
+    onMounted(async () => {
+      await TMapLoader.getInstance().init()
       map.value = new qq.maps.Map(ctx.refs.$el, {
         center: new qq.maps.LatLng(...props.position),
         zoom: props.zoom,
