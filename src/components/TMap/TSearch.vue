@@ -35,9 +35,7 @@
       </template>
     </v-autocomplete>
 
-    <!-- FIXME: v-if 时第一次无法渲染到地图上 -->
-    <!-- v-if="position.length" -->
-    <TMarker :position="position" />
+    <TMarker v-if="position.length" :position="position" />
   </div>
 </template>
 
@@ -99,7 +97,7 @@ export default defineComponent({
   height: 30px;
   left: 75px;
   position: absolute;
-  top: 20px;
+  top: 40px;
   width: 350px;
   z-index: 99;
 }

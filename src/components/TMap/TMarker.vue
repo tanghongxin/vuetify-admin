@@ -18,7 +18,7 @@ export default defineComponent({
     const map = useInject()
     const marker = new qq.maps.Marker({
       animation: qq.maps.MarkerAnimation[props.animation],
-      center: new qq.maps.LatLng(...props.position),
+      position: new qq.maps.LatLng(...props.position),
       clickable: true,
       draggable: false,
       zIndex: props.zIndex,
