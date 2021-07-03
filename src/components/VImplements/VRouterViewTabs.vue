@@ -47,6 +47,7 @@
       >
         <!-- / TODO -->
         <VRouterBreadCrumbs
+          v-show="!$vuetify.breakpoint.xsOnly"
           class="pt-2 pb-2"
           :style="{ height: breadCrumbsHeight }"
         />
