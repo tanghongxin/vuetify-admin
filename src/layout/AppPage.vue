@@ -5,7 +5,7 @@ import AppNavigation from '@/layout/AppNavigation.vue'
 import AppSetting from '@/layout/AppSetting.vue'
 
 export default {
-  name: 'Page',
+  name: 'AppPage',
   render () {
     return (
       <div class="page">
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-.page {
+.app-page {
   height: 100%;
   width: 100%;
 }

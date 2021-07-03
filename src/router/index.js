@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import _ from 'lodash-es'
-import Page from '@/layout/Page.vue'
+import AppPage from '@/layout/AppPage.vue'
 import NProgress from '@/components/NProgress'
 
 // router.addRoutes() is deprecated and has been removed in Vue Router 4
@@ -77,7 +77,7 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
   router.matcher = createRouter().matcher
   router.addRoute({
     path: '/',
-    component: Page,
+    component: AppPage,
     redirect: '/home',
     children: recursive(menus),
   })
