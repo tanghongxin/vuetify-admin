@@ -34,7 +34,7 @@ module.exports = {
       config.plugin('html')
         .tap(args => {
           const [options] = args
-          const dependencies = require('./package.json')['dependencies']
+          const { dependencies }  = require('./package.json')
           const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
           const BASE_URL = 'https://cdn.bootcss.com'
           options.cdn = {
@@ -45,9 +45,7 @@ module.exports = {
               return [BASE_URL, name, version, suffix].join('/')
             }),
           }
-          return [
-            options,
-          ]
+          return args
         })
       
       // cdn global variables

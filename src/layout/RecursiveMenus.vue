@@ -1,26 +1,35 @@
 <template>
-  <v-list class="py-0">
+  <v-list class="py-0 recursive-menus">
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group
+        active-class="primary--text"
+        :class="sub ? 'group-sub' : ''"
         v-if="item.type === 'MENU' && !item.hidden"
         v-hasPermission="item.permissions"
         :key="item.text"
-        v-model="item.expanded"
-        :prepend-icon="item.icon"
+        :value="$route.path.includes(item.to)"
         :append-icon="item.model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-        :sub-group="sub"
       >
+        <template v-slot:prependIcon>
+          <v-icon v-if="item.icon">
+            {{ item.icon }}
+          </v-icon>
+          <v-icon v-else :style="{ opacity: 0 }">
+            home
+          </v-icon>
+        </template>
         <template v-slot:activator>
           <v-list-item-title>
             {{ item.text }}
           </v-list-item-title>
         </template>
-        <RecursiveMenus sub :items="item.children" />
+        <RecursiveMenus sub :items="item.children" v-if="item.children.length" />
       </v-list-group>
 
       <!-- / leaf nodes -->
       <v-list-item
+        active-class="primary--text"
         v-if="item.type === 'VIEW' && !item.hidden"
         v-hasPermission="item.permissions"
         :key="item.text"
@@ -55,4 +64,12 @@ export default {
 </script>
 
 <style lang="scss">
+.group-sub {
+  padding-left: 1rem;
+
+  /* stylelint-disable-next-line */
+  & > .v-list-group__items {
+    padding-left: 1rem;
+  }
+}
 </style>

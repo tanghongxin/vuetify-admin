@@ -23,64 +23,32 @@ export default {
   mixins: [mixin],
   computed: {
     menus () {
-      const menus = (function recursive (items) {
-        return items.map(item => {
-          let menu = {
-            // ...item,
-            hidden: !!item.hidden,
-            icon: item.icon || '',
-            permissions: item.permissions || [],
-            text: item.text || '',
-            to: item.to || '',
-            type: item.type || '',
-            expanded: this.$route.path.includes(item.to),
-          }
-          switch (item.type) {
-            case 'MENU':
-              menu = {
-                ...menu,
-                children: recursive.call(this, item.children || []),
-              }
-              break
-            case 'VIEW':
-              break
-            default:
-              break
-          }
-          return menu
-        })
-      }.bind(this))(this.$store.state.account.menus)
-      return menus
-    },
-  },
-  watch: {
-    '$route': {
-      immediate: false,
-      handler (to, from = {}) {
-        to.path !== from.path && this.expandMenuMatchRoute(to.path)
-      },
+      return this.recursive(this.$store.state.account.menus)
     },
   },
   methods: {
-    expandMenuMatchRoute (path) {
-      const willOpenMenus = []
-      const toBeClosedMenus = [];
-      (function recursive (items) {
-        items.forEach(item => {
-          if (path.includes(item.to)) {
-            willOpenMenus.unshift(item)
-            recursive(item.children || [])
-          } else {
-            toBeClosedMenus.push(item)
-            // recursive(item.children || [])
-          }
-        })
-      })(this.menus)
-      willOpenMenus.forEach(menu => {
-        menu.expanded = true
-      })
-      toBeClosedMenus.forEach(menu => {
-        menu.expanded = false
+    recursive (items) {
+      return items.map(item => {
+        const menu = {
+          hidden: !!item.hidden,
+          icon: item.icon || '',
+          permissions: item.permissions || [],
+          text: item.text || '',
+          to: item.to || '',
+          type: item.type || '',
+        }
+        switch (item.type) {
+          case 'MENU':
+            Object.assign(menu, {
+              children: this.recursive(item.children || []),
+            })
+            break
+          case 'VIEW':
+          default:
+            break
+        }
+
+        return menu
       })
     },
     handleInput () {
