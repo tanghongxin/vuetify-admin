@@ -36,6 +36,7 @@ const resetRouter = () => {
 }
 
 const buildDynamicRoutes = (menus = [], permissions = []) => {
+  let num = 1
   const recursive = (items = []) => {
     return items.map(item => {
       const route = {
@@ -48,7 +49,10 @@ const buildDynamicRoutes = (menus = [], permissions = []) => {
       switch (item.type) {
         case 'MENU':
           Object.assign(route, {
-            component: { render: h => h('router-view') },
+            component: {
+              name: `RouterViewWrapper${num++}`,
+              render: h => h('router-view'),
+            },
             children: recursive(item.children || []),
             redirect: '/exception/404',
           })
