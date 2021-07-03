@@ -17,7 +17,7 @@ const lazyLoad = (path) => (resolve) => {
 
 const DEFAULT_ROUTE = {
   path: '/login',
-  name: '登陆',
+  name: '登录',
   component: lazyLoad('login/index'),
 }
 

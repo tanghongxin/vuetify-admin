@@ -1,108 +1,72 @@
 <template>
-  <div class="VRouterViewTabs fill-height">
+  <div class="fill-height">
     <!-- / Tab -->
-    <template>
-      <v-tabs
-        show-arrows
-        slider-color="primary darken-1"
-        @change="tabChange"
-        :height="tabHeight"
+    <v-tabs
+      show-arrows
+      slider-color="primary darken-1"
+      @change="handleTabsChange"
+      :height="tabHeight"
+    >
+      <v-tab
+        v-for="(route, index) in routeList"
+        :key="index"
+        :exact="route.name === $route.name"
+        :to="route.fullPath"
+        @contextmenu="handleCtxMenu($event, index)"
       >
-        <v-tab
-          v-for="(route, index) in routeList"
-          :key="index"
-          :exact="route.name === $route.name"
-          :to="route.fullPath"
-          @contextmenu="showContextMenu($event, index)"
-        >
-          <span class="subtitle-1">{{ route.name }}</span>
-          <v-btn
-            class="VRouterViewTabs--tab-btn_close"
-            icon
-            ripple
-            small
-            text
-            @click.prevent="closeTab(index)"
-          >
-            <v-icon class="VRouterViewTabs--tab-icon_close" small>
-              close
-            </v-icon>
-          </v-btn>
-        </v-tab>
-      </v-tabs>
-    </template>
+        <span class="subtitle-1">{{ route.name }}</span>
+        <v-btn icon ripple small text @click.prevent="closeTab(index)">
+          <v-icon small>
+            close
+          </v-icon>
+        </v-btn>
+      </v-tab>
+    </v-tabs>
 
     <!-- / Divider -->
     <v-divider />
 
     <!-- / Content -->
-    <template>
-      <v-container
-        fluid
-        ref="scroll"
-        id="VRouterViewTabs__router-view"
-        class="overflow-x-hidden overflow-y-auto py-1 px-1"
-        v-scroll:#VRouterViewTabs__router-view="subscribeScroll"
-        :style="{ height: `calc(100% - ${tabHeight}px)` }"
-      >
-        <!-- / TODO -->
-        <VRouterBreadCrumbs
-          v-show="!$vuetify.breakpoint.xsOnly"
-          class="pt-2 pb-2"
-          :style="{ height: breadCrumbsHeight }"
-        />
-        <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
-          <v-slide-x-transition
-            leave-absolute
-            mode="out-in"
-          >
-            <keep-alive>
-              <router-view
-                ref="routerView"
-                :key="$route.name"
-                @hook:activated="routerViewActivated"
-              />
-            </keep-alive>
-          </v-slide-x-transition>
-        </div>
-      </v-container>
-    </template>
+    <v-container
+      fluid
+      ref="scroll"
+      id="v-router-view-content"
+      class="overflow-x-hidden overflow-y-auto py-1 px-1"
+      v-scroll:#v-router-view-content="handleScroll"
+      :style="{ height: `calc(100% - ${tabHeight}px)` }"
+    >
+      <VRouterBreadCrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: breadCrumbsHeight }" />
+      <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
+        <v-slide-x-transition leave-absolute mode="out-in">
+          <keep-alive>
+            <router-view ref="routerView" :key="$route.name" @hook:activated="handleRouterViewActivated" />
+          </keep-alive>
+        </v-slide-x-transition>
+      </div>
+    </v-container>
 
     <!-- / ContextMenu -->
-    <template>
-      <VFollowMenu
-        ref="followMenu"
-      >
-        <v-list
+    <VFollowMenu ref="followMenu">
+      <v-list dense class="py-0">
+        <v-list-item
           dense
-          class=" py-0"
+          v-for="(item, index) in menuList"
+          :key="index"
+          @click.prevent="item.click"
         >
-          <v-list-item
-            dense
-            v-for="(item, index) in menuList"
-            :key="index"
-            @click.prevent="item.click"
-          >
-            <v-icon
-              class=" mr-1"
-              small
-              :size="16"
-              tag="span"
-            >
-              {{ item.icon }}
-            </v-icon>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </VFollowMenu>
-    </template>
+          <v-icon class="mr-1" small :size="16" tag="span">
+            {{ item.icon }}
+          </v-icon>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </VFollowMenu>
   </div>
 </template>
 
 <script>
 import VFollowMenu from './VFollowMenu.vue'
 import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
-import { removeKeepAliveCache } from '@/utils/vue'
 import _ from 'lodash-es'
 import Timeout from 'await-timeout'
 import { mapState } from 'vuex'
@@ -170,7 +134,7 @@ export default {
   },
   methods: {
     // FIXME: debounce 时间过长，在页面快速切换时无法记忆
-    subscribeScroll: _.debounce(function (e) {
+    handleScroll: _.debounce(function (e) {
       this.$route.meta.scrollTop = e.target.scrollTop
     }, 50),
     async scroll (scrollTop) {
@@ -184,14 +148,14 @@ export default {
         })
       }
     },
-    showContextMenu (e, index) {
+    handleCtxMenu (e, index) {
       this.targetIndex = index
       this.$refs['followMenu'].show(e)
     },
-    tabChange (fullPath) {
-      this.$router.push(fullPath || '/home').catch(() => {})
+    handleTabsChange (fullPath = '/home') {
+      this.$router.push(fullPath)
     },
-    routerViewActivated () {
+    handleRouterViewActivated () {
       const index = this.routeList.findIndex(route => route.name === this.$route.name)
       if (index !== -1) {
         this.scroll(this.routeList[index].meta.scrollTop)
@@ -204,7 +168,7 @@ export default {
     },
     clearCache (index) {
       const vm = this.vmList[index]
-      removeKeepAliveCache(vm)
+      this.removeKeepAliveCache(vm)
       this.vmList.splice(index, 1)
     },
     clearAllCaches () {
@@ -240,6 +204,16 @@ export default {
       this.closeRightTabs(index)
       this.closeLeftTabs(index)
     },
+    removeKeepAliveCache (vm) {
+      const key = vm.$vnode.key
+      const { cache, keys } = vm.$vnode.parent.componentInstance
+      if (keys.length && cache[key]) {
+        const index = keys.indexOf(key)
+        keys.splice(index, 1)
+        Reflect.deleteProperty(cache, key)
+      }
+      vm.$destroy()
+    },
   },
   beforeDestroy () {
     this.clearAllCaches()
@@ -248,7 +222,12 @@ export default {
 </script>
 
 <style lang="scss">
-#VRouterViewTabs__router-view {
+#v-router-view-content {
   position: relative;
+}
+
+.slide-x-transition-enter-active,
+.slide-x-transition-leave-active {
+  overflow: hidden;
 }
 </style>

@@ -7,16 +7,13 @@
         :class="sub ? 'group-sub' : ''"
         v-if="item.type === 'MENU' && !item.hidden"
         v-hasPermission="item.permissions"
-        :key="item.text"
+        :key="item.to"
         :value="$route.path.includes(item.to)"
         :append-icon="item.model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
       >
         <template v-slot:prependIcon>
-          <v-icon v-if="item.icon">
+          <v-icon>
             {{ item.icon }}
-          </v-icon>
-          <v-icon v-else :style="{ opacity: 0 }">
-            home
           </v-icon>
         </template>
         <template v-slot:activator>
@@ -32,7 +29,7 @@
         active-class="primary--text"
         v-if="item.type === 'VIEW' && !item.hidden"
         v-hasPermission="item.permissions"
-        :key="item.text"
+        :key="item.to"
         :to="item.to"
         link
       >

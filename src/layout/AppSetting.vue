@@ -31,7 +31,7 @@
               :value="appPermanentNavigation"
               primary
               label="导航栏固定左侧"
-              @change="togglePermanentAppNavigation"
+              @change="toggleAppPermanentNavigation"
             />
           </v-flex>
           <v-flex>

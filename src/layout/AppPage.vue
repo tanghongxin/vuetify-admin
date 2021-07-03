@@ -8,7 +8,7 @@ export default {
   name: 'AppPage',
   render () {
     return (
-      <div class="page">
+      <div class="app-page">
         <AppNavigation />
         <AppHeader />
         <AppSetting />
@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss">
 .app-page {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
 }
 </style>
