@@ -11,6 +11,7 @@
           
             <v-card-text>
               <v-text-field
+                autofocus
                 label="Login"
                 name="login"
                 prepend-icon="person"
