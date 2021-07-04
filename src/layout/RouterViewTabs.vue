@@ -1,7 +1,7 @@
 <template>
-  <div class="fill-height d-flex flex-column align-center justify-center router-view-tabs">
-    <transition name="router-view-tabs_header">
-      <div class="router-view-tabs_header fill-width" v-if="appMultipleTabs">
+  <div class="fill-height d-flex flex-column align-center justify-center">
+    <v-expand-transition>
+      <div class="fill-width" v-if="appMultipleTabs">
         <v-tabs
           show-arrows
           slider-color="primary darken-1"
@@ -28,7 +28,7 @@
 
         <VRouterBreadCrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" />
       </div>
-    </transition>
+    </v-expand-transition>
 
     <v-container
       fluid
@@ -185,6 +185,7 @@ export default {
           // There could be an original value when route is redirected from /404
           openedRoutes = this.openedRoutes.length ? this.openedRoutes: [this.$route]
           unWatchRoute = watchRoute()
+          unWatchRoute = null
         } else {
           unWatchRoute && unWatchRoute()
         }
@@ -197,25 +198,4 @@ export default {
 </script>
 
 <style lang="scss">
-.router-view-tabs {
-  &_header {
-    height: 94px;
-
-    &-enter,
-    &-leave-to {
-      height: 0;
-    }
-
-    &-enter-to,
-    &-leave {
-      height: 94px;
-    }
-
-    &-enter-active,
-    &-leave-active {
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    }
-  }
-}
 </style>

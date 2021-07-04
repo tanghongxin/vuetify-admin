@@ -7,11 +7,13 @@
     flat
     :height="appHeaderHeight"
   >
-    <v-toolbar-title style="width: 300px;" class="ml-0 pl-4">
-      <v-app-bar-nav-icon
-        v-show="!appPermanentNavigation"
-        @click.stop="toggleAppNavigation"
-      />
+    <v-toolbar-title style="width: 200px;" class="ml-0 mr-1 pl-4 d-flex flex-row justify-center align-center">
+      <v-expand-x-transition>
+        <v-app-bar-nav-icon
+          v-show="!appPermanentNavigation"
+          @click.stop="toggleAppNavigation"
+        />
+      </v-expand-x-transition>
       <span>若石管理系统</span>
     </v-toolbar-title>
 
