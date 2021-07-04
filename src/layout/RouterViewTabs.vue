@@ -38,7 +38,7 @@
     >
       <div class="fill-height">
         <v-slide-x-transition leave-absolute mode="out-in">
-          <keep-alive :include="include">
+          <keep-alive :include="appMultipleTabs ? openedRoutesComponentNames : []">
             <router-view :key="$route.name" />
           </keep-alive>
         </v-slide-x-transition>
@@ -72,6 +72,7 @@ export default {
   name: 'RouterViewTabs',
   data: () => ({
     targetIndex: -1,
+    unWatchRoute: null,
   }),
   computed: {
     ...mapState('setting', ['appHeaderHeight', 'appMultipleTabs']),
@@ -100,41 +101,10 @@ export default {
         },
       ]
     },
-    include () {
-      if (!this.appMultipleTabs) {
-        return []
-      }
+    openedRoutesComponentNames () {
       const matched = this.openedRoutes.map(r => r.matched).flat()
       const tags = matched.map(e => e.components.default.name)
       return _.uniq(tags)
-    },
-  },
-  watch: {
-    appMultipleTabs () {
-      this.setOpenedRoutes(this.appMultipleTabs ? [this.$route] : [])
-    },
-    '$route': {
-      immediate: true,
-      async handler () {
-        if (!this.appMultipleTabs) {
-          return
-        }
-
-        let scrollTop
-        const openedRoutes = this.openedRoutes.slice()
-        const index = openedRoutes.findIndex(route => route.name === this.$route.name)
-        if (index === -1) {
-          openedRoutes.push(this.$route)
-        } else {
-          scrollTop = openedRoutes[index].meta.scrollTop
-          openedRoutes.splice(index, 1, this.$route)
-        }
-        this.setOpenedRoutes(openedRoutes)
-        if (scrollTop) {
-          await this.$nextTick()
-          this.restoreScroll(scrollTop)
-        }
-      },
     },
   },
   methods: {
@@ -181,6 +151,47 @@ export default {
         offset: this.appHeaderHeight * -1,
       })
     },
+    async handleRouteChange () {
+      const openedRoutes = this.openedRoutes.slice()
+      const index = openedRoutes.findIndex(r => r.name === this.$route.name)
+      const originalRoute = openedRoutes[index]
+
+      if (index === -1) {
+        openedRoutes.push(this.$route)
+      } else {
+        openedRoutes.splice(index, 1, this.$route)
+      }
+      this.setOpenedRoutes(openedRoutes)
+
+      if (originalRoute && originalRoute.meta.scrollTop) {
+        await this.$nextTick()
+        this.restoreScroll(originalRoute.meta.scrollTop)
+      }
+    },
+  },
+  created () {
+    let unWatchRoute
+
+    const watchRoute = () => this.$watch(
+      () => this.$route,
+      this.handleRouteChange,
+    )
+    
+    this.$watch(
+      () => this.appMultipleTabs,
+      (val) => {
+        let openedRoutes = []
+        if (val) {
+          // There could be an original value when route is redirected from /404
+          openedRoutes = this.openedRoutes.length ? this.openedRoutes: [this.$route]
+          unWatchRoute = watchRoute()
+        } else {
+          unWatchRoute()
+        }
+        this.setOpenedRoutes(openedRoutes)
+      },
+      { immediate: true }
+    )
   },
 }
 </script>
