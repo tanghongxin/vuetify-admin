@@ -1,6 +1,6 @@
 <template>
   <div class="t-map-wrapper">
-    <v-loading v-if="!initialized" :absolute="true" :value="true" />
+    <v-loading v-if="!initialized" absolute value />
     <div class="t-map" ref="$el">
       <slot v-if="initialized" />
     </div>
@@ -9,8 +9,8 @@
 
 <script setup>
 import _ from 'lodash-es'
-import { Props } from './mixin'
-import { 
+import { props } from './mixin'
+import {
   defineComponent, onMounted, watch, computed,
 } from '@vue/composition-api'
 import { useProvide, useState, useLoader } from './composable'
@@ -18,7 +18,7 @@ import { useProvide, useState, useLoader } from './composable'
 export default defineComponent({
   name:'TMap',
   props: {
-    ..._.pick(Props, ['position', 'zoom']),
+    ..._.pick(props, ['position', 'zoom']),
   },
   setup (props, ctx) {
     const [map, setMap] = useState(null)
@@ -50,7 +50,7 @@ export default defineComponent({
         { deep: true, immediate: true }
       )
     })
-    
+
     return { initialized }
   },
 })

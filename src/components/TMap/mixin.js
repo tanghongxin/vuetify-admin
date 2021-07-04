@@ -1,4 +1,4 @@
-const Props = {
+const props = {
   position: {
     type: Array,
     default: () =>[39.916527,116.397128],
@@ -16,5 +16,5 @@ const Props = {
 }
 
 export {
-  Props,
+  props,
 }

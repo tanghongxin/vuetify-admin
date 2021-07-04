@@ -29,10 +29,10 @@
     <!-- / Content -->
     <v-container
       fluid
-      ref="scroll"
-      id="v-router-view-content"
+      ref="container"
+      id="v-router-view-tabs-container"
       class="overflow-x-hidden overflow-y-auto py-1 px-1"
-      v-scroll:#v-router-view-content="handleScroll"
+      v-scroll:#v-router-view-tabs-container="handleScroll"
       :style="{ height: `calc(100% - ${tabHeight}px)` }"
     >
       <VRouterBreadCrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: breadCrumbsHeight }" />
@@ -131,7 +131,7 @@ export default {
           this.routeList.push(this.$route)
           return
         }
-        
+
         const { scrollTop } = this.routeList[index].meta
         this.routeList.splice(index, 1, this.$route)
         if (scrollTop) {
@@ -140,7 +140,7 @@ export default {
           setTimeout(() => {
             // FIXME: scrollTop value is wrong after resizing
             this.$vuetify.goTo(scrollTop, {
-              container: this.$refs['scroll'],
+              container: this.$refs['container'],
               offset: this.appHeaderHeight * -1,
             })
           }, 900)
@@ -161,10 +161,10 @@ export default {
       this.routeList.splice(index, 1)
     },
     handleCloseRight (index) {
-      this.routeList = this.routeList.slice(0, index + 1)
+      this.routeList.slice(0, index + 1)
     },
     handleCloseLeft (index) {
-      this.routeList = this.routeList.slice(index)
+      this.routeList.slice(index)
     },
     handleCLoseOthers (index) {
       this.routeList = [this.routeList[index]]
@@ -187,7 +187,7 @@ export default {
 </script>
 
 <style lang="scss">
-#v-router-view-content {
+#v-router-view-tabs-container {
   position: relative;
 }
 

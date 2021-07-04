@@ -1,5 +1,5 @@
 <script>
-import { Props } from './mixin'
+import { props } from './mixin'
 import _ from 'lodash-es'
 import { defineComponent, h, onBeforeUnmount, watch } from '@vue/composition-api'
 import { useInject } from './composable'
@@ -7,7 +7,7 @@ import { useInject } from './composable'
 export default defineComponent({
   name:'TMarker',
   props: {
-    ..._.pick(Props, ['position', 'zIndex']),
+    ..._.pick(props, ['position', 'zIndex']),
     animation: {
       type: String,
       default: 'DOWN',
