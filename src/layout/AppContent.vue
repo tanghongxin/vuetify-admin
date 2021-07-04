@@ -1,5 +1,5 @@
 <script>
-import AppRouterViewTabs from '@/layout/AppRouterViewTabs.vue'
+import AppRouterViewTabs from '@/layout/RouterViewTabs.vue'
 
 export default {
   name: 'AppContent',

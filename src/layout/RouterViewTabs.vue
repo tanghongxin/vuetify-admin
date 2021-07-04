@@ -1,7 +1,7 @@
 <template>
-  <div class="fill-height d-flex flex-column align-center justify-center v-router-view-tabs">
-    <transition name="v-router-view-tabs_header">
-      <div class="v-router-view-tabs_header fill-width" v-if="appMultipleTabs">
+  <div class="fill-height d-flex flex-column align-center justify-center router-view-tabs">
+    <transition name="router-view-tabs_header">
+      <div class="router-view-tabs_header fill-width" v-if="appMultipleTabs">
         <v-tabs
           show-arrows
           slider-color="primary darken-1"
@@ -33,9 +33,9 @@
     <v-container
       fluid
       ref="content"
-      id="v-router-view-tabs__content"
+      id="router-view-tabs__content"
       class="overflow-x-hidden overflow-y-auto py-1 px-1"
-      v-scroll:#v-router-view-tabs__content="handleScroll"
+      v-scroll:#router-view-tabs__content="handleScroll"
       :style="{ flex: '1' }"
     >
       <div :style="{ height: '100%' }">
@@ -71,7 +71,7 @@ import { mapMutations, mapState } from 'vuex'
 import { RunTimeMutations } from '@/store/modules'
 
 export default {
-  name: 'AppRouterViewTabs',
+  name: 'RouterViewTabs',
   data: () => ({
     targetIndex: -1,
   }),
@@ -127,7 +127,7 @@ export default {
         if (!this.appMultipleTabs) {
           return
         }
-        
+
         let scrollTop
         const openedRoutes = this.openedRoutes.slice()
         const index = openedRoutes.findIndex(route => route.name === this.$route.name)
@@ -194,7 +194,7 @@ export default {
 </script>
 
 <style lang="scss">
-.v-router-view-tabs {
+.router-view-tabs {
   &_header {
     height: 114px;
 
