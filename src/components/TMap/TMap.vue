@@ -19,6 +19,10 @@ export default defineComponent({
   name:'TMap',
   props: {
     ..._.pick(props, ['position', 'zoom']),
+    dark: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup (props, ctx) {
     const [map, setMap] = useState(null)
@@ -34,7 +38,7 @@ export default defineComponent({
         center: new qq.maps.LatLng(...props.position),
         zoom: props.zoom,
         // https://lbs.qq.com/webDemoCenter/glAPI/glCustommap/customDark
-        mapStyleId: ctx.root.$vuetify.theme.dark ? 'style2' : 'DEFAULT',
+        mapStyleId: props.dark ? 'style2' : 'DEFAULT',
       }))
 
       watch(

@@ -1,10 +1,14 @@
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Map',
+  computed: {
+    ...mapState('setting', ['appThemeDark']),
+  },
   render () {
     return (
       <div class="map">
-        <TMap>
+        <TMap dark={this.appThemeDark}>
           <TSearch />
         </TMap>
       </div>
