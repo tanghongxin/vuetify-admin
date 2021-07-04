@@ -1,43 +1,44 @@
 <template>
-  <div class="fill-height">
-    <!-- / Tab -->
-    <v-tabs
-      v-if="appMultipleTabs"
-      show-arrows
-      slider-color="primary darken-1"
-      @change="handleTabsChange"
-      :height="tabHeight"
-    >
-      <v-tab
-        v-for="(route, index) in openedRoutes"
-        :key="index"
-        :exact="route.name === $route.name"
-        :to="route.fullPath"
-        @contextmenu="handleCtxMenu($event, index)"
-      >
-        <span class="subtitle-1">{{ route.name }}</span>
-        <v-btn icon ripple small text @click.prevent="handleClose(index)">
-          <v-icon small>
-            close
-          </v-icon>
-        </v-btn>
-      </v-tab>
-    </v-tabs>
+  <div class="fill-height d-flex flex-column align-center justify-center v-router-view-tabs">
+    <transition name="height">
+      <div class="v-router-view-tabs_header fill-width" v-if="appMultipleTabs">
+        <v-tabs
+          show-arrows
+          slider-color="primary darken-1"
+          @change="handleTabsChange"
+          :height="56"
+        >
+          <v-tab
+            v-for="(route, index) in openedRoutes"
+            :key="index"
+            :exact="route.name === $route.name"
+            :to="route.fullPath"
+            @contextmenu="handleCtxMenu($event, index)"
+          >
+            <span class="subtitle-1">{{ route.name }}</span>
+            <v-btn icon ripple small text @click.prevent="handleClose(index)">
+              <v-icon small>
+                close
+              </v-icon>
+            </v-btn>
+          </v-tab>
+        </v-tabs>
 
-    <!-- / Divider -->
-    <v-divider v-if="appMultipleTabs" />
+        <v-divider />
 
-    <!-- / Content -->
+        <VRouterBreadCrumbs v-show="appMultipleTabs && !$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: '57px' }" />
+      </div>
+    </transition>
+
     <v-container
       fluid
       ref="content"
-      id="app-router-view-tabs-content"
+      id="v-router-view-tabs__content"
       class="overflow-x-hidden overflow-y-auto py-1 px-1"
-      v-scroll:#v-router-view-tabs-container="handleScroll"
-      :style="{ height: routerViewHeight }"
+      v-scroll:#v-router-view-tabs__content="handleScroll"
+      :style="{ flex: '1' }"
     >
-      <VRouterBreadCrumbs v-show="appMultipleTabs && !$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: breadCrumbsHeight }" />
-      <div :style="{ height:routerViewHeight }">
+      <div :style="{ height: '100%' }">
         <v-slide-x-transition leave-absolute mode="out-in">
           <keep-alive :include="include">
             <router-view :key="$route.name" />
@@ -46,7 +47,6 @@
       </div>
     </v-container>
 
-    <!-- / ContextMenu -->
     <VFollowMenu ref="followMenu">
       <v-list dense class="py-0">
         <v-list-item
@@ -66,28 +66,12 @@
 </template>
 
 <script>
-import VFollowMenu from '@/components/VImplements/VFollowMenu.vue'
-import VRouterBreadCrumbs from '@/components/VImplements/VRouterBreadCrumbs.vue'
 import _ from 'lodash-es'
 import { mapMutations, mapState } from 'vuex'
 import { RunTimeMutations } from '@/store/modules'
 
 export default {
   name: 'AppRouterViewTabs',
-  components: {
-    VFollowMenu,
-    VRouterBreadCrumbs,
-  },
-  props: {
-    tabHeight: {
-      type: Number,
-      default: 56,
-    },
-    breadCrumbsHeight: {
-      type: Number,
-      default: 57,
-    },
-  },
   data: () => ({
     targetIndex: -1,
   }),
@@ -126,9 +110,6 @@ export default {
       const tags = matched.map(e => e.components.default.name)
       return _.uniq(tags)
     },
-    routerViewHeight () {
-      return `calc(100% - ${this.appMultipleTabs ? this.tabHeight : 0}px)`
-    },
   },
   watch: {
     'appMultipleTabs': {
@@ -159,7 +140,6 @@ export default {
           }
           openedRoutes.splice(index, 1, this.$route)
         }
-        console.log(1)
         this.setOpenedRoutes(openedRoutes)
       },
     },
@@ -214,12 +194,31 @@ export default {
 </script>
 
 <style lang="scss">
-#app-router-view-tabs-content {
-  position: relative;
+.v-router-view-tabs {
+  &_header {
+    height: 114px;
+  }
+
+  .height-enter,
+  .height-leave-to {
+    height: 0;
+  }
+
+  .height-enter-to,
+  .height-leave {
+    height: 114px;
+  }
+
+  .height-enter-active,
+  .height-leave-active {
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  }
 }
 
 .slide-x-transition-enter-active,
 .slide-x-transition-leave-active {
   overflow: hidden;
+  transition-duration: 1000ms !important;
 }
 </style>
