@@ -4,7 +4,7 @@
     <h1>{{ config.title }}</h1>
     <h2>{{ config.desc }}</h2>
     <div class="mt-6">
-      <v-btn type="primary" depressed class="primary mr-4" v-if="hasLoggedIn" @click="$router.push('/home')">
+      <v-btn type="primary" depressed class="primary mr-4" @click="$router.push('/home')">
         返回首页
       </v-btn>
       <v-btn type="primary" depressed class="primary" @click="logout">
