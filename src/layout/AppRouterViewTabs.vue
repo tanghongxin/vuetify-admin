@@ -1,6 +1,6 @@
 <template>
   <div class="fill-height d-flex flex-column align-center justify-center v-router-view-tabs">
-    <transition name="height">
+    <transition name="v-router-view-tabs_header">
       <div class="v-router-view-tabs_header fill-width" v-if="appMultipleTabs">
         <v-tabs
           show-arrows
@@ -123,24 +123,25 @@ export default {
     },
     '$route': {
       immediate: true,
-      handler () {
+      async handler () {
         if (!this.appMultipleTabs) {
           return
         }
         
+        let scrollTop
         const openedRoutes = this.openedRoutes.slice()
         const index = openedRoutes.findIndex(route => route.name === this.$route.name)
         if (index === -1) {
           openedRoutes.push(this.$route)
         } else {
-          const { scrollTop } = openedRoutes[index].meta
-          if (scrollTop) {
-            this.$route.meta.scrollTop = scrollTop
-            this.restoreScroll()
-          }
+          scrollTop = openedRoutes[index].meta.scrollTop
           openedRoutes.splice(index, 1, this.$route)
         }
         this.setOpenedRoutes(openedRoutes)
+        if (scrollTop) {
+          await this.$nextTick()
+          this.restoreScroll(scrollTop)
+        }
       },
     },
   },
@@ -180,9 +181,8 @@ export default {
     handleScroll (e) {
       this.$route.meta.scrollTop = e.target.scrollTop
     },
-    async restoreScroll () {
-      // wait for page init
-      await this.$nextTick()
+    restoreScroll (scrollTop) {
+      this.$route.meta.scrollTop = scrollTop
       // FIXME: scrollTop value is wrong after resizing
       setTimeout(this.$vuetify.goTo, 900, this.$route.meta.scrollTop, {
         container: this.$refs['content'],
@@ -197,28 +197,22 @@ export default {
 .v-router-view-tabs {
   &_header {
     height: 114px;
-  }
 
-  .height-enter,
-  .height-leave-to {
-    height: 0;
-  }
+    &-enter,
+    &-leave-to {
+      height: 0;
+    }
 
-  .height-enter-to,
-  .height-leave {
-    height: 114px;
-  }
+    &-enter-to,
+    &-leave {
+      height: 114px;
+    }
 
-  .height-enter-active,
-  .height-leave-active {
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    &-enter-active,
+    &-leave-active {
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
   }
-}
-
-.slide-x-transition-enter-active,
-.slide-x-transition-leave-active {
-  overflow: hidden;
-  transition-duration: 1000ms !important;
 }
 </style>
