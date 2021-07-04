@@ -1,30 +1,15 @@
 <template>
-  <v-container
-    class="fill-height"
-    fluid
-  >
-    <v-row
-      align="center"
-      justify="center"
-    >
-      <v-col
-        cols="12"
-        sm="8"
-        md="4"
-      >
-        <v-card class="elevation-12">
-          <v-toolbar
-            color="primary"
-            dark
-            flat
-          >
-            <v-toolbar-title>Login form</v-toolbar-title>
-            <v-spacer />
-          </v-toolbar>
-          <v-card-text>
-            <v-form
-              ref="form"
-            >
+  <v-container class="fill-height" fluid>
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="4">
+        <v-form ref="form">
+          <v-card class="elevation-12">
+            <v-toolbar color="primary" dark flat>
+              <v-toolbar-title>Login form</v-toolbar-title>
+              <v-spacer />
+            </v-toolbar>
+          
+            <v-card-text>
               <v-text-field
                 label="Login"
                 name="login"
@@ -44,20 +29,21 @@
                 validate-on-blur
                 v-model="formData.password"
               />
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              color="primary"
-              :loading="loading"
-              type="submit"
-              @click="$refs['form'].validate() && handleSubmit()"
-            >
-              登录
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="primary"
+                :loading="loading"
+                type="submit"
+                @click.prevent="handleSubmit"
+              >
+                登录
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
       </v-col>
     </v-row>
   </v-container>
@@ -81,6 +67,7 @@ export default {
       login: AccountActions.LOGIN,
     }),
     async handleSubmit () {
+      if (!this.$refs.form.validate()) return
       try {
         this.loading = true
         await this.login(this.formData)
@@ -90,6 +77,14 @@ export default {
         this.loading = false
       }
     },
+  },
+  mounted () {
+    setTimeout(() => {
+      this.formData = {
+        username: 'admin',
+        password: 'admin',
+      }
+    }, 600)
   },
 }
 </script>
