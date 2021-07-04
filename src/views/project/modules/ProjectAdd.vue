@@ -134,7 +134,6 @@
 <script>
 
 import { addProject } from '@/api/project'
-import Timeout from 'await-timeout'
 
 export default {
   name:'ProjectEdit',
@@ -186,8 +185,8 @@ export default {
     },
     async close () {
       this.visible = false
-      await Timeout.set()
-      this.formData = this.$options.data.apply(this).formData
+      await this.$nextTick()
+      Object.assign(this, this.$options.data.apply(this))
       this.$refs['form'].resetValidation()
     },
     async submit () {

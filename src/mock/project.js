@@ -1,22 +1,18 @@
 import Mock from 'mockjs-async'
-import Timeout from 'await-timeout'
 
 // 新增项目
 Mock.mock(/\/api\/project/, 'post', () => new Promise(async resolve => {
-  await Timeout.set(300)
-  resolve()
+  setTimeout(resolve, 300)
 }))
 
 // 编辑项目
 Mock.mock(/\/api\/project/, 'put', () => new Promise(async resolve => {
-  await Timeout.set(300)
-  resolve()
+  setTimeout(resolve, 300)
 }))
 
 // 项目详情
 Mock.mock(/\/api\/project\/\d+/, 'get', () => new Promise(async resolve => {
-  await Timeout.set(300)
-  resolve({
+  setTimeout(resolve, 300, {
     id: 1,
     number: 1,
     name: '若石足道',
@@ -33,14 +29,13 @@ Mock.mock(/\/api\/project\/\d+/, 'get', () => new Promise(async resolve => {
 
 // 删除项目
 Mock.mock(/\/api\/project\/\d+/, 'delete', () => new Promise(async resolve => {
-  await Timeout.set(300)
+  setTimeout(resolve, 300)
   resolve()
 }))
 
 // 项目列表
 Mock.mock(/\/api\/project\/list/, 'get', () => new Promise(async resolve => {
-  await Timeout.set(300)
-  resolve({
+  setTimeout(resolve, 300, {
     total: 30,
     pageCount: 3,
     items: [

@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import Timeout from 'await-timeout'
-
 export default {
   name: 'VFollowMenu',
   data: () => ({
@@ -27,10 +25,11 @@ export default {
       e.preventDefault()
       if (this.menu) {
         this.menu = false
-        await Timeout.set(90)
-        this.x = e.clientX
-        this.y = e.clientY
-        this.menu = true
+        setTimeout(() => {
+          this.x = e.clientX
+          this.y = e.clientY
+          this.menu = true
+        }, 90)
       } else {
         await this.$nextTick()
         this.x = e.clientX

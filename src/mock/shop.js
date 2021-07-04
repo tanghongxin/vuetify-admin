@@ -1,14 +1,11 @@
 import Mock from 'mockjs-async'
-import Timeout from 'await-timeout'
 
 Mock.mock(/\/api\/shop/, 'post', () => new Promise(async resolve => {
-  await Timeout.set(300)
-  resolve()
+  setTimeout(resolve, 300)
 }))
 
 Mock.mock(/\/api\/shop\/list/, 'get', () => new Promise(async resolve => {
-  await Timeout.set(300)
-  resolve({
+  setTimeout(resolve, 300, {
     total: 30,
     pageCount: 3,
     items: [
