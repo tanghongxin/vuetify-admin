@@ -1,3 +1,5 @@
+import { RunTimeMutations } from "./runTime"
+
 export const SettingMutations = {
   SET_APP_HEADER_HEIGHT: 'SET_APP_HEADER_HEIGHT',
   SET_APP_PRIMARY_COLOR: 'SET_APP_PRIMARY_COLOR',
@@ -5,6 +7,11 @@ export const SettingMutations = {
   TOGGLE_APP_PERMANENT_NAVIGATION: 'TOGGLE_APP_PERMANENT_NAVIGATION',
   TOGGLE_APP_SETTING: 'TOGGLE_APP_SETTING',
   TOGGLE_APP_THEME_DARK: 'TOGGLE_APP_THEME_DARK',
+  TOGGLE_APP_MULTIPLE_TABS: 'TOGGLE_APP_MULTIPLE_TABS',
+}
+
+export const SettingActions = {
+  TOGGLE_APP_MULTIPLE_TABS: 'TOGGLE_APP_MULTIPLE_TABS',
 }
 
 export default {
@@ -16,6 +23,7 @@ export default {
     appPrimaryColor: '#1976D2',
     appThemeDark: false,
     appSetting: false,
+    appMultipleTabs: true,
   },
   mutations: {
     [SettingMutations.SET_APP_HEADER_HEIGHT] (state, payload) {
@@ -35,6 +43,17 @@ export default {
     },
     [SettingMutations.TOGGLE_APP_SETTING] (state) {
       state.appSetting = !state.appSetting
+    },
+    [SettingMutations.TOGGLE_APP_MULTIPLE_TABS] (state) {
+      state.appMultipleTabs = !state.appMultipleTabs
+    },
+  },
+  actions: {
+    [SettingActions.TOGGLE_APP_MULTIPLE_TABS] ({ commit, state }) {
+      commit(SettingMutations.TOGGLE_APP_MULTIPLE_TABS)
+      if (!state.appMultipleTabs) {
+        commit(`runTime/${RunTimeMutations.SET_OPENED_ROUTES}`, [], { root: true })
+      }
     },
   },
 }

@@ -1,6 +1,7 @@
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 import { SettingMutations } from '@/store/modules'
+import { SettingActions } from '@/store/modules/setting'
 
 export default {
   computed: {
@@ -11,6 +12,7 @@ export default {
       'appPermanentNavigation',
       'appPrimaryColor',
       'appThemeDark',
+      'appMultipleTabs',
     ]),
   },
   methods: {
@@ -22,6 +24,13 @@ export default {
       toggleAppNavigation: SettingMutations.TOGGLE_APP_NAVIGATION,
       toggleAppPermanentNavigation: SettingMutations.TOGGLE_APP_PERMANENT_NAVIGATION,
     }),
+    ...mapActions('setting', {
+      toggleAppMultipleTabs: SettingActions.TOGGLE_APP_MULTIPLE_TABS,
+    }),
+  },
+  // TODO: UI entry
+  created () {
+    window.toggleAppMultipleTabs = this.toggleAppMultipleTabs
   },
 }
 </script>

@@ -6,7 +6,7 @@ export default {
   render () {
     return (
       <v-main class="app-content fill-height overflow-hidden">
-        <AppRouterViewTabs />
+        { this.$store.state.setting.appMultipleTabs ? <AppRouterViewTabs /> : <router-view /> }
       </v-main>
     )
   },
