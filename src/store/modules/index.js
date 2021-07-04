@@ -1,6 +1,6 @@
 import { default as account, AccountActions, AccountMutations } from './account'
 import { default as setting, SettingMutations} from './setting'
-import { default as runTime, RunTimeMutations } from './rumTime'
+import { default as runTime, RunTimeMutations } from './runTime'
 
 const modules = {
   account,

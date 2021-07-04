@@ -68,8 +68,8 @@
 import VFollowMenu from './VFollowMenu.vue'
 import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
 import _ from 'lodash-es'
-import {mapMutations, mapState} from 'vuex'
-import {RunTimeMutations} from '@/store/modules'
+import { mapMutations, mapState } from 'vuex'
+import { RunTimeMutations } from '@/store/modules'
 
 export default {
   name:'VRouterViewTabs',
@@ -98,7 +98,7 @@ export default {
         {
           title: '关闭选中标签',
           icon: 'keyboard_arrow_down',
-          click: () => this.handlØeClose(this.targetIndex),
+          click: () => this.handleClose(this.targetIndex),
         },
         {
           title: '关闭右侧标签',
@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     ...mapMutations('runTime', {
-      setCachedRoutes: RunTimeMutations.SET_CACHED_ROUTES,
+      setCachedRoutes: RunTimeMutations.SET_OPENED_ROUTES,
     }),
     handleClose (index) {
       if (this.openedRoutes[index].path === '/home' && this.openedRoutes.length <= 1) {

@@ -1,7 +1,7 @@
 import { login } from '@/api/account'
 import router from '@/router'
 import { buildDynamicRoutes, resetRouter } from '@/router'
-import { RunTimeMutations } from './rumTime'
+import { RunTimeMutations } from './runTime'
 
 export const AccountMutations = {
   SET_PERMISSIONS: 'SET_PERMISSIONS',
@@ -52,7 +52,7 @@ export default {
       commit(AccountMutations.SET_PERMISSIONS, [])
       commit(AccountMutations.SET_MENUS, [])
       commit(AccountMutations.SET_TOKEN, '')
-      commit(`runTime/${RunTimeMutations.SET_CACHED_ROUTES}`, [], { root: true })
+      commit(`runTime/${RunTimeMutations.SET_OPENED_ROUTES}`, [], { root: true })
       resetRouter()
       await router.push('/login')
     },

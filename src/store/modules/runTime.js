@@ -1,5 +1,5 @@
 export const RunTimeMutations = {
-  SET_CACHED_ROUTES: 'SET_CACHED_ROUTES',
+  SET_OPENED_ROUTES: 'SET_OPENED_ROUTES',
 }
 
 export default {
@@ -8,7 +8,7 @@ export default {
     openedRoutes: [],
   },
   mutations: {
-    [RunTimeMutations.SET_CACHED_ROUTES] (state, routes = []) {
+    [RunTimeMutations.SET_OPENED_ROUTES] (state, routes = []) {
       state.openedRoutes = routes
     },
   },

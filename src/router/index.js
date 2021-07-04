@@ -38,9 +38,9 @@ const resetRouter = () => {
 const buildDynamicRoutes = (menus = [], userPermissions = []) => {
   let num = 1
   const recursive = (items = []) => {
-    return items.map(({ permissions = [], text, to, type, children, redirect, resource }) => {
+    return items.map(({ permissions = [], text, to, type, children = [], redirect, resource }) => {
       const route = {
-        meta: { permissions: permissions },
+        meta: { permissions },
         name: text,
         path: to,
       }
@@ -51,7 +51,7 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
               name: `RouterViewWrapper${num++}`,
               render: h => h('router-view'),
             },
-            children: recursive(children || []),
+            children: recursive(children),
             redirect: '/exception/404',
           })
           break
