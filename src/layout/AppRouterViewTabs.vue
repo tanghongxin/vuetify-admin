@@ -132,7 +132,8 @@ export default {
   },
   watch: {
     'appMultipleTabs': {
-      immediate: true,
+      // redirect from 404 will trigger created
+      immediate: false,
       handler () {
         if (this.appMultipleTabs) {
           this.setOpenedRoutes([this.$route])
@@ -158,6 +159,7 @@ export default {
           }
           openedRoutes.splice(index, 1, this.$route)
         }
+        console.log(1)
         this.setOpenedRoutes(openedRoutes)
       },
     },
