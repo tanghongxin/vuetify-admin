@@ -3,7 +3,9 @@
     id="app"
     class="fill-width fill-height"
   >
-    <router-view />
+    <v-fade-transition leave-absolute mode="out-in">
+      <router-view />
+    </v-fade-transition>
     <vue-snotify />
   </v-app>
 </template>
