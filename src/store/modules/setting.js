@@ -12,6 +12,7 @@ export default {
   state: {
     appHeaderHeight: document.body.clientWidth <= 600 ? 48 : 64,
     appNavigation: document.body.clientWidth > 1264,
+    appPermanentNavigation: false,
     appPrimaryColor: '#1976D2',
     appThemeDark: false,
     appSetting: false,
