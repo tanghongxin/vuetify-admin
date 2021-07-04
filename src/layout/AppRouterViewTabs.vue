@@ -29,8 +29,8 @@
     <!-- / Content -->
     <v-container
       fluid
-      ref="container"
-      id="v-router-view-tabs-container"
+      ref="content"
+      id="app-router-view-tabs-content"
       class="overflow-x-hidden overflow-y-auto py-1 px-1"
       v-scroll:#v-router-view-tabs-container="handleScroll"
       :style="{ height: `calc(100% - ${tabHeight}px)` }"
@@ -65,14 +65,14 @@
 </template>
 
 <script>
-import VFollowMenu from './VFollowMenu.vue'
-import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
+import VFollowMenu from '@/components/VImplements/VFollowMenu.vue'
+import VRouterBreadCrumbs from '@/components/VImplements/VRouterBreadCrumbs.vue'
 import _ from 'lodash-es'
 import { mapMutations, mapState } from 'vuex'
 import { RunTimeMutations } from '@/store/modules'
 
 export default {
-  name: 'VRouterViewTabs',
+  name: 'AppRouterViewTabs',
   components: {
     VFollowMenu,
     VRouterBreadCrumbs,
@@ -184,7 +184,7 @@ export default {
       await this.$nextTick()
       // FIXME: scrollTop value is wrong after resizing
       setTimeout(this.$vuetify.goTo, 900, this.$route.meta.scrollTop, {
-        container: this.$refs['container'],
+        container: this.$refs['content'],
         offset: this.appHeaderHeight * -1,
       })
     },
@@ -193,7 +193,7 @@ export default {
 </script>
 
 <style lang="scss">
-#v-router-view-tabs-container {
+#app-router-view-tabs-content {
   position: relative;
 }
 

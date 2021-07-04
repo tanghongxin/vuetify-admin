@@ -1,10 +1,12 @@
 <script>
+import AppRouterViewTabs from '@/layout/AppRouterViewTabs.vue'
+
 export default {
   name: 'AppContent',
   render () {
     return (
       <v-main class="app-content fill-height overflow-hidden">
-        <VRouterViewTabs />
+        <AppRouterViewTabs />
       </v-main>
     )
   },

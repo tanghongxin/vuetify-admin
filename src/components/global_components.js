@@ -10,7 +10,6 @@ import VMDIconPicker from './VImplements/VMDIconPicker.vue'
 import VRangeDatePicker from './VImplements/VRangeDatePicker.vue'
 import VRangeDateTimePicker from './VImplements/VRangeDateTimePicker.vue'
 import VRouterBreadCrumbs from './VImplements/VRouterBreadCrumbs.vue'
-import VRouterViewTabs from './VImplements/VRouterViewTabs.vue'
 import TMap from './TMap/TMap.vue'
 import TSearch from './TMap/TSearch.vue'
 import TMarker from './TMap/TMarker.vue'
@@ -26,7 +25,6 @@ Vue.component(VMDIconPicker.name, VMDIconPicker)
 Vue.component(VRangeDatePicker.name, VRangeDatePicker)
 Vue.component(VRangeDateTimePicker.name, VRangeDateTimePicker)
 Vue.component(VRouterBreadCrumbs.name, VRouterBreadCrumbs)
-Vue.component(VRouterViewTabs.name, VRouterViewTabs)
 Vue.component(TMap.name, TMap)
 Vue.component(TSearch.name, TSearch)
 Vue.component(TMarker.name, TMarker)
