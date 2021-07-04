@@ -46,6 +46,18 @@
               @change="toggleAppThemeDark"
             />
           </v-flex>
+          <v-flex>
+            <v-subheader class="px-1 my-2">
+              页签模式
+            </v-subheader>
+            <v-switch
+              color="primary"
+              :value="appMultipleTabs"
+              primary
+              label="多页签"
+              @change="toggleAppMultipleTabs"
+            />
+          </v-flex>
           <!-- / Theme -->
           <v-flex>
             <v-subheader class="px-1 my-2">

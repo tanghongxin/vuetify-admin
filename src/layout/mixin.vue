@@ -28,9 +28,5 @@ export default {
       toggleAppMultipleTabs: SettingActions.TOGGLE_APP_MULTIPLE_TABS,
     }),
   },
-  // TODO: UI entry
-  created () {
-    window.toggleAppMultipleTabs = this.toggleAppMultipleTabs
-  },
 }
 </script>

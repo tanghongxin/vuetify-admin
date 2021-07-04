@@ -2,6 +2,7 @@
   <div class="fill-height">
     <!-- / Tab -->
     <v-tabs
+      v-if="appMultipleTabs"
       show-arrows
       slider-color="primary darken-1"
       @change="handleTabsChange"
@@ -24,7 +25,7 @@
     </v-tabs>
 
     <!-- / Divider -->
-    <v-divider />
+    <v-divider v-if="appMultipleTabs" />
 
     <!-- / Content -->
     <v-container
@@ -33,10 +34,10 @@
       id="app-router-view-tabs-content"
       class="overflow-x-hidden overflow-y-auto py-1 px-1"
       v-scroll:#v-router-view-tabs-container="handleScroll"
-      :style="{ height: `calc(100% - ${tabHeight}px)` }"
+      :style="{ height: routerViewHeight }"
     >
-      <VRouterBreadCrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: breadCrumbsHeight }" />
-      <div :style="{ height: `calc(100% - ${breadCrumbsHeight}px)` }">
+      <VRouterBreadCrumbs v-show="appMultipleTabs && !$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: breadCrumbsHeight }" />
+      <div :style="{ height:routerViewHeight }">
         <v-slide-x-transition leave-absolute mode="out-in">
           <keep-alive :include="include">
             <router-view :key="$route.name" />
@@ -91,7 +92,7 @@ export default {
     targetIndex: -1,
   }),
   computed: {
-    ...mapState('setting', ['appHeaderHeight']),
+    ...mapState('setting', ['appHeaderHeight', 'appMultipleTabs']),
     ...mapState('runTime', ['openedRoutes']),
     menus () {
       return [
@@ -118,15 +119,33 @@ export default {
       ]
     },
     include () {
+      if (!this.appMultipleTabs) {
+        return []
+      }
       const matched = this.openedRoutes.map(r => r.matched).flat()
       const tags = matched.map(e => e.components.default.name)
       return _.uniq(tags)
     },
+    routerViewHeight () {
+      return `calc(100% - ${this.appMultipleTabs ? this.tabHeight : 0}px)`
+    },
   },
   watch: {
+    'appMultipleTabs': {
+      immediate: true,
+      handler () {
+        if (this.appMultipleTabs) {
+          this.setOpenedRoutes([this.$route])
+        }
+      },
+    },
     '$route': {
       immediate: true,
       handler () {
+        if (!this.appMultipleTabs) {
+          return
+        }
+        
         const openedRoutes = this.openedRoutes.slice()
         const index = openedRoutes.findIndex(route => route.name === this.$route.name)
         if (index === -1) {
@@ -139,13 +158,13 @@ export default {
           }
           openedRoutes.splice(index, 1, this.$route)
         }
-        this.setCachedRoutes(openedRoutes)
+        this.setOpenedRoutes(openedRoutes)
       },
     },
   },
   methods: {
     ...mapMutations('runTime', {
-      setCachedRoutes: RunTimeMutations.SET_OPENED_ROUTES,
+      setOpenedRoutes: RunTimeMutations.SET_OPENED_ROUTES,
     }),
     handleClose (index) {
       if (this.openedRoutes[index].path === '/home' && this.openedRoutes.length <= 1) {
@@ -158,16 +177,16 @@ export default {
       }
       const openedRoutes = this.openedRoutes.slice()
       openedRoutes.splice(index, 1)
-      this.setCachedRoutes(openedRoutes)
+      this.setOpenedRoutes(openedRoutes)
     },
     handleCloseRight (index) {
-      this.setCachedRoutes(this.openedRoutes.slice(0, index + 1))
+      this.setOpenedRoutes(this.openedRoutes.slice(0, index + 1))
     },
     handleCloseLeft (index) {
-      this.setCachedRoutes(this.openedRoutes.slice(index))
+      this.setOpenedRoutes(this.openedRoutes.slice(index))
     },
     handleCLoseOthers (index) {
-      this.setCachedRoutes([this.openedRoutes[index]])
+      this.setOpenedRoutes([this.openedRoutes[index]])
     },
     handleCtxMenu (e, index) {
       this.targetIndex = index
