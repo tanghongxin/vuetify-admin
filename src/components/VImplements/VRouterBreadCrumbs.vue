@@ -10,7 +10,4 @@ export default {
 </script>
 
 <style lang="scss">
-.v-router-bread-crumbs {
-  padding-left: 12px !important;
-}
 </style>

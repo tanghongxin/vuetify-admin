@@ -26,19 +26,17 @@
 
         <v-divider />
 
-        <VRouterBreadCrumbs v-show="appMultipleTabs && !$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :style="{ height: '57px' }" />
+        <VRouterBreadCrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" />
       </div>
     </transition>
 
     <v-container
       fluid
       ref="content"
-      id="router-view-tabs__content"
-      class="overflow-x-hidden overflow-y-auto py-1 px-1"
-      v-scroll:#router-view-tabs__content="handleScroll"
-      :style="{ flex: '1' }"
+      class="overflow-x-hidden overflow-y-auto py-1 px-1 flex-1"
+      v-scroll.self="e => updateScrollTop(e.target.scrollTop)"
     >
-      <div :style="{ height: '100%' }">
+      <div class="fill-height">
         <v-slide-x-transition leave-absolute mode="out-in">
           <keep-alive :include="include">
             <router-view :key="$route.name" />
@@ -112,14 +110,8 @@ export default {
     },
   },
   watch: {
-    'appMultipleTabs': {
-      // redirect from 404 will trigger created
-      immediate: false,
-      handler () {
-        if (this.appMultipleTabs) {
-          this.setOpenedRoutes([this.$route])
-        }
-      },
+    appMultipleTabs () {
+      this.setOpenedRoutes(this.appMultipleTabs ? [this.$route] : [])
     },
     '$route': {
       immediate: true,
@@ -158,9 +150,10 @@ export default {
           this.openedRoutes[index + 1].fullPath
         )
       }
-      const openedRoutes = this.openedRoutes.slice()
-      openedRoutes.splice(index, 1)
-      this.setOpenedRoutes(openedRoutes)
+      this.setOpenedRoutes([
+        ...this.openedRoutes.slice(0, index),
+        ...this.openedRoutes.slice(index + 1),
+      ])
     },
     handleCloseRight (index) {
       this.setOpenedRoutes(this.openedRoutes.slice(0, index + 1))
@@ -178,13 +171,12 @@ export default {
     handleTabsChange (fullPath = '/home') {
       this.$router.push(fullPath).catch(() => {})
     },
-    handleScroll (e) {
-      this.$route.meta.scrollTop = e.target.scrollTop
+    updateScrollTop (scrollTop) {
+      this.$route.meta.scrollTop = scrollTop
     },
     restoreScroll (scrollTop) {
-      this.$route.meta.scrollTop = scrollTop
-      // FIXME: scrollTop value is wrong after resizing
-      setTimeout(this.$vuetify.goTo, 900, this.$route.meta.scrollTop, {
+      this.updateScrollTop(scrollTop)
+      setTimeout(this.$vuetify.goTo, 900, scrollTop, {
         container: this.$refs['content'],
         offset: this.appHeaderHeight * -1,
       })
@@ -196,7 +188,7 @@ export default {
 <style lang="scss">
 .router-view-tabs {
   &_header {
-    height: 114px;
+    height: 94px;
 
     &-enter,
     &-leave-to {
@@ -205,7 +197,7 @@ export default {
 
     &-enter-to,
     &-leave {
-      height: 114px;
+      height: 94px;
     }
 
     &-enter-active,

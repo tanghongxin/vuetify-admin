@@ -1,5 +1,3 @@
-import { RunTimeMutations } from "./runTime"
-
 export const SettingMutations = {
   SET_APP_HEADER_HEIGHT: 'SET_APP_HEADER_HEIGHT',
   SET_APP_PRIMARY_COLOR: 'SET_APP_PRIMARY_COLOR',
@@ -46,14 +44,6 @@ export default {
     },
     [SettingMutations.TOGGLE_APP_MULTIPLE_TABS] (state) {
       state.appMultipleTabs = !state.appMultipleTabs
-    },
-  },
-  actions: {
-    [SettingActions.TOGGLE_APP_MULTIPLE_TABS] ({ commit, state }) {
-      commit(SettingMutations.TOGGLE_APP_MULTIPLE_TABS)
-      if (!state.appMultipleTabs) {
-        commit(`runTime/${RunTimeMutations.SET_OPENED_ROUTES}`, [], { root: true })
-      }
     },
   },
 }
