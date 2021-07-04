@@ -186,7 +186,7 @@ export default {
           openedRoutes = this.openedRoutes.length ? this.openedRoutes: [this.$route]
           unWatchRoute = watchRoute()
         } else {
-          unWatchRoute()
+          unWatchRoute && unWatchRoute()
         }
         this.setOpenedRoutes(openedRoutes)
       },
