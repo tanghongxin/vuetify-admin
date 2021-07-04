@@ -84,7 +84,7 @@ export default {
         username: 'admin',
         password: 'admin',
       }
-    }, 600)
+    }, 450)
   },
 }
 </script>

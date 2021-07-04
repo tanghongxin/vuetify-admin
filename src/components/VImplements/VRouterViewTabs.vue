@@ -72,7 +72,7 @@ import { mapMutations, mapState } from 'vuex'
 import { RunTimeMutations } from '@/store/modules'
 
 export default {
-  name:'VRouterViewTabs',
+  name: 'VRouterViewTabs',
   components: {
     VFollowMenu,
     VRouterBreadCrumbs,
@@ -126,32 +126,20 @@ export default {
   watch: {
     '$route': {
       immediate: true,
-      async handler () {
-        const index = this.openedRoutes.findIndex(route => route.name === this.$route.name)
+      handler () {
+        const openedRoutes = this.openedRoutes.slice()
+        const index = openedRoutes.findIndex(route => route.name === this.$route.name)
         if (index === -1) {
-          this.setCachedRoutes([
-            ...this.openedRoutes,
-            this.$route,
-          ])
-          return
+          openedRoutes.push(this.$route)
+        } else {
+          const { scrollTop } = openedRoutes[index].meta
+          if (scrollTop) {
+            this.$route.meta.scrollTop = scrollTop
+            this.restoreScroll()
+          }
+          openedRoutes.splice(index, 1, this.$route)
         }
-
-        const { scrollTop } = this.openedRoutes[index].meta
-        const routes = this.openedRoutes.slice()
-        routes.splice(index, 1, this.$route)
-
-        this.setCachedRoutes(routes)
-        if (scrollTop) {
-          // wait for page init
-          await this.$nextTick()
-          setTimeout(() => {
-            // FIXME: scrollTop value is wrong after resizing
-            this.$vuetify.goTo(scrollTop, {
-              container: this.$refs['container'],
-              offset: this.appHeaderHeight * -1,
-            })
-          }, 900)
-        }
+        this.setCachedRoutes(openedRoutes)
       },
     },
   },
@@ -168,8 +156,9 @@ export default {
           this.openedRoutes[index + 1].fullPath
         )
       }
-      this.openedRoutes.splice(index, 1)
-      this.setCachedRoutes(this.openedRoutes)
+      const openedRoutes = this.openedRoutes.slice()
+      openedRoutes.splice(index, 1)
+      this.setCachedRoutes(openedRoutes)
     },
     handleCloseRight (index) {
       this.setCachedRoutes(this.openedRoutes.slice(0, index + 1))
@@ -189,6 +178,15 @@ export default {
     },
     handleScroll (e) {
       this.$route.meta.scrollTop = e.target.scrollTop
+    },
+    async restoreScroll () {
+      // wait for page init
+      await this.$nextTick()
+      // FIXME: scrollTop value is wrong after resizing
+      setTimeout(this.$vuetify.goTo, 900, this.$route.meta.scrollTop, {
+        container: this.$refs['container'],
+        offset: this.appHeaderHeight * -1,
+      })
     },
   },
 }
