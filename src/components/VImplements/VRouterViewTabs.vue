@@ -8,7 +8,7 @@
       :height="tabHeight"
     >
       <v-tab
-        v-for="(route, index) in routeList"
+        v-for="(route, index) in openedRoutes"
         :key="index"
         :exact="route.name === $route.name"
         :to="route.fullPath"
@@ -50,7 +50,7 @@
       <v-list dense class="py-0">
         <v-list-item
           dense
-          v-for="(item, index) in menuList"
+          v-for="(item, index) in menus"
           :key="index"
           @click.prevent="item.click"
         >
@@ -68,7 +68,8 @@
 import VFollowMenu from './VFollowMenu.vue'
 import VRouterBreadCrumbs from './VRouterBreadCrumbs.vue'
 import _ from 'lodash-es'
-import { mapState } from 'vuex'
+import {mapMutations, mapState} from 'vuex'
+import {RunTimeMutations} from '@/store/modules'
 
 export default {
   name:'VRouterViewTabs',
@@ -88,16 +89,16 @@ export default {
   },
   data: () => ({
     targetIndex: -1,
-    routeList: [],
   }),
   computed: {
     ...mapState('setting', ['appHeaderHeight']),
-    menuList () {
+    ...mapState('runTime', ['openedRoutes']),
+    menus () {
       return [
         {
           title: '关闭选中标签',
           icon: 'keyboard_arrow_down',
-          click: () => this.handleClose(this.targetIndex),
+          click: () => this.handlØeClose(this.targetIndex),
         },
         {
           title: '关闭右侧标签',
@@ -117,7 +118,7 @@ export default {
       ]
     },
     include () {
-      const matched = this.routeList.map(r => r.matched).flat()
+      const matched = this.openedRoutes.map(r => r.matched).flat()
       const tags = matched.map(e => e.components.default.name)
       return _.uniq(tags)
     },
@@ -126,14 +127,20 @@ export default {
     '$route': {
       immediate: true,
       async handler () {
-        const index = this.routeList.findIndex(route => route.name === this.$route.name)
+        const index = this.openedRoutes.findIndex(route => route.name === this.$route.name)
         if (index === -1) {
-          this.routeList.push(this.$route)
+          this.setCachedRoutes([
+            ...this.openedRoutes,
+            this.$route,
+          ])
           return
         }
 
-        const { scrollTop } = this.routeList[index].meta
-        this.routeList.splice(index, 1, this.$route)
+        const { scrollTop } = this.openedRoutes[index].meta
+        const routes = this.openedRoutes.slice()
+        routes.splice(index, 1, this.$route)
+
+        this.setCachedRoutes(routes)
         if (scrollTop) {
           // wait for page init
           await this.$nextTick()
@@ -149,25 +156,29 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('runTime', {
+      setCachedRoutes: RunTimeMutations.SET_CACHED_ROUTES,
+    }),
     handleClose (index) {
-      if (this.routeList[index].path === '/home' && this.routeList.length <= 1) {
+      if (this.openedRoutes[index].path === '/home' && this.openedRoutes.length <= 1) {
         return
       }
-      if (index <= this.routeList.length - 2) {
+      if (index <= this.openedRoutes.length - 2) {
         this.$router.push(
-          this.routeList[index + 1].fullPath
+          this.openedRoutes[index + 1].fullPath
         )
       }
-      this.routeList.splice(index, 1)
+      this.openedRoutes.splice(index, 1)
+      this.setCachedRoutes(this.openedRoutes)
     },
     handleCloseRight (index) {
-      this.routeList.slice(0, index + 1)
+      this.setCachedRoutes(this.openedRoutes.slice(0, index + 1))
     },
     handleCloseLeft (index) {
-      this.routeList.slice(index)
+      this.setCachedRoutes(this.openedRoutes.slice(index))
     },
     handleCLoseOthers (index) {
-      this.routeList = [this.routeList[index]]
+      this.setCachedRoutes([this.openedRoutes[index]])
     },
     handleCtxMenu (e, index) {
       this.targetIndex = index
@@ -179,9 +190,6 @@ export default {
     handleScroll (e) {
       this.$route.meta.scrollTop = e.target.scrollTop
     },
-  },
-  beforeDestroy () {
-    this.routeList = []
   },
 }
 </script>

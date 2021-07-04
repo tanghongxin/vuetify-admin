@@ -1,10 +1,12 @@
 <script>
 export default {
-  name: 'Home',
+  name: 'Map',
   render () {
     return (
-      <div class="home">
-        <p>Welcome</p>
+      <div class="map">
+        <TMap>
+          <TSearch />
+        </TMap>
       </div>
     )
   },
@@ -12,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss">
-.home {
+.map {
   height: 100%;
   position: relative;
   width: 100%;

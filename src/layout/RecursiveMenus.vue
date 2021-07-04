@@ -30,7 +30,7 @@
         v-if="item.type === 'VIEW' && !item.hidden"
         v-hasPermission="item.permissions"
         :key="item.to"
-        :to="item.to"
+        :to="item.to || item.redirect"
         link
       >
         <v-list-item-icon>

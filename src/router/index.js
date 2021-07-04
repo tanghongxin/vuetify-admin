@@ -35,42 +35,44 @@ const resetRouter = () => {
   router.addRoute(DEFAULT_FALLBACK_ROUTE)
 }
 
-const buildDynamicRoutes = (menus = [], permissions = []) => {
+const buildDynamicRoutes = (menus = [], userPermissions = []) => {
   let num = 1
   const recursive = (items = []) => {
-    return items.map(item => {
+    return items.map(({ permissions = [], text, to, type, children, redirect, resource }) => {
       const route = {
-        meta: {
-          permissions: item.permissions || [],
-        },
-        name: item.text,
-        path: item.to,
+        meta: { permissions: permissions },
+        name: text,
+        path: to,
       }
-      switch (item.type) {
+      switch (type) {
         case 'MENU':
           Object.assign(route, {
             component: {
               name: `RouterViewWrapper${num++}`,
               render: h => h('router-view'),
             },
-            children: recursive(item.children || []),
+            children: recursive(children || []),
             redirect: '/exception/404',
           })
           break
         case 'VIEW':
-          Object.assign(route, {
-            component: lazyLoad(item.resource),
-            beforeEnter (to, from, next) {
-              if (!to.meta.permissions.length) {
-                return next()
-              } else if (_.difference(to.meta.permissions, permissions).length === 0) {
-                return next()
-              } else {
-                return next('/exception/401')
-              }
-            },
-            props: true,
-          })
+          if (redirect) {
+            Object.assign(route, { redirect })
+          } else {
+            Object.assign(route, {
+              component: lazyLoad(resource),
+              beforeEnter (to, from, next) {
+                if (!to.meta.permissions.length) {
+                  return next()
+                } else if (_.difference(to.meta.permissions, userPermissions).length === 0) {
+                  return next()
+                } else {
+                  return next('/exception/401')
+                }
+              },
+              props: true,
+            })
+          }
           break
         default:
           break
