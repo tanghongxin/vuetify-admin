@@ -21,7 +21,6 @@
       <!-- / Content -->
       <v-container>
         <v-layout column>
-          <!-- / Navigation -->
           <v-flex>
             <v-subheader class="px-1 my-2">
               导航栏设置
@@ -34,6 +33,7 @@
               @change="toggleAppPermanentNavigation"
             />
           </v-flex>
+
           <v-flex>
             <v-subheader class="px-1 my-2">
               外观
@@ -46,6 +46,7 @@
               @change="toggleAppThemeDark"
             />
           </v-flex>
+
           <v-flex>
             <v-subheader class="px-1 my-2">
               页签模式
@@ -58,7 +59,7 @@
               @change="toggleAppMultipleTabs"
             />
           </v-flex>
-          <!-- / Theme -->
+
           <v-flex>
             <v-subheader class="px-1 my-2">
               主题色设置
@@ -81,17 +82,9 @@
                     <span class="overlay">
                       <span class="material-icons">check</span>
                     </span>
-                    <span
-                      class="app-setting__item-header"
-                      :class="colorName"
-                    />
-                    <span
-                      class="app-setting__item-header"
-                      :class="colorName"
-                    />
-                    <span
-                      class="white"
-                    />
+                    <span class="app-setting__item-header" :class="colorName" />
+                    <span class="app-setting__item-header" :class="colorName" />
+                    <span class="white" />
                   </span>
                 </label>
               </v-layout>

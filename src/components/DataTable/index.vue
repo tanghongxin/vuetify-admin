@@ -39,6 +39,8 @@
       </v-data-table>
       <VLoading absolute :value="loading" />
     </div>
+
+    <slot name="default" />
   </div>
 </template>
 

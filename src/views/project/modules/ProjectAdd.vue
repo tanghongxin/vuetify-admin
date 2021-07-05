@@ -194,7 +194,7 @@ export default {
         this.loading = true
         await addProject(this.formData)
         this.$emit('success')
-        this.close()
+        await this.close()
       } catch (e) {
         throw e
       } finally {

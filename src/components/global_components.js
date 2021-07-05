@@ -6,7 +6,6 @@ import VDateTimePicker from './VImplements/VDateTimePicker.vue'
 import VFollowMenu from './VImplements/VFollowMenu.vue'
 import VImgUpload from './VImplements/VImgUpload.vue'
 import VLoading from './VImplements/VLoading.vue'
-import VMDIconPicker from './VImplements/VMDIconPicker.vue'
 import VRangeDatePicker from './VImplements/VRangeDatePicker.vue'
 import VRangeDateTimePicker from './VImplements/VRangeDateTimePicker.vue'
 import TMap from './TMap/TMap.vue'
@@ -20,7 +19,6 @@ Vue.component(VDateTimePicker.name, VDateTimePicker)
 Vue.component(VFollowMenu.name, VFollowMenu)
 Vue.component(VImgUpload.name, VImgUpload)
 Vue.component(VLoading.name, VLoading)
-Vue.component(VMDIconPicker.name, VMDIconPicker)
 Vue.component(VRangeDatePicker.name, VRangeDatePicker)
 Vue.component(VRangeDateTimePicker.name, VRangeDateTimePicker)
 Vue.component(TMap.name, TMap)

@@ -9,7 +9,7 @@
 
 <script setup>
 import _ from 'lodash-es'
-import { props } from './mixin'
+import { props } from './TMapMixin'
 import {
   defineComponent, onMounted, watch, computed,
 } from '@vue/composition-api'

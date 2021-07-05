@@ -1,5 +1,5 @@
 <script>
-import { props } from './mixin'
+import { props } from './TMapMixin'
 import _ from 'lodash-es'
 import { defineComponent, h, onBeforeUnmount, watch } from '@vue/composition-api'
 import { useInject } from './composable'

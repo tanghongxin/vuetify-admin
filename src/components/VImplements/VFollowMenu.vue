@@ -6,7 +6,6 @@
     absolute
     offset-y
     transition="scale-transition"
-    v-bind="{ ...$props, ...$attrs }"
   >
     <slot />
   </v-menu>

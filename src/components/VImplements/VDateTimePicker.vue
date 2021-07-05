@@ -1,25 +1,19 @@
 <template>
   <v-card>
     <v-card-text class="px-0 py-0">
-      <v-tabs
-        fixed-tabs
-        v-model="activeTab"
-        :slider-size="3"
-        slider-color="primary darken-1"
-      >
+      <v-tabs fixed-tabs v-model="activeTab" :slider-size="3" slider-color="primary darken-1">
         <v-tab key="calendar">
           <slot name="dateIcon">
             <v-icon>event</v-icon>
           </slot>
         </v-tab>
-        <v-tab
-          key="timer"
-          :disabled="!date"
-        >
+
+        <v-tab key="timer" :disabled="!date">
           <slot name="timeIcon">
             <v-icon>access_time</v-icon>
           </slot>
         </v-tab>
+
         <v-tab-item key="calendar">
           <v-date-picker
             color="primary"
@@ -30,6 +24,7 @@
             full-width
           />
         </v-tab-item>
+
         <v-tab-item key="timer">
           <v-time-picker
             color="primary"
@@ -45,34 +40,17 @@
         </v-tab-item>
       </v-tabs>
     </v-card-text>
+
     <v-card-actions>
       <v-spacer />
-      <slot
-        name="actions"
-        :parent="this"
-      >
-        <v-btn
-          v-show="activeTab === 0"
-          color="primary"
-          text
-          :disabled="!date"
-          @click="activeTab = 1"
-        >
+      <slot name="actions" :parent="this">
+        <v-btn v-show="activeTab === 0" color="primary" text :disabled="!date" @click="activeTab = 1">
           选择时间
         </v-btn>
-        <v-btn
-          v-show="activeTab === 1"
-          color="primary"
-          text
-          @click="activeTab = 0"
-        >
+        <v-btn v-show="activeTab === 1" color="primary" text @click="activeTab = 0">
           选择日期
         </v-btn>
-        <v-btn
-          color="primary"
-          text
-          @click="okHandler"
-        >
+        <v-btn color="primary" text @click="okHandler">
           {{ '确定' }}
         </v-btn>
       </slot>

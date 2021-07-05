@@ -12,44 +12,22 @@
     :width="width"
   >
     <!-- / Header -->
-    <v-toolbar
-      :height="appHeaderHeight"
-      dark
-      slot="prepend"
-      color="primary darken-1"
-    >
+    <v-toolbar :height="appHeaderHeight" dark slot="prepend" color="primary darken-1">
       <v-toolbar-title>
         {{ title }}
       </v-toolbar-title>
     </v-toolbar>
-    <v-card
-      :flat="flat"
-      height="100%"
-      class="overflow-y-auto"
-    >
-      <!-- / Content -->
+
+    <!-- / Content -->
+    <v-card :flat="flat" height="100%" class="overflow-y-auto">
       <v-card-text class="flex-grow-1">
         <slot name="content" />
       </v-card-text>
     </v-card>
-    
-    <v-overlay
-      color="rgba(255, 255, 255, 0.7)"
-      absolute
-      opacity="1"
-      :style="{
-        top: appHeaderHeight + 'px'
-      }"
-      :value="loading"
-    >
-      <v-progress-circular
-        color="blue"
-        indeterminate
-        size="64"
-      />
-    </v-overlay>
-    
-    <!-- / Actions -->
+
+    <VLoading absolute :value="loading" />
+
+    <!-- / Footer -->
     <template v-slot:append>
       <v-divider dark />
       <div class="fill-width d-flex flex-row">
@@ -61,10 +39,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import VLoading from '@/components/VImplements/VLoading.vue'
 
 export default {
   name:'FormDrawer',
-  components: {},
+  components: {
+    VLoading,
+  },
   props: {
     flat: {
       type: Boolean,
@@ -87,7 +68,6 @@ export default {
       default: 650,
     },
   },
-  data: () => ({}),
   computed: {
     ...mapState('setting', ['appHeaderHeight']),
   },
