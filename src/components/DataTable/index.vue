@@ -39,8 +39,6 @@
       </v-data-table>
       <VLoading absolute :value="loading" />
     </div>
-
-    <slot name="default" />
   </div>
 </template>
 
@@ -75,7 +73,12 @@ export default {
     options: {
       type: Object,
       required: true,
-      default: () => ({}),
+      default: () => ({
+        itemsPerPage: 15,
+        page: 1,
+        pageCount: 1,
+        total: 0,
+      }),
     },
   },
   methods: {

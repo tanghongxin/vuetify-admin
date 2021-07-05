@@ -1,64 +1,64 @@
 <template>
-  <DataTable
-    :headers="headers"
-    item-key="name"
-    :items="items"
-    :loading="loading"
-    :options="options"
-    @update:options="handleTableChange"
-  >
-    <template v-slot:search>
-      <v-form ref="form">
-        <v-row class="px-4">
-          <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-            <v-text-field placeholder="门店名称" v-model="query.name" clearable />
-          </v-col>
-          <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-            <v-text-field placeholder="省" v-model="query.province" clearable />
-          </v-col>
-          <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-            <v-text-field placeholder="市" v-model="query.city" clearable />
-          </v-col>
-          <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-            <v-text-field placeholder="状态" v-model="query.status" clearable />
-          </v-col>
-          <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-            <v-text-field placeholder="开业年份" v-model="query.name" clearable />
-          </v-col>
-        </v-row>
-      </v-form>
-    </template>
+  <div class="fill-height fill-width">
+    <DataTable
+      :headers="headers"
+      item-key="name"
+      :items="items"
+      :loading="loading"
+      :options="options"
+      @update:options="handleTableChange"
+    >
+      <template v-slot:search>
+        <v-form ref="form">
+          <v-row class="px-4">
+            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
+              <v-text-field placeholder="门店名称" v-model="query.name" clearable />
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
+              <v-text-field placeholder="省" v-model="query.province" clearable />
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
+              <v-text-field placeholder="市" v-model="query.city" clearable />
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
+              <v-text-field placeholder="状态" v-model="query.status" clearable />
+            </v-col>
+            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
+              <v-text-field placeholder="开业年份" v-model="query.name" clearable />
+            </v-col>
+          </v-row>
+        </v-form>
+      </template>
 
-    <template v-slot:actions>
-      <v-btn class="mr-2" depressed tile @click="handleAdd">
-        新增项目
-      </v-btn>
-    </template>
+      <template v-slot:actions>
+        <v-btn class="mr-2" depressed tile @click="handleAdd">
+          新增项目
+        </v-btn>
+      </template>
 
-    <template v-slot:item.actions="{ item }">
-      <v-btn color="blue darken-3" text @click="handleEdit(item.id)">
-        编辑
-      </v-btn>
-      <v-btn color="success" text>
-        查看
-      </v-btn>
-      <v-btn color="warning" text @click="handleDelete(item.id)">
-        删除
-      </v-btn>
-    </template>
+      <template v-slot:item.actions="{ item }">
+        <v-btn color="blue darken-3" text @click="handleEdit(item.id)">
+          编辑
+        </v-btn>
+        <v-btn color="success" text>
+          查看
+        </v-btn>
+        <v-btn color="warning" text @click="handleDelete(item.id)">
+          删除
+        </v-btn>
+      </template>
+    </DataTable>
 
-    <template #default>
-      <ProjectAdd
-        ref="projectAdd"
-        @success="handleAddSuccess"
-      />
-      <ProjectEdit
-        ref="projectEdit"
-        @success="handleEditSuccess"
-      />
-      <ProjectDetail ref="ProjectDetail" />
-    </template>
-  </DataTable>
+    <ProjectAdd
+      ref="projectAdd"
+      @success="handleAddSuccess"
+    />
+    <ProjectEdit
+      ref="projectEdit"
+      @success="handleEditSuccess"
+    />
+    <ProjectDetail ref="ProjectDetail" />
+  </div>
 </template>
 
 <script>
