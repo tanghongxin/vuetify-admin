@@ -125,14 +125,14 @@ export default {
         ...this.openedRoutes.slice(index + 1),
       ])
     },
-    handleCloseRight (index) {
-      this.setOpenedRoutes(this.openedRoutes.slice(0, index + 1))
-    },
     handleCloseLeft (index) {
       this.setOpenedRoutes(this.openedRoutes.slice(index))
     },
     handleCLoseOthers (index) {
       this.setOpenedRoutes([this.openedRoutes[index]])
+    },
+    handleCloseRight (index) {
+      this.setOpenedRoutes(this.openedRoutes.slice(0, index + 1))
     },
     handleCtxMenu (e, index) {
       this.targetIndex = index
@@ -144,7 +144,7 @@ export default {
     updateScrollTop (scrollTop) {
       this.$route.meta.scrollTop = scrollTop
     },
-    restoreScroll (scrollTop) {
+    restoreScrollTop (scrollTop) {
       this.updateScrollTop(scrollTop)
       setTimeout(this.$vuetify.goTo, 900, scrollTop, {
         container: this.$refs['content'],
@@ -165,7 +165,7 @@ export default {
 
       if (originalRoute && originalRoute.meta.scrollTop) {
         await this.$nextTick()
-        this.restoreScroll(originalRoute.meta.scrollTop)
+        this.restoreScrollTop(originalRoute.meta.scrollTop)
       }
     },
   },
@@ -176,7 +176,7 @@ export default {
       () => this.$route,
       this.handleRouteChange,
     )
-    
+
     this.$watch(
       () => this.appMultipleTabs,
       (val) => {
@@ -185,9 +185,9 @@ export default {
           // There could be an original value when route is redirected from /404
           openedRoutes = this.openedRoutes.length ? this.openedRoutes: [this.$route]
           unWatchRoute = watchRoute()
-          unWatchRoute = null
         } else {
           unWatchRoute && unWatchRoute()
+          unWatchRoute = null
         }
         this.setOpenedRoutes(openedRoutes)
       },
