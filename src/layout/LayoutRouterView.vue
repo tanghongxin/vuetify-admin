@@ -9,8 +9,8 @@
           :height="56"
         >
           <v-tab
-            v-for="(route, index) in openedRoutes"
-            :key="index"
+            v-for="route in openedRoutes"
+            :key="route.name"
             :exact="route.name === $route.name"
             :to="route.fullPath"
             @contextmenu="handleCtxMenu($event, index)"
@@ -67,7 +67,7 @@ import { mapMutations, mapState } from 'vuex'
 import { RunTimeMutations } from '@/store/modules'
 
 export default {
-  name: 'RouterViewTabs',
+  name: 'LayoutRouterView',
   data: () => ({
     targetIndex: -1,
     menus: [

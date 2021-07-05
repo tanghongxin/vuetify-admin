@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import mixin from './mixin.vue'
+import mixin from './LayoutMixin.vue'
 
 export default {
   name:'AppHeader',

@@ -21,7 +21,7 @@
             {{ item.text }}
           </v-list-item-title>
         </template>
-        <RecursiveMenus sub :items="item.children" v-if="item.children.length" />
+        <LayoutRecursiveMenus sub :items="item.children" v-if="item.children.length" />
       </v-list-group>
 
       <!-- / leaf nodes -->
@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name:'RecursiveMenus',
+  name:'LayoutRecursiveMenus',
   props: {
     items: {
       type: Array,

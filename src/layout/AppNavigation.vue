@@ -1,12 +1,12 @@
 <script>
-import RecursiveMenus from './RecursiveMenus.vue'
-import mixin from './mixin.vue'
+import RecursiveMenus from './LayoutRecursiveMenus.vue'
+import mixin from './LayoutMixin.vue'
 
 export default {
   name:'AppNavigation',
   mixins: [mixin],
   render () {
-    const { 
+    const {
       $store, $vuetify, appPermanentNavigation,
       appNavigation, $refs, toggleAppNavigation,
     } = this

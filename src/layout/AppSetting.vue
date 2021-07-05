@@ -105,7 +105,7 @@
 
 <script>
 import colors from 'vuetify/lib/util/colors'
-import mixin from './mixin.vue'
+import mixin from './LayoutMixin.vue'
 
 export default {
   name: 'AppSetting',
