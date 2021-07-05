@@ -31,7 +31,7 @@
     <v-container
       fluid
       ref="content"
-      class="overflow-x-hidden overflow-y-auto py-1 px-1 flex-1"
+      class="overflow-x-hidden overflow-y-auto py-1 px-1 flex-grow-1"
       v-scroll.self="e => updateScrollTop(e.target.scrollTop)"
     >
       <div class="fill-height">
