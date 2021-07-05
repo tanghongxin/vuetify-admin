@@ -30,9 +30,13 @@ const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE] })
 const router = createRouter()
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
 router.afterEach((to) => {
-  if (to.name) {
-    document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`
+  let suffix
+  if (to.name === 'Exception') {
+    suffix = ` - ${to.params.type}`
+  } else {
+    suffix = to.name ? ` - ${to.name}` : ''
   }
+  document.title = `${process.env.VUE_APP_TITLE}${suffix}`
 })
 
 const resetRouter = () => {
@@ -93,6 +97,7 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
     children: recursive(menus),
   })
   router.addRoute({
+    name: 'Exception',
     path: '/exception/:type',
     component: lazyLoad('exception/index'),
   })
