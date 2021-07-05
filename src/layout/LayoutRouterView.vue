@@ -9,7 +9,7 @@
           :height="56"
         >
           <v-tab
-            v-for="route in openedRoutes"
+            v-for="(route, index) in openedRoutes"
             :key="route.name"
             :exact="route.name === $route.name"
             :to="route.fullPath"
@@ -137,7 +137,9 @@ export default {
       this.$refs['followMenu'].show(e)
     },
     handleTabsChange (fullPath = '/home') {
-      this.$router.push(fullPath).catch(() => {})
+      if (fullPath !== this.$route.fullPath) {
+        this.$router.push(fullPath)
+      }
     },
     updateScrollTop (scrollTop) {
       this.$route.meta.scrollTop = scrollTop

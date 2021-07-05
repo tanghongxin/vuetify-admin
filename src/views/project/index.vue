@@ -40,12 +40,15 @@
         <v-btn color="blue darken-3" text @click="handleEdit(item.id)">
           编辑
         </v-btn>
-        <v-btn color="success" text>
-          查看
-        </v-btn>
         <v-btn color="warning" text @click="handleDelete(item.id)">
           删除
         </v-btn>
+      </template>
+
+      <template v-slot:item.category="{ item }">
+        <v-chip dark>
+          {{ item.category }}
+        </v-chip>
       </template>
     </DataTable>
 
@@ -57,14 +60,12 @@
       ref="projectEdit"
       @success="handleEditSuccess"
     />
-    <ProjectDetail ref="ProjectDetail" />
   </div>
 </template>
 
 <script>
 import ProjectAdd from './modules/ProjectAdd.vue'
 import ProjectEdit from './modules/ProjectEdit.vue'
-import ProjectDetail from './modules/ProjectDetail.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 
 export default {
@@ -72,7 +73,6 @@ export default {
   components: {
     ProjectAdd,
     ProjectEdit,
-    ProjectDetail,
   },
   data: () => ({
     items: [],
@@ -109,7 +109,6 @@ export default {
         {
           text: '总时长（分钟）',
           align: 'center',
-          sortable: false,
           value: 'time',
         },
         {
@@ -121,7 +120,6 @@ export default {
         {
           text: '展示价格',
           align: 'center',
-          sortable: false,
           value: 'price',
         },
         {
@@ -133,19 +131,16 @@ export default {
         {
           text: '独享房间',
           align: 'center',
-          sortable: false,
           value: 'occupy',
         },
         {
           text: '成本比例（%）',
           align: 'center',
-          sortable: false,
           value: 'percent',
         },
         {
           text: '更新时间',
           align: 'center',
-          sortable: false,
           value: 'lastModifyTime',
         },
         {
