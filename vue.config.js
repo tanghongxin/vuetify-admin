@@ -29,11 +29,12 @@ module.exports = {
       addStyleResource(config.module.rule('scss').oneOf(type))
     )
 
-    if (isProd) {
-      // cdn
-      config.plugin('html')
-        .tap(args => {
-          const [options] = args
+    config.plugin('html')
+      .tap(args => {
+        const [options] = args
+        options.title = process.env.VUE_APP_TITLE
+
+        if (isProd) {
           const { dependencies }  = require('./package.json')
           const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
           const BASE_URL = 'https://cdn.bootcss.com'
@@ -45,9 +46,12 @@ module.exports = {
               return [BASE_URL, name, version, suffix].join('/')
             }),
           }
-          return args
-        })
-      
+        }
+        return args
+      })
+
+    if (isProd) {
+
       // cdn global variables
       config.externals({
         ...config.get('externals'),
@@ -61,7 +65,7 @@ module.exports = {
       // lodash tree-shaking
       config.plugin('lodash')
         .use(LodashModuleReplacementPlugin)
-      
+
       // code minify
       config.plugin('terser')
         .use(TerserPlugin, [{

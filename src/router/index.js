@@ -29,6 +29,11 @@ const DEFAULT_FALLBACK_ROUTE = {
 const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE] })
 const router = createRouter()
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
+router.afterEach((to) => {
+  if (to.name) {
+    document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`
+  }
+})
 
 const resetRouter = () => {
   router.matcher = createRouter().matcher
