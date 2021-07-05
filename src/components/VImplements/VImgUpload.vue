@@ -77,7 +77,7 @@ export default {
      */
     overMaxSize (e) {
       console.log(e)
-      this.$snotify.error('系统提示', `图片大小超出${this.maxMB}兆`)
+      this.$toast.error('系统提示', `图片大小超出${this.maxMB}兆`)
       this.reset()
     },
     /**
@@ -88,7 +88,7 @@ export default {
      */
     fileChange (e) {
       if (!/image/.test(e.type)) {
-        this.$snotify.error('系统提示', '上传文件非图片')
+        this.$toast.error('系统提示', '上传文件非图片')
         this.reset()
       }
     },

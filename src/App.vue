@@ -6,7 +6,7 @@
     <v-fade-transition leave-absolute mode="out-in">
       <router-view />
     </v-fade-transition>
-    <vue-snotify />
+    <Toast absolute auto-height top />
   </v-app>
 </template>
 

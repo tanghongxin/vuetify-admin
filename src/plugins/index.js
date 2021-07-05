@@ -1,4 +1,4 @@
 import './composition'
-import './vue-snotify'
+import './toast'
 
 export { default as vuetify } from './vuetify'

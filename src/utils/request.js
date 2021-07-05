@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from '@/components/Toast'
 
 const request = axios.create({
   baseURL: '/api',
@@ -41,8 +42,7 @@ request.interceptors.response.use(
     } else {
       message = error.message === 'Network Error' ? '服务器或网络异常' : error.message
     }
-    // TODO: notify
-    console.error('请求失败', message)
+    toast.error(message)
     return Promise.reject(error)
   }
 )
