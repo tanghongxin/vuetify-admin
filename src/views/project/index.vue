@@ -67,6 +67,7 @@
 import ProjectAdd from './modules/ProjectAdd.vue'
 import ProjectEdit from './modules/ProjectEdit.vue'
 import { deleteProject, getProjectList } from '@/api/project'
+import toast from '@/utils/toast'
 
 export default {
   name: 'ProjectList',
@@ -197,7 +198,7 @@ export default {
      * @return {Undefined}
      */
     handleAddSuccess () {
-      this.$snotify.success('系统提示', '新增项目成功')
+      toast.success('系统提示', '新增项目成功')
       this.query = this.$options.data.apply(this).query
       this.options.page = 1
       this.fetch()
@@ -217,7 +218,7 @@ export default {
      * @return {Undefined}
      */
     handleEditSuccess () {
-      this.$snotify.success('系统提示', '编辑项目成功')
+      toast.success('系统提示', '编辑项目成功')
       this.fetch()
     },
     /**
@@ -230,7 +231,7 @@ export default {
       try {
         this.loading = true
         await deleteProject(id)
-        this.$snotify.success('系统提示', '删除项目成功')
+        toast.success('系统提示', '删除项目成功')
         await this.fetch()
       } catch (e) {
         throw e

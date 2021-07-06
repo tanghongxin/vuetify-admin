@@ -4,6 +4,7 @@
       :absolute="absolute"
       :bottom="bottom"
       :color="item.color"
+      :dark="dark"
       :key="item.id"
       :left="left"
       :multi-line="multiLine"
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-import service from '@/components/Toast/ToastService'
+import ToastService from '@/components/Toast/ToastService'
 
 /**
  * A wrapper component for VSnackbar which supports queueing functionality
@@ -51,11 +52,11 @@ export default {
   data: () => ({
     processing: false,
     timeoutId: false,
-    service,
+    toastService: new ToastService(),
   }),
   computed: {
     items () {
-      return this.service.items
+      return this.toastService.items
     },
   },
   props: {
@@ -95,6 +96,10 @@ export default {
     closeButtonIcon: {
       type: String,
       default: 'close',
+    },
+    dark: {
+      type: Boolean,
+      default: false,
     },
     /**
      * Array for items to display [{id: '', color: '', message: ''}]
@@ -188,7 +193,7 @@ export default {
        * @type {number}
        */
       // this.$emit('remove', id)
-      this.service.removeItem(id)
+      this.toastService.removeItem(id)
       if (vm.items.length > 0) {
         return vm.processItems()
       }

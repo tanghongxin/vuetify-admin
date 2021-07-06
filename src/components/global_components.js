@@ -1,14 +1,9 @@
 import Vue from 'vue'
-import DataTable from './DataTable/index.vue'
-import FormDrawer from './FormDrawer/index.vue'
-import VDateTimeInput from './VImplements/VDateTimeInput.vue'
-import VDateTimePicker from './VImplements/VDateTimePicker.vue'
-import VFollowMenu from './VImplements/VFollowMenu.vue'
-import VImgUpload from './VImplements/VImgUpload.vue'
-import VLoading from './VImplements/VLoading.vue'
-import TMap from './TMap/TMap.vue'
-import TSearch from './TMap/TSearch.vue'
-import TMarker from './TMap/TMarker.vue'
+import { DataTable } from './DataTable'
+import { FormDrawer } from './FormDrawer'
+import { Toast } from './Toast'
+import { TMap, TMarker, TSearch } from './TMap'
+import { VDateTimeInput, VDateTimePicker, VFollowMenu, VImgUpload, VLoading } from './VImplements'
 
 Vue.component(DataTable.name, DataTable)
 Vue.component(FormDrawer.name, FormDrawer)
@@ -20,3 +15,4 @@ Vue.component(VLoading.name, VLoading)
 Vue.component(TMap.name, TMap)
 Vue.component(TSearch.name, TSearch)
 Vue.component(TMarker.name, TMarker)
+Vue.component(Toast.name, Toast)

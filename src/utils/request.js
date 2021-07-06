@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { toast } from '@/components/Toast'
+import toast from '@/utils/toast'
 
 const request = axios.create({
   baseURL: '/api',

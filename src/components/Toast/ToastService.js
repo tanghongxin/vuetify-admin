@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-class ToastService {
+export default class ToastService {
   items = Vue.observable([])
 
   constructor () {
@@ -62,5 +62,3 @@ class ToastService {
     return `${prefix}_` + Math.random().toString(36).substr(2, 9)
   }
 }
-
-export default new ToastService()

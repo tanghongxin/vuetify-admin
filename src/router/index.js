@@ -30,13 +30,8 @@ const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE] })
 const router = createRouter()
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
 router.afterEach((to) => {
-  let suffix
-  if (to.name === 'Exception') {
-    suffix = ` - ${to.params.type}`
-  } else {
-    suffix = to.name ? ` - ${to.name}` : ''
-  }
-  document.title = `${process.env.VUE_APP_TITLE}${suffix}`
+  const suffix = to.name || to.params.type || ''
+  document.title = process.env.VUE_APP_TITLE + suffix ? ` - ${suffix}` : ''
 })
 
 const resetRouter = () => {
