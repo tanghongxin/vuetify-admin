@@ -30,8 +30,7 @@ const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE] })
 const router = createRouter()
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
 router.afterEach((to) => {
-  const suffix = to.name || to.params.type || ''
-  document.title = process.env.VUE_APP_TITLE + (suffix ? ` - ${suffix}` : '')
+  document.title = `${process.env.VUE_APP_TITLE} - ${to.name || to.params.type}`
 })
 
 const resetRouter = () => {

@@ -1,12 +1,9 @@
 <template>
-  <v-app
-    id="app"
-    class="fill-width fill-height"
-  >
+  <v-app id="app" class="fill-width fill-height">
     <v-fade-transition leave-absolute mode="out-in">
       <router-view />
     </v-fade-transition>
-    <Toast absolute auto-height top />
+    <Toast auto-height top />
   </v-app>
 </template>
 

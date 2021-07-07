@@ -77,9 +77,9 @@ export default {
      * @event
      */
     overMaxSize (e) {
-      console.log(e)
-      toast.error('系统提示', `图片大小超出${this.maxMB}兆`)
+      toast.error({ message: `图片大小超出${this.maxMB}兆` })
       this.reset()
+      throw e
     },
     /**
      * 选中文件
@@ -89,8 +89,9 @@ export default {
      */
     fileChange (e) {
       if (!/image/.test(e.type)) {
-        toast.error('系统提示', '上传文件非图片')
+        toast.error({ message: '上传文件非图片' })
         this.reset()
+        throw e
       }
     },
     onUploadStart () {},

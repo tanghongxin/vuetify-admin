@@ -1,7 +1,5 @@
-import Vue from 'vue'
-
 export default class ToastService {
-  items = Vue.observable([])
+  items = []
 
   constructor () {
     if (!ToastService.prototype.instance) {

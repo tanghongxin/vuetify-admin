@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="toast">
     <v-snackbar
-      :absolute="absolute"
-      :bottom="bottom"
+      app
+      absolute
       :color="item.color"
       :dark="dark"
       :key="item.id"
@@ -61,25 +61,11 @@ export default {
   },
   props: {
     /**
-     * Position snackbar absolute
-     */
-    absolute: {
-      type: Boolean,
-      default: false,
-    },
-    /**
      * @deprecated since v2.0.0
      *
      * Auto height prop for snackbar
      */
     autoHeight: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * Position snackbar bottom
-     */
-    bottom: {
       type: Boolean,
       default: false,
     },
@@ -155,7 +141,7 @@ export default {
      */
     timeout: {
       type: Number,
-      default: 6000,
+      default: 3000,
     },
     /**
      * Position snackbar top
@@ -200,9 +186,21 @@ export default {
     },
   },
   watch: {
-    items () {
-      this.processItems()
+    items: {
+      deep: true,
+      handler () {
+        this.processItems()
+      },
     },
   },
 }
 </script>
+
+<style lang="scss">
+.toast {
+  .v-snack {
+    position: fixed;
+    z-index: 9;
+  }
+}
+</style>

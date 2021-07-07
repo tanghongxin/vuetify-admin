@@ -198,7 +198,7 @@ export default {
      * @return {Undefined}
      */
     handleAddSuccess () {
-      toast.success('系统提示', '新增项目成功')
+      toast.success({ message: '新增项目成功' })
       this.query = this.$options.data.apply(this).query
       this.options.page = 1
       this.fetch()
@@ -218,7 +218,7 @@ export default {
      * @return {Undefined}
      */
     handleEditSuccess () {
-      toast.success('系统提示', '编辑项目成功')
+      toast.success({ message: '编辑项目成功' })
       this.fetch()
     },
     /**
@@ -231,7 +231,7 @@ export default {
       try {
         this.loading = true
         await deleteProject(id)
-        toast.success('系统提示', '删除项目成功')
+        toast.success({ message: '删除项目成功' })
         await this.fetch()
       } catch (e) {
         throw e
