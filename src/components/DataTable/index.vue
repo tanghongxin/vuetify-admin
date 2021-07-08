@@ -29,7 +29,7 @@
         :item-key="itemKey"
         :multi-sort="multiSort"
         locale="zh-cn"
-        :options="options"
+        :options="originalOptions"
         :server-items-length="options.total || 0"
         :no-data-text="loading ? '加载中...' : '暂无数据'"
         @update:options="emit($event)"
@@ -88,9 +88,14 @@ export default {
       }),
     },
   },
+  computed: {
+    originalOptions () {
+      const { page, itemsPerPage, sortBy, sortDesc } = this.options
+      return { page, itemsPerPage, sortBy, sortDesc }
+    },
+  },
   methods: {
     emit (payload = {}) {
-      // FIXME: emit multiple times in created
       this.$emit('update:options', Object.assign({}, this.options, payload))
     },
   },

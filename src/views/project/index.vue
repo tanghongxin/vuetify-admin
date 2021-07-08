@@ -172,9 +172,9 @@ export default {
       try {
         this.loading = true
         const { data } = await getProjectList({ ...this.query, ...this.options })
-        this.items = data.items
-        this.options.total = data.total
-        this.options.pageCount = data.pageCount
+        const { items, total, pageCount } = data
+        Object.assign(this, { items })
+        Object.assign(this.options, { total, pageCount })
       } catch (e) {
         this.items = []
         this.options.total = 0
