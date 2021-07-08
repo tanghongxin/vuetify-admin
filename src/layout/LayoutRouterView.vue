@@ -28,20 +28,30 @@
       </div>
     </v-expand-transition>
 
-    <v-container
-      fluid
-      ref="content"
-      class="overflow-x-hidden overflow-y-auto py-1 px-1 flex-grow-1"
-      v-scroll.self="e => updateScrollTop(e.target.scrollTop)"
-    >
-      <div class="fill-height">
-        <v-slide-x-transition mode="out-in">
-          <keep-alive :include="appMultipleTabs ? openedRoutesComponentNames : []">
-            <router-view :key="$route.name" />
-          </keep-alive>
-        </v-slide-x-transition>
-      </div>
-    </v-container>
+
+    <div class="fill-width flex-grow-1" :style="{ position: 'relative' }">
+      <v-container
+        class="overflow-x-hidden overflow-y-auto py-1 px-1 "
+        fluid
+        ref="content"
+        :style="{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        }"
+        v-scroll.self="e => updateScrollTop(e.target.scrollTop)"
+      >
+        <div class="fill-height">
+          <v-slide-x-transition mode="out-in">
+            <keep-alive :include="appMultipleTabs ? openedRoutesComponentNames : []">
+              <router-view :key="$route.name" />
+            </keep-alive>
+          </v-slide-x-transition>
+        </div>
+      </v-container>
+    </div>
 
     <VFollowMenu ref="followMenu">
       <v-list dense class="py-0">
