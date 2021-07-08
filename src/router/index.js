@@ -87,7 +87,14 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
   router.addRoute({
     path: '/',
     component: AppPage,
-    redirect: '/home',
+    redirect: (to) => {
+      const redirectedFrom = to.redirectedFrom || to.query.redirectedFrom
+      const isAvailable = redirectedFrom && router.resolve(redirectedFrom).resolved.path !== '/exception/404'
+      return {
+        path: isAvailable ? redirectedFrom : '/home',
+        query: _.omit(to.query, ['redirectedFrom']),
+      }
+    },
     children: recursive(menus),
   })
   router.addRoute({
@@ -102,6 +109,7 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
 }
 
 export {
+  DEFAULT_ROUTE as ENTRY_ROUTE,
   router as default,
   resetRouter,
   buildDynamicRoutes,

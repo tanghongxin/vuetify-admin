@@ -1,6 +1,6 @@
 import { login } from '@/api/account'
 import router from '@/router'
-import { buildDynamicRoutes, resetRouter } from '@/router'
+import { buildDynamicRoutes, resetRouter, ENTRY_ROUTE } from '@/router'
 import { RunTimeMutations } from './runTime'
 
 export const AccountMutations = {
@@ -45,16 +45,30 @@ export default {
     async [AccountActions.BUILD_ROUTES] ({ state, getters }) {
       if (getters.hasLoggedIn) {
         buildDynamicRoutes(state.menus)
-        await router.push('/home')
+        /**
+         * VueRouter could not resolve the initial location without initialization.
+         * Once a dynamic location was refreshed manually in browser,
+         * the currentRoute's path was resolved as '/'.
+         */
+        const redirectedFrom = location.hash.replace('#', '')
+        const to = { path: '/' }
+
+        if (redirectedFrom !== ENTRY_ROUTE.path) {
+          to.query = {
+            redirectedFrom,
+          }
+        }
+
+        await router.push(to)
       }
     },
     async [AccountActions.LOGOUT] ({ commit }) {
+      await router.push(ENTRY_ROUTE.path)
       commit(AccountMutations.SET_PERMISSIONS, [])
       commit(AccountMutations.SET_MENUS, [])
       commit(AccountMutations.SET_TOKEN, '')
       commit(`runTime/${RunTimeMutations.SET_OPENED_ROUTES}`, [], { root: true })
       resetRouter()
-      await router.push('/login')
     },
   },
   getters: {
