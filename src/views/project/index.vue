@@ -51,12 +51,23 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-btn color="blue darken-3" text @click="handleEdit(item.id)">
-          编辑
-        </v-btn>
-        <v-btn color="warning" text @click="handleDelete(item.id)">
-          删除
-        </v-btn>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on" color="blue darken-3" class="mr-4" @click="handleEdit(item.id)">
+              edit
+            </v-icon>
+          </template>
+          <span>编辑</span>
+        </v-tooltip>
+        
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on" color="red" @click="handleDelete(item.id)">
+              delete
+            </v-icon>
+          </template>
+          <span>删除</span>
+        </v-tooltip>
       </template>
     </DataTable>
 
@@ -76,6 +87,7 @@ import ProjectAdd from './modules/ProjectAdd.vue'
 import ProjectEdit from './modules/ProjectEdit.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 import toast from '@/utils/toast'
+import _ from 'lodash-es'
 
 export default {
   name: 'ProjectList',
@@ -176,9 +188,10 @@ export default {
         Object.assign(this, { items })
         Object.assign(this.options, { total, pageCount })
       } catch (e) {
-        this.items = []
-        this.options.total = 0
-        this.options.pageCount = 1
+        Object.assign(
+          this,
+          _.pick(this.$options.data.apply(this), ['items', 'options'])
+        )
         throw e
       } finally {
         this.loading = false
