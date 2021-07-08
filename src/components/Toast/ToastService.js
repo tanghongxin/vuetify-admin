@@ -8,39 +8,12 @@ export default class ToastService {
     return ToastService.prototype.instance
   }
 
-  success = (message = '') => {
-    this.addItem({
-      message,
-      color: 'success',
-    })
-  }
-
-  warning = (message = '') => {
-    this.addItem({
-      message,
-      color: 'warning',
-    })
-  }
-
-  error = (message = '') => {
-    this.addItem({
-      message,
-      color: 'error',
-    })
-  }
-
-  info = (message = '') => {
-    this.addItem({
-      message,
-      color: 'info',
-    })
-  }
-
-  addItem = ({ message, color }) => {
+  addItem = ({ message, color, timeout = 4000 }) => {
     this.items.push({
       id: this.uniqueId("item_"),
       color,
       message,
+      timeout,
     });
   }
 

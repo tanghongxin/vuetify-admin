@@ -3,7 +3,7 @@
     <v-fade-transition leave-absolute mode="out-in">
       <router-view />
     </v-fade-transition>
-    <Toast auto-height top />
+    <Toast />
   </v-app>
 </template>
 

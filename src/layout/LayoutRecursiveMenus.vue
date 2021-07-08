@@ -9,7 +9,6 @@
         v-hasPermission="item.permissions"
         :key="item.to"
         :value="$route.path.includes(item.to)"
-        :append-icon="item.model ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
       >
         <template v-slot:prependIcon>
           <v-icon>

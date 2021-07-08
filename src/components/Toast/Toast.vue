@@ -3,38 +3,35 @@
     <v-snackbar
       app
       absolute
+      auto-height
       :color="item.color"
       :dark="dark"
       :key="item.id"
-      :left="left"
-      :multi-line="multiLine"
-      :right="right"
-      :timeout="timeout"
-      :top="top"
+      :timeout="item.timeout"
+      :top="true"
       :value="i === 0"
-      :vertical="vertical"
       v-for="(item, i) in items"
     >
       {{ item.message }}
       <template v-slot:action="{ attrs }">
         <v-btn
-          :color="nextButtonColor"
+          color="white"
           @click="removeItem(item.id)"
           text
           v-bind="attrs"
           v-if="items.length > 1"
         >
-          {{ nextButtonText }} ({{ items.length - 1 }} {{ nextButtonCountText }})
+          下一条 （{{ items.length - 1 }} +）
         </v-btn>
         <v-btn
-          :color="closeButtonColor"
+          color="white"
           @click="removeItem(item.id)"
           text
           icon
           v-bind="attrs"
           v-else
         >
-          <v-icon>{{ closeButtonIcon }}</v-icon>
+          <v-icon>close</v-icon>
         </v-btn>
       </template>
     </v-snackbar>
@@ -60,100 +57,7 @@ export default {
     },
   },
   props: {
-    /**
-     * @deprecated since v2.0.0
-     *
-     * Auto height prop for snackbar
-     */
-    autoHeight: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * The color of the close button
-     */
-    closeButtonColor: {
-      type: String,
-      default: 'white',
-    },
-    /**
-     * The icon of the close button
-     */
-    closeButtonIcon: {
-      type: String,
-      default: 'close',
-    },
     dark: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * Array for items to display [{id: '', color: '', message: ''}]
-     */
-    // items: {
-    //   type: Array,
-    //   required: true,
-    // },
-    /**
-     * Position snackbar left
-     */
-    left: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * Position snackbar multiline
-     */
-    multiLine: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * The color of the next button
-     */
-    nextButtonColor: {
-      type: String,
-      default: 'white',
-    },
-    /**
-     * The text displayed next to the count of snackbars
-     */
-    nextButtonCountText: {
-      type: String,
-      default: 'More',
-    },
-    /**
-     * The text to display in the next button
-     */
-    nextButtonText: {
-      type: String,
-      default: 'Next',
-    },
-    /**
-     * Position snackbar right
-     */
-    right: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * Number of milliseconds to display each snackbar for
-     */
-    timeout: {
-      type: Number,
-      default: 3000,
-    },
-    /**
-     * Position snackbar top
-     */
-    top: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * Position snackbar vertical
-     */
-    vertical: {
       type: Boolean,
       default: false,
     },
@@ -166,7 +70,7 @@ export default {
         const item = vm.items[0]
         return vm.timeoutId = setTimeout(() => {
           vm.removeItem(item.id)
-        }, vm.timeout)
+        }, item.timeout)
       }
       vm.processing = false
     },
