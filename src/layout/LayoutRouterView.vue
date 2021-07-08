@@ -35,7 +35,7 @@
       v-scroll.self="e => updateScrollTop(e.target.scrollTop)"
     >
       <div class="fill-height">
-        <v-slide-x-transition leave-absolute mode="out-in">
+        <v-slide-x-transition mode="out-in">
           <keep-alive :include="appMultipleTabs ? openedRoutesComponentNames : []">
             <router-view :key="$route.name" />
           </keep-alive>

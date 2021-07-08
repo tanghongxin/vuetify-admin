@@ -13,9 +13,9 @@
       </v-btn>
     </div>
 
-    <div class="flex-grow-1" :style="{ position: 'relative' }">
+    <div class="flex-grow-1 overflow-hidden" :style="{ position: 'relative' }">
       <v-data-table
-        class="elevation-0"
+        class="elevation-0 fill-width fill-height d-flex flex-column overflow-x-hidden"
         fixed-header
         :headers="headers"
         :hide-default-footer="false"

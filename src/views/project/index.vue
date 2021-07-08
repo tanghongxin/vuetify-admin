@@ -1,8 +1,8 @@
 <template>
-  <div class="fill-height fill-width">
+  <div class="fill-height fill-width overflow-hidden">
     <DataTable
       :headers="headers"
-      item-key="name"
+      item-key="id"
       :items="items"
       :loading="loading"
       :options="options"
@@ -36,6 +36,20 @@
         </v-btn>
       </template>
 
+      <template v-slot:item.number="{ index }">
+        {{ index + 1 }}
+      </template>
+
+      <template v-slot:item.time="{ item }">
+        <v-chip :color="item.time >= 60 ? 'primary' : 'dark'">
+          {{ item.time }}
+        </v-chip>
+      </template>
+
+      <template v-slot:item.occupy="{ item }">
+        {{ item.occupy ? '是' : '否' }}
+      </template>
+
       <template v-slot:item.actions="{ item }">
         <v-btn color="blue darken-3" text @click="handleEdit(item.id)">
           编辑
@@ -43,12 +57,6 @@
         <v-btn color="warning" text @click="handleDelete(item.id)">
           删除
         </v-btn>
-      </template>
-
-      <template v-slot:item.category="{ item }">
-        <v-chip dark>
-          {{ item.category }}
-        </v-chip>
       </template>
     </DataTable>
 
@@ -83,6 +91,8 @@ export default {
       page: 1,
       pageCount: 1,
       total: 0,
+      sortBy: [],
+      sortDesc: [],
     },
     query: {
       city: '',

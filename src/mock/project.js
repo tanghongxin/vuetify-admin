@@ -1,4 +1,6 @@
 import Mock from 'mockjs-async'
+import qs from 'qs'
+import _ from 'lodash-es'
 
 // 新增项目
 Mock.mock(/\/api\/project/, 'post', () => new Promise(async resolve => {
@@ -34,131 +36,27 @@ Mock.mock(/\/api\/project\/\d+/, 'delete', () => new Promise(async resolve => {
 }))
 
 // 项目列表
-Mock.mock(/\/api\/project\/list/, 'get', () => new Promise(async resolve => {
-  setTimeout(resolve, 300, {
-    total: 30,
-    pageCount: 3,
-    items: [
+Mock.mock(/\/api\/project\/list/, 'get', (req) => new Promise(async resolve => {
+  const { sortBy = [], sortDesc = [] } = qs.parse(req.url)
+  const desc = sortDesc[0] === 'true'
+  const { items } = Mock.mock({
+    'items|15-30': [
       {
-        id: 1,
-        number: '1',
-        name: '若石足道',
-        time: '70',
-        category: '公共项目',
-        price: '199',
-        type: '足道',
-        occupy: '否',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 2,
-        number: '2',
-        name: '若石精品足道',
-        time: '90',
-        category: '公共项目',
-        price: '269',
-        type: '足道',
-        occupy: '否',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 3,
-        number: '3',
-        name: '若石养生套餐',
-        time: '120',
-        category: '公共项目',
-        price: '299',
-        type: '套餐',
-        occupy: '否',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 4,
-        number: '4',
-        name: '若石贵族SPA',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 5,
-        number: '5',
-        name: '若石贵族SPA2',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 6,
-        number: '6',
+        'id|+1': 1,
         name: '若石贵族SPA3',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 7,
-        number: '7',
-        name: '若石贵族SPA4',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 8,
-        number: '8',
-        name: '若石贵族SPA5',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 9,
-        number: '9',
-        name: '若石贵族SPA6',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
-        lastModifyTime: '2019-08-27 16:30',
-      },
-      {
-        id: 10,
-        number: '10',
-        name: '若石贵族SPA7',
-        time: '80',
-        category: '公共项目',
-        price: '499',
-        type: 'SPA',
-        occupy: '是',
-        percent: '30',
+        "time|30-120": 1,
+        'category': '公共项目',
+        "percent|30-80": 1,
+        "price|100-500": 1,
+        "occupy|1-2": true,
+        type: '足道',
         lastModifyTime: '2019-08-27 16:30',
       },
     ],
+  })
+  setTimeout(resolve, 300, {
+    total: 30,
+    pageCount: 2,
+    items: _.orderBy(items, sortBy, [desc ? 'desc' : 'asc']),
   })
 }))
