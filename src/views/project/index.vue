@@ -91,8 +91,8 @@ export default {
       page: 1,
       pageCount: 1,
       total: 0,
-      sortBy: [],
-      sortDesc: [],
+      sortBy: ['lastModifyTime'],
+      sortDesc: [true],
     },
     query: {
       city: '',

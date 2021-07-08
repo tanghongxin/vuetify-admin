@@ -27,6 +27,7 @@
         }"
         :items="items"
         :item-key="itemKey"
+        :multi-sort="multiSort"
         locale="zh-cn"
         :options="options"
         :server-items-length="options.total || 0"
@@ -66,6 +67,10 @@ export default {
       default: () => [],
       required: true,
     },
+    multiSort: {
+      type: Boolean,
+      default: false,
+    },
     loading: {
       type: Boolean,
       default: false,
@@ -78,11 +83,14 @@ export default {
         page: 1,
         pageCount: 1,
         total: 0,
+        sortBy: [],
+        sortDesc: [],
       }),
     },
   },
   methods: {
     emit (payload = {}) {
+      // FIXME: emit multiple times in created
       this.$emit('update:options', Object.assign({}, this.options, payload))
     },
   },
