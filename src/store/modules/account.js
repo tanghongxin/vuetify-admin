@@ -48,7 +48,7 @@ export default {
         /**
          * VueRouter could not resolve the initial location without initialization.
          * Once a dynamic location was refreshed manually in browser,
-         * the currentRoute's path was resolved as '/'.
+         * the currentRoute's path will be resolved as '/'.
          */
         const redirectedFrom = location.hash.replace('#', '')
         const to = { path: '/' }
