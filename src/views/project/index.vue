@@ -122,6 +122,7 @@ export default {
           align: 'center',
           sortable: false,
           value: 'number',
+          width: 100,
         },
         {
           text: '项目名称',
@@ -133,44 +134,52 @@ export default {
           text: '总时长（分钟）',
           align: 'center',
           value: 'time',
+          width: 100,
         },
         {
           text: '项目类别',
           align: 'center',
           sortable: false,
           value: 'category',
+          width: 120,
         },
         {
-          text: '展示价格',
+          text: '展示价格（¥）',
           align: 'center',
           value: 'price',
+          width: 120,
         },
         {
           text: '项目类型',
           align: 'center',
           sortable: false,
           value: 'type',
+          width: 120,
         },
         {
           text: '独享房间',
           align: 'center',
           value: 'occupy',
+          width: 100,
         },
         {
           text: '成本比例（%）',
           align: 'center',
           value: 'percent',
+          width: 100,
         },
         {
           text: '更新时间',
           align: 'center',
           value: 'lastModifyTime',
+          width: 150,
         },
         {
           text: '操作',
           align: 'center',
           sortable: false,
           value: 'actions',
+          width: 110,
         },
       ]
     },
@@ -205,7 +214,7 @@ export default {
      */
     handleTableChange (options) {
       this.options = options
-      this.$refs['form'].validate() && this.fetch()
+      this.fetch()
     },
     /**
      * 新增项目
