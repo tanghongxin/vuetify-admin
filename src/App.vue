@@ -3,7 +3,7 @@
     <v-fade-transition leave-absolute mode="out-in">
       <router-view />
     </v-fade-transition>
-    <Toast :dark="$vuetify.theme.dark" />
+    <Toast :dark="$store.state.setting.appThemeDark" />
   </v-app>
 </template>
 

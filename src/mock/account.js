@@ -46,7 +46,7 @@ Mock.mock(/api\/login/, 'post', () => ({
       text: '404',
       icon: 'priority_high',
       hidden: false,
-      to: '',
+      to: '404_test',
       redirect: '/exception/404',
       permissions: [],
       type: 'VIEW',
