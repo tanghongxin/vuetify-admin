@@ -8,4 +8,4 @@ NProgress.configure({
   showSpinner: false,
 })
 
-export default NProgress
+export { NProgress }

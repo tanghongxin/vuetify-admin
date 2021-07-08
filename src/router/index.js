@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import _ from 'lodash-es'
-import AppPage from '@/layout/AppPage.vue'
-import NProgress from '@/components/NProgress'
+import { AppPage } from '@/layout'
+import { NProgress } from '@/components/NProgress'
 
 // router.addRoutes() is deprecated and has been removed in Vue Router 4
 
@@ -26,7 +26,7 @@ const DEFAULT_FALLBACK_ROUTE = {
   redirect: '/login',
 }
 
-const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE] })
+const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE], mode: 'hash' })
 const router = createRouter()
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
 router.afterEach((to) => {
