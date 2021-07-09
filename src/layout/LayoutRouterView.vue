@@ -77,31 +77,33 @@ import { RunTimeMutations } from '@/store/modules'
 
 export default {
   name: 'LayoutRouterView',
-  data: () => ({
-    targetIndex: -1,
-    menus: [
-      {
-        title: '关闭选中标签',
-        icon: 'keyboard_arrow_down',
-        click: () => this.handleClose(this.targetIndex),
-      },
-      {
-        title: '关闭右侧标签',
-        icon: 'keyboard_arrow_right',
-        click: () => this.handleCloseRight(this.targetIndex),
-      },
-      {
-        title: '关闭左侧标签',
-        icon: 'keyboard_arrow_left',
-        click: () => this.handleCloseLeft(this.targetIndex),
-      },
-      {
-        title: '关闭其他标签',
-        icon: 'keyboard_arrow_up',
-        click: () => this.handleCLoseOthers(this.targetIndex),
-      },
-    ],
-  }),
+  data () {
+    return {
+      targetIndex: -1,
+      menus: [
+        {
+          title: '关闭选中标签',
+          icon: 'keyboard_arrow_down',
+          click: () => this.handleClose(this.targetIndex),
+        },
+        {
+          title: '关闭右侧标签',
+          icon: 'keyboard_arrow_right',
+          click: () => this.handleCloseRight(this.targetIndex),
+        },
+        {
+          title: '关闭左侧标签',
+          icon: 'keyboard_arrow_left',
+          click: () => this.handleCloseLeft(this.targetIndex),
+        },
+        {
+          title: '关闭其他标签',
+          icon: 'keyboard_arrow_up',
+          click: () => this.handleCLoseOthers(this.targetIndex),
+        },
+      ],
+    }
+  },
   computed: {
     ...mapState('setting', ['appHeaderHeight', 'appMultipleTabs']),
     ...mapState('runTime', ['openedRoutes']),
