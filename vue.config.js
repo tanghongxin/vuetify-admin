@@ -64,7 +64,10 @@ module.exports = {
 
       // lodash tree-shaking
       config.plugin('lodash')
-        .use(LodashModuleReplacementPlugin)
+        .use(new LodashModuleReplacementPlugin({
+          // collections: true,
+          shorthands: true,
+        }))
 
       // code minify
       config.plugin('terser')
