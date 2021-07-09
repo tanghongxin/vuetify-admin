@@ -15,34 +15,26 @@ const item = {
   tags: '除湿',
 }
 
-// 新增项目
-Mock.mock(/\/api\/project/, 'post', () => new Promise(async resolve => {
+Mock.mock(/\/api\/project/, 'post', () => new Promise(resolve => {
   setTimeout(resolve, 300)
 }))
 
-// 编辑项目
-Mock.mock(/\/api\/project/, 'put', () => new Promise(async resolve => {
+Mock.mock(/\/api\/project/, 'put', () => new Promise(resolve => {
   setTimeout(resolve, 300)
 }))
 
-// 项目详情
-Mock.mock(/\/api\/project\/\d+/, 'get', () => new Promise(async resolve => {
-  setTimeout(resolve, 300, Mock.mock({ ...item }))
+Mock.mock(/\/api\/project\/\d+/, 'get', () => new Promise(resolve => {
+  setTimeout(resolve, 300, Mock.mock(item))
 }))
 
-// 删除项目
-Mock.mock(/\/api\/project\/\d+/, 'delete', () => new Promise(async resolve => {
+Mock.mock(/\/api\/project\/\d+/, 'delete', () => new Promise(resolve => {
   setTimeout(resolve, 300)
-  resolve()
 }))
 
-// 项目列表
-Mock.mock(/\/api\/project\/list/, 'get', (req) => new Promise(async resolve => {
+Mock.mock(/\/api\/project\/list/, 'get', (req) => new Promise(resolve => {
   const { sortBy = [], sortDesc = [] } = qs.parse(req.url)
   const { items } = Mock.mock({
-    'items|15-30': [
-      { ...item },
-    ],
+    'items|15-30': [item],
   })
   setTimeout(resolve, 300, {
     total: items.length,
