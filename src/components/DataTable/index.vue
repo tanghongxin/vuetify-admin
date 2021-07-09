@@ -129,7 +129,7 @@ export default {
       return cols.map(col => `
         ${rootSelector} tbody tr > td:${nth(col)},
         ${rootSelector} thead tr > th:${nth(col)} {
-          background: #fff;
+          background: var(--background-color);
           position: sticky;
           ${left ? 'left' : 'right'}: 0;
           z-index: 2;
@@ -150,7 +150,12 @@ export default {
 </script>
 
 <style lang="scss">
+.theme--dark .data-table {
+  --background-color: #1e1e1e;
+}
+
 .data-table {
+  --background-color: #fff;
   position: static !important;
 
   .v-pagination {
