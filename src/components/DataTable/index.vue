@@ -135,8 +135,7 @@ export default {
           z-index: 2;
         }
 
-        ${rootSelector} tbody tr:hover > td:${nth(col)},
-        ${rootSelector} thead tr:hover > th:${nth(col)} {
+        ${rootSelector} tbody tr:hover > td:${nth(col)} {
           background: inherit;
         }
 
