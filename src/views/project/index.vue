@@ -123,6 +123,7 @@ export default {
           sortable: false,
           value: 'number',
           width: 100,
+          fixed: true,
         },
         {
           text: '项目名称',
@@ -180,6 +181,7 @@ export default {
           sortable: false,
           value: 'actions',
           width: 110,
+          fixed: true,
         },
       ]
     },

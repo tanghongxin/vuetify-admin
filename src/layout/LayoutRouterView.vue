@@ -28,7 +28,6 @@
       </div>
     </v-expand-transition>
 
-
     <div class="fill-width flex-grow-1" :style="{ position: 'relative' }">
       <v-container
         class="overflow-x-hidden overflow-y-auto py-1 px-1 "
