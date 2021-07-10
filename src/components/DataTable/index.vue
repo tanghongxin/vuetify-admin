@@ -114,11 +114,11 @@ export default {
         return {}
       }
 
-      const [first] = this.headers
-      const [last] = this.headers.slice(-1)
+      const [left] = this.headers
+      const [right] = this.headers.slice(-1)
       return {
-        left: first.fixed ? [1] : [],
-        right: last.fixed ? [1] : [],
+        left: left.fixed ? [1] : [],
+        right: right.fixed ? [1] : [],
       }
     },
     // TODO: calc multiple sticky items' left / right

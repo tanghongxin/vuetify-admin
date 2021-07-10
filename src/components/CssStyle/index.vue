@@ -1,5 +1,6 @@
 <script>
 export default {
+  name: 'CssStyle',
   props: {
     content: {
       type: String,
