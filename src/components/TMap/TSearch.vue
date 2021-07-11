@@ -99,6 +99,6 @@ export default defineComponent({
   position: absolute;
   top: 40px;
   width: 350px;
-  z-index: 99;
+  z-index: 2;
 }
 </style>

@@ -11,20 +11,8 @@
       <template v-slot:search>
         <v-form ref="form">
           <v-row class="px-4">
-            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-              <v-text-field placeholder="门店名称" v-model="query.name" clearable />
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-              <v-text-field placeholder="省" v-model="query.province" clearable />
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-              <v-text-field placeholder="市" v-model="query.city" clearable />
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-              <v-text-field placeholder="状态" v-model="query.status" clearable />
-            </v-col>
-            <v-col class="py-0" cols="12" sm="6" md="3" lg="2">
-              <v-text-field placeholder="开业年份" v-model="query.name" clearable />
+            <v-col class="py-0" cols="12">
+              <v-text-field placeholder="请输入关键字查询" v-model="query.name" clearable />
             </v-col>
           </v-row>
         </v-form>

@@ -1,7 +1,19 @@
 {
   "name": "@tanghongxin/VuetifyBoilerplate",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "license": "MIT",
+  "description": "An out of box boilerplate based on vuetify with multiple preset enhancement",
+  "keywords": [
+    "vuetify",
+    "material-design",
+    "MD",
+    "vue",
+    "@vue/composition-api",
+    "TencentMap",
+    "TMap",
+    "tencent-map"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build --mode production",
