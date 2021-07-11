@@ -83,7 +83,7 @@ export default {
       type: Object,
       required: true,
       default: () => ({
-        itemsPerPage: 15,
+        itemsPerPage: 20,
         page: 1,
         pageCount: 1,
         total: 0,

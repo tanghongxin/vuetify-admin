@@ -87,7 +87,7 @@ export default {
     items: [],
     loading: false,
     options: {
-      itemsPerPage: 10,
+      itemsPerPage: 20,
       page: 1,
       pageCount: 1,
       total: 0,

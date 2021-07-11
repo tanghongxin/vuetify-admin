@@ -32,12 +32,12 @@ Mock.mock(/\/api\/project\/\d+/, 'delete', () => new Promise(resolve => {
 }))
 
 Mock.mock(/\/api\/project\/list/, 'get', (req) => new Promise(resolve => {
-  const { sortBy = [], sortDesc = [] } = qs.parse(req.url)
+  const { sortBy = [], sortDesc = [], itemsPerPage = 15 } = qs.parse(req.url)
   const { items } = Mock.mock({
-    'items|15-30': [item],
+    [`items|${itemsPerPage - 3}-${itemsPerPage}`]: [item],
   })
   setTimeout(resolve, 300, {
-    total: items.length,
+    total: items.length * 2 + 4,
     pageCount: 1,
     items: _.orderBy(items, sortBy, sortDesc.map(e => e === 'true' ? 'desc' : 'asc')),
   })
