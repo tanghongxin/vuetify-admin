@@ -27,7 +27,7 @@
             </v-subheader>
             <v-switch
               color="primary"
-              :value="appPermanentNavigation"
+              v-model="appPermanentNavigation"
               primary
               label="导航栏固定左侧"
               @change="toggleAppPermanentNavigation"
@@ -40,7 +40,7 @@
             </v-subheader>
             <v-switch
               color="primary"
-              :value="appThemeDark"
+              v-model="appThemeDark"
               primary
               label="暗黑模式"
               @change="toggleAppThemeDark"
@@ -53,7 +53,7 @@
             </v-subheader>
             <v-switch
               color="primary"
-              :value="appMultipleTabs"
+              v-model="appMultipleTabs"
               primary
               label="多页签"
               @change="toggleAppMultipleTabs"
