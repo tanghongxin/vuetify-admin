@@ -6,19 +6,13 @@ import modules from './modules'
 Vue.use(Vuex)
 
 const accountStorage = new VuexPersistence({
-  storage: window.sessionStorage,
-  modules: ['account'],
-})
-
-const settingStorage = new VuexPersistence({
   storage: window.localStorage,
-  modules: ['setting'],
+  modules: ['account'],
 })
 
 export default new Vuex.Store({
   plugins: [
     accountStorage.plugin,
-    settingStorage.plugin,
   ],
   modules,
 })
