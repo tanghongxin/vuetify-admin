@@ -38,8 +38,8 @@ npm run serve
 ## Preview
 
 
-![dark-mode](docs/imgs/dark-mode.png) <br />
-![fix-column](docs/imgs/fix-columns.png) <br />
-![float-sidebar](docs/imgs/responsive-sidebar.png) <br />
-![theme-change](docs/imgs/theme-change.png) <br />
-![form-drawer](docs/imgs/form-drawer.png) <br />
+![dark-mode](https://gitee.com/net-space/picture_bed/raw/master/uPic/2021/07/11/dark-mode.15-46-27.png) <br />
+![fix-column](https://gitee.com/net-space/picture_bed/raw/master/uPic/2021/07/11/fix-columns.15-46-49.png) <br />
+![float-sidebar](https://gitee.com/net-space/picture_bed/raw/master/uPic/2021/07/11/responsive-sidebar.15-47-04.png) <br />
+![theme-change](https://gitee.com/net-space/picture_bed/raw/master/uPic/2021/07/11/theme-change.15-47-17.png) <br />
+![form-drawer](https://gitee.com/net-space/picture_bed/raw/master/uPic/2021/07/11/form-drawer.15-47-31.png) <br />
