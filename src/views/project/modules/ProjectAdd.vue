@@ -56,7 +56,7 @@
 
           <v-row>
             <v-col cols="12">
-              <VImgUpload flat />
+              <VImgUpload ref="upload" flat />
             </v-col>
           </v-row>
         </v-container>
@@ -132,6 +132,7 @@ export default {
       await this.$nextTick()
       Object.assign(this, this.$options.data.apply(this))
       this.$refs['form'].resetValidation()
+      this.$refs['upload'].reset()
     },
     async submit () {
       try {

@@ -99,6 +99,7 @@ export default {
     onUploadSuccess () {},
     onUploadError () {},
     reset () {
+      this.file = null
       this.$refs['vueImgInputer'].reset()
       this.$refs['vueImgInputer'].$refs['inputer'].value = ''
     },
