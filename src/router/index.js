@@ -89,7 +89,7 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
     component: AppPage,
     redirect: (to) => {
       const redirectedFrom = to.redirectedFrom || to.query.redirectedFrom
-      const isAvailable = redirectedFrom && router.resolve(redirectedFrom).resolved.path !== '/exception/404'
+      const isAvailable = redirectedFrom && redirectedFrom !== '/' && router.resolve(redirectedFrom).resolved.path !== '/exception/404'
       return {
         path: isAvailable ? redirectedFrom : '/home',
         query: _.omit(to.query, ['redirectedFrom']),
