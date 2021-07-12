@@ -57,6 +57,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
+    "compression-webpack-plugin": "^5.0.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
     "husky": "^3.0.9",

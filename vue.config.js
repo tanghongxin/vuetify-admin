@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 const CodeframeFormatter = require('stylelint-codeframe-formatter')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -51,8 +52,6 @@ module.exports = {
       })
 
     if (isProd) {
-
-      // cdn global variables
       config.externals({
         ...config.get('externals'),
         vue: 'Vue',
@@ -62,14 +61,11 @@ module.exports = {
         axios: 'axios',
       })
 
-      // lodash tree-shaking
       config.plugin('lodash')
         .use(new LodashModuleReplacementPlugin({
-          // collections: true,
           shorthands: true,
         }))
 
-      // code minify
       config.plugin('terser')
         .use(TerserPlugin, [{
           test: /\.js|\.vue$/,
@@ -84,6 +80,19 @@ module.exports = {
             },
           },
         }])
+      
+      config.plugin('gzip')
+        .use(new CompressionWebpackPlugin({
+          filename: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: /\.(js|css|json|txt|html|ico|svg|TTF)(\?.*)?$/i,
+          threshold: 10240,
+          minRatio: 0.7,
+          compressionOptions: {
+            level: 5,
+          },
+          deleteOriginalAssets: false,
+        }))
     } else {
       config.plugin('stylelint')
         .use(StyleLintPlugin, [{
