@@ -5,14 +5,21 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-const accountStorage = new VuexPersistence({
+const persistence = new VuexPersistence({
+  key: 'VuetifyBoilerplateVuex',
   storage: window.localStorage,
-  modules: ['account'],
+  reducer: ({
+    account,
+    setting: { appPermanentNavigation, appPrimaryColor, appThemeDark, appMultipleTabs },
+  }) => ({
+    account,
+    setting: { appPermanentNavigation, appPrimaryColor, appThemeDark, appMultipleTabs },
+  }),
 })
 
 export default new Vuex.Store({
   plugins: [
-    accountStorage.plugin,
+    persistence.plugin,
   ],
   modules,
 })

@@ -17,11 +17,11 @@ export default {
   state: {
     appHeaderHeight: document.body.clientWidth <= 600 ? 48 : 64,
     appNavigation: document.body.clientWidth > 1264,
-    appPermanentNavigation: !['false', null].includes(localStorage.getItem('appPermanentNavigation')),
-    appPrimaryColor: localStorage.getItem('appPrimaryColor') || '#00bcd4',
-    appThemeDark: localStorage.getItem('appThemeDark') === 'true',
+    appPermanentNavigation: false,
+    appPrimaryColor: '#00bcd4',
+    appThemeDark: false,
     appSetting: false,
-    appMultipleTabs: ['true', null].includes(localStorage.getItem('appMultipleTabs')),
+    appMultipleTabs: true,
   },
   mutations: {
     [SettingMutations.SET_APP_HEADER_HEIGHT] (state, payload) {
@@ -29,25 +29,21 @@ export default {
     },
     [SettingMutations.SET_APP_PRIMARY_COLOR] (state, payload) {
       state.appPrimaryColor = payload
-      localStorage.setItem('appPrimaryColor', state.appPrimaryColor)
     },
     [SettingMutations.TOGGLE_APP_THEME_DARK] (state) {
       state.appThemeDark = !state.appThemeDark
-      localStorage.setItem('appThemeDark', state.appThemeDark)
     },
     [SettingMutations.TOGGLE_APP_NAVIGATION] (state) {
       state.appNavigation = !state.appNavigation
     },
     [SettingMutations.TOGGLE_APP_PERMANENT_NAVIGATION] (state) {
       state.appPermanentNavigation = !state.appPermanentNavigation
-      localStorage.setItem('appPermanentNavigation', state.appPermanentNavigation)
     },
     [SettingMutations.TOGGLE_APP_SETTING] (state) {
       state.appSetting = !state.appSetting
     },
     [SettingMutations.TOGGLE_APP_MULTIPLE_TABS] (state) {
       state.appMultipleTabs = !state.appMultipleTabs
-      localStorage.setItem('appMultipleTabs', state.appMultipleTabs)
     },
   },
 }
