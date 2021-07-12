@@ -1,5 +1,8 @@
 # @tanghongxin/VuetifyBoilerplate
 
+
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/organization/repository)
+
 An out of box boilerplate based on vuetify with multiple preset enhancement.
 
 ## Preview
