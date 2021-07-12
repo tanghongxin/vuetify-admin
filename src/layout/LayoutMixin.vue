@@ -1,6 +1,6 @@
 <script>
-import { mapMutations, mapState } from 'vuex'
-import { SettingMutations } from '@/store/modules'
+import { mapActions, mapMutations, mapState } from 'vuex'
+import { AccountActions, SettingMutations } from '@/store/modules'
 
 export default {
   computed: {
@@ -23,6 +23,9 @@ export default {
       toggleAppNavigation: SettingMutations.TOGGLE_APP_NAVIGATION,
       toggleAppPermanentNavigation: SettingMutations.TOGGLE_APP_PERMANENT_NAVIGATION,
       toggleAppMultipleTabs: SettingMutations.TOGGLE_APP_MULTIPLE_TABS,
+    }),
+    ...mapActions('account', {
+      logout: AccountActions.LOGOUT,
     }),
   },
 }

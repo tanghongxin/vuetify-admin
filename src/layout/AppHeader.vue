@@ -2,6 +2,7 @@
   <v-app-bar
     :clipped-left="appPermanentNavigation || $vuetify.breakpoint.lgAndUp"
     app
+    class="pr-4"
     color="primary darken-2"
     dark
     flat
@@ -35,11 +36,36 @@
       <span>个性化设置</span>
     </v-tooltip>
 
-    <v-btn icon large>
-      <v-avatar size="32px" item>
-        <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify" />
-      </v-avatar>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          icon
+          color="white"
+          href="https://github.com/tanghongxin/VuetifyBoilerplate.git"
+          target="_blank"
+          v-on="on"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+        </v-btn>
+      </template>
+      <span>Github</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn 
+          icon
+          large 
+          v-on="on"
+          @click="logout"
+        >
+          <v-avatar size="32px" item>
+            <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify" />
+          </v-avatar>
+        </v-btn>
+      </template>
+      <span>注销</span>
+    </v-tooltip>
   </v-app-bar>
 </template>
 
@@ -52,6 +78,9 @@ export default {
   data: () => ({
     title: process.env.VUE_APP_TITLE,
   }),
+  created () {
+    console.log(this.$vuetify)
+  },
 }
 </script>
 
