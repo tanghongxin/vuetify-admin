@@ -38,7 +38,6 @@ Mock.mock(/\/api\/project\/list/, 'get', (req) => new Promise(resolve => {
   })
   setTimeout(resolve, 300, {
     total: items.length * 2 + 4,
-    pageCount: 1,
     items: _.orderBy(items, sortBy, sortDesc.map(e => e === 'true' ? 'desc' : 'asc')),
   })
 }))

@@ -7,10 +7,10 @@
     <div class="d-flex flex-row pb-1 px-2">
       <slot name="actions" />
       <v-spacer />
-      <v-btn class="mr-2" depressed tile @click="emit({ page: 1 })">
+      <v-btn class="mr-2" depressed tile @click="fetch({ page: 1 })">
         查询
       </v-btn>
-      <v-btn depressed tile @click="emit({})">
+      <v-btn depressed tile @click="fetch({})">
         刷新
       </v-btn>
     </div>
@@ -29,12 +29,13 @@
         }"
         :items="items"
         :item-key="itemKey"
-        :multi-sort="multiSort"
         locale="zh-cn"
-        :options="originalOptions"
-        :server-items-length="options.total || 0"
+        :multi-sort="multiSort"
+        :options="options"
+        ref="table"
+        :server-items-length="total || 0"
         :no-data-text="loading ? '加载中...' : '暂无数据'"
-        @update:options="emit($event)"
+        @update:options="fetch($event)"
       >
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
           <slot :name="slot" v-bind="scope" />
@@ -48,6 +49,7 @@
 <script>
 import VLoading from '@/components/VImplements/VLoading.vue'
 import CssStyle from '@/components/CssStyle/index.vue'
+import _ from 'lodash-es'
 
 export default {
   name: 'DataTable',
@@ -56,6 +58,11 @@ export default {
     CssStyle,
   },
   props: {
+    loadData: {
+      type: Function,
+      default: () => Promise.resolve(),
+      required: true,
+    },
     headers: {
       type: Array,
       default: () => [],
@@ -66,37 +73,30 @@ export default {
       default: 'id',
       required: true,
     },
-    items: {
-      type: Array,
-      default: () => [],
-      required: true,
-    },
     multiSort: {
       type: Boolean,
       default: false,
     },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    options: {
+    defaultOptions: {
       type: Object,
-      required: true,
-      default: () => ({
-        itemsPerPage: 20,
-        page: 1,
-        pageCount: 1,
-        total: 0,
-        sortBy: [],
-        sortDesc: [],
-      }),
+      default: () => ({}),
     },
   },
+  data () {
+    return {
+      items: [],
+      loading: false,
+      options: _.merge({
+        itemsPerPage: 20,
+        page: 1,
+        sortBy: [],
+        sortDesc: [],
+      }, this.defaultOptions),
+      $tableWrapper: null,
+      total: 0,
+    }
+  },
   computed: {
-    originalOptions () {
-      const { page, itemsPerPage, sortBy, sortDesc } = this.options
-      return { page, itemsPerPage, sortBy, sortDesc }
-    },
     fixedColumnsStyle () {
       const { left = [], right = [] } = this.pickFixedColumns()
       return [
@@ -106,8 +106,30 @@ export default {
     },
   },
   methods: {
-    emit (payload = {}) {
-      this.$emit('update:options', Object.assign({}, this.options, payload))
+    async fetch (payload = {}) {
+      try {
+        this.loading = true
+        const { items, total } = await this.loadData(Object.assign(this.options, payload))
+        Object.assign(this, { items, total })
+        this.$nextTick(() => {
+          this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
+          this.$vuetify.goTo(0, {
+            container: this.$tableWrapper,
+          })
+        })
+      } catch (e) {
+        this.items = []
+        this.total = 0
+        throw e
+      } finally {
+        this.loading = false
+      }
+    },
+    refresh (firstPage = false) {
+      if (firstPage) {
+        this.options.page = 1
+      }
+      return this.fetch(this.options)
     },
     pickFixedColumns () {
       if ([0, 1].includes(this.headers.length)) {

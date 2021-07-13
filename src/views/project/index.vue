@@ -1,12 +1,14 @@
 <template>
   <div class="fill-height fill-width overflow-hidden">
     <DataTable
+      :default-options="{
+        sortBy: ['lastModifyTime'],
+        sortDesc: [true],
+      }"
       :headers="headers"
       item-key="id"
-      :items="items"
-      :loading="loading"
-      :options="options"
-      @update:options="handleTableChange"
+      :load-data="loadData"
+      ref="table"
     >
       <template v-slot:search>
         <v-form ref="form">
@@ -47,7 +49,7 @@
           </template>
           <span>编辑</span>
         </v-tooltip>
-        
+
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <v-icon v-bind="attrs" v-on="on" color="red" @click="handleDelete(item.id)">
@@ -75,7 +77,6 @@ import ProjectAdd from './modules/ProjectAdd.vue'
 import ProjectEdit from './modules/ProjectEdit.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 import toast from '@/utils/toast'
-import _ from 'lodash-es'
 
 export default {
   name: 'ProjectList',
@@ -84,16 +85,6 @@ export default {
     ProjectEdit,
   },
   data: () => ({
-    items: [],
-    loading: false,
-    options: {
-      itemsPerPage: 20,
-      page: 1,
-      pageCount: 1,
-      total: 0,
-      sortBy: ['lastModifyTime'],
-      sortDesc: [true],
-    },
     query: {
       city: '',
       date: '',
@@ -179,32 +170,8 @@ export default {
      * 调取接口数据并初始化表格
      * @return {Promise<Undefined>}
      */
-    async fetch () {
-      try {
-        this.loading = true
-        const { data } = await getProjectList({ ...this.query, ...this.options })
-        const { items, total, pageCount } = data
-        Object.assign(this, { items })
-        Object.assign(this.options, { total, pageCount })
-      } catch (e) {
-        Object.assign(
-          this,
-          _.pick(this.$options.data.apply(this), ['items', 'options'])
-        )
-        throw e
-      } finally {
-        this.loading = false
-      }
-    },
-    /**
-     * 表格翻页、排序、更改每页条数等
-     * @event
-     * @param {Object} options 表格配置
-     * @return {Undefined}
-     */
-    handleTableChange (options) {
-      this.options = options
-      this.fetch()
+    async loadData (options = {}) {
+      return getProjectList({ ...this.query, ...options }).then(r => r.data)
     },
     /**
      * 新增项目
@@ -222,8 +189,7 @@ export default {
     handleAddSuccess () {
       toast.success({ message: '新增项目成功' })
       this.query = this.$options.data.apply(this).query
-      this.options.page = 1
-      this.fetch()
+      this.$refs['table'].refresh(true)
     },
     /**
      * 编辑项目
@@ -241,7 +207,7 @@ export default {
      */
     handleEditSuccess () {
       toast.success({ message: '编辑项目成功' })
-      this.fetch()
+      this.$refs['table'].refresh()
     },
     /**
      * 删除项目
@@ -250,16 +216,9 @@ export default {
      * @return {Promise<Undefined>}
      */
     async handleDelete (id) {
-      try {
-        this.loading = true
-        await deleteProject(id)
-        toast.success({ message: '删除项目成功' })
-        await this.fetch()
-      } catch (e) {
-        throw e
-      } finally {
-        this.loading = false
-      }
+      await deleteProject(id)
+      toast.success({ message: '删除项目成功' })
+      await this.$refs.table.refresh()
     },
   },
 }
