@@ -4,13 +4,13 @@
       <v-snackbar
         app
         absolute
-        auto-height
         :color="item.color"
         :dark="dark"
         :key="item.id"
         :timeout="item.timeout"
         :top="true"
         :value="i === 0"
+        v-show="i === 0"
         v-for="(item, i) in items"
       >
         {{ item.message }}
