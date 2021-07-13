@@ -11,13 +11,11 @@
       ref="table"
     >
       <template v-slot:search>
-        <v-form ref="form">
-          <v-row class="px-4">
-            <v-col class="py-0" cols="12">
-              <v-text-field placeholder="请输入关键字查询" v-model="query.name" clearable />
-            </v-col>
-          </v-row>
-        </v-form>
+        <v-row class="px-4">
+          <v-col class="py-0" cols="12">
+            <v-text-field autofocus placeholder="请输入关键字查询" v-model="query.name" clearable />
+          </v-col>
+        </v-row>
       </template>
 
       <template v-slot:actions>
@@ -86,11 +84,7 @@ export default {
   },
   data: () => ({
     query: {
-      city: '',
-      date: '',
       name: '',
-      status: '',
-      province: '',
     },
   }),
   computed: {

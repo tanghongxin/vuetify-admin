@@ -2,18 +2,20 @@
   <div class="data-table fill-width fill-height d-flex flex-column">
     <CssStyle :content="fixedColumnsStyle" />
 
-    <slot name="search" />
+    <v-form>
+      <slot name="search" />
 
-    <div class="d-flex flex-row pb-1 px-2">
-      <slot name="actions" />
-      <v-spacer />
-      <v-btn class="mr-2" depressed tile @click="fetch({ page: 1 })">
-        查询
-      </v-btn>
-      <v-btn depressed tile @click="fetch({})">
-        刷新
-      </v-btn>
-    </div>
+      <div class="d-flex flex-row pb-1 px-2">
+        <slot name="actions" />
+        <v-spacer />
+        <v-btn class="mr-2" depressed tile type="submit" @click="fetch({ page: 1 })">
+          查询
+        </v-btn>
+        <v-btn depressed tile @click="fetch({})">
+          刷新
+        </v-btn>
+      </div>
+    </v-form>
 
     <div class="flex-grow-1 overflow-hidden" :style="{ position: 'relative' }">
       <v-data-table
@@ -110,7 +112,8 @@ export default {
       try {
         this.loading = true
         const { items, total } = await this.loadData(Object.assign(this.options, payload))
-        Object.assign(this, { items, total })
+        this.items = items
+        this.total = total
         this.$nextTick(() => {
           this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
           this.$vuetify.goTo(0, {
