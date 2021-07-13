@@ -8,7 +8,7 @@
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" depressed tile type="submit" @click="fetch({ page: 1 })">
+        <v-btn class="mr-2" depressed tile type="submit" @click.stop.prevent="fetch({ page: 1 })">
           查询
         </v-btn>
         <v-btn depressed tile @click="fetch({})">
