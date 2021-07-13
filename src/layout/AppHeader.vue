@@ -41,7 +41,7 @@
         <v-btn
           icon
           color="white"
-          href="https://github.com/tanghongxin/VuetifyBoilerplate.git"
+          :href="repo"
           target="_blank"
           v-on="on"
         >
@@ -53,9 +53,9 @@
 
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
-        <v-btn 
+        <v-btn
           icon
-          large 
+          large
           v-on="on"
           @click="logout"
         >
@@ -77,10 +77,8 @@ export default {
   mixins: [mixin],
   data: () => ({
     title: process.env.VUE_APP_TITLE,
+    repo: process.env.VUE_APP_GITHUB_REPO,
   }),
-  created () {
-    console.log(this.$vuetify)
-  },
 }
 </script>
 

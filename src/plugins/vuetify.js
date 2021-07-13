@@ -11,7 +11,7 @@ export default new Vuetify({
     iconfont: 'md',
   },
   lang: {
-    locales: { zhHans },
+    locales: { 'zh-Hans': zhHans },
     current: 'zh-Hans',
   },
 })
