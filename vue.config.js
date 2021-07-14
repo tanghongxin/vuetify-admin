@@ -6,6 +6,7 @@ const CodeframeFormatter = require('stylelint-codeframe-formatter')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
+const useCDN = isProd && process.env.VUE_APP_ENABLE_CDN === 'true'
 
 const addStyleResource = rule => {
   rule
@@ -26,7 +27,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // https://www.npmjs.com/package/material-design-icons-iconfont#usage---check-out-the-demo-page
-        additionalData: `$material-design-icons-font-directory-path: '${isProd ? prodFontDirPath : devFontDirPath}';`,
+        additionalData: `$material-design-icons-font-directory-path: '${useCDN ? prodFontDirPath : devFontDirPath}';`,
       },
     },
   },
@@ -46,7 +47,7 @@ module.exports = {
         const [options] = args
         options.title = process.env.VUE_APP_TITLE
 
-        if (isProd) {
+        if (useCDN) {
           const { dependencies }  = require('./package.json')
           const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
           const cssList = ['vuetify']
@@ -70,15 +71,17 @@ module.exports = {
       })
 
     if (isProd) {
-      config.externals({
-        ...config.get('externals'),
-        vue: 'Vue',
-        'vue-router': 'VueRouter',
-        vuex: 'Vuex',
-        vuetify: 'Vuetify',
-        axios: 'axios',
-        'vuetify/dist/vuetify.min.css': 'window',
-      })
+      if (useCDN) {
+        config.externals({
+          ...config.get('externals'),
+          vue: 'Vue',
+          'vue-router': 'VueRouter',
+          vuex: 'Vuex',
+          vuetify: 'Vuetify',
+          axios: 'axios',
+          'vuetify/dist/vuetify.min.css': 'window',
+        })
+      }
 
       config.plugin('lodash')
         .use(new LodashModuleReplacementPlugin({

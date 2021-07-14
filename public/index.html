@@ -148,10 +148,10 @@
   </div>
   <!-- / cdn -->
   <% if(htmlWebpackPlugin.options.cdn) {%>
-		<% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
+		<% for(const css of htmlWebpackPlugin.options.cdn.css) { %>
       <link rel="stylesheet" href="<%=css%>">
-  <% } %>
-		<% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+    <% } %>
+		<% for(const js of htmlWebpackPlugin.options.cdn.js) { %>
 			<script src="<%=js%>"></script>
 		<% } %>
 	<% } %>
