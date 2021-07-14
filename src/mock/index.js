@@ -87,10 +87,5 @@ adaptor.onGet(/\/api\/project\/list/).reply((config) => {
     sortDesc.map(e => e === 'true' ? 'desc' : 'asc'),
   )
   
-  return new Promise((resolve) => {
-    resolve([200, {
-      total: itemsPerPage * 3 + 3,
-      items,
-    }])
-  })
+  return [200, { total: itemsPerPage * 3 + 3, items }]
 })

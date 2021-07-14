@@ -6,7 +6,7 @@
 An out of box boilerplate based on vuetify with multiple preset enhancement.
 
 ## Preview
-[Online](https://vuetify-boilerplate.abyssal.site/)
+[Live Demo](https://vuetify-boilerplate.abyssal.site/)
 
 ## Features
 
