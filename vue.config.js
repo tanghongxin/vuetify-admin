@@ -38,12 +38,19 @@ module.exports = {
         if (isProd) {
           const { dependencies }  = require('./package.json')
           const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
+          const cssList = ['vuetify']
           const BASE_URL = 'https://cdn.bootcss.com'
           options.cdn = {
             js: jsList.map(packageName => {
               const name = packageName
               const version = dependencies[packageName].replace('^', '')
               const suffix = `${name}.min.js`
+              return [BASE_URL, name, version, suffix].join('/')
+            }),
+            css: cssList.map(packageName => {
+              const name = packageName
+              const version = dependencies[packageName].replace('^', '')
+              const suffix = `${name}.min.css`
               return [BASE_URL, name, version, suffix].join('/')
             }),
           }
@@ -59,6 +66,7 @@ module.exports = {
         vuex: 'Vuex',
         vuetify: 'Vuetify',
         axios: 'axios',
+        'vuetify/dist/vuetify.min.css': 'window',
       })
 
       config.plugin('lodash')
