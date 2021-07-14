@@ -16,9 +16,20 @@ const addStyleResource = rule => {
     })
 }
 
+const devFontDirPath = '~material-design-icons-iconfont/dist/fonts/'
+const prodFontDirPath = 'https://cdn.jsdelivr.net/npm/material-design-icons-iconfont@6.1.0/dist/fonts/'
+
 module.exports = {
   publicPath: './',
   lintOnSave: !isProd,
+  css: {
+    loaderOptions: {
+      sass: {
+        // https://www.npmjs.com/package/material-design-icons-iconfont#usage---check-out-the-demo-page
+        additionalData: `$material-design-icons-font-directory-path: '${isProd ? prodFontDirPath : devFontDirPath}';`,
+      },
+    },
+  },
   chainWebpack: config => {
     // HACK: tree shaking does not work on lodash-es directly
     config.resolve.alias
