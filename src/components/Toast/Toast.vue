@@ -1,6 +1,6 @@
 <template>
   <div class="toast">
-    <v-fade-transition mode="out-in">
+    <v-fade-transition mode="out-in" group>
       <v-snackbar
         app
         absolute
@@ -10,7 +10,6 @@
         :timeout="item.timeout"
         :top="true"
         :value="i === 0"
-        v-show="i === 0"
         v-for="(item, i) in items"
       >
         {{ item.message }}

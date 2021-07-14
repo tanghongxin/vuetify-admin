@@ -59,28 +59,23 @@
       </template>
     </DataTable>
 
-    <ProjectAdd
-      ref="projectAdd"
-      @success="handleAddSuccess"
-    />
-    <ProjectEdit
-      ref="projectEdit"
-      @success="handleEditSuccess"
+    <ProjectSchema
+      ref="projectSchema"
+      @editSuccess="handleEditSuccess"
+      @addSuccess="handleAddSuccess"
     />
   </div>
 </template>
 
 <script>
-import ProjectAdd from './modules/ProjectAdd.vue'
-import ProjectEdit from './modules/ProjectEdit.vue'
+import ProjectSchema from './modules/ProjectSchema.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 import toast from '@/utils/toast'
 
 export default {
   name: 'ProjectList',
   components: {
-    ProjectAdd,
-    ProjectEdit,
+    ProjectSchema,
   },
   data: () => ({
     query: {
@@ -173,7 +168,7 @@ export default {
      * @return {Undefined}
      */
     handleAdd () {
-      this.$refs['projectAdd'].open()
+      this.$refs['projectSchema'].open()
     },
     /**
      * 新增项目成功
@@ -192,7 +187,7 @@ export default {
      * @return {Undefined}
      */
     handleEdit (id) {
-      this.$refs['projectEdit'].open(id)
+      this.$refs['projectSchema'].open(id)
     },
     /**
      * 编辑项目成功

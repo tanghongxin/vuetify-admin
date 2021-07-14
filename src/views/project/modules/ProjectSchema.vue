@@ -21,28 +21,27 @@
           <v-row>
             <v-col cols="6">
               <v-select
-                v-model="formData.category"
-                :items="typeList"
-                item-text="name"
-                item-value="value"
-                label="项目类别"
+                v-model="formData.type"
+                :items="['足道', '全身按摩', '中医调理', 'SPA', '套餐']"
+                label="项目类型"
               />
             </v-col>
             <v-col cols="6">
               <v-radio-group
-                v-model="formData.type"
-                label="项目类型"
+                v-model="formData.category"
+                :items="['公共项目', '其他项目']"
+                label="项目类别"
                 row
               >
                 <v-radio
                   color="primary"
                   label="公共项目"
-                  :value="false"
+                  value="公共项目"
                 />
                 <v-radio
                   color="primary"
                   label="其他项目"
-                  :value="true"
+                  value="其他项目"
                 />
               </v-radio-group>
             </v-col>
@@ -133,11 +132,11 @@
 
 <script>
 
-import { editProject, getProject } from '@/api/project'
+import { addProject, editProject, getProject } from '@/api/project'
 import _ from 'lodash-es'
 
 export default {
-  name:'ProjectEdit',
+  name:'ProjectSchema',
   props: {},
   data: () => ({
     formData: {
@@ -154,41 +153,23 @@ export default {
     loading: false,
     visible: false,
   }),
-  computed: {
-    typeList () {
-      return [
-        {
-          name: '足道',
-          value: '1',
-        },
-        {
-          name: '全身按摩',
-          value: '2',
-        },
-        {
-          name: '中医调理',
-          value: '3',
-        },
-        {
-          name: 'SPA',
-          value: '4',
-        },
-        {
-          name: '套餐',
-          value: '5',
-        },
-      ]
-    },
-  },
   methods: {
+    async add () {
+      await addProject(this.formData)
+      this.$emit('addSuccess')
+    },
+    async edit () {
+      await editProject(this.formData)
+      this.$emit('editSuccess')
+    },
     async open (id) {
       try {
         this.visible = true
         this.loading = true
-        const { data } = await getProject(id)
-        this.formData  = _.pick(data, Object.keys(this.formData))
-      } catch (e) {
-        throw e
+        if (id) {
+          const { data } = await getProject(id)
+          this.formData  = _.pick(data, Object.keys(this.formData))
+        }
       } finally {
         this.loading = false
       }
@@ -203,11 +184,8 @@ export default {
     async submit () {
       try {
         this.loading = true
-        await editProject(this.formData)
-        this.$emit('success')
+        await this.formData.id  ? this.edit() : this.add()
         this.close()
-      } catch (e) {
-        throw e
       } finally {
         this.loading = false
       }
