@@ -11,16 +11,16 @@ export default function bootstrap () {
 
   this.$watch(
     () => $store.state.setting.appPrimaryColor,
-    (val) => $nextTick(() => $vuetify.theme.currentTheme.primary = val),
+    (primary) => $nextTick(() => Object.assign($vuetify.theme.currentTheme, { primary })),
     { immediate: true }
   )
 
   this.$watch(
     () => $store.state.setting.appThemeDark,
-    (val) => $nextTick(() => {
+    (dark) => $nextTick(() => {
       // HACK: change dark will rollback to the default primary color
       const { primary } = $vuetify.theme.currentTheme
-      $vuetify.theme.dark = val
+      Object.assign($vuetify.theme, { dark })
       Object.assign($vuetify.theme.currentTheme, { primary })
     }),
     { immediate: true }

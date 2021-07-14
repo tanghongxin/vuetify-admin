@@ -13,6 +13,9 @@ export default {
       'appThemeDark',
       'appMultipleTabs',
     ]),
+    ...mapState('account', [
+      'username',
+    ]),
   },
   methods: {
     ...mapMutations('setting', {

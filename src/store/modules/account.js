@@ -7,6 +7,7 @@ export const AccountMutations = {
   SET_PERMISSIONS: 'SET_PERMISSIONS',
   SET_MENUS: 'SET_MENUS',
   SET_TOKEN: 'SET_TOKEN',
+  SET_USER_NAME: 'SET_USER_NAME',
 }
 
 export const AccountActions = {
@@ -21,6 +22,7 @@ export default {
     permissions: [],
     menus: [],
     token: '',
+    username: '',
   },
   mutations: {
     [AccountMutations.SET_PERMISSIONS] (state, permissions = []) {
@@ -32,14 +34,18 @@ export default {
     [AccountMutations.SET_TOKEN] (state, token = '') {
       state.token = token
     },
+    [AccountMutations.SET_USER_NAME] (state, username = '') {
+      state.username = username
+    },
   },
   actions: {
     async [AccountActions.LOGIN] ({ commit, dispatch }, payload) {
       const { data } = await login(payload)
-      const { permissions, menus, token } = data
+      const { permissions, menus, token, username } = data
       commit(AccountMutations.SET_PERMISSIONS, permissions)
       commit(AccountMutations.SET_MENUS, menus)
       commit(AccountMutations.SET_TOKEN, token)
+      commit(AccountMutations.SET_USER_NAME, username)
       await dispatch(AccountActions.BUILD_ROUTES)
     },
     async [AccountActions.BUILD_ROUTES] ({ state, getters }) {
@@ -67,6 +73,7 @@ export default {
       commit(AccountMutations.SET_PERMISSIONS, [])
       commit(AccountMutations.SET_MENUS, [])
       commit(AccountMutations.SET_TOKEN, '')
+      commit(AccountMutations.SET_USER_NAME, '')
       commit(`runTime/${RunTimeMutations.SET_OPENED_ROUTES}`, [], { root: true })
       resetRouter()
     },

@@ -23,6 +23,21 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
+          class="text-none"
+          dark
+          text
+          v-on="on"
+          @click="logout"
+        >
+          <span>{{ username }}</span>
+        </v-btn>
+      </template>
+      <span>注销</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn
           icon
           color="white"
           v-on="on"
@@ -49,22 +64,6 @@
         </v-btn>
       </template>
       <span>Github</span>
-    </v-tooltip>
-
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          icon
-          large
-          v-on="on"
-          @click="logout"
-        >
-          <v-avatar size="32px" item>
-            <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify" />
-          </v-avatar>
-        </v-btn>
-      </template>
-      <span>注销</span>
     </v-tooltip>
   </v-app-bar>
 </template>

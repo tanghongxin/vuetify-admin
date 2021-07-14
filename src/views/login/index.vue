@@ -82,8 +82,8 @@ export default {
   mounted () {
     setTimeout(() => {
       this.formData = {
-        username: 'admin',
-        password: 'admin',
+        username: 'Admin',
+        password: 'h97rpXts8@qzj7wp',
       }
     }, 450)
   },
