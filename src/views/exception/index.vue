@@ -1,5 +1,5 @@
 <template>
-  <div class="exception fill-width fill-height d-flex flex-column justify-center align-center">
+  <div class="exception fill-width d-flex flex-column justify-center align-center">
     <div class="exception-img mb-6" />
     <h1>{{ config.title }}</h1>
     <h2>{{ config.desc }}</h2>
@@ -38,14 +38,15 @@ export default {
 
 <style lang="scss">
 .exception {
+  height: 85%;
+  
   &-img {
-    // TODO: license
-    background-image: url('https://store.vuetifyjs.com/images/error.svg');
+    background-image: url('~@/assets/error.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
-    height: 200px;
-    width: 100%;
+    height: 240px;
+    width: 360px;
   }
 }
 </style>
