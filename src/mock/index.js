@@ -75,7 +75,7 @@ const item = (id = 1) => ({
   lastModifyTime: (function (d) {
     const Y = d.getFullYear()
     const M = d.getMonth() + 1
-    const D = d.getDay()
+    const D = d.getDate()
     const H = d.getHours()
     const m = d.getMinutes()
     const s = d.getSeconds()
