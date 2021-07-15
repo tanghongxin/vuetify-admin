@@ -1,7 +1,6 @@
 import Adaptor from 'axios-mock-adapter'
 import request from '@/utils/request'
 import _ from 'lodash-es'
-import dayjs from 'dayjs'
 
 const adaptor = new Adaptor(request, { delayResponse: 300 })
 
@@ -73,7 +72,16 @@ const item = (id = 1) => ({
   occupy: Math.random() > 0.5,
   type: ['足道', '全身按摩', '中医调理', 'SPA', '套餐'][`${Math.abs(Math.random() - 0.5)}`[2]],
   tags: ['除湿', '活血', '助眠', '通气', '养颜'][`${Math.abs(Math.random() - 0.5)}`[2]],
-  lastModifyTime: dayjs(new Date(+(new Date()) - Math.floor(Math.random()*10000000000))).format('YYYY-MM-DD HH:mm:ss'),
+  lastModifyTime: (function (d) {
+    const Y = d.getFullYear()
+    const M = d.getMonth() + 1
+    const D = d.getDay()
+    const H = d.getHours()
+    const m = d.getMinutes()
+    const s = d.getSeconds()
+    const pad = num => num.toString().padStart(2, '0')
+    return `${Y}-${pad(M)}-${pad(D)} ${pad(H)}:${pad(m)}:${pad(s)}`
+  })(new Date(+(new Date()) - Math.floor(Math.random()*10000000000))),
 })
 
 adaptor.onPost(/\/api\/project/).reply(200)
