@@ -39,9 +39,9 @@ export default {
 <style lang="scss">
 .exception {
   height: 85%;
-  
+
   &-img {
-    background-image: url('~@/assets/error.jpg');
+    background-image: url('~@/assets/images/error.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
