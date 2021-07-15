@@ -42,7 +42,7 @@ request.interceptors.response.use(
     } else {
       message = error.message === 'Network Error' ? '网络异常' : error.message
     }
-    toast.error(message)
+    toast.error({ message })
     return Promise.reject(error)
   }
 )
