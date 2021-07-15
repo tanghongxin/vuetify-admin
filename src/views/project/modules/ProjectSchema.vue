@@ -14,7 +14,7 @@
               <v-text-field
                 v-model="formData.name"
                 label="项目名称"
-                :rule="[v => !!v || '请输入项目名称']"
+                :rules="[v => !!v || '请输入项目名称']"
               />
             </v-col>
           </v-row>
@@ -23,6 +23,7 @@
               <v-select
                 v-model="formData.type"
                 :items="['足道', '全身按摩', '中医调理', 'SPA', '套餐']"
+                :rules="[v => !!v || '请选择项目类型']"
                 label="项目类型"
               />
             </v-col>
@@ -30,6 +31,7 @@
               <v-radio-group
                 v-model="formData.category"
                 :items="['公共项目', '其他项目']"
+                :rules="[v => !!v || '请选择项目类别']"
                 label="项目类别"
                 row
               >
@@ -49,29 +51,33 @@
           <v-row>
             <v-col cols="6">
               <v-text-field
-                v-model="formData.price"
-                label="展示价格"
+                v-model.number="formData.price"
+                :rules="[v => !!v || '请输入展示价格']"
+                label="展示价格（¥）"
               />
             </v-col>
             <v-col cols="6">
               <v-text-field
-                v-model="formData.time"
-                label="总时长"
+                v-model.number="formData.time"
+                :rules="[v => !!v || '请输入总时长']"
+                label="总时长（分钟）"
               />
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="6">
               <v-text-field
-                v-model="formData.percent"
+                v-model.number="formData.percent"
                 type="number"
-                label="成本比例"
+                :rules="[v => !!v || '请输入成本比例']"
+                label="成本比例（%）"
               />
             </v-col>
             <v-col cols="6">
               <v-radio-group
                 v-model="formData.occupy"
                 color="primary"
+                :rules="[v => typeof v === 'boolean' || '请选择独享房间']"
                 label="独享房间"
                 row
               >
@@ -97,7 +103,10 @@
                 v-model="formData.tags"
                 counter="12"
                 label="功效标签"
-                :rules="[v => !!v || '请输入功效标签', v => v && v.length <= 12 || '最多输入12个字']"
+                :rules="[
+                  v => !!v || '请输入功效标签',
+                  v => v && v.length <= 12 || '最多输入12个字符'
+                ]"
               />
             </v-col>
           </v-row>
@@ -122,7 +131,8 @@
       <v-btn
         x-large
         text
-        @click="$refs['form'].validate() && submit()"
+        type="submit"
+        @click.stop.prevent="submit"
       >
         保存
       </v-btn>
@@ -147,7 +157,7 @@ export default {
       price: '',
       time: '',
       percent: '',
-      occupy: false,
+      occupy: null,
       tags: '',
     },
     loading: false,
@@ -182,9 +192,10 @@ export default {
       this.$refs['upload'].reset()
     },
     async submit () {
+      if (!this.$refs['form'].validate()) return
       try {
         this.loading = true
-        await this.formData.id  ? this.edit() : this.add()
+        await this.formData.id ? this.edit() : this.add()
         this.close()
       } finally {
         this.loading = false
@@ -195,5 +206,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>
