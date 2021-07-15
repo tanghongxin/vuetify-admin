@@ -13,9 +13,9 @@ export default class TMapService {
         complete: resolve,
         error: reject,
         ...options,
-        pageIndex:1,
-        pageCapacity:10,
-        location:"北京",
+        pageIndex: 1,
+        pageCapacity: 10,
+        location: "北京",
       })
       service.search(query)
     })

@@ -16,7 +16,7 @@ import {
 import { useProvide, useState, useLoader } from './composable'
 
 export default defineComponent({
-  name:'TMap',
+  name: 'TMap',
   props: {
     ..._.pick(props, ['position', 'zoom']),
     dark: {

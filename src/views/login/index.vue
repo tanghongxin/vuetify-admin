@@ -55,7 +55,7 @@ import { mapActions } from 'vuex'
 import { AccountActions } from '@/store/modules/account'
 
 export default {
-  name:'Login',
+  name: 'Login',
   data: () => ({
     formData: {
       username: '',

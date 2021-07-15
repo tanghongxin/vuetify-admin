@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name:'LayoutRecursiveMenus',
+  name: 'LayoutRecursiveMenus',
   props: {
     items: {
       type: Array,

@@ -42,7 +42,7 @@ import { mapState } from 'vuex'
 import VLoading from '@/components/VImplements/VLoading.vue'
 
 export default {
-  name:'FormDrawer',
+  name: 'FormDrawer',
   components: {
     VLoading,
   },

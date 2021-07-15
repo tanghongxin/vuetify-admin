@@ -146,7 +146,7 @@ import { addProject, editProject, getProject } from '@/api/project'
 import _ from 'lodash-es'
 
 export default {
-  name:'ProjectSchema',
+  name: 'ProjectSchema',
   props: {},
   data: () => ({
     formData: {
@@ -178,7 +178,7 @@ export default {
         this.loading = true
         if (id) {
           const { data } = await getProject(id)
-          this.formData  = _.pick(data, Object.keys(this.formData))
+          this.formData = _.pick(data, Object.keys(this.formData))
         }
       } finally {
         this.loading = false

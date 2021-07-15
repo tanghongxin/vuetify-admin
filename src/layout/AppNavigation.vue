@@ -3,7 +3,7 @@ import RecursiveMenus from './LayoutRecursiveMenus.vue'
 import mixin from './LayoutMixin.vue'
 
 export default {
-  name:'AppNavigation',
+  name: 'AppNavigation',
   mixins: [mixin],
   render () {
     const {

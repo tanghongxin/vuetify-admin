@@ -21,6 +21,14 @@ module.exports = {
     indent: ['error', 2, { SwitchCase: 1 }],
     'vue/max-attributes-per-line': 5,
     "space-before-function-paren": ["warn", "always"],
+    "key-spacing": [
+      "warn",
+      {
+        "beforeColon": false,
+        "mode": "strict",
+      },
+    ],
+    "no-multi-spaces": ["warn"],
   },
   parserOptions: {
     parser: 'babel-eslint',

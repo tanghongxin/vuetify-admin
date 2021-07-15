@@ -48,7 +48,7 @@ module.exports = {
         options.title = process.env.VUE_APP_TITLE
 
         if (useCDN) {
-          const { dependencies }  = require('./package.json')
+          const { dependencies } = require('./package.json')
           const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
           const cssList = ['vuetify']
           const BASE_URL = 'https://cdn.bootcss.com'

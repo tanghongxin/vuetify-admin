@@ -72,7 +72,7 @@
 import mixin from './LayoutMixin.vue'
 
 export default {
-  name:'AppHeader',
+  name: 'AppHeader',
   mixins: [mixin],
   data: () => ({
     title: process.env.VUE_APP_TITLE,

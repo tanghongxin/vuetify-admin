@@ -10,7 +10,7 @@ const toast = {
   info: add('info'),
 }
 
-export  {
+export {
   Toast,
   toast,
 }

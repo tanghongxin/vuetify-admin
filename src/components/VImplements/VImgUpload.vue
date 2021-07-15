@@ -30,7 +30,7 @@ import VueImgInputer from 'vue-img-inputer'
 import toast from '@/utils/toast'
 
 export default {
-  name:'VImgUpload',
+  name: 'VImgUpload',
   components: {
     VueImgInputer,
   },

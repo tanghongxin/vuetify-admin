@@ -5,7 +5,7 @@ import { defineComponent, h, onBeforeUnmount, watch } from '@vue/composition-api
 import { useInject } from './composable'
 
 export default defineComponent({
-  name:'TMarker',
+  name: 'TMarker',
   props: {
     ..._.pick(props, ['position', 'zIndex']),
     animation: {
