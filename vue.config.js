@@ -48,6 +48,16 @@ module.exports = {
         options.title = process.env.VUE_APP_TITLE
 
         if (useCDN) {
+          config.externals({
+            ...config.get('externals'),
+            vue: 'Vue',
+            'vue-router': 'VueRouter',
+            vuex: 'Vuex',
+            vuetify: 'Vuetify',
+            axios: 'axios',
+            'vuetify/dist/vuetify.min.css': 'window',
+          })
+          
           const { dependencies } = require('./package.json')
           const jsList = ['vue', 'vue-router', 'vuex', 'vuetify', 'axios']
           const cssList = ['vuetify']
@@ -71,18 +81,6 @@ module.exports = {
       })
 
     if (isProd) {
-      if (useCDN) {
-        config.externals({
-          ...config.get('externals'),
-          vue: 'Vue',
-          'vue-router': 'VueRouter',
-          vuex: 'Vuex',
-          vuetify: 'Vuetify',
-          axios: 'axios',
-          'vuetify/dist/vuetify.min.css': 'window',
-        })
-      }
-
       config.plugin('lodash')
         .use(new LodashModuleReplacementPlugin({
           shorthands: true,
