@@ -1,6 +1,6 @@
 <template>
   <div class="exception fill-width d-flex flex-column justify-center align-center">
-    <div class="exception-img mb-6" />
+    <div class="exception-img mb-6" :style="{ filter: appThemeDark ? 'invert(100%)': 'none' }" />
     <h1>{{ config.title }}</h1>
     <h2>{{ config.desc }}</h2>
     <div class="mt-6">
@@ -23,6 +23,7 @@ export default {
   name: 'Exception',
   computed: {
     ...mapState('runTime', ['openedRoutes']),
+    ...mapState('setting', ['appThemeDark']),
     ...mapGetters('account', ['hasLoggedIn']),
     config () {
       return config[this.$route.params.type]
@@ -41,7 +42,7 @@ export default {
   height: 85%;
 
   &-img {
-    background-image: url('~@/assets/images/error.jpg');
+    background-image: url('~@/assets/images/alert-triangle.svg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
