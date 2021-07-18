@@ -22,7 +22,7 @@ import { AccountActions } from '@/store/modules'
 export default {
   name: 'Exception',
   computed: {
-    ...mapState('runTime', ['openedRoutes']),
+    ...mapState('runtime', ['openedRoutes']),
     ...mapState('setting', ['appThemeDark']),
     ...mapGetters('account', ['hasLoggedIn']),
     config () {

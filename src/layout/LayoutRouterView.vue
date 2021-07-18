@@ -73,7 +73,7 @@
 <script>
 import _ from 'lodash-es'
 import { mapMutations, mapState } from 'vuex'
-import { RunTimeMutations } from '@/store/modules'
+import { RuntimeMutations } from '@/store/modules'
 
 export default {
   name: 'LayoutRouterView',
@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     ...mapState('setting', ['appHeaderHeight', 'appMultipleTabs']),
-    ...mapState('runTime', ['openedRoutes']),
+    ...mapState('runtime', ['openedRoutes']),
     breadcrumbs () {
       return this.$route.matched.map(r => ({ text: r.name }))
     },
@@ -117,8 +117,8 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('runTime', {
-      setOpenedRoutes: RunTimeMutations.SET_OPENED_ROUTES,
+    ...mapMutations('runtime', {
+      setOpenedRoutes: RuntimeMutations.SET_OPENED_ROUTES,
     }),
     handleClose (index) {
       if (this.openedRoutes[index].path === '/home' && this.openedRoutes.length <= 1) {

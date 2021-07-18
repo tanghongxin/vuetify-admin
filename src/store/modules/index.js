@@ -1,11 +1,11 @@
 import { default as account, AccountActions, AccountMutations } from './account'
 import { default as setting, SettingMutations} from './setting'
-import { default as runTime, RunTimeMutations } from './runTime'
+import { default as runtime, RuntimeMutations } from './runtime'
 
 const modules = {
   account,
   setting,
-  runTime,
+  runtime,
 }
 
 export {
@@ -13,5 +13,5 @@ export {
   AccountActions,
   AccountMutations,
   SettingMutations,
-  RunTimeMutations,
+  RuntimeMutations,
 }
