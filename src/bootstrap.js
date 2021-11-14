@@ -5,7 +5,7 @@ export default function bootstrap () {
   
   this.$watch(
     () => $vuetify.breakpoint.xsOnly,
-    (xs) => $store.commit(`setting/${SettingMutations.SET_APP_HEADER_HEIGHT}`, xs ? 48 : 64),
+    (xs) => $store.commit(`setting/${SettingMutations.SET_APP_HEADER_HEIGHT}`, xs ? 48 : 56),
     { immediate: true }
   )
 

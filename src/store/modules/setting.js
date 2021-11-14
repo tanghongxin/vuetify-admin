@@ -15,7 +15,7 @@ export const SettingActions = {
 export default {
   namespaced: true,
   state: {
-    appHeaderHeight: document.body.clientWidth <= 600 ? 48 : 64,
+    appHeaderHeight: document.body.clientWidth <= 600 ? 48 : 56,
     appNavigation: document.body.clientWidth > 1264,
     appPermanentNavigation: false,
     appPrimaryColor: '#00bcd4',
