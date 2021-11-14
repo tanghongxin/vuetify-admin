@@ -103,7 +103,7 @@ module.exports = {
       
       config.plugin('gzip')
         .use(new CompressionWebpackPlugin({
-          filename: '[path].gz[query]',
+          filename: '[path][base].gz',
           algorithm: 'gzip',
           test: /\.(js|css|json|txt|html|ico|svg|jpg|TTF)(\?.*)?$/i,
           threshold: 10240,

@@ -24,7 +24,11 @@
           </v-tab>
         </v-tabs>
         <v-divider />
-        <v-breadcrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :items="breadcrumbs" />
+        <v-breadcrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :items="breadcrumbs">
+          <template v-slot:divider>
+            <v-icon>forward</v-icon>
+          </template>
+        </v-breadcrumbs>
       </div>
     </v-expand-transition>
 
@@ -108,7 +112,8 @@ export default {
     ...mapState('setting', ['appHeaderHeight', 'appMultipleTabs']),
     ...mapState('runtime', ['openedRoutes']),
     breadcrumbs () {
-      return this.$route.matched.map(r => ({ text: r.name }))
+      const [, ...rest] = this.$route.matched.map(r => ({ text: r.name }))
+      return rest
     },
     openedRoutesComponentNames () {
       const matched = this.openedRoutes.map(r => r.matched).flat()
