@@ -15,7 +15,7 @@
     "tencent-map"
   ],
   "engines": {
-    "node": ">=12.18.3"
+    "node": ">=14.18.1"
   },
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
