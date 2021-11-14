@@ -74,7 +74,7 @@
     "stylelint-codeframe-formatter": "^1.0.5",
     "stylelint-config-sass-guidelines": "^8.0.0",
     "stylelint-scss": "^3.20.1",
-    "stylelint-webpack-plugin": "^1.1.0",
+    "stylelint-webpack-plugin": "^2.3.1",
     "terser-webpack-plugin": "^2.2.1",
     "vue-template-compiler": "^2.6.14"
   },
