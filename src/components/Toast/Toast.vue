@@ -13,7 +13,7 @@
         v-for="(item, i) in items"
       >
         {{ item.message }}
-        <template v-slot:action="{ attrs }">
+        <template #action="{ attrs }">
           <v-btn
             color="white"
             @click="dequeue(item.id)"

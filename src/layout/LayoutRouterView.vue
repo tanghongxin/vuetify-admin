@@ -25,7 +25,7 @@
         </v-tabs>
         <v-divider />
         <v-breadcrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :items="breadcrumbs">
-          <template v-slot:divider>
+          <template #divider>
             <v-icon>forward</v-icon>
           </template>
         </v-breadcrumbs>
@@ -131,7 +131,7 @@ export default {
       }
       if (index <= this.openedRoutes.length - 2) {
         this.$router.push(
-          this.openedRoutes[index + 1].fullPath
+          this.openedRoutes[index + 1].fullPath,
         )
       }
       this.setOpenedRoutes([
@@ -207,7 +207,7 @@ export default {
         }
         this.setOpenedRoutes(openedRoutes)
       },
-      { immediate: true }
+      { immediate: true },
     )
   },
 }

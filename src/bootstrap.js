@@ -6,13 +6,13 @@ export default function bootstrap () {
   this.$watch(
     () => $vuetify.breakpoint.xsOnly,
     (xs) => $store.commit(`setting/${SettingMutations.SET_APP_HEADER_HEIGHT}`, xs ? 48 : 56),
-    { immediate: true }
+    { immediate: true },
   )
 
   this.$watch(
     () => $store.state.setting.appPrimaryColor,
     (primary) => $nextTick(() => Object.assign($vuetify.theme.currentTheme, { primary })),
-    { immediate: true }
+    { immediate: true },
   )
 
   this.$watch(
@@ -23,7 +23,7 @@ export default function bootstrap () {
       Object.assign($vuetify.theme, { dark })
       Object.assign($vuetify.theme.currentTheme, { primary })
     }),
-    { immediate: true }
+    { immediate: true },
   )
 
   $store.dispatch(`account/${AccountActions.BUILD_ROUTES}`)

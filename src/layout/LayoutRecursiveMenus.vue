@@ -10,12 +10,12 @@
         :key="item.to"
         :value="$route.path.includes(item.to)"
       >
-        <template v-slot:prependIcon>
+        <template #prependIcon>
           <v-icon>
             {{ item.icon }}
           </v-icon>
         </template>
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-title>
             {{ item.text }}
           </v-list-item-title>

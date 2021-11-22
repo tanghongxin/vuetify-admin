@@ -72,8 +72,6 @@ export default {
       try {
         this.loading = true
         await this.login(this.formData)
-      } catch (e) {
-        throw e
       } finally {
         this.loading = false
       }

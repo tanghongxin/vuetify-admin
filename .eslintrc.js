@@ -19,7 +19,16 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'func-style': ['error', 'expression'],
     indent: ['error', 2, { SwitchCase: 1 }],
-    'vue/max-attributes-per-line': 5,
+    'vue/max-attributes-per-line': [
+      2,
+      {
+        singleline: 5,
+        multiline: {
+          max: 1,
+          allowFirstLine: false,
+        },
+      },
+    ],
     "space-before-function-paren": ["warn", "always"],
     "key-spacing": [
       "warn",
