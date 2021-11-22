@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import _ from 'lodash-es'
 import { props } from './TMapMixin'
 import {
@@ -51,7 +51,7 @@ export default defineComponent({
             map.value.setOptions(_.omit(options.value, ['center', 'zoom']))
           }
         },
-        { deep: true, immediate: true }
+        { deep: true, immediate: true },
       )
     })
 

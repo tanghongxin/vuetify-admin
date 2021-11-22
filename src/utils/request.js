@@ -49,7 +49,7 @@ request.interceptors.response.use(
     }
     toast.error({ message })
     return Promise.reject(error)
-  }
+  },
 )
 
 export default request

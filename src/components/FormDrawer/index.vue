@@ -28,7 +28,7 @@
     <VLoading absolute :value="loading" />
 
     <!-- / Footer -->
-    <template v-slot:append>
+    <template #append>
       <v-divider dark />
       <div class="fill-width d-flex flex-row">
         <slot name="actions" />

@@ -26,7 +26,7 @@
       @change="select"
       @update:search-input="search"
     >
-      <template v-slot:item="{ item }">
+      <template #item="{ item }">
         <v-list-item-content>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ item.address }}</v-list-item-subtitle>

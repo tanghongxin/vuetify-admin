@@ -10,7 +10,7 @@
       :load-data="loadData"
       ref="table"
     >
-      <template v-slot:search>
+      <template #search>
         <v-row class="px-4">
           <v-col class="py-0" cols="12">
             <v-text-field autofocus placeholder="请输入关键字查询" v-model="query.name" clearable />
@@ -18,29 +18,29 @@
         </v-row>
       </template>
 
-      <template v-slot:actions>
+      <template #actions>
         <v-btn class="mr-2" depressed tile @click="handleAdd">
           新增项目
         </v-btn>
       </template>
 
-      <template v-slot:item.number="{ index }">
+      <template #[`item.number`]="{ index }">
         {{ index + 1 }}
       </template>
 
-      <template v-slot:item.time="{ item }">
+      <template #[`item.time`]="{ item }">
         <v-chip :color="item.time >= 60 ? 'primary' : 'dark'">
           {{ item.time }}
         </v-chip>
       </template>
 
-      <template v-slot:item.occupy="{ item }">
+      <template #[`item.occupy`]="{ item }">
         {{ item.occupy ? '是' : '否' }}
       </template>
 
-      <template v-slot:item.actions="{ item }">
+      <template #[`item.actions`]="{ item }">
         <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-icon v-bind="attrs" v-on="on" color="blue darken-3" class="mr-4" @click="handleEdit(item.id)">
               edit
             </v-icon>
@@ -49,7 +49,7 @@
         </v-tooltip>
 
         <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-icon v-bind="attrs" v-on="on" color="red" @click="handleDelete(item.id)">
               delete
             </v-icon>
@@ -164,7 +164,6 @@ export default {
     },
     /**
      * 新增项目
-     * @event
      * @return {Undefined}
      */
     handleAdd () {
@@ -172,7 +171,6 @@ export default {
     },
     /**
      * 新增项目成功
-     * @event
      * @return {Undefined}
      */
     handleAddSuccess () {
@@ -182,7 +180,6 @@ export default {
     },
     /**
      * 编辑项目
-     * @event
      * @param {Number | String} id 项目id
      * @return {Undefined}
      */
@@ -191,7 +188,6 @@ export default {
     },
     /**
      * 编辑项目成功
-     * @event
      * @return {Undefined}
      */
     handleEditSuccess () {
@@ -200,7 +196,6 @@ export default {
     },
     /**
      * 删除项目
-     * @event
      * @param {Number | String} id 项目id
      * @return {Promise<Undefined>}
      */

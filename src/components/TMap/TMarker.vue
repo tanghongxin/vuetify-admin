@@ -31,10 +31,10 @@ export default defineComponent({
       () => props.position,
       () => {
         marker.setPosition(
-          new qq.maps.LatLng(...props.position)
+          new qq.maps.LatLng(...props.position),
         )
       },
-      { deep: true }
+      { deep: true },
     )
 
     onBeforeUnmount(() => {
