@@ -18,7 +18,10 @@ export default function bootstrap () {
   this.$watch(
     () => $store.state.setting.appThemeDark,
     (dark) => $nextTick(() => {
-      // HACK: change dark will rollback to the default primary color
+      /**
+       * Vuetify will rollback to the default primary color
+       * if we changed primary color dynamically or did not specify a dark theme color
+       */
       const { primary } = $vuetify.theme.currentTheme
       Object.assign($vuetify.theme, { dark })
       Object.assign($vuetify.theme.currentTheme, { primary })
