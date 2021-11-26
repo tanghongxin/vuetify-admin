@@ -31,6 +31,9 @@ module.exports = {
       },
     },
   },
+  configureWebpack: {
+    devtool: isProd ? false : 'source-map',
+  },
   chainWebpack: config => {
     // HACK: tree shaking does not work on lodash-es directly
     config.resolve.alias
