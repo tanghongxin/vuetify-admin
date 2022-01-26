@@ -31,6 +31,9 @@ module.exports = {
       },
     },
   },
+  devServer: {
+    disableHostCheck: true,
+  },
   chainWebpack: config => {
     // HACK: tree shaking does not work on lodash-es directly
     config.resolve.alias

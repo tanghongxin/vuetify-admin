@@ -10,7 +10,7 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
 ports:
-  - port: 3000
+  - port: 8080
     visibility: public
     onOpen: open-preview
 
