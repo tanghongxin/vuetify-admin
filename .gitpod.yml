@@ -5,7 +5,7 @@
 tasks:
   - name: dev
     init: startup local dev serve
-    command: npm install && npm run run serve
+    command: npm install && npm run serve
 vscode:
   extensions:
     - dbaeumer.vscode-eslint
