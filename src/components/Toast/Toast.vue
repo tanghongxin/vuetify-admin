@@ -55,7 +55,7 @@ export default {
     },
   },
   methods: {
-    handleAddItem ({ id = Date.now(), message, color, timeout }) {
+    handleAddItem ({ id = Date.now() + Math.random(), message, color, timeout }) {
       this.items.push({ id, message, color, timeout })
       this.enqueue()
     },
