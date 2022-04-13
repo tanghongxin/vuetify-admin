@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { CssStyle } from '@/components/CssStyle/index'
+import { CssStyle } from '@/components/CssStyle'
 
 describe('CssStyle', () => {
   let wrapper
