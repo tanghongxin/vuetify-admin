@@ -37,11 +37,12 @@ describe('FormDrawer', () => {
   })
 
   it('Visible', async () => {
-    // FIXME: always received true
-    expect(createWrapper(wrapper.element).isVisible()).toEqual(false)
+    // always received true
+    // expect(createWrapper(wrapper.element).isVisible()).toEqual(false)
+    expect(wrapper.element.classList.contains('v-navigation-drawer--close')).toEqual(true)
 
     await wrapper.setProps({ value: true })
-    expect(createWrapper(wrapper.element).isVisible()).toEqual(true)
+    expect(wrapper.element.classList.contains('v-navigation-drawer--close')).toEqual(false)
   })
 
   it('Title', async () => {
