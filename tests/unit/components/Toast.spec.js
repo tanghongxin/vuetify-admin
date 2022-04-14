@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import { Toast, toast } from '@/components/Toast'
@@ -15,7 +14,7 @@ describe('Toast', () => {
   
   it('Render message to DOM', async () => {
     toast.success({ message })
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     const content = wrapper.find('.v-snack__content')
     expect(content.exists()).toBe(true)
     expect(content.text()).toEqual(message)
@@ -24,7 +23,7 @@ describe('Toast', () => {
   it('Render next message when next button is clicked', async () => {
     toast.success({ message: '' })
     toast.success({ message })
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     const nextButtonWrapper = wrapper
       .findAll('button')
       .filter(w => w.text().includes('下一条'))
@@ -32,7 +31,7 @@ describe('Toast', () => {
     expect(nextButtonWrapper.exists()).toBe(true)
 
     nextButtonWrapper.trigger('click')
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     const content = wrapper.find('.v-snack__content')
     expect(content.exists()).toBe(true)
     expect(content.text()).toEqual(message)
@@ -50,22 +49,22 @@ describe('Toast', () => {
 
   it('Disappear when close button is clicked', async () => {
     toast.success({ message })
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     wrapper.find('button').trigger('click')
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     expect( wrapper.find('.v-snack__content').exists()).toBe(false)
   })
 
   it('Only Render close button when length < 2', async () => {
     toast.success({ message })
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('button').length).toEqual(1)
   })
 
   it('Render next and close buttons when length > 2', async () => {
     toast.success({ message })
     toast.success({ message })
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     const buttonWrapperArray = wrapper.findAll('button')
     expect(buttonWrapperArray.length).toEqual(2)
   })

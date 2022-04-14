@@ -1,8 +1,5 @@
 import request from '@/utils/request'
 import Adaptor from 'axios-mock-adapter'
-import { createWrapper, mount } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import { Toast } from '@/components/Toast'
 
 jest.mock('@/store', () => ({
   default: {
@@ -17,21 +14,13 @@ jest.mock('@/store', () => ({
 describe('request', () => {
   let store
   let adaptor
-  let wrapper
-  let toastWrapper
 
   beforeEach(() => {
     store = require('@/store').default
-    wrapper = createWrapper(document.body)
-    toastWrapper = mount(Toast, {
-      vuetify: new Vuetify(),
-      attachTo: document.body,
-    })
     adaptor = new Adaptor(request, { delayResponse: 300 })
   })
 
   afterEach(() => {
-    toastWrapper.destroy()
     adaptor.reset()
   })
 
@@ -45,9 +34,9 @@ describe('request', () => {
       ].map(
         async ([code, message]) => {
           adaptor.onPost(new RegExp(code)).reply(() => [code])
-          await request.post(`/${code}`).catch(() => {})
-          const messageWrapper = wrapper.findAll('.v-snack__content').at(-1)
-          expect(messageWrapper.exists()).toBe(true)
+          await expect(request.post(`/${code}`)).rejects.toThrow(`Request failed with status code ${code}`)
+          const messageWrapper = global.bodyWrapper.findAll('.v-snack__content').at(-1)
+          expect(messageWrapper.exists()).toBeTruthy()
           expect(messageWrapper.text()).toBe(message)
         }),
     ).then(() => done())

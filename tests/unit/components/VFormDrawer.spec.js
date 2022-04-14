@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { mount, createLocalVue, createWrapper } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import { FormDrawer } from '@/components/FormDrawer/index'
@@ -12,11 +11,6 @@ describe('FormDrawer', () => {
   let wrapper
 
   beforeEach(() => {
-    Object.assign(document.body.style, {
-      width: '1920px',
-      height: '1080px',
-    })
-
     store = new Vuex.Store({
       modules: {
         setting: {

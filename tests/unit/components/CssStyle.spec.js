@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { CssStyle } from '@/components/CssStyle'
 
@@ -46,7 +45,7 @@ describe('CssStyle', () => {
 
   it('Style disappears after component is destroyed', async () => {
     wrapper.destroy()
-    await Vue.nextTick()
+    await wrapper.vm.$nextTick()
     const defaultStyle = window.getComputedStyle(document.createElement('div'))
     const { display, width, height, backgroundColor } = window.getComputedStyle(div)
     expect(display).toEqual(defaultStyle.display)
