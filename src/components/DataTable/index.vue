@@ -8,7 +8,7 @@
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" depressed tile type="submit" @click.stop.prevent="search">
+        <v-btn class="mr-2" depressed tile type="submit" @click.stop.prevent="refresh(true)">
           查询
         </v-btn>
         <v-btn depressed tile @click="refresh()">
@@ -112,12 +112,8 @@ export default {
         this.loading = true
         const { items, total } = await this.loadData(Object.assign(this.options, payload))
         Object.assign(this, { items, total })
-        this.$nextTick(() => {
-          this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
-          this.$vuetify.goTo(0, {
-            container: this.$tableWrapper,
-          })
-        })
+        await this.$nextTick()
+        await this.scrollToTop()
       } catch (e) {
         this.items = []
         this.total = 0
@@ -133,12 +129,11 @@ export default {
         this.fetch(this.options)
       }
     },
-    search () {
-      if (this.options.page !== 1) {
-        this.options.page = 1
-      } else {
-        this.fetch()
-      }
+    scrollToTop () {
+      this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
+      return this.$vuetify.goTo(0, {
+        container: this.$tableWrapper,
+      })
     },
     pickFixedColumns () {
       if ([0, 1].includes(this.headers.length)) {
