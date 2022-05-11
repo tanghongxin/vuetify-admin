@@ -95,12 +95,14 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
         query: _.omit(to.query, ['redirectedFrom']),
       }
     },
-    children: recursive(menus),
-  })
-  router.addRoute({
-    name: 'Exception',
-    path: '/exception/:type',
-    component: lazyLoad('exception/index'),
+    children: [
+      ...recursive(menus),
+      {
+        name: '404',
+        path: '/exception/404',
+        component: lazyLoad('exception/index'),
+      },
+    ],
   })
   router.addRoute({
     path: '*',

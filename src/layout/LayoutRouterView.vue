@@ -16,6 +16,7 @@
             @contextmenu="handleCtxMenu($event, index)"
           >
             <span class="subtitle-1">{{ route.name }}</span>
+            <v-spacer tag="span" />
             <v-btn icon ripple small text @click.prevent="handleClose(index)">
               <v-icon small>
                 close

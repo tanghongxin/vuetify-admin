@@ -1,38 +1,18 @@
 <template>
   <div class="exception fill-width d-flex flex-column justify-center align-center">
     <div class="exception-img mb-6" :style="{ filter: appThemeDark ? 'invert(100%)': 'none' }" />
-    <h1>{{ config.title }}</h1>
-    <h2>{{ config.desc }}</h2>
-    <div class="mt-6">
-      <v-btn type="primary" depressed class="primary mr-4" @click="$router.push('/home')">
-        返回首页
-      </v-btn>
-      <v-btn type="primary" depressed class="primary" @click="logout">
-        重新登录
-      </v-btn>
-    </div>
+    <h1>{{ 404 }}</h1>
+    <h2>抱歉，您访问的页面不存在或仍在开发中</h2>
   </div>
 </template>
 
 <script>
-import config from './config'
-import { mapActions, mapGetters, mapState } from 'vuex'
-import { AccountActions } from '@/store/modules'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Exception',
   computed: {
-    ...mapState('runtime', ['openedRoutes']),
     ...mapState('setting', ['appThemeDark']),
-    ...mapGetters('account', ['hasLoggedIn']),
-    config () {
-      return config[this.$route.params.type]
-    },
-  },
-  methods: {
-    ...mapActions('account', {
-      logout: AccountActions.LOGOUT,
-    }),
   },
 }
 </script>
