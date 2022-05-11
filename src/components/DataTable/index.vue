@@ -8,10 +8,10 @@
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" depressed tile type="submit" @click.stop.prevent="fetch({ page: 1 })">
+        <v-btn class="mr-2" depressed tile type="submit" @click.stop.prevent="refresh(true)">
           查询
         </v-btn>
-        <v-btn depressed tile @click="fetch({})">
+        <v-btn depressed tile @click="refresh()">
           刷新
         </v-btn>
       </div>
@@ -51,7 +51,6 @@
 <script>
 import VLoading from '@/components/VImplements/VLoading.vue'
 import CssStyle from '@/components/CssStyle/index.vue'
-import _ from 'lodash-es'
 
 export default {
   name: 'DataTable',
@@ -88,7 +87,7 @@ export default {
     return {
       items: [],
       loading: false,
-      options: _.merge({
+      options: Object.assign({
         itemsPerPage: 20,
         page: 1,
         sortBy: [],
@@ -112,14 +111,9 @@ export default {
       try {
         this.loading = true
         const { items, total } = await this.loadData(Object.assign(this.options, payload))
-        this.items = items
-        this.total = total
-        this.$nextTick(() => {
-          this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
-          this.$vuetify.goTo(0, {
-            container: this.$tableWrapper,
-          })
-        })
+        Object.assign(this, { items, total })
+        await this.$nextTick()
+        await this.scrollToTop()
       } catch (e) {
         this.items = []
         this.total = 0
@@ -129,10 +123,17 @@ export default {
       }
     },
     refresh (firstPage = false) {
-      if (firstPage) {
+      if (firstPage && this.options.page !== 1) {
         this.options.page = 1
+      } else {
+        this.fetch(this.options)
       }
-      return this.fetch(this.options)
+    },
+    scrollToTop () {
+      this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
+      return this.$vuetify.goTo(0, {
+        container: this.$tableWrapper,
+      })
     },
     pickFixedColumns () {
       if ([0, 1].includes(this.headers.length)) {

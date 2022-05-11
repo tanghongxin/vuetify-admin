@@ -31,6 +31,9 @@ module.exports = {
       },
     },
   },
+  configureWebpack: {
+    devtool: isProd ? false : 'source-map',
+  },
   devServer: {
     disableHostCheck: true,
   },

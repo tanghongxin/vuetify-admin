@@ -13,10 +13,12 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/coverage/
 
 # Editor directories and files
 .idea
-.vscode
+.vscode/*
+!.vscode/launch.json
 *.suo
 *.ntvs*
 *.njsproj

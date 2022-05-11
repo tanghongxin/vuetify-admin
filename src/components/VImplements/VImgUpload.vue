@@ -76,10 +76,10 @@ export default {
      * @param {File} e
      * @event
      */
-    overMaxSize (e) {
+    overMaxSize () {
       toast.error({ message: `图片大小超出${this.maxMB}兆` })
       this.reset()
-      throw e
+      return
     },
     /**
      * 选中文件
@@ -91,7 +91,7 @@ export default {
       if (!/image/.test(e.type)) {
         toast.error({ message: '上传文件非图片' })
         this.reset()
-        throw e
+        return
       }
     },
     onUploadStart () {},
