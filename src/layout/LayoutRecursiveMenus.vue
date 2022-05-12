@@ -6,7 +6,6 @@
         active-class="primary--text"
         :class="sub ? 'group-sub' : ''"
         v-if="item.type === 'MENU' && !item.hidden"
-        v-hasPermission="item.permissions"
         :key="item.to"
         :value="$route.path.includes(item.to)"
       >
@@ -27,7 +26,6 @@
       <v-list-item
         active-class="primary--text"
         v-if="item.type === 'VIEW' && !item.hidden"
-        v-hasPermission="item.permissions"
         :key="item.to"
         :to="item.to || item.redirect"
         link

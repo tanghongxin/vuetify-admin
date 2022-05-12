@@ -28,21 +28,25 @@ request.interceptors.response.use(
   error => {
     let message = ''
     if (error.response) {
-      switch (error.response.status) {
-        case 404:
-          message = '资源未找到'
-          break
-        case 403:
-          message = '操作被禁止'
-          break
-        case 401:
-          message = '暂无权限'
-          break
-        case 500:
-          message = '服务器异常'
-          break
-        default:
-          break
+      if (error.response.data) {
+        message = error.response.data.message
+      } else {
+        switch (error.response.status) {
+          case 404:
+            message = '资源未找到'
+            break
+          case 403:
+            message = '操作被禁止'
+            break
+          case 401:
+            message = '暂无权限'
+            break
+          case 500:
+            message = '服务器异常'
+            break
+          default:
+            break
+        }
       }
     } else {
       message = error.message === 'Network Error' ? '网络异常' : error.message

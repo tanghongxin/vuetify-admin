@@ -43,7 +43,17 @@ export default {
       const { data } = await login(payload)
       const { permissions, menus, token, username } = data
       commit(AccountMutations.SET_PERMISSIONS, permissions)
-      commit(AccountMutations.SET_MENUS, menus)
+      commit(AccountMutations.SET_MENUS, [
+        {
+          text: '首页',
+          icon: 'home',
+          hidden: false,
+          to: '/home',
+          type: 'VIEW',
+          resource: 'home/index',
+        },
+        ...menus,
+      ])
       commit(AccountMutations.SET_TOKEN, token)
       commit(AccountMutations.SET_USER_NAME, username)
       await dispatch(AccountActions.BUILD_ROUTES)

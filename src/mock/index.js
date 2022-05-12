@@ -6,55 +6,86 @@ const adaptor = new Adaptor(request, { delayResponse: 300 })
 
 adaptor.onPost(/api\/login/).reply(config => {
   const { username } = JSON.parse(config.data)
-  return [200, {
-    username,
-    token: 'ac21ebab-bddc-41a3-bef5-4ecf3325c888',
-    permissions: [],
-    menus: [
-      {
-        text: '首页',
-        icon: 'home',
-        hidden: false,
-        to: '/home',
-        type: 'VIEW',
-        resource: 'home/index',
-      },
-      {
-        text: '项目管理',
-        icon: 'apps',
-        hidden: false,
-        to: '/project',
-        type: 'MENU',
-        resource: '',
-        children: [
+  let statusCode, response
+  switch (username.toLowerCase()) {
+    case 'admin':
+      statusCode = 200
+      response = {
+        username,
+        token: 'ac21ebab-bddc-41a3-bef5-4ecf3325c888',
+        permissions: [],
+        menus: [
           {
-            text: '项目列表',
+            text: '项目管理',
+            icon: 'apps',
             hidden: false,
-            to: '/project/list',
+            to: '/project',
+            type: 'MENU',
+            resource: '',
+            children: [
+              {
+                text: '项目列表',
+                hidden: false,
+                to: '/project/list',
+                type: 'VIEW',
+                resource: 'project/index',
+              },
+            ],
+          },
+          {
+            text: '腾讯地图',
+            icon: 'place',
+            hidden: false,
+            to: '/map',
             type: 'VIEW',
-            resource: 'project/index',
+            resource: 'map/index',
+          },
+          {
+            text: '404',
+            icon: 'priority_high',
+            hidden: false,
+            to: '404_test',
+            redirect: '/exception/404',
+            type: 'VIEW',
+            resource: '',
           },
         ],
-      },
-      {
-        text: '腾讯地图',
-        icon: 'place',
-        hidden: false,
-        to: '/map',
-        type: 'VIEW',
-        resource: 'map/index',
-      },
-      {
-        text: '404',
-        icon: 'priority_high',
-        hidden: false,
-        to: '404_test',
-        redirect: '/exception/404',
-        type: 'VIEW',
-        resource: '',
-      },
-    ],
-  }]
+      }
+      break
+    case 'guest':
+      statusCode = 200
+      response = {
+        username,
+        token: 'ac21ebab-bddc-41a3-bef5-4ecf3325c888',
+        permissions: [],
+        menus: [
+          {
+            text: '项目管理',
+            icon: 'apps',
+            hidden: false,
+            to: '/project',
+            type: 'MENU',
+            resource: '',
+            children: [
+              {
+                text: '项目列表',
+                hidden: false,
+                to: '/project/list',
+                type: 'VIEW',
+                resource: 'project/index',
+              },
+            ],
+          },
+        ],
+      }
+      break
+    default:
+      statusCode = 401
+      response = { message: '用户名或密码错误' }
+      break
+  }
+
+  return [statusCode, response]
 })
 
 const item = (id = 1) => ({
