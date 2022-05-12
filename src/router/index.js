@@ -38,12 +38,12 @@ const resetRouter = () => {
   router.addRoute(DEFAULT_FALLBACK_ROUTE)
 }
 
-const buildDynamicRoutes = (menus = [], userPermissions = []) => {
+const buildDynamicRoutes = (menus = []) => {
   let num = 1
   const recursive = (items = []) => {
-    return items.map(({ permissions = [], text, to, type, children = [], redirect, resource }) => {
+    return items.map(({ text, to, type, children = [], redirect, resource }) => {
       const route = {
-        meta: { permissions },
+        meta: {},
         name: text,
         path: to,
       }
@@ -64,15 +64,6 @@ const buildDynamicRoutes = (menus = [], userPermissions = []) => {
           } else {
             Object.assign(route, {
               component: lazyLoad(resource),
-              beforeEnter (to, from, next) {
-                if (!to.meta.permissions.length) {
-                  return next()
-                } else if (_.difference(to.meta.permissions, userPermissions).length === 0) {
-                  return next()
-                } else {
-                  return next('/exception/401')
-                }
-              },
               props: true,
             })
           }
