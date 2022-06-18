@@ -21,7 +21,7 @@ const devFontDirPath = '~material-design-icons-iconfont/dist/fonts/'
 const prodFontDirPath = 'https://cdn.jsdelivr.net/npm/material-design-icons-iconfont@6.1.0/dist/fonts/'
 
 module.exports = {
-  publicPath: './',
+  publicPath: isProd ? '/vuetify-boilerplate/' : './',
   lintOnSave: !isProd,
   css: {
     loaderOptions: {
