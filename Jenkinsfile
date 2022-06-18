@@ -4,7 +4,7 @@ pipeline {
         timestamps()
     }
     environment {
-        ONLINE_SITE = 'https://vuetify-boilerplate.abyssal.site'
+        ONLINE_SITE = 'https://www.abyssal.site/vuetify-boilerplate'
     }
     stages {
         stage('Build') { 
