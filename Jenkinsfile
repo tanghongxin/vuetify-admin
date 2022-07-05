@@ -6,7 +6,7 @@ pipeline {
     environment {
         ONLINE_SITE = 'https://www.abyssal.site/vuetify-boilerplate'
         AUTHOR_EMAIL = 'hongxin.tang@hotmail.com'
-        DEPLOY_DIR   = '/www/wwwroot/visual'
+        DEPLOY_DIR   = '/www/wwwroot/www'
     }
     stages {
         stage('Build') { 
