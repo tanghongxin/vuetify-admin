@@ -1,7 +1,7 @@
 <template>
   <div class="t-map-wrapper">
     <v-loading v-if="!initialized" absolute value />
-    <div class="t-map" ref="$el">
+    <div class="t-map" id="map">
       <slot v-if="initialized" />
     </div>
   </div>
@@ -12,7 +12,7 @@ import _ from 'lodash-es'
 import { props } from './TMapMixin'
 import {
   defineComponent, onMounted, watch, computed,
-} from '@vue/composition-api'
+} from 'vue'
 import { useProvide, useState, useLoader } from './composable'
 
 export default defineComponent({
@@ -24,7 +24,7 @@ export default defineComponent({
       default: false,
     },
   },
-  setup (props, ctx) {
+  setup (props) {
     const [map, setMap] = useState(null)
     const [initialized, setInitialized] = useState(false)
     const loader = useLoader()
@@ -45,7 +45,7 @@ export default defineComponent({
         () => options.value,
         () => {
           if (!map.value) {
-            setMap(new qq.maps.Map(ctx.refs.$el, options.value))
+            setMap(new qq.maps.Map(document.getElementById('map'), options.value))
             setTimeout(setInitialized, 600, true)
           } else {
             map.value.setOptions(_.omit(options.value, ['center', 'zoom']))

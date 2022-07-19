@@ -1,4 +1,4 @@
-import { inject, provide, ref } from '@vue/composition-api'
+import { inject, provide, ref } from 'vue'
 import TMapService from './TMapService'
 import TMapLoader from './TMapLoader'
 

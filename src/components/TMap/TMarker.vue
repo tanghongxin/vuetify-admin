@@ -1,7 +1,7 @@
 <script>
 import { props } from './TMapMixin'
 import _ from 'lodash-es'
-import { defineComponent, h, onBeforeUnmount, watch } from '@vue/composition-api'
+import { defineComponent, h, onBeforeUnmount, watch } from 'vue'
 import { useInject } from './composable'
 
 export default defineComponent({

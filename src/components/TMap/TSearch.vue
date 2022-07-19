@@ -42,7 +42,7 @@
 <script>
 import _ from 'lodash-es'
 import TMarker from './TMarker.vue'
-import { computed, defineComponent, reactive } from '@vue/composition-api'
+import { computed, defineComponent, reactive } from 'vue'
 import { useInject, useService } from './composable'
 
 export default defineComponent({
