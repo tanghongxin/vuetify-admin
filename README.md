@@ -37,6 +37,6 @@ An out of box boilerplate based on vuetify with multiple preset enhancement.
 ```bash
 git clone https://github.com/tanghongxin/VuetifyBoilerplate.git
 cd VuetifyBoilerplate
-npm i
-npm run serve
+pnpm i
+pnpm serve
 ```
