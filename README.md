@@ -21,7 +21,7 @@ An out of box boilerplate based on vuetify with multiple preset enhancement.
 - (Enabled by default) CDN config in production mode
 - Preset axios config with jwt and authorization
 - Preset global sass variable entry config
-- Simple TencentMap component wrapper with ```@vue/composition-api```
+- Simple TencentMap component wrapper with ```composition-api```
 
 ## Enhancement for Vuetify
 
