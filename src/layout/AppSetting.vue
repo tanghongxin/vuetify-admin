@@ -128,16 +128,16 @@ export default {
     position: relative;
   }
 
-  &__label input[type='radio'] {
+  &__label input[type="radio"] {
     display: none;
   }
 
-  &__label input[type='radio'] + span {
+  &__label input[type="radio"] + span {
     position: relative;
   }
 
-  &__label input[type='radio'] + span > .overlay {
-    background-color: rgba(0, 0, 0, 0.3);
+  &__label input[type="radio"] + span > .overlay {
+    background-color: rgb(0 0 0 / 30%);
     bottom: 0;
     color: #fff;
     display: none;
@@ -151,7 +151,7 @@ export default {
     width: 100%;
   }
 
-  &__label input[type='radio']:checked + span > .overlay {
+  &__label input[type="radio"]:checked + span > .overlay {
     display: block;
   }
 
@@ -160,7 +160,7 @@ export default {
   }
 
   &__item {
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 2px rgb(0 0 0 / 10%);
     display: block;
     margin-bottom: 15px;
     overflow: hidden;

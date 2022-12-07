@@ -1,9 +1,15 @@
 module.exports = {
   defaultSeverity: 'error',
-  extends: 'stylelint-config-sass-guidelines',
+  extends: [
+    "stylelint-config-standard-scss",
+    "stylelint-config-recommended-vue/scss",
+  ],
   plugins: ['stylelint-scss'],
   rules: {
     'selector-max-id': 1,
+    'no-empty-source': null,
+    'declaration-empty-line-before': null,
+    'no-descending-specificity': null,
     'selector-no-qualifying-type': [true, {
       ignore: ["attribute", "class", "id"],
     }],

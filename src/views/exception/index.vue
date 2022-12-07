@@ -22,7 +22,7 @@ export default {
   height: 85%;
 
   &-img {
-    background-image: url('~@/assets/images/alert-triangle.svg');
+    background-image: url("~@/assets/images/alert-triangle.svg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
