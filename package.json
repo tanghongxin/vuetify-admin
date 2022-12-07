@@ -74,7 +74,7 @@
     "stylelint-config-standard-scss": "^6.1.0",
     "stylelint-scss": "^4.3.0",
     "stylelint-webpack-plugin": "^3.3.0",
-    "terser-webpack-plugin": "^2.2.1",
+    "terser-webpack-plugin": "^4.2.3",
     "vue-template-compiler": "^2.6.14"
   }
 }

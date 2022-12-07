@@ -101,7 +101,7 @@ module.exports = {
 
       config.plugin('terser')
         .use(TerserPlugin, [{
-          test: /\.js|\.vue$/,
+          test: /\.js|\.vue$/i,
           exclude: /node_modules/,
           terserOptions: {
             compress: {
