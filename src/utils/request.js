@@ -1,14 +1,15 @@
 import axios from 'axios'
-import qs from 'qs'
 import toast from '@/utils/toast'
+import { parse, stringify } from 'qs'
 
 const request = axios.create({
   baseURL: '/api',
   responseType: 'json',
   validateStatus: status => status === 200,
-  paramsSerializer (params) {
-    // https://github.com/axios/axios/issues/1644
-    return qs.stringify(params)
+  // https://github.com/axios/axios/issues/1644
+  paramsSerializer: {
+    encode: parse,
+    serialize: stringify,
   },
 })
 
