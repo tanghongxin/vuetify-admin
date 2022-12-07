@@ -22,8 +22,8 @@
     "build": "vue-cli-service build --mode production",
     "build:report": "vue-cli-service build --report --mode production && cd dist && live-server --open=./report.html",
     "lint": "vue-cli-service lint",
-    "lint:style": "stylelint **/*.{html,vue} --custom-syntax postcss-html",
-    "lint:css": "stylelint **/*.{css,sass,scss} --syntax scss",
+    "lint:style": "stylelint **/*.{vue} --custom-syntax postcss-html",
+    "lint:css": "stylelint **/*.{css,sass,scss} --custom-syntax postcss-html",
     "test:unit": "vue-cli-service test:unit",
     "prepare": "husky install"
   },
@@ -68,11 +68,12 @@
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
     "style-resources-loader": "^1.4.1",
-    "stylelint": "^13.13.1",
+    "stylelint": "^14.16.0",
     "stylelint-codeframe-formatter": "^1.1.0",
-    "stylelint-config-sass-guidelines": "^8.0.0",
-    "stylelint-scss": "^3.20.1",
-    "stylelint-webpack-plugin": "^2.3.1",
+    "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard-scss": "^6.1.0",
+    "stylelint-scss": "^4.3.0",
+    "stylelint-webpack-plugin": "^3.3.0",
     "terser-webpack-plugin": "^2.2.1",
     "vue-template-compiler": "^2.6.14"
   }

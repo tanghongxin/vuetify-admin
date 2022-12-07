@@ -132,7 +132,7 @@ module.exports = {
           emitErrors: true,
           failOnError: false,
           formatter: CodeframeFormatter,
-          files: ['**/*.{html,vue,css,sass,scss}'],
+          files: ['**/*.{vue,css,sass,scss}'],
           fix: true,
         }])
     }
