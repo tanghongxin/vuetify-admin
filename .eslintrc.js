@@ -19,13 +19,16 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'func-style': ['error', 'expression'],
     indent: ['error', 2, { SwitchCase: 1 }],
+    'vue/multi-word-component-names': 'off',
+    'vue/no-reserved-component-names': 'off',
     'vue/max-attributes-per-line': [
       2,
       {
-        singleline: 5,
+        singleline: {
+          max: 5,
+        },
         multiline: {
           max: 1,
-          allowFirstLine: false,
         },
       },
     ],
@@ -40,7 +43,7 @@ module.exports = {
     "no-multi-spaces": ["warn"],
   },
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
   },
   overrides: [
     {

@@ -20,6 +20,9 @@ const addStyleResource = rule => {
 const devFontDirPath = '~material-design-icons-iconfont/dist/fonts/'
 const prodFontDirPath = 'https://cdn.jsdelivr.net/npm/material-design-icons-iconfont@6.1.0/dist/fonts/'
 
+/**
+ * @type {import('@vue/cli-service').ProjectOptions}
+ */
 module.exports = {
   publicPath: isProd ? '/vuetify-boilerplate/' : './',
   lintOnSave: !isProd,
@@ -33,9 +36,13 @@ module.exports = {
   },
   configureWebpack: {
     devtool: isProd ? false : 'source-map',
-  },
-  devServer: {
-    disableHostCheck: true,
+    resolve: {
+      fallback: {
+        // @vue/cli-service use webpack@5
+        // https://webpack.js.org/configuration/resolve/#resolvefallback
+        events: require.resolve('events'),
+      },
+    },
   },
   chainWebpack: config => {
     // HACK: tree shaking does not work on lodash-es directly
@@ -109,7 +116,6 @@ module.exports = {
       
       config.plugin('gzip')
         .use(new CompressionWebpackPlugin({
-          filename: '[path][base].gz',
           algorithm: 'gzip',
           test: /\.(js|css|json|txt|html|ico|svg|jpg|TTF)(\?.*)?$/i,
           threshold: 10240,
