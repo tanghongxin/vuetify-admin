@@ -1,8 +1,9 @@
 <script>
 import RecursiveMenus from './LayoutRecursiveMenus.vue'
 import mixin from './LayoutMixin.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'AppNavigation',
   mixins: [mixin],
   render () {
@@ -25,7 +26,7 @@ export default {
       </v-navigation-drawer>
     )
   },
-}
+})
 </script>
 
 <style>

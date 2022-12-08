@@ -14,7 +14,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'VLoading',
   props: {
     value: {
@@ -31,7 +33,7 @@ export default {
       return this.$vuetify.theme.dark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)'
     },
   },
-}
+})
 </script>
 
 <style>

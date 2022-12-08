@@ -1,5 +1,7 @@
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'CssStyle',
   props: {
     content: {
@@ -10,5 +12,5 @@ export default {
   render (h) {
     return h('style', this.content)
   },
-}
+})
 </script>

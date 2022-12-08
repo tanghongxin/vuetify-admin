@@ -79,8 +79,9 @@
 import _ from 'lodash-es'
 import { mapMutations, mapState } from 'vuex'
 import { RuntimeMutations } from '@/store/modules'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'LayoutRouterView',
   data () {
     return {
@@ -211,7 +212,7 @@ export default {
       { immediate: true },
     )
   },
-}
+})
 </script>
 
 <style lang="scss">

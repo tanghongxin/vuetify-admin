@@ -51,8 +51,9 @@
 <script>
 import VLoading from '@/components/VImplements/VLoading.vue'
 import CssStyle from '@/components/CssStyle/index.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'DataTable',
   components: {
     VLoading,
@@ -171,7 +172,7 @@ export default {
       `)
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

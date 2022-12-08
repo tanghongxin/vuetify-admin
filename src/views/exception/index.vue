@@ -8,13 +8,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Exception',
   computed: {
     ...mapState('setting', ['appThemeDark']),
   },
-}
+})
 </script>
 
 <style lang="scss">

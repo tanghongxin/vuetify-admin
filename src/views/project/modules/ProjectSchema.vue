@@ -144,8 +144,9 @@
 
 import { addProject, editProject, getProject } from '@/api/project'
 import _ from 'lodash-es'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'ProjectSchema',
   props: {},
   data: () => ({
@@ -202,7 +203,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

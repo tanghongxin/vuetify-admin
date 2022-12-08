@@ -81,15 +81,16 @@
 
 <script>
 import mixin from './LayoutMixin.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'AppHeader',
   mixins: [mixin],
   data: () => ({
     title: process.env.VUE_APP_TITLE,
     repo: process.env.VUE_APP_GITHUB_REPO,
   }),
-}
+})
 </script>
 
 <style lang="scss">

@@ -1,5 +1,7 @@
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'Home',
   render () {
     return (
@@ -8,7 +10,7 @@ export default {
       </div>
     )
   },
-}
+})
 </script>
 
 <style lang="scss">

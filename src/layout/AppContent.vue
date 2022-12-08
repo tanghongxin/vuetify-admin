@@ -1,7 +1,8 @@
 <script>
 import LayoutRouterView from '@/layout/LayoutRouterView.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'AppContent',
   render () {
     return (
@@ -10,7 +11,7 @@ export default {
       </v-main>
     )
   },
-}
+})
 </script>
 
 <style lang="scss">

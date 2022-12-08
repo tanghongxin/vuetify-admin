@@ -41,8 +41,9 @@
 
 <script>
 import event, { EVENT_TYPE_ADD_ITEM } from './event'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Toast',
   data: () => ({
     timeoutId: null,
@@ -85,7 +86,7 @@ export default {
   beforeDestroy () {
     event.removeAllListeners()
   },
-}
+})
 </script>
 
 <style lang="scss">

@@ -3,8 +3,9 @@ import AppHeader from '@/layout/AppHeader.vue'
 import AppContent from '@/layout/AppContent.vue'
 import AppNavigation from '@/layout/AppNavigation.vue'
 import AppSetting from '@/layout/AppSetting.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'AppPage',
   render () {
     return (
@@ -16,7 +17,7 @@ export default {
       </div>
     )
   },
-}
+})
 </script>
 
 <style lang="scss">

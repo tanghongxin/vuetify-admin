@@ -53,8 +53,9 @@
 <script>
 import { mapActions } from 'vuex'
 import { AccountActions } from '@/store/modules/account'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Login',
   data: () => ({
     formData: {
@@ -85,7 +86,7 @@ export default {
       }
     }, 450)
   },
-}
+})
 </script>
 
 <style lang="scss">

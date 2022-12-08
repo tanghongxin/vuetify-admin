@@ -96,8 +96,9 @@
 <script>
 import colors from 'vuetify/lib/util/colors'
 import mixin from './LayoutMixin.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'AppSetting',
   mixins: [mixin],
   data: () => ({
@@ -113,7 +114,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

@@ -40,8 +40,9 @@
 <script>
 import { mapState } from 'vuex'
 import VLoading from '@/components/VImplements/VLoading.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'FormDrawer',
   components: {
     VLoading,
@@ -71,7 +72,7 @@ export default {
   computed: {
     ...mapState('setting', ['appHeaderHeight']),
   },
-}
+})
 </script>
 
 <style lang="scss">

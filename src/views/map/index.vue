@@ -1,6 +1,8 @@
 <script>
 import { mapState } from 'vuex'
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'Map',
   computed: {
     ...mapState('setting', ['appThemeDark']),
@@ -14,7 +16,7 @@ export default {
       </div>
     )
   },
-}
+})
 </script>
 
 <style lang="scss">

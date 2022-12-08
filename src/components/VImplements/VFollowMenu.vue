@@ -12,7 +12,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'VFollowMenu',
   data: () => ({
     menu: false,
@@ -37,7 +39,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style lang="scss"></style>

@@ -42,7 +42,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'LayoutRecursiveMenus',
   props: {
     items: {
@@ -54,7 +56,7 @@ export default {
       default: false,
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

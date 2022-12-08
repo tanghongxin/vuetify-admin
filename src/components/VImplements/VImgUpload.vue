@@ -28,8 +28,9 @@
 import 'vue-img-inputer/dist/index.css'
 import VueImgInputer from 'vue-img-inputer'
 import toast from '@/utils/toast'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'VImgUpload',
   components: {
     VueImgInputer,
@@ -104,7 +105,7 @@ export default {
       this.$refs['vueImgInputer'].$refs['inputer'].value = ''
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

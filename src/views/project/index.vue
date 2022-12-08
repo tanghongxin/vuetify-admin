@@ -71,8 +71,9 @@
 import ProjectSchema from './modules/ProjectSchema.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 import toast from '@/utils/toast'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'ProjectList',
   components: {
     ProjectSchema,
@@ -205,7 +206,7 @@ export default {
       await this.$refs.table.refresh()
     },
   },
-}
+})
 </script>
 
 <style lang="scss">
