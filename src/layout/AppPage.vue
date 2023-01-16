@@ -9,20 +9,16 @@ export default defineComponent({
   name: 'AppPage',
   render () {
     return (
-      <div class="app-page">
-        <AppNavigation />
-        <AppHeader />
+      <v-layout>
         <AppSetting />
+        <AppHeader />
+        <AppNavigation />
         <AppContent />
-      </div>
+      </v-layout>
     )
   },
 })
 </script>
 
 <style lang="scss">
-.app-page {
-  height: 100vh;
-  width: 100vw;
-}
 </style>

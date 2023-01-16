@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import _ from 'lodash-es'
 import { AppPage } from '@/layout'
 import { NProgress } from '@/components/NProgress'
-
-// router.addRoutes() is deprecated and has been removed in Vue Router 4
-
-Vue.use(VueRouter)
+// import { h, resolveComponent } from 'vue'
+import Page from './Page.vue'
 
 const lazyLoad = (path) => (resolve) => {
   NProgress.start()
@@ -15,26 +12,43 @@ const lazyLoad = (path) => (resolve) => {
     .finally(NProgress.done)
 }
 
-const DEFAULT_ROUTE = {
+const ENTRY_ROUTE = {
   path: '/login',
   name: '登录',
   component: lazyLoad('login/index'),
+  // component: lazyLoad('project/index'),
 }
 
 const DEFAULT_FALLBACK_ROUTE = {
-  path: '*',
-  redirect: '/login',
+  name: 'defaultFallback',
+  path: '/:pathMatch(.*)*',
+  redirect: ENTRY_ROUTE.path,
 }
 
-const createRouter = () => new VueRouter({ routes: [DEFAULT_ROUTE], mode: 'hash' })
-const router = createRouter()
+const NOT_FOUND = {
+  name: '404',
+  path: '/exception/404',
+  component: lazyLoad('exception/index'),
+}
+
+const FALLBACK_ROUTE = {
+  name: 'fallback',
+  path: '/:pathMatch(.*)*',
+  redirect: () => NOT_FOUND.path,
+}
+
+const router = createRouter({ routes: [ENTRY_ROUTE], history: createWebHashHistory() })
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
 router.afterEach((to) => {
   document.title = `${process.env.VUE_APP_TITLE} - ${to.params.type || to.name}`
 })
 
 const resetRouter = () => {
-  router.matcher = createRouter().matcher
+  router.getRoutes().forEach(route => {
+    if (route.name !== ENTRY_ROUTE.name) {
+      router.removeRoute(route.name)
+    }
+  })
   router.addRoute(DEFAULT_FALLBACK_ROUTE)
 }
 
@@ -51,9 +65,21 @@ const buildDynamicRoutes = (menus = []) => {
         case 'MENU':
           Object.assign(route, {
             component: {
+              ...Page,
               name: `RouterViewWrapper${num++}`,
-              render: h => h('router-view'),
             },
+            // FIXME: 1. 直接通过 template 不生效 2. 比较指定 keep-alive
+            // component: {
+            //   name: `RouterViewWrapper${num++}`,
+            //   template: `
+            //     <router-view v-slot="{ Component }">
+            //       <keep-alive>
+            //         <component :is="Component" />
+            //       </keep-alive>
+            //     </router-view>
+            //   `,
+            //   // render: () => h(resolveComponent('router-view')),
+            // },
             children: recursive(children),
             redirect: '/exception/404',
           })
@@ -74,13 +100,13 @@ const buildDynamicRoutes = (menus = []) => {
       return route
     })
   }
-  router.matcher = createRouter().matcher
+  router.removeRoute(DEFAULT_FALLBACK_ROUTE.name)
   router.addRoute({
     path: '/',
     component: AppPage,
     redirect: (to) => {
       const redirectedFrom = to.redirectedFrom || to.query.redirectedFrom
-      const isAvailable = redirectedFrom && redirectedFrom !== '/' && router.resolve(redirectedFrom).resolved.path !== '/exception/404'
+      const isAvailable = redirectedFrom && redirectedFrom !== '/' && router.resolve(redirectedFrom).path !== NOT_FOUND.path
       return {
         path: isAvailable ? redirectedFrom : '/home',
         query: _.omit(to.query, ['redirectedFrom']),
@@ -88,21 +114,14 @@ const buildDynamicRoutes = (menus = []) => {
     },
     children: [
       ...recursive(menus),
-      {
-        name: '404',
-        path: '/exception/404',
-        component: lazyLoad('exception/index'),
-      },
+      NOT_FOUND,
     ],
   })
-  router.addRoute({
-    path: '*',
-    redirect: () => '/exception/404',
-  })
+  router.addRoute(FALLBACK_ROUTE)
 }
 
 export {
-  DEFAULT_ROUTE as ENTRY_ROUTE,
+  ENTRY_ROUTE,
   router as default,
   resetRouter,
   buildDynamicRoutes,

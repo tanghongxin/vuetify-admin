@@ -1,6 +1,6 @@
 <template>
   <div class="data-table fill-width fill-height d-flex flex-column">
-    <CssStyle :content="fixedColumnsStyle" />
+    <css-style :content="fixedColumnsStyle" />
 
     <v-form>
       <slot name="search" />
@@ -8,57 +8,42 @@
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" depressed tile type="submit" @click.stop.prevent="refresh(true)">
+        <v-btn class="mr-2" variant="flat" tile type="submit" @click.stop.prevent="refresh(true)">
           查询
         </v-btn>
-        <v-btn depressed tile @click="refresh()">
+        <v-btn variant="flat" tile @click="refresh()">
           刷新
         </v-btn>
       </div>
     </v-form>
 
     <div class="flex-grow-1 overflow-hidden" :style="{ position: 'relative' }">
-      <v-data-table
+      <!-- FIXME: fixed-header does not work -->
+      <v-data-table-server
         class="elevation-0 fill-width fill-height d-flex flex-column overflow-x-hidden"
         fixed-header
         :headers="headers"
-        :hide-default-footer="false"
-        :footer-props="{
-          itemsPerPageText: '每页条数',
-          itemsPerPageOptions: [15, 20, 30, 50],
-          showCurrentPage: true,
-          showFirstLastPage: true,
-        }"
         :items="items"
-        :item-key="itemKey"
-        locale="zh-cn"
         :multi-sort="multiSort"
-        :options="options"
         ref="table"
-        :server-items-length="total || 0"
+        :items-length="total || 0"
         :no-data-text="loading ? '加载中...' : '暂无数据'"
         @update:options="fetch($event)"
       >
-        <template v-for="(_, slot) of $scopedSlots" #[slot]="scope">
+        <template v-for="(_, slot) of $slots" #[slot]="scope">
           <slot :name="slot" v-bind="scope" />
         </template>
-      </v-data-table>
-      <VLoading absolute :value="loading" />
+      </v-data-table-server>
+      <v-loading contained absolute :model-value="loading" />
     </div>
   </div>
 </template>
 
 <script>
-import VLoading from '@/components/VImplements/VLoading.vue'
-import CssStyle from '@/components/CssStyle/index.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'DataTable',
-  components: {
-    VLoading,
-    CssStyle,
-  },
   props: {
     loadData: {
       type: Function,
@@ -70,30 +55,16 @@ export default defineComponent({
       default: () => [],
       required: true,
     },
-    itemKey: {
-      type: String,
-      default: 'id',
-      required: true,
-    },
     multiSort: {
       type: Boolean,
       default: false,
-    },
-    defaultOptions: {
-      type: Object,
-      default: () => ({}),
     },
   },
   data () {
     return {
       items: [],
       loading: false,
-      options: Object.assign({
-        itemsPerPage: 20,
-        page: 1,
-        sortBy: [],
-        sortDesc: [],
-      }, this.defaultOptions),
+      options: {},
       $tableWrapper: null,
       total: 0,
     }
@@ -108,10 +79,10 @@ export default defineComponent({
     },
   },
   methods: {
-    async fetch (payload = {}) {
+    async fetch (options = {}) {
       try {
         this.loading = true
-        const { items, total } = await this.loadData(Object.assign(this.options, payload))
+        const { items, total } = await this.loadData(Object.assign(this.options, options))
         Object.assign(this, { items, total })
         await this.$nextTick()
         await this.scrollToTop()
@@ -131,10 +102,11 @@ export default defineComponent({
       }
     },
     scrollToTop () {
-      this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-data-table__wrapper')[0]
-      return this.$vuetify.goTo(0, {
-        container: this.$tableWrapper,
-      })
+      this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-table__wrapper')[0]
+      // TODO: 官方未发布最新 API
+      // return this.$vuetify.goTo(0, {
+      //   container: this.$tableWrapper,
+      // })
     },
     pickFixedColumns () {
       if ([0, 1].includes(this.headers.length)) {

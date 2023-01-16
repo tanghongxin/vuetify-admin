@@ -1,41 +1,37 @@
 <template>
-  <v-list class="py-0 recursive-menus">
+  <v-list class="py-0 recursive-menus" :opened="$route.matched.slice(1).map(({ name }) => name)">
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group
-        active-class="primary--text"
+        selected-class="primary--text"
         :class="sub ? 'group-sub' : ''"
         v-if="item.type === 'MENU' && !item.hidden"
         :key="item.to"
-        :value="$route.path.includes(item.to)"
+        :value="item.text"
       >
-        <template #prependIcon>
-          <v-icon>
-            {{ item.icon }}
-          </v-icon>
+        <template #activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            :prepend-icon="item.icon"
+            :title="item.text"
+          />
         </template>
-        <template #activator>
-          <v-list-item-title>
-            {{ item.text }}
-          </v-list-item-title>
-        </template>
+
         <LayoutRecursiveMenus sub :items="item.children" v-if="item.children.length" />
       </v-list-group>
 
       <!-- / leaf nodes -->
       <v-list-item
-        active-class="primary--text"
+        selected-class="primary--text"
         v-if="item.type === 'VIEW' && !item.hidden"
         :key="item.to"
         :to="item.to || item.redirect"
         link
       >
-        <v-list-item-icon>
+        <template #prepend>
           <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          {{ item.text }}
-        </v-list-item-title>
+        </template>
+        <v-list-item-title>{{ item.text }}</v-list-item-title>
       </v-list-item>
     </template>
   </v-list>

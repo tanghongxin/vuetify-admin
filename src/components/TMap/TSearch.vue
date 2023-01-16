@@ -2,36 +2,35 @@
   <div class="t-search" :id="`${state.id}`">
     <v-autocomplete
       :attach="`#${state.id}`"
+      variant="solo"
       autofocus
-      :cache-items="false"
       clearable
       color="primary"
       flat
       height="30"
-      hide-no-data
       :items="state.searchResults"
-      item-text="name"
+      item-title="name"
+      :filter-keys="['name']"
+      hide-no-data
+      return-object
+      placeholder="输入地址搜索"
       :loading="state.loading"
       :menu-props="{
         attach: `#${state.id}`,
-        contentClass: 'elevation-0_',
+        contentClass: 'elevation-0',
         maxHeight: 520,
         maxWidth: 350,
         transition: 'slide-y-transition',
       }"
-      placeholder="输入地址搜索"
-      return-object
-      solo
-      v-model="state.place"
-      @change="select"
-      @update:search-input="search"
+      @update:search="search"
+      @update:model-value="select"
     >
-      <template #item="{ item }">
-        <v-list-item-content>
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{ item.address }}</v-list-item-subtitle>
-          <v-list-item-subtitle>{{ item.phone }}</v-list-item-subtitle>
-        </v-list-item-content>
+      <template #item="{ props, item }">
+        <v-list-item
+          v-bind="props"
+          :title="item.raw.name"
+          :subtitle="item.raw.address"
+        />
       </template>
     </v-autocomplete>
 
@@ -55,7 +54,7 @@ export default defineComponent({
       id: `t-search${Date.now()}`,
       loading: false,
       searchResults: [],
-      place: null,
+      search: null,
     })
     const position = computed(() => {
       if (!state.place) return []

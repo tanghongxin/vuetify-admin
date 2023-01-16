@@ -25,8 +25,7 @@
 </template>
 
 <script>
-import 'vue-img-inputer/dist/index.css'
-import VueImgInputer from 'vue-img-inputer'
+import VueImgInputer from '../ImgInputer/index.vue'
 import toast from '@/utils/toast'
 import { defineComponent } from 'vue'
 

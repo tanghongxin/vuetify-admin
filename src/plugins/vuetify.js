@@ -1,17 +1,41 @@
-import 'vuetify/dist/vuetify.min.css'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 import 'material-design-icons-iconfont/src/material-design-icons.scss'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import zhHans from 'vuetify/lib/locale/zh-Hans'
+import { aliases, md } from 'vuetify/iconsets/md'
+import { zhHans } from 'vuetify/locale'
+// https://next.vuetifyjs.com/en/labs/introduction/#available-components
+import * as labs from 'vuetify/labs/components'
+import { themes } from '@/config/themes'
 
-Vue.use(Vuetify)
-
-export default new Vuetify({
-  icons: {
-    iconfont: 'md',
+const vuetify = createVuetify({
+  components: {
+    ...components,
+    ...labs,
   },
-  lang: {
-    locales: { 'zh-Hans': zhHans },
-    current: 'zh-Hans',
+  directives,
+  icons: {
+    defaultSet: 'md',
+    aliases,
+    sets: {
+      md,
+    },
+  },
+  locale: {
+    // FIXME
+    locale: 'zhHans',
+    fallback: 'zhHans',
+    messages: { zhHans },
+  },
+  theme: {
+    variations: {
+      colors: ['primary', 'secondary'],
+      lighten: 1,
+      darken: 2,
+    },
+    themes,
   },
 })
+
+export default vuetify

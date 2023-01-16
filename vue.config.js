@@ -18,7 +18,7 @@ const addStyleResource = rule => {
 }
 
 const devFontDirPath = '~material-design-icons-iconfont/dist/fonts/'
-const prodFontDirPath = 'https://cdn.jsdelivr.net/npm/material-design-icons-iconfont@6.1.0/dist/fonts/'
+const prodFontDirPath = 'https://cdn.jsdelivr.net/npm/material-design-icons-iconfont@6.7.0/dist/fonts/'
 
 /**
  * @type {import('@vue/cli-service').ProjectOptions}
@@ -30,6 +30,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // https://www.npmjs.com/package/material-design-icons-iconfont#usage---check-out-the-demo-page
+        // node_modules/material-design-icons-iconfont/src/material-design-icons.scss
         additionalData: `$material-design-icons-font-directory-path: '${useCDN ? prodFontDirPath : devFontDirPath}';`,
       },
     },
@@ -68,7 +69,7 @@ module.exports = {
             vuex: 'Vuex',
             vuetify: 'Vuetify',
             axios: 'axios',
-            'vuetify/dist/vuetify.min.css': 'window',
+            'vuetify/styles': 'window',
           })
           
           const { dependencies } = require('./package.json')

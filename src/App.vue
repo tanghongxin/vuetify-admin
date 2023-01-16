@@ -1,8 +1,10 @@
 <template>
-  <v-app id="app" class="fill-width fill-height">
-    <v-fade-transition leave-absolute mode="out-in">
-      <router-view />
-    </v-fade-transition>
+  <v-app class="fill-width fill-height" id="v-application">
+    <router-view v-slot="{ Component }">
+      <v-fade-transition leave-absolute mode="out-in">
+        <component :is="Component" />
+      </v-fade-transition>
+    </router-view>
     <Toast :dark="$store.state.setting.appThemeDark" />
   </v-app>
 </template>

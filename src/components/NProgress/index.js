@@ -1,10 +1,10 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import './index.scss'
 
-const vuetifyColor = 'primary'
 NProgress.configure({
-  parent: '#app',
-  template: `<div class="bar ${vuetifyColor}" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>`,
+  parent: '#v-application',
+  template: `<div class="bar custom-nprogress" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>`,
   showSpinner: false,
 })
 
