@@ -18,7 +18,6 @@
     </v-form>
 
     <div class="flex-grow-1 overflow-hidden" :style="{ position: 'relative' }">
-      <!-- FIXME: fixed-header does not work -->
       <v-data-table-server
         class="elevation-0 fill-width fill-height d-flex flex-column overflow-x-hidden"
         fixed-header
@@ -65,7 +64,6 @@ export default defineComponent({
       items: [],
       loading: false,
       options: {},
-      $tableWrapper: null,
       total: 0,
     }
   },
@@ -102,11 +100,8 @@ export default defineComponent({
       }
     },
     scrollToTop () {
-      this.$tableWrapper = this.$tableWrapper || this.$refs['table'].$el.getElementsByClassName('v-table__wrapper')[0]
-      // TODO: 官方未发布最新 API
-      // return this.$vuetify.goTo(0, {
-      //   container: this.$tableWrapper,
-      // })
+      const tableWrapper = this.$refs['table'].$el.getElementsByClassName('v-table__wrapper')[0]
+      tableWrapper.scroll({ top: 0, behavior: 'smooth' })
     },
     pickFixedColumns () {
       if ([0, 1].includes(this.headers.length)) {
