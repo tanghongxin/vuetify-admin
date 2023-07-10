@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import { mapState } from 'vuex'
 import { defineComponent } from 'vue'
 

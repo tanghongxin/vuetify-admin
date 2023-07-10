@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import AppHeader from '@/layout/AppHeader.vue'
 import AppContent from '@/layout/AppContent.vue'
 import AppNavigation from '@/layout/AppNavigation.vue'

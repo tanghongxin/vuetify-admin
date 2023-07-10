@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import LayoutRouterView from '@/layout/LayoutRouterView.vue'
 import { defineComponent } from 'vue'
 
