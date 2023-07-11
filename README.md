@@ -3,7 +3,7 @@
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/organization/repository)
 
-An out of box boilerplate based on vuetify with multiple preset enhancement.
+An out of box boilerplate based on vuetify3 with multiple preset enhancement.
 
 ## Preview
 [Live Demo](https://www.abyssal.site/vuetify-boilerplate)
@@ -21,7 +21,7 @@ An out of box boilerplate based on vuetify with multiple preset enhancement.
 - (Enabled by default) CDN config in production mode
 - Preset axios config with jwt and authorization
 - Preset global sass variable entry config
-- Simple TencentMap component wrapper with ```composition-api```
+- Simple TencentMap components
 
 ## Enhancement for Vuetify
 

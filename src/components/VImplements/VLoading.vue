@@ -1,7 +1,6 @@
 <template>
   <v-overlay
-    :color="value ? color : 'transparent'"
-    opacity="1"
+    content-class="fill-width fill-height d-flex flex-row align-center justify-center"
     v-bind="$props"
   >
     <v-progress-circular
@@ -19,7 +18,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'VLoading',
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: false,
     },

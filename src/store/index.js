@@ -1,23 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import modules from './modules'
 
-Vue.use(Vuex)
-
+// TODO: upgrade
 const persistence = new VuexPersistence({
   key: 'VuetifyBoilerplateVuex',
   storage: window.localStorage,
   reducer: ({
     account,
-    setting: { appPermanentNavigation, appPrimaryColor, appThemeDark, appMultipleTabs },
+    setting: { appPermanentNavigation, appTheme, appThemeDark, appMultipleTabs },
   }) => ({
     account,
-    setting: { appPermanentNavigation, appPrimaryColor, appThemeDark, appMultipleTabs },
+    setting: { appPermanentNavigation, appTheme, appThemeDark, appMultipleTabs },
   }),
 })
 
-export default new Vuex.Store({
+export default createStore({
   plugins: [
     persistence.plugin,
   ],

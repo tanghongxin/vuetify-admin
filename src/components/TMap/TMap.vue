@@ -1,6 +1,6 @@
 <template>
   <div class="t-map-wrapper">
-    <v-loading v-if="!initialized" absolute value />
+    <v-loading v-if="!initialized" contained absolute :model-value="true" />
     <div class="t-map" id="map">
       <slot v-if="initialized" />
     </div>

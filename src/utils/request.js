@@ -15,11 +15,12 @@ const request = axios.create({
 
 request.interceptors.request.use(
   config => {
-    const store = require('@/store').default
-    const { token } = store.state.account
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
-    }
+    // TODO
+    // const store = require('@/store').default
+    // const { token } = store.state.account
+    // if (token) {
+    //   config.headers['Authorization'] = `Bearer ${token}`
+    // }
     return config
   },
 )

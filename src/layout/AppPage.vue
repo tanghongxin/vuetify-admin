@@ -1,3 +1,12 @@
+<template>
+  <v-layout>
+    <AppSetting />
+    <AppHeader />
+    <AppNavigation />
+    <AppContent />
+  </v-layout>
+</template>
+
 <script>
 import AppHeader from '@/layout/AppHeader.vue'
 import AppContent from '@/layout/AppContent.vue'
@@ -7,22 +16,14 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'AppPage',
-  render () {
-    return (
-      <div class="app-page">
-        <AppNavigation />
-        <AppHeader />
-        <AppSetting />
-        <AppContent />
-      </div>
-    )
+  components: {
+    AppHeader,
+    AppContent,
+    AppNavigation,
+    AppSetting,
   },
 })
 </script>
 
 <style lang="scss">
-.app-page {
-  height: 100vh;
-  width: 100vw;
-}
 </style>

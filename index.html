@@ -5,10 +5,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>logo.svg">
-  <link rel="dns-prefetch" href="https://cdn.bootcss.com" />
+  <title>VuetifyBoilerplate</title>
+  <link rel="icon" href="/logo.svg">
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-  <title><%= htmlWebpackPlugin.options.title %></title>
   <style>
     * {
       margin: 0;
@@ -146,16 +145,7 @@
       <circle id="app_spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30" />
     </svg>
   </div>
-  <!-- / cdn -->
-  <% if(htmlWebpackPlugin.options.cdn) {%>
-		<% for(const css of htmlWebpackPlugin.options.cdn.css) { %>
-      <link rel="stylesheet" href="<%=css%>">
-    <% } %>
-		<% for(const js of htmlWebpackPlugin.options.cdn.js) { %>
-			<script src="<%=js%>"></script>
-		<% } %>
-	<% } %>
-  <!-- built files will be auto injected -->
+  <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

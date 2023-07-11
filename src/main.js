@@ -1,21 +1,26 @@
-import Vue from 'vue'
+import { createApp, h } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import { vuetify } from './plugins'
-import bootstrap from './bootstrap'
-import './components/global_components'
-import './directives'
+import plugins from './plugins'
+import setup from './setup'
+import globalComponents from './components/global_components'
+import globalDirectives from './directives'
 import './mock'
 
-Vue.config.productionTip = false
-Vue.config.devtools = process.env.NODE_ENV === 'development'
+const app = createApp({
+  setup,
+  render: () => h(App),
+})
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  created: bootstrap,
-  render: h => h(App),
-}).$mount('#app')
+app
+  .use(plugins)
+  .use(globalComponents)
+  .use(globalDirectives)
+  .use(store)
+  .use(router)
+  .mount('#app')
+
+// TODO
+app.config.devtools = import.meta.env.NODE_ENV === 'development'

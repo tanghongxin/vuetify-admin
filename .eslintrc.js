@@ -4,6 +4,7 @@ module.exports = {
   root: true,
   env: {
     node: true,
+    es2022: true,
   },
   extends: ['plugin:vue/strongly-recommended', 'eslint:recommended'],
   globals: {
@@ -41,9 +42,8 @@ module.exports = {
       },
     ],
     "no-multi-spaces": ["warn"],
-  },
-  parserOptions: {
-    parser: '@babel/eslint-parser',
+    "vue/valid-v-slot": "off",
+    "vue/no-v-model-argument": "off",
   },
   overrides: [
     {
