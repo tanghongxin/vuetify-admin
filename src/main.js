@@ -22,4 +22,5 @@ app
   .use(router)
   .mount('#app')
 
-app.config.devtools = process.env.NODE_ENV === 'development'
+// TODO
+app.config.devtools = import.meta.env.NODE_ENV === 'development'

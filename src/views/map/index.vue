@@ -1,4 +1,12 @@
-<script lang="jsx">
+<template>
+  <div class="map">
+    <TMap :dark="appThemeDark">
+      <TSearch />
+    </TMap>
+  </div>
+</template>
+
+<script>
 import { mapState } from 'vuex'
 import { defineComponent } from 'vue'
 
@@ -6,15 +14,6 @@ export default defineComponent({
   name: 'Map',
   computed: {
     ...mapState('setting', ['appThemeDark']),
-  },
-  render () {
-    return (
-      <div class="map">
-        <TMap dark={this.appThemeDark}>
-          <TSearch />
-        </TMap>
-      </div>
-    )
   },
 })
 </script>

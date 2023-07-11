@@ -4,10 +4,11 @@ import { AppPage } from '@/layout'
 import { NProgress } from '@/components/NProgress'
 // import { h, resolveComponent } from 'vue'
 import Page from './Page.vue'
+const modules = import.meta.glob('../views/**/*.vue')
 
 const lazyLoad = (path) => (resolve) => {
   NProgress.start()
-  return import(`@/views/${path}.vue`)
+  return modules[`../views/${path}.vue`]()
     .then(resolve)
     .finally(NProgress.done)
 }
@@ -16,7 +17,6 @@ const ENTRY_ROUTE = {
   path: '/login',
   name: '登录',
   component: lazyLoad('login/index'),
-  // component: lazyLoad('project/index'),
 }
 
 const DEFAULT_FALLBACK_ROUTE = {
@@ -39,8 +39,10 @@ const FALLBACK_ROUTE = {
 
 const router = createRouter({ routes: [ENTRY_ROUTE], history: createWebHashHistory() })
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
+router.beforeEach(() => {
+})
 router.afterEach((to) => {
-  document.title = `${process.env.VUE_APP_TITLE} - ${to.params.type || to.name}`
+  document.title = `VuetifyBoilerplate - ${to.params.type || to.name}`
 })
 
 const resetRouter = () => {

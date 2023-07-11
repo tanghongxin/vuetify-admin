@@ -98,8 +98,8 @@ export default defineComponent({
       actions: useActions(),
       mutations: useMutations(),
       state: Object.assign(useState(), { lgAndUp }),
-      title: process.env.VUE_APP_TITLE,
-      repo: process.env.VUE_APP_GITHUB_REPO,
+      title: 'VuetifyBoilerplate',
+      repo: import.meta.env.VITE_GITHUB_REPO,
     }
   },
 })
