@@ -3,6 +3,7 @@ import { defineConfig, mergeConfig, loadEnv } from 'vite'
 import importToCDN, { autoComplete } from 'vite-plugin-cdn-import'
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from "rollup-plugin-visualizer"
+import vuetify from 'vite-plugin-vuetify'
 import path from 'node:path'
 
 export default defineConfig(({ mode }) => {
@@ -17,18 +18,12 @@ export default defineConfig(({ mode }) => {
     base: isProd ? '/vuetify-boilerplate/' : './',
     plugins: [
       vue(),
+      vuetify(),
       ...isProd ? [
-        // TODO
         importToCDN({
           modules: [
             autoComplete('vue'),
             autoComplete('axios'),
-            {
-              name: 'vuetify',
-              var: 'Vuetify',
-              path: 'dist/vuetify.min.js',
-              css: 'dist/vuetify.min.css',
-            },
             {
               name: 'vuex',
               var: 'Vuex',
@@ -54,7 +49,6 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          // TODO
           manualChunks: {},
         },
       },
