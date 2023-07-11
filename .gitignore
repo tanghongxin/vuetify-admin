@@ -25,3 +25,6 @@ yarn-error.log*
 *.sln
 *.sw?
 node_modules
+
+# Debug files
+bundle-analyze.html

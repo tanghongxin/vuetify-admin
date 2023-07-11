@@ -2,7 +2,7 @@
   <FormDrawer
     flat
     :loading="loading"
-    title="编辑项目"
+    :title="`${formData.id ? '编辑' : '新增'}项目`"
     v-model="visible"
     :width="680"
   >
@@ -12,6 +12,7 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
+                variant="underlined"
                 v-model="formData.name"
                 label="项目名称"
                 :rules="[v => !!v || '请输入项目名称']"
@@ -21,6 +22,7 @@
           <v-row>
             <v-col cols="6">
               <v-select
+                variant="underlined"
                 v-model="formData.type"
                 :items="['足道', '全身按摩', '中医调理', 'SPA', '套餐']"
                 :rules="[v => !!v || '请选择项目类型']"
@@ -33,7 +35,7 @@
                 :items="['公共项目', '其他项目']"
                 :rules="[v => !!v || '请选择项目类别']"
                 label="项目类别"
-                row
+                inline
               >
                 <v-radio
                   color="primary"
@@ -51,6 +53,7 @@
           <v-row>
             <v-col cols="6">
               <v-text-field
+                variant="underlined"
                 v-model.number="formData.price"
                 :rules="[v => !!v || '请输入展示价格']"
                 label="展示价格（¥）"
@@ -58,6 +61,7 @@
             </v-col>
             <v-col cols="6">
               <v-text-field
+                variant="underlined"
                 v-model.number="formData.time"
                 :rules="[v => !!v || '请输入总时长']"
                 label="总时长（分钟）"
@@ -67,6 +71,7 @@
           <v-row>
             <v-col cols="6">
               <v-text-field
+                variant="underlined"
                 v-model.number="formData.percent"
                 type="number"
                 :rules="[v => !!v || '请输入成本比例']"
@@ -79,7 +84,7 @@
                 color="primary"
                 :rules="[v => typeof v === 'boolean' || '请选择独享房间']"
                 label="独享房间"
-                row
+                inline
               >
                 <v-radio
                   color="primary"
@@ -100,6 +105,7 @@
               cols="12"
             >
               <v-text-field
+                variant="underlined"
                 v-model="formData.tags"
                 counter="12"
                 label="功效标签"
@@ -122,15 +128,15 @@
     <template #actions>
       <v-spacer />
       <v-btn
-        x-large
-        text
+        size="large"
+        variant="text"
         @click="close"
       >
         取消
       </v-btn>
       <v-btn
-        x-large
-        text
+        size="large"
+        variant="text"
         type="submit"
         @click.stop.prevent="submit"
       >
@@ -144,8 +150,9 @@
 
 import { addProject, editProject, getProject } from '@/api/project'
 import _ from 'lodash-es'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'ProjectSchema',
   props: {},
   data: () => ({
@@ -163,6 +170,7 @@ export default {
     loading: false,
     visible: false,
   }),
+  emits: ['addSuccess', 'editSuccess'],
   methods: {
     async add () {
       await addProject(this.formData)
@@ -176,7 +184,7 @@ export default {
       try {
         this.visible = true
         this.loading = true
-        if (id) {
+        if (id !== undefined) {
           const { data } = await getProject(id)
           this.formData = _.pick(data, Object.keys(this.formData))
         }
@@ -188,11 +196,14 @@ export default {
       this.visible = false
       await this.$nextTick()
       Object.assign(this, this.$options.data.apply(this))
-      this.$refs['form'].resetValidation()
-      this.$refs['upload'].reset()
+      this.$refs.form.resetValidation()
+      this.$refs.upload.reset()
     },
     async submit () {
-      if (!this.$refs['form'].validate()) return
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        return
+      }
       try {
         this.loading = true
         await this.formData.id ? this.edit() : this.add()
@@ -202,7 +213,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

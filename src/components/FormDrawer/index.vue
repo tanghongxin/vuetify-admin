@@ -1,47 +1,50 @@
 <template>
-  <v-navigation-drawer
-    app
-    class="FormWrapper"
-    :value="value"
-    fixed
-    flat
-    ref="drawer"
-    :permanent="value"
-    right
-    temporary
-    :width="width"
-  >
-    <!-- / Header -->
-    <v-toolbar :height="appHeaderHeight" dark slot="prepend" color="primary darken-1">
-      <v-toolbar-title>
-        {{ title }}
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <!-- / Content -->
-    <v-card :flat="flat" height="100%" class="overflow-y-auto">
-      <v-card-text class="flex-grow-1">
-        <slot name="content" />
-      </v-card-text>
-    </v-card>
-
-    <VLoading absolute :value="loading" />
-
-    <!-- / Footer -->
-    <template #append>
-      <v-divider dark />
-      <div class="fill-width d-flex flex-row">
-        <slot name="actions" />
-      </div>
-    </template>
-  </v-navigation-drawer>
+  <Teleport to="#v-application">
+    <v-navigation-drawer
+      class="FormWrapper"
+      :permanent="false"
+      location="right"
+      temporary
+      :order="-1"
+      :width="width"
+      :model-value="modelValue"
+      @update:model-value="$emit('update:model-value', $event)"
+    >
+      <template #prepend>
+        <v-toolbar :height="appHeaderHeight" color="primary darken-1">
+          <v-toolbar-title>
+            {{ title }}
+          </v-toolbar-title>
+        </v-toolbar>
+      </template>
+    
+      <v-container>
+        <v-card :flat="flat" height="100%" class="overflow-y-auto">
+          <v-card-text class="flex-grow-1">
+            <slot name="content" />
+          </v-card-text>
+        </v-card>
+    
+        <VLoading absolute attach :model-value="loading" />
+      </v-container>
+    
+      <!-- / Footer -->
+      <template #append>
+        <v-divider />
+        <div class="fill-width d-flex flex-row">
+          <slot name="actions" />
+        </div>
+      </template>
+    </v-navigation-drawer>
+  </Teleport>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import VLoading from '@/components/VImplements/VLoading.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'FormDrawer',
   components: {
     VLoading,
@@ -59,7 +62,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -68,10 +71,11 @@ export default {
       default: 650,
     },
   },
+  emits: ['update:model-value'],
   computed: {
     ...mapState('setting', ['appHeaderHeight']),
   },
-}
+})
 </script>
 
 <style lang="scss">

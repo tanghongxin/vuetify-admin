@@ -1,59 +1,56 @@
 <template>
   <div class="toast">
     <v-fade-transition mode="out-in" group>
-      <v-snackbar
-        app
-        absolute
-        :color="item.color"
-        :dark="dark"
-        :key="item.id"
-        :timeout="item.timeout"
-        :top="true"
-        :value="i === 0"
+      <!-- https://github.com/vuejs/vue/issues/8516#issuecomment-937505336 -->
+      <div
         v-for="(item, i) in items"
+        :key="item.id"
+        v-show="i === 0"
       >
-        {{ item.message }}
-        <template #action="{ attrs }">
-          <v-btn
-            color="white"
-            @click="dequeue(item.id)"
-            text
-            v-bind="attrs"
-            v-if="items.length > 1"
-          >
-            下一条 （{{ items.length - 1 }} +）
-          </v-btn>
-          <v-btn
-            color="white"
-            @click="dequeue(item.id)"
-            text
-            icon
-            v-bind="attrs"
-            v-else
-          >
-            <v-icon>close</v-icon>
-          </v-btn>
-        </template>
-      </v-snackbar>
+        <v-snackbar
+          absolute
+          :color="item.color"
+          :timeout="item.timeout"
+          location="top"
+          :model-value="i === 0"
+        >
+          {{ item.message }}
+          <template #actions>
+            <v-btn
+              color="white"
+              @click="dequeue(item.id)"
+              variant="text"
+              v-if="items.length > 1"
+            >
+              下一条 （{{ items.length - 1 }} +）
+            </v-btn>
+            <v-btn
+              v-else
+              color="white"
+              variant="text"
+              icon
+              v-bind="attrs"
+              @click="dequeue(item.id)"
+            >
+              <v-icon>close</v-icon>
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
     </v-fade-transition>
   </div>
 </template>
 
 <script>
 import event, { EVENT_TYPE_ADD_ITEM } from './event'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Toast',
   data: () => ({
     timeoutId: null,
     items: [],
   }),
-  props: {
-    dark: {
-      type: Boolean,
-      default: false,
-    },
-  },
   methods: {
     handleAddItem ({ id = Date.now() + Math.random(), message, color, timeout }) {
       this.items.push({ id, message, color, timeout })
@@ -82,10 +79,10 @@ export default {
   created () {
     event.addListener(EVENT_TYPE_ADD_ITEM, this.handleAddItem)
   },
-  beforeDestroy () {
+  beforeUnmount () {
     event.removeAllListeners()
   },
-}
+})
 </script>
 
 <style lang="scss">

@@ -1,6 +1,6 @@
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
+  <v-container class="d-flex fill-height" fluid align="center" justify="center">
+    <v-row class="full-height" align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-form ref="form">
           <v-card class="elevation-12">
@@ -11,6 +11,7 @@
           
             <v-card-text>
               <v-text-field
+                variant="underlined"
                 autofocus
                 label="Login"
                 name="login"
@@ -19,8 +20,10 @@
                 type="text"
                 validate-on-blur
                 v-model="formData.username"
+                autocomplete="username"
               />
               <v-text-field
+                variant="underlined"
                 id="password"
                 label="Password"
                 name="password"
@@ -29,6 +32,7 @@
                 type="password"
                 validate-on-blur
                 v-model="formData.password"
+                autocomplete="current-password"
               />
             </v-card-text>
 
@@ -53,8 +57,9 @@
 <script>
 import { mapActions } from 'vuex'
 import { AccountActions } from '@/store/modules/account'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Login',
   data: () => ({
     formData: {
@@ -85,7 +90,7 @@ export default {
       }
     }, 450)
   },
-}
+})
 </script>
 
 <style lang="scss">

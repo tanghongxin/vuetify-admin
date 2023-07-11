@@ -1,7 +1,6 @@
 <template>
   <v-overlay
-    :color="value ? color : 'transparent'"
-    opacity="1"
+    content-class="fill-width fill-height d-flex flex-row align-center justify-center"
     v-bind="$props"
   >
     <v-progress-circular
@@ -14,10 +13,12 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'VLoading',
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -31,7 +32,7 @@ export default {
       return this.$vuetify.theme.dark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)'
     },
   },
-}
+})
 </script>
 
 <style>

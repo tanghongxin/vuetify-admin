@@ -8,13 +8,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Exception',
   computed: {
     ...mapState('setting', ['appThemeDark']),
   },
-}
+})
 </script>
 
 <style lang="scss">
@@ -22,7 +23,7 @@ export default {
   height: 85%;
 
   &-img {
-    background-image: url("~@/assets/images/alert-triangle.svg");
+    background-image: url("@/assets/images/alert-triangle.svg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;

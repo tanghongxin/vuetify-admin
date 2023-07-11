@@ -1,119 +1,108 @@
 <template>
   <div class="app-setting">
     <v-navigation-drawer
-      app
-      :value="appSetting"
-      fixed
-      right
+      :model-value="state.appSetting"
+      location="right"
       temporary
-      @input="handleInput"
-      ref="drawer"
+      @update:model-value="mutations.toggleAppSetting"
     >
-      <!-- / Header -->
-      <v-toolbar
-        :height="appHeaderHeight"
-        slot="prepend"
-        color="primary lighten-1"
-      >
-        <v-toolbar-title>个性化设置</v-toolbar-title>
-      </v-toolbar>
+      <template #prepend>
+        <v-toolbar
+          :height="state.appHeaderHeight"
+          slot="prepend"
+          color="primary lighten-1"
+        >
+          <v-toolbar-title>个性化设置</v-toolbar-title>
+        </v-toolbar>
+      </template>
 
-      <!-- / Content -->
       <v-container>
-        <v-layout column>
-          <v-flex>
-            <v-subheader class="px-1 my-2">
+        <div class="d-flex flex-column">
+          <div>
+            <p class="px-1 my-2">
               导航栏设置
-            </v-subheader>
+            </p>
             <v-switch
               color="primary"
-              :input-value="appPermanentNavigation"
+              :model-value="state.appPermanentNavigation"
               label="导航栏固定左侧"
-              @change="toggleAppPermanentNavigation"
+              @change="mutations.toggleAppPermanentNavigation"
             />
-          </v-flex>
-
-          <v-flex>
-            <v-subheader class="px-1 my-2">
+          </div>
+          
+          <div>
+            <p class="px-1 my-2">
               外观
-            </v-subheader>
+            </p>
             <v-switch
               color="primary"
-              :input-value="appThemeDark"
-              label="暗黑模式"
-              @change="toggleAppThemeDark"
+              :model-value="state.appThemeDark"
+              label="深色模式"
+              @change="mutations.toggleAppThemeDark"
             />
-          </v-flex>
+          </div>
 
-          <v-flex>
-            <v-subheader class="px-1 my-2">
+          <div>
+            <p class="px-1 my-2">
               页签模式
-            </v-subheader>
+            </p>
             <v-switch
               color="primary"
-              :input-value="appMultipleTabs"
+              :model-value="state.appMultipleTabs"
               label="多页签"
-              @change="toggleAppMultipleTabs"
+              @change="mutations.toggleAppMultipleTabs"
             />
-          </v-flex>
+          </div>
 
-          <v-flex>
-            <v-subheader class="px-1 my-2">
+          <div>
+            <p class="px-1 my-2">
               主题色设置
-            </v-subheader>
+            </p>
             <div class="color-option">
-              <v-layout wrap>
+              <div class="d-flex flex-row flex-wrap">
                 <label
-                  v-for="(colorConfig, colorName) in colors"
+                  v-for="colorName in colors"
                   :key="colorName"
-                  class="app-setting__label flex xs6 pa-1"
-                  v-show="!filterColors.includes(colorName)"
+                  class="app-setting__label flex pa-1"
                 >
                   <input
                     type="radio"
-                    name="colorConfig"
-                    :checked="colorConfig.base === appPrimaryColor"
-                    @input="setAppPrimaryColor(colorConfig.base)"
+                    :checked="colorName === state.appTheme"
+                    @input="mutations.setAppTheme(colorName)"
                   >
                   <span class="app-setting__item bg">
                     <span class="overlay">
                       <span class="material-icons">check</span>
                     </span>
-                    <span class="app-setting__item-header" :class="colorName" />
-                    <span class="app-setting__item-header" :class="colorName" />
-                    <span class="white" />
+                    <span class="app-setting__item-header" :class="`bg-${colorName}`" />
+                    <span class="app-setting__item-header" :class="`bg-${colorName}`" />
+                    <span class="bg-white" />
                   </span>
                 </label>
-              </v-layout>
+              </div>
             </div>
-          </v-flex>
-        </v-layout>
+          </div>
+        </div>
       </v-container>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
-import colors from 'vuetify/lib/util/colors'
-import mixin from './LayoutMixin.vue'
+import { colors } from '@/config/themes'
+import { defineComponent } from 'vue'
+import { useMutations, useState } from './composable'
 
-export default {
+export default defineComponent({
   name: 'AppSetting',
-  mixins: [mixin],
-  data: () => ({
-    drawer: false,
-    colors: colors,
-    filterColors: ['blueGrey', 'lightBlue', 'lightGreen', 'deepPurple', 'deepOrange', 'shades'],
-  }),
-  methods: {
-    handleInput () {
-      // HACK
-      if (this.$refs.drawer.isActive !== this.appSetting) {
-        this.toggleAppSetting()
-      }
-    },
+  setup () {
+    return {
+      mutations: useMutations(),
+      state: useState(),
+      colors: Object.keys(colors),
+    }
   },
-}
+})
 </script>
 
 <style lang="scss">
@@ -126,6 +115,9 @@ export default {
     cursor: pointer;
     display: block;
     position: relative;
+    flex-basis: 50%;
+    flex-grow: 0;
+    max-width: 50%;
   }
 
   &__label input[type="radio"] {

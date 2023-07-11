@@ -1,8 +1,11 @@
+<template>
+  <v-footer app />
+</template>
+
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'AppFooter',
-  render () {
-    return <v-footer app />
-  },
-}
+})
 </script>

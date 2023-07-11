@@ -4,6 +4,12 @@ html {
   overflow-y: auto;
 }
 
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
 .fill-width {
   width: 100%;
 }

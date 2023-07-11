@@ -1,14 +1,15 @@
+<template>
+  <div class="home">
+    <p>Welcome</p>
+  </div>
+</template>
+
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'Home',
-  render () {
-    return (
-      <div class="home">
-        <p>Welcome</p>
-      </div>
-    )
-  },
-}
+})
 </script>
 
 <style lang="scss">

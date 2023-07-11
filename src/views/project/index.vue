@@ -1,47 +1,38 @@
 <template>
   <div class="fill-height fill-width overflow-hidden">
     <DataTable
-      :default-options="{
-        sortBy: ['lastModifyTime'],
-        sortDesc: [true],
-      }"
       :headers="headers"
-      item-key="id"
       :load-data="loadData"
       ref="table"
     >
       <template #search>
         <v-row class="px-4">
           <v-col class="py-0" cols="12">
-            <v-text-field autofocus placeholder="请输入关键字查询" v-model="query.name" clearable />
+            <v-text-field variant="underlined" autofocus placeholder="请输入关键字查询" v-model="query.name" clearable />
           </v-col>
         </v-row>
       </template>
 
       <template #actions>
-        <v-btn class="mr-2" depressed tile @click="handleAdd">
+        <v-btn class="mr-2" variant="flat" tile @click="handleAdd">
           新增项目
         </v-btn>
       </template>
 
-      <template #[`item.number`]="{ index }">
-        {{ index + 1 }}
-      </template>
-
-      <template #[`item.time`]="{ item }">
-        <v-chip :color="item.time >= 60 ? 'primary' : 'dark'">
-          {{ item.time }}
+      <template #item.time="{ item }">
+        <v-chip :color="item.raw.time >= 60 ? 'primary' : 'dark'">
+          {{ item.raw.time }}
         </v-chip>
       </template>
 
-      <template #[`item.occupy`]="{ item }">
-        {{ item.occupy ? '是' : '否' }}
+      <template #item.occupy="{ item }">
+        {{ item.raw.occupy ? '是' : '否' }}
       </template>
 
-      <template #[`item.actions`]="{ item }">
+      <template #item.actions="{ item }">
         <v-tooltip top>
-          <template #activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on" color="blue darken-3" class="mr-4" @click="handleEdit(item.id)">
+          <template #activator>
+            <v-icon color="blue darken-3" class="mr-4" @click="handleEdit(item.raw.id)">
               edit
             </v-icon>
           </template>
@@ -49,8 +40,8 @@
         </v-tooltip>
 
         <v-tooltip top>
-          <template #activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on" color="red" @click="handleDelete(item.id)">
+          <template #activator>
+            <v-icon color="red" @click="handleDelete(item.raw.id)">
               delete
             </v-icon>
           </template>
@@ -71,8 +62,9 @@
 import ProjectSchema from './modules/ProjectSchema.vue'
 import { deleteProject, getProjectList } from '@/api/project'
 import toast from '@/utils/toast'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'ProjectList',
   components: {
     ProjectSchema,
@@ -86,68 +78,60 @@ export default {
     headers () {
       return [
         {
-          text: '编号',
+          title: '项目名称',
           align: 'center',
           sortable: false,
-          value: 'number',
-          width: 100,
-          fixed: true,
+          key: 'name',
         },
         {
-          text: '项目名称',
+          title: '总时长（分钟）',
           align: 'center',
-          sortable: false,
-          value: 'name',
-        },
-        {
-          text: '总时长（分钟）',
-          align: 'center',
-          value: 'time',
+          key: 'time',
           width: 100,
         },
         {
-          text: '项目类别',
+          title: '项目类别',
           align: 'center',
           sortable: false,
-          value: 'category',
+          key: 'category',
           width: 120,
         },
         {
-          text: '展示价格（¥）',
+          title: '展示价格（¥）',
           align: 'center',
-          value: 'price',
+          key: 'price',
           width: 120,
         },
         {
-          text: '项目类型',
+          title: '项目类型',
           align: 'center',
           sortable: false,
-          value: 'type',
+          key: 'type',
           width: 120,
         },
         {
-          text: '独享房间',
+          title: '独享房间',
           align: 'center',
-          value: 'occupy',
+          key: 'occupy',
           width: 100,
         },
         {
-          text: '成本比例（%）',
+          title: '成本比例（%）',
           align: 'center',
-          value: 'percent',
+          key: 'percent',
           width: 100,
         },
         {
-          text: '更新时间',
+          title: '更新时间',
           align: 'center',
-          value: 'lastModifyTime',
+          key: 'lastModifyTime',
           width: 150,
         },
         {
-          text: '操作',
+          title: '操作',
           align: 'center',
           sortable: false,
-          value: 'actions',
+          key: 'actions',
           width: 110,
           fixed: true,
         },
@@ -205,7 +189,7 @@ export default {
       await this.$refs.table.refresh()
     },
   },
-}
+})
 </script>
 
 <style lang="scss">

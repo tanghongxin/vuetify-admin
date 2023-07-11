@@ -23,10 +23,10 @@ const useState = (initialState) => {
 
 const useLoader = () => {
   return new TMapLoader({
-    key: process.env.VUE_APP_TENCENT_MAP_KEY,
-    v: process.env.VUE_APP_TENCENT_MAP_VERSION,
-    protocol: process.env.VUE_APP_TENCENT_MAP_PROTOCOL,
-    hostAndPath: process.env.VUE_APP_TENCENT_MAP_HOST_AND_PATH,
+    key: import.meta.env.VITE_TENCENT_MAP_KEY,
+    v: import.meta.env.VITE_TENCENT_MAP_VERSION,
+    protocol: import.meta.env.VITE_TENCENT_MAP_PROTOCOL,
+    hostAndPath: import.meta.env.VITE_TENCENT_MAP_HOST_AND_PATH,
     libraries: ['place'],
   })
 }

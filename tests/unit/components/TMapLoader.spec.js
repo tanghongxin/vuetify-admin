@@ -4,10 +4,10 @@ import jsdom from 'jsdom'
 
 describe('TMapLoader', () => {
   const config = {
-    key: process.env.VUE_APP_TENCENT_MAP_KEY,
-    v: process.env.VUE_APP_TENCENT_MAP_VERSION,
-    protocol: process.env.VUE_APP_TENCENT_MAP_PROTOCOL,
-    hostAndPath: process.env.VUE_APP_TENCENT_MAP_HOST_AND_PATH,
+    key: process.env.VITE_TENCENT_MAP_KEY,
+    v: process.env.VITE_TENCENT_MAP_VERSION,
+    protocol: process.env.VITE_TENCENT_MAP_PROTOCOL,
+    hostAndPath: process.env.VITE_TENCENT_MAP_HOST_AND_PATH,
     libraries: ['place'],
   }
 
