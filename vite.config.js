@@ -46,19 +46,10 @@ export default defineConfig(({ mode }) => {
         }),
       ] : [],
     ],
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {},
-        },
-      },
-    },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
       alias: {
         "@": path.resolve(__dirname, "/src"),
-        // TODO
-        "lodash": path.resolve(__dirname, "./node_modules/lodash-es"),
       },
     },
     css: {
