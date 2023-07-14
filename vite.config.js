@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, mergeConfig, loadEnv } from 'vite'
 import importToCDN, { autoComplete } from 'vite-plugin-cdn-import'
@@ -50,6 +51,7 @@ export default defineConfig(({ mode }) => {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
       alias: {
         "@": path.resolve(__dirname, "/src"),
+        "tests": path.resolve(__dirname, "/tests"),
       },
     },
     css: {
@@ -62,6 +64,17 @@ export default defineConfig(({ mode }) => {
     esbuild: {
       jsxFactory: 'h',
       jsxFragment: 'Fragment',
+    },
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./tests/setup.js'],
+      css: {
+        include: /.+/,
+      },
+      deps: {
+        inline: ['vuetify'],
+      },
+      globals: true,
     },
   })
 })

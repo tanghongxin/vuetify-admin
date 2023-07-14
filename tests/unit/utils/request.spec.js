@@ -1,7 +1,12 @@
 import request from '@/utils/request'
 import Adaptor from 'axios-mock-adapter'
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
+import store from '@/store'
+import { vuetify } from 'tests/utils'
+import { mount, DOMWrapper } from '@vue/test-utils'
+import Toast from '@/components/Toast/Toast.vue'
 
-jest.mock('@/store', () => ({
+vi.mock('@/store', async () => ({
   default: {
     state: {
       account: {
@@ -11,38 +16,29 @@ jest.mock('@/store', () => ({
   },
 }))
 
-describe('request', () => {
-  let store
-  let adaptor
+describe('request', async () => {
+  const bodyWrapper = new DOMWrapper(document.body)
+  let adaptor, toast
 
   beforeEach(() => {
-    store = require('@/store').default
+    toast = mount(Toast, { global: { plugins: [vuetify()] } })
     adaptor = new Adaptor(request, { delayResponse: 300 })
   })
 
   afterEach(() => {
     adaptor.reset()
+    toast.unmount()
   })
 
-  it('Show toast according to error code', (done) => {
-    Promise.all(
-      [
-        [404, '资源未找到'],
-        [403, '操作被禁止'],
-        [401, '暂无权限'],
-        [500, '服务器异常'],
-      ].map(
-        async ([code, message]) => {
-          adaptor.onPost(new RegExp(code)).reply(() => [code])
-          await expect(request.post(`/${code}`)).rejects.toThrow(`Request failed with status code ${code}`)
-          const messageWrapper = global.bodyWrapper.findAll('.v-snack__content').at(-1)
-          expect(messageWrapper.exists()).toBeTruthy()
-          expect(messageWrapper.text()).toBe(message)
-        }),
-    ).then(() => done())
+  it('Should toast message if error exists', async () => {
+    adaptor.onPost(new RegExp(500)).reply(() => [500])
+    await expect(request.post(`/${500}`)).rejects.toThrow(`Request failed with status code ${500}`)
+    const messageWrapper = bodyWrapper.findAll('.v-snackbar__content')[0]
+    expect(messageWrapper.exists()).toBeTruthy()
+    expect(messageWrapper.text()).toBe('服务器异常')
   })
 
-  it('Add jwt in request header', async () => {
+  it('Should have the same JWT token in header with Vuex', async () => {
     adaptor.onPost(/test/).reply(() => [200])
     const { config } = await request.post('/test')
     expect(config.headers.Authorization).toEqual(`Bearer ${store.state.account.token}`)

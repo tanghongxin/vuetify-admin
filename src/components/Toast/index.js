@@ -1,4 +1,4 @@
-import Toast from './Toast'
+import Toast from './Toast.vue'
 import event, { EVENT_TYPE_ADD_ITEM } from './event'
 
 const add = (color) => ({ message = '', timeout = 4000 }) => event.emit(EVENT_TYPE_ADD_ITEM, { message, timeout, color })

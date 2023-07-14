@@ -25,7 +25,11 @@
         :items="items"
         :multi-sort="multiSort"
         ref="table"
-        :items-length="total || 0"
+        :items-length="total"
+        :loading="loading"
+        loading-text="加载中"
+        :page="options.page"
+        v-model:items-per-page="options.itemsPerPage"
         :no-data-text="loading ? '加载中...' : '暂无数据'"
         @update:options="fetch($event)"
       >
@@ -33,7 +37,6 @@
           <slot :name="slot" v-bind="scope" />
         </template>
       </v-data-table-server>
-      <v-loading contained absolute :model-value="loading" />
     </div>
   </div>
 </template>
@@ -63,11 +66,12 @@ export default defineComponent({
     return {
       items: [],
       loading: false,
-      options: {},
+      options: { page: 1, itemsPerPage: 10, sortBy: [], groupBy: [] },
       total: 0,
     }
   },
   computed: {
+    // FIXME: does not work
     fixedColumnsStyle () {
       const { left = [], right = [] } = this.pickFixedColumns()
       return [
