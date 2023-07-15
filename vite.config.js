@@ -6,6 +6,7 @@ import viteCompression from 'vite-plugin-compression';
 import { visualizer } from "rollup-plugin-visualizer"
 import vuetify from 'vite-plugin-vuetify'
 import path from 'node:path'
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -18,6 +19,10 @@ export default defineConfig(({ mode }) => {
   return mergeConfig({
     base: isProd ? '/vuetify-boilerplate/' : './',
     plugins: [
+      eslint({
+        cache: false,
+        exclude: ['**/node_modules/**', '**/lib/**'],
+      }),
       vue(),
       vuetify(),
       ...isProd ? [

@@ -20,7 +20,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "serve": "vite preview",
-    "lint": "vue-cli-service lint",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "prepare": "husky install"
@@ -54,6 +54,7 @@
     "vite": "^4.4.2",
     "vite-plugin-cdn-import": "^0.3.5",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vuetify": "^1.0.2",
     "vitest": "^0.33.0"
   }
