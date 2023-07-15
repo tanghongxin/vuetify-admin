@@ -14,13 +14,13 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(
-  config => {
-    // TODO
-    // const store = require('@/store').default
-    // const { token } = store.state.account
-    // if (token) {
-    //   config.headers['Authorization'] = `Bearer ${token}`
-    // }
+  async (config) => {
+    // modules/account 循环引用到 request
+    const { default: store } = await import('@/store/index')
+    const { token } = store.state.account
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
     return config
   },
 )

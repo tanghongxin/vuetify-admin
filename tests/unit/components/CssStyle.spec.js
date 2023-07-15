@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { CssStyle } from '@/components/CssStyle'
+import { describe, expect, it, beforeEach, afterEach } from 'vitest'
 
 describe('CssStyle', () => {
   let wrapper
@@ -7,10 +8,10 @@ describe('CssStyle', () => {
 
   beforeEach(() => {
     wrapper = mount(CssStyle, {
-      propsData: {
+      props: {
         content: `
           .box { display: inline-block; width: 100px; height: 50px; }
-          .red { background-color: red; }
+          .red { background-color: red ; }
          `,
       },
       attachTo: document.body,
@@ -22,35 +23,35 @@ describe('CssStyle', () => {
   })
 
   afterEach(() => {
-    wrapper.destroy()
+    wrapper.unmount()
     document.body.removeChild(div)
   })
 
   it('Style takes effect globally', () => {
-    const { display, width, height, backgroundColor } = window.getComputedStyle(div)
+    const { display, width, height } = window.getComputedStyle(div)
     expect(display).toEqual('inline-block')
     expect(width).toEqual('100px')
     expect(height).toEqual('50px')
-    expect(backgroundColor).toEqual('red')
+
+    // https://stackoverflow.com/questions/76571158/vitest-cannot-test-for-presence-of-specific-styling
+    // expect(backgroundColor).toEqual('red')
   })
 
   it('Style takes effect responsibly', async () => {
-    const props = wrapper.vm.$props
     await wrapper.setProps({
-      content: `${props.content} .red { background-color: pink; }`,
+      content: `.box { height: 150px; }`,
     })
-    const { backgroundColor } = window.getComputedStyle(div)
-    expect(backgroundColor).toEqual('pink')
+    const { height } = window.getComputedStyle(div)
+    expect(height).toEqual('150px')
   })
 
   it('Style disappears after component is destroyed', async () => {
-    wrapper.destroy()
+    wrapper.unmount()
     await wrapper.vm.$nextTick()
     const defaultStyle = window.getComputedStyle(document.createElement('div'))
-    const { display, width, height, backgroundColor } = window.getComputedStyle(div)
+    const { display, width, height } = window.getComputedStyle(div)
     expect(display).toEqual(defaultStyle.display)
     expect(width).toEqual(defaultStyle.width)
     expect(height).toEqual(defaultStyle.height)
-    expect(backgroundColor).toEqual(defaultStyle.backgroundColor)
   })
 })
