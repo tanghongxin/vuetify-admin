@@ -55,6 +55,7 @@
     "vite-plugin-cdn-import": "^0.3.5",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-html-env": "^1.2.8",
     "vite-plugin-vuetify": "^1.0.2",
     "vitest": "^0.33.0"
   }

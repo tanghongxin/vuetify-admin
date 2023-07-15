@@ -7,6 +7,7 @@ import { visualizer } from "rollup-plugin-visualizer"
 import vuetify from 'vite-plugin-vuetify'
 import path from 'node:path'
 import eslint from 'vite-plugin-eslint';
+import VitePluginHtmlEnv from 'vite-plugin-html-env'
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => {
         cache: false,
         exclude: ['**/node_modules/**', '**/lib/**'],
       }),
+      VitePluginHtmlEnv(),
       vue(),
       vuetify(),
       ...isProd ? [

@@ -88,6 +88,9 @@ devDependencies:
   vite-plugin-eslint:
     specifier: ^1.8.1
     version: 1.8.1(eslint@8.44.0)(vite@4.4.2)
+  vite-plugin-html-env:
+    specifier: ^1.2.8
+    version: 1.2.8(vite@4.4.2)
   vite-plugin-vuetify:
     specifier: ^1.0.2
     version: 1.0.2(vite@4.4.2)(vue@3.3.4)(vuetify@3.3.7)
@@ -2417,6 +2420,15 @@ packages:
       '@types/eslint': 8.44.0
       eslint: 8.44.0
       rollup: 2.79.1
+      vite: 4.4.2(@types/node@18.13.0)(sass@1.56.1)
+    dev: true
+
+  /vite-plugin-html-env@1.2.8(vite@4.4.2):
+    resolution: {integrity: sha512-Uqo2NqcmhVjuXv83oyRC80mZF+B2J3pcon8Bnm9F3T67EvkPYf64Gk0NReAE4MRGElt8pCGpCMQDIzs12NWUAA==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      vite: '*'
+    dependencies:
       vite: 4.4.2(@types/node@18.13.0)(sass@1.56.1)
     dev: true
 
