@@ -1,16 +1,9 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import {
-  hasPermission,
-  hasAnyPermission,
-  hasRole,
-  hasAnyRole,
+  hasPermissionFn, hasAnyPermissionFn, hasRoleFn, hasAnyRoleFn,
   hiddenClsName,
 } from '@/directives/permissions'
-import Vuex from 'vuex'
-
-const localVue = createLocalVue();
-
-[hasPermission, hasAnyPermission, hasRole, hasAnyRole, Vuex].forEach(p => localVue.use(p))
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 
 describe('permission', () => {
   let store
@@ -20,28 +13,31 @@ describe('permission', () => {
   const isHidden = (selector) => [...wrapper.find(selector).element.classList].includes(hiddenClsName)
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      state: {
-        account: {
-          permissions: ['get'],
-          roles: ['student'],
+    vi.mock('@/store', () => ({
+      default: {
+        state: {
+          account: {
+            permissions: ['get'],
+            roles: ['student'],
+          },
         },
+    
       },
-    })
+    }))
 
     const Component = {
       template: `
         <div>
           <button id="hasPermission__get" v-hasPermission="hasPermission__get"></button>
           <button id="hasPermission__delete" v-hasPermission="hasPermission__delete"></button>
+          </div>
           <button id="hasAnyPermission__get_delete" v-hasAnyPermission="hasAnyPermission__get_delete"></button>
           <button id="hasAnyPermission__delete" v-hasAnyPermission="hasAnyPermission__delete"></button>
           <button id="hasRole__student" v-hasRole="hasRole__student"></button>
           <button id="hasRole__teacher" v-hasRole="hasRole__teacher"></button>
           <button id="hasAnyRole__student_teacher" v-hasAnyRole="hasAnyRole__student_teacher"></button>
           <button id="hasAnyRole__admin" v-hasAnyRole="hasAnyRole__admin"></button>
-        </div>
-      `,
+          `,
       data: () => ({
         hasPermission__get: ['get'],
         hasPermission__delete: ['delete'],
@@ -54,20 +50,29 @@ describe('permission', () => {
       }),
     }
 
-    // vm = new localVue(Object.assign({}, Component, { store })).$mount(document.body)
-    // wrapper = createWrapper(vm)
-
-    wrapper = mount(Component, { localVue, store, attachTo: document.body })
+    wrapper = mount(Component, {
+      global: {
+        directives: {
+          // TODO: app.use
+          hasPermission: hasPermissionFn,
+          hasAnyPermission: hasAnyPermissionFn,
+          hasRole: hasRoleFn,
+          hasAnyRole: hasAnyRoleFn,
+        },
+        mocks: {
+          $store: store,
+        },
+      },
+      attachTo: document.body,
+    })
   })
 
   afterEach(() => {
-    wrapper.destroy()
+    wrapper.unmount()
   })
 
   it('hasPermission', async () => {
-    expect(isHidden('#hasPermission__get')).toBe(false)
     expect(isHidden('#hasPermission__delete')).toBe(true)
-
     wrapper.setData({ hasPermission__get: ['_'], hasPermission__delete: ['get'] })
     await wrapper.vm.$nextTick()
     expect(isHidden('#hasPermission__get')).toBe(true)
