@@ -1,7 +1,5 @@
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
 import 'material-design-icons-iconfont/src/material-design-icons.scss'
 import { aliases, md } from 'vuetify/iconsets/md'
 import { zhHans } from 'vuetify/locale'
@@ -11,10 +9,8 @@ import { themes } from '@/config/themes'
 
 const vuetify = createVuetify({
   components: {
-    ...components,
     ...labs,
   },
-  directives,
   icons: {
     defaultSet: 'md',
     aliases,
@@ -23,7 +19,6 @@ const vuetify = createVuetify({
     },
   },
   locale: {
-    // FIXME
     locale: 'zhHans',
     fallback: 'zhHans',
     messages: { zhHans },

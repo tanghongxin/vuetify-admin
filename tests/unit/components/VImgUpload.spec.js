@@ -1,11 +1,21 @@
 import VImgUpload from '@/components/VImplements/VImgUpload'
-import { mount } from '@vue/test-utils'
+import { mount, DOMWrapper } from '@vue/test-utils'
+import { describe, expect, it, beforeEach, afterEach } from 'vitest'
+import Toast from '@/components/Toast/Toast.vue'
+import { vuetify } from 'tests/utils'
 
 describe('VImgUpload', () => {
-  let wrapper
+  const bodyWrapper = new DOMWrapper(document.body)
+  let wrapper, toast
 
   beforeEach(() => {
+    // TODO: 复用
+    toast = mount(Toast, { global: { plugins: [vuetify()] } })
     wrapper = mount(VImgUpload)
+  })
+
+  afterEach(() => {
+    toast.unmount()
   })
 
   it(`Failed when file's type is not image`, async () => {
@@ -14,7 +24,7 @@ describe('VImgUpload', () => {
     wrapper.setData({ file })
     wrapper.vm.fileChange(file)
     await wrapper.vm.$nextTick()
-    const w = global.bodyWrapper.findAll('.v-snack__content').at(-1)
+    const w = bodyWrapper.findAll('.v-snackbar__content')[0]
     expect(w.exists()).toBeTruthy()
     expect(w.text()).toBe(`上传文件非图片`)
   })
@@ -34,7 +44,7 @@ describe('VImgUpload', () => {
     // reset value
     expect(wrapper.vm.file).toBe(null)
 
-    const w = global.bodyWrapper.findAll('.v-snack__content').at(-1)
+    const w = bodyWrapper.findAll('.v-snackbar__content')[0]
     expect(w.exists()).toBeTruthy()
     expect(w.text()).toBe(`图片大小超出${maxSize / 1024}兆`)
   })

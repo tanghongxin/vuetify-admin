@@ -29,7 +29,6 @@
               color="white"
               variant="text"
               icon
-              v-bind="attrs"
               @click="dequeue(item.id)"
             >
               <v-icon>close</v-icon>

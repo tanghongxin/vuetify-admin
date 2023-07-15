@@ -1,14 +1,17 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import { Toast } from '@/components/Toast'
-import { mount, createWrapper } from '@vue/test-utils'
+// https://github.com/jsdom/jsdom/issues/3368
+global.ResizeObserver = class ResizeObserver {
+  observe () {
+    // do nothing
+  }
+  unobserve () {
+    // do nothing
+  }
+  disconnect () {
+    // do nothing
+  }
+};
 
-Vue.use(Vuetify)
-
-Object.assign(global, {
-  bodyWrapper: createWrapper(document.body),
-  toastWrapper: mount(Toast, {
-    vuetify: new Vuetify(),
-    attachTo: document.body,
-  }),
-})
+// https://github.com/jsdom/jsdom/issues/1695
+Element.prototype.scroll = function (e) {
+  this.scrollTop = typeof e === 'object' ? e.top : e
+}

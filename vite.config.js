@@ -1,9 +1,12 @@
+/// <reference types="vitest" />
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, mergeConfig, loadEnv } from 'vite'
 import importToCDN, { autoComplete } from 'vite-plugin-cdn-import'
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from "rollup-plugin-visualizer"
+import vuetify from 'vite-plugin-vuetify'
 import path from 'node:path'
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -16,19 +19,17 @@ export default defineConfig(({ mode }) => {
   return mergeConfig({
     base: isProd ? '/vuetify-boilerplate/' : './',
     plugins: [
+      eslint({
+        cache: false,
+        exclude: ['**/node_modules/**', '**/lib/**'],
+      }),
       vue(),
+      vuetify(),
       ...isProd ? [
-        // TODO
         importToCDN({
           modules: [
             autoComplete('vue'),
             autoComplete('axios'),
-            {
-              name: 'vuetify',
-              var: 'Vuetify',
-              path: 'dist/vuetify.min.js',
-              css: 'dist/vuetify.min.css',
-            },
             {
               name: 'vuex',
               var: 'Vuex',
@@ -51,20 +52,11 @@ export default defineConfig(({ mode }) => {
         }),
       ] : [],
     ],
-    build: {
-      rollupOptions: {
-        output: {
-          // TODO
-          manualChunks: {},
-        },
-      },
-    },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
       alias: {
         "@": path.resolve(__dirname, "/src"),
-        // TODO
-        "lodash": path.resolve(__dirname, "./node_modules/lodash-es"),
+        "tests": path.resolve(__dirname, "/tests"),
       },
     },
     css: {
@@ -77,6 +69,17 @@ export default defineConfig(({ mode }) => {
     esbuild: {
       jsxFactory: 'h',
       jsxFragment: 'Fragment',
+    },
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./tests/setup.js'],
+      css: {
+        include: /.+/,
+      },
+      deps: {
+        inline: ['vuetify'],
+      },
+      globals: true,
     },
   })
 })

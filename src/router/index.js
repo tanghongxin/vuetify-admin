@@ -2,7 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import _ from 'lodash-es'
 import { AppPage } from '@/layout'
 import { NProgress } from '@/components/NProgress'
-// import { h, resolveComponent } from 'vue'
 import Page from './Page.vue'
 const modules = import.meta.glob('../views/**/*.vue')
 
@@ -70,18 +69,6 @@ const buildDynamicRoutes = (menus = []) => {
               ...Page,
               name: `RouterViewWrapper${num++}`,
             },
-            // FIXME: 1. 直接通过 template 不生效 2. 比较指定 keep-alive
-            // component: {
-            //   name: `RouterViewWrapper${num++}`,
-            //   template: `
-            //     <router-view v-slot="{ Component }">
-            //       <keep-alive>
-            //         <component :is="Component" />
-            //       </keep-alive>
-            //     </router-view>
-            //   `,
-            //   // render: () => h(resolveComponent('router-view')),
-            // },
             children: recursive(children),
             redirect: '/exception/404',
           })

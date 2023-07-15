@@ -1,6 +1,8 @@
 import TMapLoader from '@/components/TMap/TMapLoader'
-import { sleep } from '../../utils'
+// import { sleep } from '../../utils'
+import { describe, expect, it, vi } from 'vitest'
 import jsdom from 'jsdom'
+
 
 describe('TMapLoader', () => {
   const config = {
@@ -18,9 +20,7 @@ describe('TMapLoader', () => {
   it('Mount qq constructor to window', async () => {
     const DOM = new jsdom.JSDOM(`<!doctype html>
     <html lang="en">
-      <head>
-         <title>Document</title>
-      </head>
+      <head></head>
       <body></body>
     </html>`, {
       url: "https://localhost/",
@@ -29,14 +29,13 @@ describe('TMapLoader', () => {
       includeNodeLocations: true,
     })
 
-    // wait for window load
-    await sleep(100)
-
-    jest.spyOn(global, "document", "get").mockImplementation(() => DOM.window.document)
-    jest.spyOn(global, "window", "get").mockImplementation(() => DOM.window)
+    // // wait for window load
+    // await sleep(100) // TODO: 使用 sleep 导致超时
+    vi.spyOn(global, "document", "get").mockImplementation(() => DOM.window.document)
+    vi.spyOn(global, "window", "get").mockImplementation(() => DOM.window)
 
     DOM.window.loader = new TMapLoader(config)
-    const getScriptSrcSpy = jest.spyOn(DOM.window.loader, 'getScriptSrc')
+    const getScriptSrcSpy = vi.spyOn(DOM.window.loader, 'getScriptSrc')
 
     // Fetch
     await DOM.window.loader.init()
