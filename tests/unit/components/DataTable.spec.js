@@ -75,32 +75,29 @@ describe('DataTable', () => {
     expect(fn).toHaveBeenCalledWith({ ...defaultOptions, itemsPerPage: 15 })
   })
 
-  it.skip('Scroll to top after data update', () => {
-    return new Promise((resolve) => {
-      (async function () {
-        const [table] = wrapper.vm.$el.getElementsByClassName('v-table__wrapper')
-  
-        expect(table.scrollTop).toEqual(0)
-  
-        const unWatch = wrapper.vm.$watch(
-          () => wrapper.vm.items,
-          async () => {
-            unWatch()
-            await wrapper.vm.$nextTick()
-            expect(table.scrollTop).toEqual(0)
-            resolve()
-          },
-        )
-  
-        table.scroll(100)
+  // eslint-disable-next-line no-async-promise-executor
+  it.skip('Scroll to top after data update', () => new Promise(async (resolve) => {
+    const [table] = wrapper.vm.$el.getElementsByClassName('v-table__wrapper')
+
+    expect(table.scrollTop).toEqual(0)
+
+    const unWatch = wrapper.vm.$watch(
+      () => wrapper.vm.items,
+      async () => {
+        unWatch()
         await wrapper.vm.$nextTick()
-        // TODO: scroll does not work after $nextTick
-        expect(table.scrollTop).toEqual(100)
-  
-        refreshWrapper.trigger('click')
-      })()
-    })
-  })
+        expect(table.scrollTop).toEqual(0)
+        resolve()
+      },
+    )
+
+    table.scroll(100)
+    await wrapper.vm.$nextTick()
+    // TODO: scroll does not work after $nextTick
+    expect(table.scrollTop).toEqual(100)
+
+    refreshWrapper.trigger('click')
+  }))
 
   // TODO
   it.skip('The first and the last columns can be fixed', async () => {

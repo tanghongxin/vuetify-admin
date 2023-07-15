@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils'
 import { CssStyle } from '@/components/CssStyle'
-import { describe, expect, it, beforeEach, afterEach } from 'vitest'
 
 describe('CssStyle', () => {
   let wrapper

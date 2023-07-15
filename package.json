@@ -1,6 +1,6 @@
 {
   "name": "@tanghongxin/VuetifyBoilerplate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "license": "MIT",
   "description": "An out of box boilerplate based on vuetify3 with multiple preset enhancement",
@@ -45,9 +45,9 @@
     "@vue/test-utils": "^2.4.0",
     "axios-mock-adapter": "^1.21.2",
     "eslint": "8.44.0",
+    "eslint-plugin-vitest-globals": "^1.4.0",
     "eslint-plugin-vue": "^9.15.1",
     "husky": "^8.0.2",
-    "jest-environment-jsdom": "^29.6.1",
     "jsdom": "^22.1.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.56.1",

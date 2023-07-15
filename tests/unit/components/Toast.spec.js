@@ -1,6 +1,5 @@
 import { mount, DOMWrapper } from '@vue/test-utils'
 import { toast, Toast } from '@/components/Toast'
-import { describe, expect, it, beforeEach, afterEach } from 'vitest'
 import { vuetify } from 'tests/utils/index'
 
 describe('Toast', () => {

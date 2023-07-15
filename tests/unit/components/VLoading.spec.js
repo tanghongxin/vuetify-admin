@@ -1,6 +1,5 @@
 import { mount, DOMWrapper } from '@vue/test-utils'
 import VLoading from '@/components/VImplements/VLoading'
-import { describe, expect, it, beforeEach } from 'vitest'
 import { vuetify } from 'tests/utils/index'
 
 describe('VLoading', () => {

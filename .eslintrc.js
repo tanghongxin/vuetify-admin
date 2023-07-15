@@ -6,7 +6,11 @@ module.exports = {
     node: true,
     es2022: true,
   },
-  extends: ['plugin:vue/strongly-recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/strongly-recommended',
+    'eslint:recommended',
+    'plugin:vitest-globals/recommended',
+  ],
   globals: {
     'window': true,
     'qq': true,
@@ -52,7 +56,7 @@ module.exports = {
         '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
-        jest: true,
+        'vitest-globals/env': true,
       },
     },
   ],
