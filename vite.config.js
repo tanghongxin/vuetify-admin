@@ -13,16 +13,13 @@ export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   const isProd = mode === 'production'
-  const useCDN = isProd && process.env.VITE_ENABLE_CDN === 'true'
-  const devFontDirPath = 'material-design-icons-iconfont/dist/fonts/'
-  const prodFontDirPath = 'https://cdn.jsdelivr.net/npm/material-design-icons-iconfont@6.7.0/dist/fonts/'
 
   return mergeConfig({
     base: isProd ? '/vuetify-boilerplate/' : './',
     plugins: [
       eslint({
         cache: false,
-        exclude: ['**/node_modules/**', '**/lib/**'],
+        exclude: ['**/node_modules/**', '**/dist/**'],
       }),
       VitePluginHtmlEnv(),
       vue(),
@@ -64,7 +61,7 @@ export default defineConfig(({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `$material-design-icons-font-directory-path: '${useCDN ? prodFontDirPath : devFontDirPath}';`,
+          additionalData: `$material-design-icons-font-directory-path: '${process.env.VITE_MD_ICON_FONT_DIR}';`,
         },
       },
     },
