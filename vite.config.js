@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === 'production'
 
   return mergeConfig({
-    base: isProd ? '/vuetify-boilerplate/' : './',
+    base: isProd ? '/vuetify-admin/' : './',
     plugins: [
       eslint({
         cache: false,

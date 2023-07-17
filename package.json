@@ -1,9 +1,10 @@
 {
-  "name": "@tanghongxin/VuetifyBoilerplate",
+  "name": "vuetify-admin",
   "version": "0.0.2",
   "private": false,
+  "author": "hongxin.tang@hotmail.com",
   "license": "MIT",
-  "description": "An out of box boilerplate based on vuetify3 with multiple preset enhancement",
+  "description": "基于 vuetify3 的自带诸多后台管理系统模板，内置动态路由、权限验证等功能",
   "keywords": [
     "vuetify",
     "material-design",
