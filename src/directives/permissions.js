@@ -1,111 +1,71 @@
 import store from '@/store'
 
-export const hiddenClsName = 'permission_forbidden';
+class PermissionsHelper {
+  constructor () {
+    if (!PermissionsHelper.prototype.instance) {
+      this.store = store
+      
+      PermissionsHelper.prototype.instance = this
 
-(function () {
-  const style = document.createElement('style')
-  style.innerText = `.${hiddenClsName} { display: none !important; }`
-
-  const [head] = document.getElementsByTagName('head')
-  head.append(style)
-})()
-
-// TODO: 代码复用
-
-const hasPermissionFn = function (el, binding) {
-  const permissions = store.state.account.permissions
-  const value = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
-  let flag = true
-  for (let v of value) {
-    if (!permissions.includes(v)) {
-      flag = false
-      break
     }
+    return PermissionsHelper.prototype.instance
   }
-  if (!flag) {
-    el.classList.add(hiddenClsName)
-  } else {
-    el.classList.remove(hiddenClsName)
+
+  get allPermissions () {
+    return this.store.state.account.permissions
+  }
+
+  get allRoles () {
+    return this.store.state.account.roles
+  }
+
+  checkAllPermissions (permissions) {
+    return permissions.every(p => this.allPermissions.includes(p))
+  }
+
+  checkPartialPermissions (permissions) {
+    return permissions.some(p => this.allPermissions.includes(p))
+  }
+
+  checkAllRoles (roles) {
+    return roles.every(r => this.allRoles.includes(r))
+  }
+
+  checkPartialRoles (roles) {
+    return roles.some(r => this.allRoles.includes(r))
   }
 }
 
-// 必须包含列出的所有权限，元素才显示
-const hasPermission = {
-  install (app) {
-    app.directive('hasPermission', hasPermissionFn)
+const permissionHelper = new PermissionsHelper()
+
+const directives = {
+  hasAllPermissions (el, binding) {
+    const permissions = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
+    if (!permissionHelper.checkAllPermissions(permissions))
+      el.remove()
+  },
+  hasAnyPermissions (el, binding) {
+    const permissions = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
+    if (!permissionHelper.checkPartialPermissions(permissions))
+      el.remove()
+  },
+  hasAllRoles (el, binding) {
+    const roles = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
+    if (!permissionHelper.checkAllRoles(roles))
+      el.remove()
+  },
+  hasAnyRoles (el, binding) {
+    const roles = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
+    if (!permissionHelper.checkPartialRoles(roles))
+      el.remove()
   },
 }
 
-const hasAnyPermissionFn = function (el, binding) {
-  const permissions = store.state.account.permissions
-  const value = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
-  let flag = false
-  for (let v of value) {
-    if (permissions.includes(v)) {
-      flag = true
-      break
-    }
-  }
-  if (!flag) {
-    el.classList.add(hiddenClsName)
-  } else {
-    el.classList.remove(hiddenClsName)
-  }
-}
-
-// 只要包含列出的任意一个权限，元素就会显示
-const hasAnyPermission = {
+export default {
   install (app) {
-    app.directive('hasAnyPermission', hasAnyPermissionFn)
+    app.directive('hasAllPermissions', directives.hasAllPermissions)
+    app.directive('hasAnyPermissions', directives.hasAnyPermissions)
+    app.directive('hasAllRoles', directives.hasAllRoles)
+    app.directive('hasAnyRoles', directives.hasAnyRoles)
   },
-}
-
-const hasRoleFn = function (el, binding) {
-  const permissions = store.state.account.roles
-  const value = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
-  let flag = true
-  for (let v of value) {
-    if (!permissions.includes(v)) {
-      flag = false
-      break
-    }
-  }
-  if (!flag) {
-    el.classList.add(hiddenClsName)
-  } else {
-    el.classList.remove(hiddenClsName)
-  }
-}
-// 必须包含列出的所有角色，元素才显示
-const hasRole = {
-  install (app) {
-    app.directive('hasRole', hasRoleFn)
-  },
-}
-
-const hasAnyRoleFn = function (el, binding) {
-  const permissions = store.state.account.roles
-  const value = Array.isArray(binding.value) ? binding.value : binding.value.split(',')
-  let flag = false
-  for (let v of value) {
-    if (permissions.includes(v)) {
-      flag = true
-      break
-    }
-  }
-  if (!flag) {
-    el.classList.add(hiddenClsName)
-  } else {
-    el.classList.remove(hiddenClsName)
-  }
-}
-// 只要包含列出的任意一个角色，元素就会显示
-const hasAnyRole = {
-  install (app) {
-    app.directive('hasAnyRole', hasAnyRoleFn)
-  },
-};
-
-export {
-  hasPermission, hasAnyPermission, hasRole, hasAnyRole,
 }

@@ -1,16 +1,12 @@
 import { mount } from '@vue/test-utils'
-import {
-  hasPermission, hasAnyPermission, hasRole, hasAnyRole,
-  hiddenClsName,
-} from '@/directives/permissions'
+import directive from '@/directives/permissions'
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 
 describe('permission', () => {
   let store
   let wrapper
 
-  // TODO: validate style.display
-  const isHidden = (selector) => [...wrapper.find(selector).element.classList].includes(hiddenClsName)
+  const isRemoved = (selector) => !wrapper.find(selector).exists()
 
   beforeEach(() => {
     vi.mock('@/store', () => ({
@@ -28,33 +24,30 @@ describe('permission', () => {
     const Component = {
       template: `
         <div>
-          <button id="hasPermission__get" v-hasPermission="hasPermission__get"></button>
-          <button id="hasPermission__delete" v-hasPermission="hasPermission__delete"></button>
-          </div>
-          <button id="hasAnyPermission__get_delete" v-hasAnyPermission="hasAnyPermission__get_delete"></button>
-          <button id="hasAnyPermission__delete" v-hasAnyPermission="hasAnyPermission__delete"></button>
-          <button id="hasRole__student" v-hasRole="hasRole__student"></button>
-          <button id="hasRole__teacher" v-hasRole="hasRole__teacher"></button>
-          <button id="hasAnyRole__student_teacher" v-hasAnyRole="hasAnyRole__student_teacher"></button>
-          <button id="hasAnyRole__admin" v-hasAnyRole="hasAnyRole__admin"></button>
-          `,
+          <button id="hasAllPermissions__get" v-hasAllPermissions="hasAllPermissions__get"></button>
+          <button id="hasAllPermissions__delete" v-hasAllPermissions="hasAllPermissions__delete"></button>
+          <button id="hasAnyPermissions__get_delete" v-hasAnyPermissions="hasAnyPermissions__get_delete"></button>
+          <button id="hasAnyPermissions__delete" v-hasAnyPermissions="hasAnyPermissions__delete"></button>
+          <button id="hasAllRoles__student" v-hasAllRoles="hasAllRoles__student"></button>
+          <button id="hasAllRoles__teacher" v-hasAllRoles="hasAllRoles__teacher"></button>
+          <button id="hasAnyRoles__student_teacher" v-hasAnyRoles="hasAnyRoles__student_teacher"></button>
+          <button id="hasAnyRoles__admin" v-hasAnyRoles="hasAnyRoles__admin"></button>
+        </div>`,
       data: () => ({
-        hasPermission__get: ['get'],
-        hasPermission__delete: ['delete'],
-        hasAnyPermission__get_delete: ['get', 'delete'],
-        hasAnyPermission__delete: ['delete'],
-        hasRole__student: ['student'],
-        hasRole__teacher: ['teacher'],
-        hasAnyRole__student_teacher: ['student', 'teacher'],
-        hasAnyRole__admin: ['admin'],
+        hasAllPermissions__get: ['get'],
+        hasAllPermissions__delete: ['delete'],
+        hasAnyPermissions__get_delete: ['get', 'delete'],
+        hasAnyPermissions__delete: ['delete'],
+        hasAllRoles__student: ['student'],
+        hasAllRoles__teacher: ['teacher'],
+        hasAnyRoles__student_teacher: ['student', 'teacher'],
+        hasAnyRoles__admin: ['admin'],
       }),
     }
 
     wrapper = mount(Component, {
       global: {
-        plugins: [
-          hasPermission, hasAnyPermission, hasRole, hasAnyRole,
-        ],
+        plugins: [directive],
         mocks: {
           $store: store,
         },
@@ -67,41 +60,23 @@ describe('permission', () => {
     wrapper.unmount()
   })
 
-  it('hasPermission', async () => {
-    expect(isHidden('#hasPermission__delete')).toBe(true)
-    wrapper.setData({ hasPermission__get: ['_'], hasPermission__delete: ['get'] })
-    await wrapper.vm.$nextTick()
-    expect(isHidden('#hasPermission__get')).toBe(true)
-    expect(isHidden('#hasPermission__delete')).toBe(false)
+  it('hasAllPermissions', () => {
+    expect(isRemoved('#hasAllPermissions__delete')).toBe(true)
+    wrapper.setData({ hasAllPermissions__get: ['_'], hasAllPermissions__delete: ['get'] })
   })
 
-  it('hasAnyPermission', async () => {
-    expect(isHidden('#hasAnyPermission__get_delete')).toBe(false)
-    expect(isHidden('#hasAnyPermission__delete')).toBe(true)
-
-    wrapper.setData({ hasAnyPermission__get_delete: ['_'], hasAnyPermission__delete: ['get'] })
-    await wrapper.vm.$nextTick()
-    expect(isHidden('#hasAnyPermission__get_delete')).toBe(true)
-    expect(isHidden('#hasAnyPermission__delete')).toBe(false)
+  it('hasAnyPermissions', () => {
+    expect(isRemoved('#hasAnyPermissions__get_delete')).toBe(false)
+    expect(isRemoved('#hasAnyPermissions__delete')).toBe(true)
   })
 
-  it('hasRole', async () => {
-    expect(isHidden('#hasRole__student')).toBe(false)
-    expect(isHidden('#hasRole__teacher')).toBe(true)
-
-    wrapper.setData({ hasRole__student: ['_'], hasRole__teacher: ['student'] })
-    await wrapper.vm.$nextTick()
-    expect(isHidden('#hasRole__student')).toBe(true)
-    expect(isHidden('#hasRole__teacher')).toBe(false)
+  it('hasAllRoles', () => {
+    expect(isRemoved('#hasAllRoles__student')).toBe(false)
+    expect(isRemoved('#hasAllRoles__teacher')).toBe(true)
   })
 
-  it('hasAnyRole', async () => {
-    expect(isHidden('#hasAnyRole__student_teacher')).toBe(false)
-    expect(isHidden('#hasAnyRole__admin')).toBe(true)
-
-    wrapper.setData({ hasAnyRole__student_teacher: ['_'], hasAnyRole__admin: ['student'] })
-    await wrapper.vm.$nextTick()
-    expect(isHidden('#hasAnyRole__student_teacher')).toBe(true)
-    expect(isHidden('#hasAnyRole__admin')).toBe(false)
+  it('hasAnyRoles', () => {
+    expect(isRemoved('#hasAnyRoles__student_teacher')).toBe(false)
+    expect(isRemoved('#hasAnyRoles__admin')).toBe(true)
   })
 })
