@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import {
-  hasPermissionFn, hasAnyPermissionFn, hasRoleFn, hasAnyRoleFn,
+  hasPermission, hasAnyPermission, hasRole, hasAnyRole,
   hiddenClsName,
 } from '@/directives/permissions'
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
@@ -52,13 +52,9 @@ describe('permission', () => {
 
     wrapper = mount(Component, {
       global: {
-        directives: {
-          // TODO: app.use
-          hasPermission: hasPermissionFn,
-          hasAnyPermission: hasAnyPermissionFn,
-          hasRole: hasRoleFn,
-          hasAnyRole: hasAnyRoleFn,
-        },
+        plugins: [
+          hasPermission, hasAnyPermission, hasRole, hasAnyRole,
+        ],
         mocks: {
           $store: store,
         },

@@ -108,5 +108,4 @@ const hasAnyRole = {
 
 export {
   hasPermission, hasAnyPermission, hasRole, hasAnyRole,
-  hasPermissionFn, hasAnyPermissionFn, hasRoleFn, hasAnyRoleFn,
 }

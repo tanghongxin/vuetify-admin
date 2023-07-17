@@ -37,6 +37,6 @@ steps:
     runOptions: 'inline'
     inline: |
       tar -zxvf /tmp/dist.tar.gz -C /tmp
-      rm -rf $(DEPLOY_DIR)/vuetify-boilerplate /tmp/dist.tar.gz
-      mv /tmp/dist $(DEPLOY_DIR)/vuetify-boilerplate
+      rm -rf $(DEPLOY_DIR) /tmp/dist.tar.gz
+      mv /tmp/dist $(DEPLOY_DIR)
   displayName: 'Deploy'

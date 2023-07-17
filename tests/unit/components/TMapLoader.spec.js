@@ -1,8 +1,6 @@
 import TMapLoader from '@/components/TMap/TMapLoader'
 // import { sleep } from '../../utils'
-import { describe, expect, it, vi } from 'vitest'
 import jsdom from 'jsdom'
-
 
 describe('TMapLoader', () => {
   const config = {

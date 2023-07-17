@@ -41,7 +41,7 @@ router.addRoute(DEFAULT_FALLBACK_ROUTE)
 router.beforeEach(() => {
 })
 router.afterEach((to) => {
-  document.title = `VuetifyBoilerplate - ${to.params.type || to.name}`
+  document.title = `${import.meta.env.VITE_APP_TITLE} - ${to.params.type || to.name}`
 })
 
 const resetRouter = () => {
