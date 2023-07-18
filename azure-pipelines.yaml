@@ -24,7 +24,6 @@ steps:
 
 - script: |
     pnpm test
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: 'PNPM test'
 
 - script: |
