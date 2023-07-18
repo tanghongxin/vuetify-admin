@@ -1,7 +1,7 @@
-import directive from './permissions'
+import auth from './auth'
 
 export default {
   install (app) {
-    app.use(directive)
+    app.use(auth)
   },
 }

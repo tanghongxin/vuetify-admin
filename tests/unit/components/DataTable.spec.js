@@ -52,7 +52,7 @@ describe('DataTable', () => {
     expect(fn).toHaveBeenCalledTimes(++times)
     expect(fn).toHaveBeenCalledWith({ ...defaultOptions, page: 2 })
 
-    // // 按钮刷新（当前页）
+    // 按钮刷新（当前页）
     await refreshWrapper.trigger('click')
     expect(fn).toHaveBeenCalledTimes(++times)
     expect(fn).toHaveBeenCalledWith({ ...defaultOptions, page: 2 })

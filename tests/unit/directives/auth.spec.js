@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import directive from '@/directives/permissions'
+import auth from '@/directives/auth'
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 
 describe('permission', () => {
@@ -47,10 +47,7 @@ describe('permission', () => {
 
     wrapper = mount(Component, {
       global: {
-        plugins: [directive],
-        mocks: {
-          $store: store,
-        },
+        plugins: [auth],
       },
       attachTo: document.body,
     })
