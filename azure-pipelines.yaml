@@ -25,6 +25,7 @@ steps:
 - script: |
     pnpm test
   displayName: 'PNPM test'
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
 - script: |
     pnpm build
