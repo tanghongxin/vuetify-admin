@@ -2,7 +2,7 @@
 
 [![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/organization/repository)
 
-基于 vuetify3 的自带诸多后台管理系统模板，内置动态路由、权限验证等功能
+基于 vuetify3 的后台管理系统模板，内置动态路由、权限验证等功能
 
 ## 在线尝试
 [Live Demo](https://www.abyssal.site/vuetify-admin)

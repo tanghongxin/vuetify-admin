@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "vitest",
     "coverage": "vitest run --coverage",

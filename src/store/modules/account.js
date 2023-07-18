@@ -19,6 +19,7 @@ export const AccountActions = {
 export default {
   namespaced: true,
   state: {
+    roles: [],
     permissions: [],
     menus: [],
     token: '',

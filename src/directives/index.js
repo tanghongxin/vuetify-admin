@@ -1,10 +1,7 @@
-import { hasPermission, hasAnyPermission, hasRole, hasAnyRole } from './permissions'
+import auth from './auth'
 
 export default {
   install (app) {
-    app.use(hasPermission)
-    app.use(hasAnyPermission)
-    app.use(hasRole)
-    app.use(hasAnyRole)
+    app.use(auth)
   },
 }

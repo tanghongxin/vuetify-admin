@@ -13,6 +13,7 @@ adaptor.onPost(/api\/login/).reply(config => {
       response = {
         username,
         token: 'ac21ebab-bddc-41a3-bef5-4ecf3325c888',
+        roles: [],
         permissions: [],
         menus: [
           {
@@ -57,6 +58,7 @@ adaptor.onPost(/api\/login/).reply(config => {
       response = {
         username,
         token: 'ac21ebab-bddc-41a3-bef5-4ecf3325c888',
+        roles: [],
         permissions: [],
         menus: [
           {
