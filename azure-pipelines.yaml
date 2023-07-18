@@ -20,9 +20,20 @@ steps:
     pnpm install
     pnpm build
     tar zcvf dist.tar.gz dist
-  displayName: 'PNPM install and build'
+  displayName: 'PNPM install'
+
+- script: |
+    pnpm test
+  displayName: 'PNPM test'
+
+- script: |
+    pnpm build
+    tar zcvf dist.tar.gz dist
+  displayName: 'PNPM build'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
 - task: CopyFilesOverSSH@0
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     sshEndpoint: TencentCloud
     contents: 'dist.tar.gz'
@@ -32,6 +43,7 @@ steps:
   displayName: 'Copy files to the remote machine'
 
 - task: SSH@0
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     sshEndpoint: TencentCloud
     runOptions: 'inline'
