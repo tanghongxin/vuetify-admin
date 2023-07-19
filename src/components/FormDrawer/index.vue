@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
+import { useSettingStore } from '@/store'
 import VLoading from '@/components/VImplements/VLoading.vue'
 import { defineComponent } from 'vue'
 
@@ -73,7 +74,7 @@ export default defineComponent({
   },
   emits: ['update:model-value'],
   computed: {
-    ...mapState('setting', ['appHeaderHeight']),
+    ...mapState(useSettingStore, { appHeaderHeight: 'appHeaderHeight' }),
   },
 })
 </script>

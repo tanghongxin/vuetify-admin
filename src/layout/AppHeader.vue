@@ -1,6 +1,18 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+import { useActions, useMutations, useState } from './composable'
+
+const { lgAndUp } = useDisplay()
+const actions = useActions()
+const mutations = useMutations()
+const state = useState()
+const title = import.meta.env.VITE_APP_TITLE
+const repo = import.meta.env.VITE_GITHUB_REPO
+</script>
+
 <template>
   <v-app-bar
-    :clipped-left="state.appPermanentNavigation || state.lgAndUp"
+    :clipped-left="state.appPermanentNavigation || lgAndUp"
     app
     class="pr-4"
     color="primary darken-2"
@@ -84,26 +96,6 @@
     </template>
   </v-app-bar>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useActions, useMutations, useState } from './composable'
-
-export default defineComponent({
-  name: 'AppHeader',
-  setup () {
-    const { lgAndUp } = useDisplay()
-    return {
-      actions: useActions(),
-      mutations: useMutations(),
-      state: Object.assign(useState(), { lgAndUp }),
-      title: import.meta.env.VITE_APP_TITLE,
-      repo: import.meta.env.VITE_GITHUB_REPO,
-    }
-  },
-})
-</script>
 
 <style lang="scss">
 

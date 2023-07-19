@@ -1,3 +1,11 @@
+<script setup>
+import { colors } from '@/config/themes'
+import { useMutations, useState } from './composable'
+
+const mutations = useMutations()
+const state = useState()
+</script>
+
 <template>
   <div class="app-setting">
     <v-navigation-drawer
@@ -61,7 +69,7 @@
             <div class="color-option">
               <div class="d-flex flex-row flex-wrap">
                 <label
-                  v-for="colorName in colors"
+                  v-for="colorName in Object.keys(colors)"
                   :key="colorName"
                   class="app-setting__label flex pa-1"
                 >
@@ -87,23 +95,6 @@
     </v-navigation-drawer>
   </div>
 </template>
-
-<script>
-import { colors } from '@/config/themes'
-import { defineComponent } from 'vue'
-import { useMutations, useState } from './composable'
-
-export default defineComponent({
-  name: 'AppSetting',
-  setup () {
-    return {
-      mutations: useMutations(),
-      state: useState(),
-      colors: Object.keys(colors),
-    }
-  },
-})
-</script>
 
 <style lang="scss">
 .app-setting {

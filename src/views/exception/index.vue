@@ -7,13 +7,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
+import { useSettingStore } from '@/store'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Exception',
   computed: {
-    ...mapState('setting', ['appThemeDark']),
+    ...mapState(useSettingStore, { appThemeDark: 'appThemeDark' }),
   },
 })
 </script>

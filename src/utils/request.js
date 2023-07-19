@@ -15,11 +15,11 @@ const request = axios.create({
 
 request.interceptors.request.use(
   async (config) => {
-    // modules/account 循环引用到 request
-    const { default: store } = await import('@/store/index')
-    const { token } = store.state.account
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+    // store/account login 方法 循环引用到 request
+    const { useAccountStore } = await import('@/store')
+    const { account } = useAccountStore()
+    if (account?.token) {
+      config.headers['Authorization'] = `Bearer ${account.token}`
     }
     return config
   },

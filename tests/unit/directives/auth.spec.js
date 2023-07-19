@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import auth from '@/directives/auth'
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
+import { useAccountStore } from '@/store'
 
 describe('permission', () => {
   let store
@@ -10,16 +11,15 @@ describe('permission', () => {
 
   beforeEach(() => {
     vi.mock('@/store', () => ({
-      default: {
-        state: {
-          account: {
-            permissions: ['get'],
-            roles: ['student'],
-          },
+      useAccountStore: () => ({
+        account: {
+          permissions: ['get'],
+          roles: ['student'],
         },
-    
-      },
+      }),
     }))
+
+    store = useAccountStore()
 
     const Component = {
       template: `

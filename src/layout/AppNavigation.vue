@@ -4,7 +4,7 @@
     :permanent="state.appPermanentNavigation"
     @update:modelValue="mutations.toggleAppNavigation"
   >
-    <RecursiveMenus :items="store.state.account.menus" />
+    <RecursiveMenus :items="accountStore.account.menus" />
   </v-navigation-drawer>
 </template>
 
@@ -12,7 +12,7 @@
 import RecursiveMenus from './LayoutRecursiveMenus.vue'
 import { defineComponent } from 'vue'
 import { useDisplay } from 'vuetify'
-import { useStore } from 'vuex'
+import { useAccountStore } from '@/store'
 import { useState, useMutations } from './composable'
 
 export default defineComponent({
@@ -22,13 +22,13 @@ export default defineComponent({
   },
   setup () {
     const { lgAndUp } = useDisplay()
-    const store = useStore()
+    const accountStore = useAccountStore()
     const state = useState()
     const mutations = useMutations()
 
     return {
       lgAndUp,
-      store,
+      accountStore,
       state,
       mutations,
     }
