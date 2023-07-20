@@ -1,6 +1,11 @@
 <script setup>
 import { colors } from '@/config/themes'
 import { useMutations, useState } from './composable'
+import { defineOptions } from 'vue'
+
+defineOptions({
+  name: 'AppSetting',
+})
 
 const mutations = useMutations()
 const state = useState()

@@ -1,6 +1,11 @@
 <script setup>
 import { useDisplay } from 'vuetify'
+import { defineOptions } from 'vue'
 import { useActions, useMutations, useState } from './composable'
+
+defineOptions({
+  name: 'AppHeader',
+})
 
 const { lgAndUp } = useDisplay()
 const actions = useActions()
@@ -96,7 +101,3 @@ const repo = import.meta.env.VITE_GITHUB_REPO
     </template>
   </v-app-bar>
 </template>
-
-<style lang="scss">
-
-</style>

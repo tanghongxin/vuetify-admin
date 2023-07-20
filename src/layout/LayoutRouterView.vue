@@ -3,7 +3,13 @@ import _ from 'lodash-es'
 import { useRuntimeStore, useSettingStore } from '@/store'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, watch, nextTick } from 'vue'
-import { computed } from 'vue';
+import { computed, defineOptions } from 'vue';
+import { useState } from './composable'
+import { useDisplay } from 'vuetify'
+
+defineOptions({
+  name: 'LayoutRouterView',
+})
 
 const runtimeStore = useRuntimeStore()
 const settingStore = useSettingStore()
@@ -11,11 +17,9 @@ const router = useRouter()
 const route = useRoute()
 const targetIndex = ref(-1)
 const followMenuRef = ref(null)
+const { xs } = useDisplay()
 
-const breadcrumbs = computed(() => {
-  const [, ...rest] = route.matched.map(r => ({ title: r.name }))
-  return rest
-})
+const state = useState()
 
 const openedRoutesComponentNames = computed(() => {
   const matched = runtimeStore.openedRoutes.map(r => r.matched).flat()
@@ -161,8 +165,8 @@ watch(
           </v-tab>
         </v-tabs>
         <v-divider />
-        <!-- <v-breadcrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :items="breadcrumbs"> -->
-        <v-breadcrumbs class="pt-2 pb-2" :items="breadcrumbs">
+        
+        <v-breadcrumbs v-show="!xs" class="pt-2 pb-2" :items="state.breadcrumbs">
           <template #divider>
             <v-icon>forward</v-icon>
           </template>
@@ -235,6 +239,3 @@ watch(
     </VFollowMenu>
   </div>
 </template>
-
-<style lang="scss">
-</style>
