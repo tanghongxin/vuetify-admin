@@ -1,4 +1,4 @@
-import { useAccountStore } from '@/store'
+import { useAccountStore } from '@/stores'
 
 class PermissionsHelper {
   constructor () {

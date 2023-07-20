@@ -16,7 +16,7 @@ const request = axios.create({
 request.interceptors.request.use(
   async (config) => {
     // store/account login 方法 循环引用到 request
-    const { useAccountStore } = await import('@/store')
+    const { useAccountStore } = await import('@/stores')
     const { account } = useAccountStore()
     if (account?.token) {
       config.headers['Authorization'] = `Bearer ${account.token}`

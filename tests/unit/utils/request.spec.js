@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 import Adaptor from 'axios-mock-adapter'
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import { useAccountStore } from '@/store'
+import { useAccountStore } from '@/stores'
 import { vuetify } from 'tests/utils'
 import { mount, DOMWrapper } from '@vue/test-utils'
 import Toast from '@/components/Toast/Toast.vue'
 
-vi.mock('@/store', async () => ({
+vi.mock('@/stores', async () => ({
   useAccountStore: () => ({
     account: {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIyMDIxLTEwLTI0IDAwOjAwOjAwIiwibmFtZSI6InRvZ2V0dG95b3UifQ.XdF46NflSUjnt-adAc6rNZEXI1OD6nxtwGuhz9qkxUA',

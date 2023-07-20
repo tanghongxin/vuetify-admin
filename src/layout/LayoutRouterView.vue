@@ -1,6 +1,6 @@
 <script setup>
 import _ from 'lodash-es'
-import { useRuntimeStore, useSettingStore } from '@/store'
+import { useRuntimeStore, useSettingStore } from '@/stores'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, watch, nextTick } from 'vue'
 import { computed, defineOptions } from 'vue';

@@ -1,6 +1,6 @@
 <script setup>
 import { colors } from '@/config/themes'
-import { useSettingStore } from '@/store'
+import { useSettingStore } from '@/stores'
 import { defineOptions } from 'vue'
 
 defineOptions({

@@ -8,7 +8,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useSettingStore } from '@/store'
+import { useSettingStore } from '@/stores'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

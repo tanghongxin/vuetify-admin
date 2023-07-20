@@ -8,7 +8,7 @@ describe('permission', () => {
   const isRemoved = (selector) => !wrapper.find(selector).exists()
 
   beforeEach(() => {
-    vi.mock('@/store', () => ({
+    vi.mock('@/stores', () => ({
       useAccountStore: () => ({
         account: {
           permissions: ['get'],

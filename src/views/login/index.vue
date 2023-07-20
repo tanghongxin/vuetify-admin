@@ -1,5 +1,5 @@
 <script setup>
-import { useAccountStore } from '@/store'
+import { useAccountStore } from '@/stores'
 import { reactive } from 'vue'
 import { ref } from 'vue'
 

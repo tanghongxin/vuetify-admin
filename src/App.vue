@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { useSettingStore } from '@/store'
+import { useSettingStore } from '@/stores'
 export default {
   name: 'App',
   setup () {

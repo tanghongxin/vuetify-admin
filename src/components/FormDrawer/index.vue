@@ -41,7 +41,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useSettingStore } from '@/store'
+import { useSettingStore } from '@/stores'
 import VLoading from '@/components/VImplements/VLoading.vue'
 import { defineComponent } from 'vue'
 

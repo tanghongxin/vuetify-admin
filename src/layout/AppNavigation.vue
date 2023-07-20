@@ -2,7 +2,7 @@
 import RecursiveMenus from './LayoutRecursiveMenus.vue'
 import { defineOptions } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useAccountStore, useSettingStore } from '@/store'
+import { useAccountStore, useSettingStore } from '@/stores'
 
 defineOptions({
   name: 'AppContent',

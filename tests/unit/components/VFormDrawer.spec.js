@@ -3,7 +3,7 @@ import { FormDrawer } from '@/components/FormDrawer/index'
 import { vuetify } from 'tests/utils'
 import { VApp } from 'vuetify/components'
 
-vi.mock('@/store', () => ({
+vi.mock('@/stores', () => ({
   useSettingStore: null,
 }))
 

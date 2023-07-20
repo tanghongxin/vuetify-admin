@@ -1,4 +1,4 @@
-import { useAccountStore, useSettingStore } from '@/store'
+import { useAccountStore, useSettingStore } from '@/stores'
 import { useDisplay, useTheme } from 'vuetify'
 import { watch } from 'vue'
 
