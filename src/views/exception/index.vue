@@ -14,7 +14,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'Exception',
   computed: {
-    ...mapState(useSettingStore, { appThemeDark: 'appThemeDark' }),
+    ...mapState(useSettingStore, ['appThemeDark']),
   },
 })
 </script>

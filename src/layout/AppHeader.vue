@@ -1,35 +1,40 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 import { defineOptions } from 'vue'
-import { useActions, useMutations, useState } from './composable'
+import { storeToRefs } from 'pinia'
+import { useAccountStore, useSettingStore } from '@/store'
 
 defineOptions({
   name: 'AppHeader',
 })
 
 const { lgAndUp } = useDisplay()
-const actions = useActions()
-const mutations = useMutations()
-const state = useState()
+
+const { logout } = useAccountStore()
+const { username } = storeToRefs(useAccountStore())
+
+const { toggleAppNavigation, toggleAppSetting } = useSettingStore()
+const { appPermanentNavigation, appHeaderHeight } = storeToRefs(useSettingStore())
+
 const title = import.meta.env.VITE_APP_TITLE
 const repo = import.meta.env.VITE_GITHUB_REPO
 </script>
 
 <template>
   <v-app-bar
-    :clipped-left="state.appPermanentNavigation || lgAndUp"
+    :clipped-left="appPermanentNavigation || lgAndUp"
     app
     class="pr-4"
     color="primary darken-2"
     dark
     flat
-    :height="state.appHeaderHeight"
+    :height="appHeaderHeight"
   >
     <template #prepend>
       <v-expand-x-transition>
         <v-app-bar-nav-icon
-          v-show="!state.appPermanentNavigation"
-          @click.stop="mutations.toggleAppNavigation"
+          v-show="!appPermanentNavigation"
+          @click.stop="toggleAppNavigation"
         />
       </v-expand-x-transition>
     </template>
@@ -46,9 +51,9 @@ const repo = import.meta.env.VITE_GITHUB_REPO
         class="text-none"
         dark
         variant="text"
-        @click="actions.logout"
+        @click="logout"
       >
-        {{ state.username }}
+        {{ username }}
         <v-tooltip
           activator="parent"
           location="bottom"
@@ -60,7 +65,7 @@ const repo = import.meta.env.VITE_GITHUB_REPO
       <v-btn
         icon
         color="white"
-        @click="mutations.toggleAppSetting"
+        @click="toggleAppSetting"
       >
         <v-icon size="20">
           settings

@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, defineOptions } from 'vue'
-import { useState } from './composable'
+import { useBreadcrumbs } from './composable'
 import { defineAsyncComponent } from 'vue'
 
 const LayoutRecursiveMenus = defineAsyncComponent(() => import('./LayoutRecursiveMenus.vue'))
@@ -20,11 +20,11 @@ defineProps({
   },
 })
 
-const state = useState()
+const breadcrumbs = useBreadcrumbs()
 </script>
 
 <template>
-  <v-list class="py-0 recursive-menus" :opened="state.breadcrumbs.map(({ title }) => title)">
+  <v-list class="py-0 recursive-menus" :opened="breadcrumbs.map(({ title }) => title)">
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group

@@ -12,6 +12,8 @@ export const useAccountStore = defineStore('account', {
   }),
   getters: {
     hasLoggedIn: (state) => !!state.account?.token,
+    username: (state) => state.account?.username || '',
+    menus: (state) => state.account?.menus || [],
   },
   actions: {
     async login (payload) {
@@ -57,6 +59,7 @@ export const useAccountStore = defineStore('account', {
     },
     async logout () {
       await router.push(ENTRY_ROUTE.path)
+      // this.$reset()
       useLocalStorage('account', this.account = null)
       useRuntimeStore().setOpenedRoutes([])
       resetRouter()

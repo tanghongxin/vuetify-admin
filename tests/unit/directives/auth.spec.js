@@ -1,10 +1,8 @@
 import { mount } from '@vue/test-utils'
 import auth from '@/directives/auth'
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
-import { useAccountStore } from '@/store'
 
 describe('permission', () => {
-  let store
   let wrapper
 
   const isRemoved = (selector) => !wrapper.find(selector).exists()
@@ -18,8 +16,6 @@ describe('permission', () => {
         },
       }),
     }))
-
-    store = useAccountStore()
 
     const Component = {
       template: `

@@ -38,8 +38,6 @@ const FALLBACK_ROUTE = {
 
 const router = createRouter({ routes: [ENTRY_ROUTE], history: createWebHashHistory() })
 router.addRoute(DEFAULT_FALLBACK_ROUTE)
-router.beforeEach(() => {
-})
 router.afterEach((to) => {
   document.title = `${import.meta.env.VITE_APP_TITLE} - ${to.params.type || to.name}`
 })

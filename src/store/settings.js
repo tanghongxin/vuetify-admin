@@ -4,7 +4,7 @@ export const useSettingStore = defineStore('setting', {
   state: () => ({
     appHeaderHeight: document.body.clientWidth <= 600 ? 48 : 56,
     appNavigation: document.body.clientWidth > 1264,
-    appPermanentNavigation: false,
+    appPermanentNavigation: true,
     appTheme: 'red',
     appThemeDark: false,
     appSetting: false,

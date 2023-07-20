@@ -4,7 +4,7 @@ import { useRuntimeStore, useSettingStore } from '@/store'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, watch, nextTick } from 'vue'
 import { computed, defineOptions } from 'vue';
-import { useState } from './composable'
+import { useBreadcrumbs } from './composable'
 import { useDisplay } from 'vuetify'
 
 defineOptions({
@@ -19,7 +19,7 @@ const targetIndex = ref(-1)
 const followMenuRef = ref(null)
 const { xs } = useDisplay()
 
-const state = useState()
+const breadcrumbs = useBreadcrumbs()
 
 const openedRoutesComponentNames = computed(() => {
   const matched = runtimeStore.openedRoutes.map(r => r.matched).flat()
@@ -166,7 +166,7 @@ watch(
         </v-tabs>
         <v-divider />
         
-        <v-breadcrumbs v-show="!xs" class="pt-2 pb-2" :items="state.breadcrumbs">
+        <v-breadcrumbs v-show="!xs" class="pt-2 pb-2" :items="breadcrumbs">
           <template #divider>
             <v-icon>forward</v-icon>
           </template>

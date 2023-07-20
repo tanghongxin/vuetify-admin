@@ -74,7 +74,7 @@ export default defineComponent({
   },
   emits: ['update:model-value'],
   computed: {
-    ...mapState(useSettingStore, { appHeaderHeight: 'appHeaderHeight' }),
+    ...mapState(useSettingStore, ['appHeaderHeight']),
   },
 })
 </script>

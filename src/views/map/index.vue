@@ -14,7 +14,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'Map',
   computed: {
-    ...mapState(useSettingStore, { appThemeDark: 'appThemeDark' }),
+    ...mapState(useSettingStore, ['appThemeDark']),
   },
 })
 </script>
