@@ -5,7 +5,7 @@
 基于 vuetify3 的后台管理系统模板，内置动态路由、权限验证等功能
 
 ## 在线尝试
-[Live Demo](https://www.abyssal.site/vuetify-admin)
+[Live Demo](https://www.ado.icu/vuetify-admin)
 
 ## Features
 
