@@ -1,23 +1,161 @@
+<script setup>
+import _ from 'lodash-es'
+import { useRuntimeStore, useSettingStore } from '@/stores'
+import { useRouter, useRoute } from 'vue-router'
+import { ref, watch, nextTick } from 'vue'
+import { computed, defineOptions } from 'vue';
+import { useBreadcrumbs } from './composable'
+import { useDisplay } from 'vuetify'
+
+defineOptions({
+  name: 'LayoutRouterView',
+})
+
+const runtimeStore = useRuntimeStore()
+const settingStore = useSettingStore()
+const router = useRouter()
+const route = useRoute()
+const targetIndex = ref(-1)
+const followMenuRef = ref(null)
+const { xs } = useDisplay()
+
+const breadcrumbs = useBreadcrumbs()
+
+const openedRoutesComponentNames = computed(() => {
+  const matched = runtimeStore.openedRoutes.map(r => r.matched).flat()
+  const tags = matched.map(e => e.components.default.name)
+  return _.uniq(tags)
+})
+
+const handleClose = (index) =>{
+  // 当只有一个页签且为首页时，保持不动
+  if (runtimeStore.openedRoutes[index].path === '/home' && runtimeStore.openedRoutes.length <= 1) {
+    return
+  }
+
+  // 关闭当前激活页签
+  if (runtimeStore.openedRoutes[index].fullPath === route.fullPath) {
+    let to
+    // 优化向右移动
+    if (index <= runtimeStore.openedRoutes.length - 2) {
+      to = runtimeStore.openedRoutes[index + 1].fullPath
+    } else if (index >= 1) {
+      to = runtimeStore.openedRoutes[index - 1].fullPath
+    } else {
+      to = '/home'
+    }
+    router.push(to)
+  }
+  runtimeStore.setOpenedRoutes([
+    ...runtimeStore.openedRoutes.slice(0, index),
+    ...runtimeStore.openedRoutes.slice(index + 1),
+  ])
+}
+
+const handleCloseLeft = (index) => {
+  runtimeStore.setOpenedRoutes(runtimeStore.openedRoutes.slice(index))
+}
+
+const handleCloseRight = (index) => {
+  runtimeStore.setOpenedRoutes(runtimeStore.openedRoutes.slice(0, index + 1))
+}
+
+const handleCLoseOthers = (index) => {
+  runtimeStore.setOpenedRoutes([runtimeStore.openedRoutes[index]])
+}
+
+const handleTabsChange = async (fullPath) => {
+  await nextTick()
+  if (fullPath && fullPath !== route.fullPath) {
+    // router.push(fullPath)
+  }
+}
+
+const updateScrollTop = (scrollTop) => {
+  route.meta.scrollTop = scrollTop
+}
+
+const restoreScrollTop = (scrollTop) => {
+  updateScrollTop(scrollTop)
+  // TODO: 官方未发布最新 API
+  // setTimeout(this.$vuetify.goTo, 900, scrollTop, {
+  //   container: this.$refs['content'],
+  //   offset: this.appHeaderHeight * -1,
+  // })
+}
+
+const handleRouteChange = async () => {
+  const openedRoutes = runtimeStore.openedRoutes.slice()
+  const index = openedRoutes.findIndex(r => r.name === route.name)
+  const originalRoute = openedRoutes[index]
+  
+  if (index === -1) {
+    openedRoutes.push({ ...route })
+  } else {
+    openedRoutes.splice(index, 1, { ...route })
+  }
+  runtimeStore.setOpenedRoutes(openedRoutes)
+
+  // TODO: 记录可能不生效
+  if (originalRoute && originalRoute.meta.scrollTop) {
+    await nextTick()
+    restoreScrollTop(originalRoute.meta.scrollTop)
+  }
+}
+
+const handleCtxMenu = (e, index) => {
+  targetIndex.value = index
+  followMenuRef.value.show(e)
+}
+
+let unWatchRoute
+
+const watchRoute = () => watch(
+  () => route,
+  handleRouteChange,
+  { immediate: false, deep: true },
+)
+
+watch(
+  () => settingStore.appMultipleTabs,
+  (val) => {
+    let openedRoutes = []
+    if (val) {
+      // There could be an original value when route is redirected from /404
+      openedRoutes = runtimeStore.openedRoutes.length ? runtimeStore.openedRoutes: [{ ...route }]
+      unWatchRoute = watchRoute()
+    } else {
+      unWatchRoute && unWatchRoute()
+      unWatchRoute = null
+    }
+    window.route = route
+    window.test = openedRoutes[0]
+    runtimeStore.setOpenedRoutes(openedRoutes)
+  },
+  { immediate: true },
+)
+</script>
+
 <template>
   <div class="fill-height d-flex flex-column align-center justify-center">
     <v-expand-transition>
-      <div class="fill-width" v-if="appMultipleTabs">
+      <div class="fill-width" v-if="settingStore.appMultipleTabs">
         <v-tabs
-          :model-value="$route.fullPath"
+          :model-value="route.fullPath"
           show-arrows
           slider-color="primary darken-1"
           :height="48"
           @update:modelValue="handleTabsChange"
         >
           <v-tab
-            v-for="(route, index) in openedRoutes"
-            :key="route.name"
-            :value="route.fullPath"
-            :exact="route.name === $route.name"
-            :to="route.fullPath"
+            v-for="(r, index) in runtimeStore.openedRoutes"
+            :key="r.name"
+            :value="r.fullPath"
+            :exact="r.name === r.name"
+            :to="r.fullPath"
             @contextmenu="handleCtxMenu($event, index)"
           >
-            <span class="subtitle-1">{{ route.name }}</span>
+            <span class="subtitle-1">{{ r.name }}</span>
             <v-spacer tag="span" />
             <v-btn icon ripple small variant="text" @click.prevent="handleClose(index)">
               <v-icon small>
@@ -27,8 +165,8 @@
           </v-tab>
         </v-tabs>
         <v-divider />
-        <!-- <v-breadcrumbs v-show="!$vuetify.breakpoint.xsOnly" class="pt-2 pb-2" :items="breadcrumbs"> -->
-        <v-breadcrumbs class="pt-2 pb-2" :items="breadcrumbs">
+        
+        <v-breadcrumbs v-show="!xs" class="pt-2 pb-2" :items="breadcrumbs">
           <template #divider>
             <v-icon>forward</v-icon>
           </template>
@@ -54,8 +192,8 @@
         <div class="fill-height">
           <router-view v-slot="{ Component }">
             <v-slide-x-transition mode="out-in">
-              <keep-alive :include="appMultipleTabs ? openedRoutesComponentNames : []">
-                <component :is="Component" :key="$route.name" />
+              <keep-alive :include="settingStore.appMultipleTabs ? openedRoutesComponentNames : []">
+                <component :is="Component" :key="route.name" />
               </keep-alive>
             </v-slide-x-transition>
           </router-view>
@@ -63,9 +201,9 @@
       </v-container>
     </div>
 
-    <VFollowMenu ref="followMenu">
+    <VFollowMenu ref="followMenuRef">
       <v-list dense class="py-0">
-        <v-list-item dense @click="() => this.handleClose(this.targetIndex)">
+        <v-list-item dense @click="() => handleClose(targetIndex)">
           <template #prepend>
             <v-icon class="mr-1" small :size="16" tag="span">
               keyboard_arrow_down
@@ -73,7 +211,7 @@
             <v-list-item-title>关闭选中标签</v-list-item-title>
           </template>
         </v-list-item>
-        <v-list-item dense @click="() => this.handleCloseRight(this.targetIndex)" :disabled="targetIndex >= openedRoutes.length - 1">
+        <v-list-item dense @click="() => handleCloseRight(targetIndex)" :disabled="targetIndex >= runtimeStore.openedRoutes.length - 1">
           <template #prepend>
             <v-icon class="mr-1" small :size="16" tag="span">
               keyboard_arrow_right
@@ -81,7 +219,7 @@
             <v-list-item-title>关闭右侧标签</v-list-item-title>
           </template>
         </v-list-item>
-        <v-list-item dense @click="() => this.handleCloseLeft(this.targetIndex)" :disabled="targetIndex < 1">
+        <v-list-item dense @click="() => handleCloseLeft(targetIndex)" :disabled="targetIndex < 1">
           <template #prepend>
             <v-icon class="mr-1" small :size="16" tag="span">
               keyboard_arrow_left
@@ -89,7 +227,7 @@
             <v-list-item-title>关闭左侧标签</v-list-item-title>
           </template>
         </v-list-item>
-        <v-list-item dense @click="this.handleCLoseOthers(this.targetIndex)" :disabled="openedRoutes.length <= 1">
+        <v-list-item dense @click="handleCLoseOthers(targetIndex)" :disabled="runtimeStore.openedRoutes.length <= 1">
           <template #prepend>
             <v-icon class="mr-1" small :size="16" tag="span">
               keyboard_arrow_up
@@ -101,135 +239,3 @@
     </VFollowMenu>
   </div>
 </template>
-
-<script>
-import _ from 'lodash-es'
-import { mapMutations, mapState } from 'vuex'
-import { RuntimeMutations } from '@/store/modules'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'LayoutRouterView',
-  data () {
-    return {
-      targetIndex: -1,
-    }
-  },
-  computed: {
-    ...mapState('setting', ['appHeaderHeight', 'appMultipleTabs']),
-    ...mapState('runtime', ['openedRoutes']),
-    breadcrumbs () {
-      const [, ...rest] = this.$route.matched.map(r => ({ title: r.name }))
-      return rest
-    },
-    openedRoutesComponentNames () {
-      const matched = this.openedRoutes.map(r => r.matched).flat()
-      const tags = matched.map(e => e.components.default.name)
-      return _.uniq(tags)
-    },
-  },
-  methods: {
-    ...mapMutations('runtime', {
-      setOpenedRoutes: RuntimeMutations.SET_OPENED_ROUTES,
-    }),
-    handleClose (index) {
-      // 当只有一个页签且为首页时，保持不动
-      if (this.openedRoutes[index].path === '/home' && this.openedRoutes.length <= 1) {
-        return
-      }
-
-      // 关闭当前激活页签
-      if (this.openedRoutes[index].fullPath === this.$route.fullPath) {
-        let to
-        // 优化向右移动
-        if (index <= this.openedRoutes.length - 2) {
-          to = this.openedRoutes[index + 1].fullPath
-        } else if (index >= 1) {
-          to = this.openedRoutes[index - 1].fullPath
-        } else {
-          to = '/home'
-        }
-        this.$router.push(to)
-      }
-      this.setOpenedRoutes([
-        ...this.openedRoutes.slice(0, index),
-        ...this.openedRoutes.slice(index + 1),
-      ])
-    },
-    handleCloseLeft (index) {
-      this.setOpenedRoutes(this.openedRoutes.slice(index))
-    },
-    handleCLoseOthers (index) {
-      this.setOpenedRoutes([this.openedRoutes[index]])
-    },
-    handleCloseRight (index) {
-      this.setOpenedRoutes(this.openedRoutes.slice(0, index + 1))
-    },
-    handleCtxMenu (e, index) {
-      this.targetIndex = index
-      this.$refs['followMenu'].show(e)
-    },
-    handleTabsChange (fullPath) {
-      if (fullPath && fullPath !== this.$route.fullPath) {
-        this.$router.push(fullPath)
-      }
-    },
-    updateScrollTop (scrollTop) {
-      this.$route.meta.scrollTop = scrollTop
-    },
-    restoreScrollTop (scrollTop) {
-      this.updateScrollTop(scrollTop)
-      // TODO: 官方未发布最新 API
-      // setTimeout(this.$vuetify.goTo, 900, scrollTop, {
-      //   container: this.$refs['content'],
-      //   offset: this.appHeaderHeight * -1,
-      // })
-    },
-    async handleRouteChange () {
-      const openedRoutes = this.openedRoutes.slice()
-      const index = openedRoutes.findIndex(r => r.name === this.$route.name)
-      const originalRoute = openedRoutes[index]
-
-      if (index === -1) {
-        openedRoutes.push(this.$route)
-      } else {
-        openedRoutes.splice(index, 1, this.$route)
-      }
-      this.setOpenedRoutes(openedRoutes)
-
-      if (originalRoute && originalRoute.meta.scrollTop) {
-        await this.$nextTick()
-        this.restoreScrollTop(originalRoute.meta.scrollTop)
-      }
-    },
-  },
-  created () {
-    let unWatchRoute
-
-    const watchRoute = () => this.$watch(
-      () => this.$route,
-      this.handleRouteChange,
-    )
-
-    this.$watch(
-      () => this.appMultipleTabs,
-      (val) => {
-        let openedRoutes = []
-        if (val) {
-          // There could be an original value when route is redirected from /404
-          openedRoutes = this.openedRoutes.length ? this.openedRoutes: [this.$route]
-          unWatchRoute = watchRoute()
-        } else {
-          unWatchRoute && unWatchRoute()
-          unWatchRoute = null
-        }
-        this.setOpenedRoutes(openedRoutes)
-      },
-      { immediate: true },
-    )
-  },
-})
-</script>
-
-<style lang="scss">
-</style>

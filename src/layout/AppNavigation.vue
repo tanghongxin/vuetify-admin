@@ -1,41 +1,27 @@
-<template>
-  <v-navigation-drawer
-    :model-value="state.appPermanentNavigation || state.appNavigation"
-    :permanent="state.appPermanentNavigation"
-    @update:modelValue="mutations.toggleAppNavigation"
-  >
-    <RecursiveMenus :items="store.state.account.menus" />
-  </v-navigation-drawer>
-</template>
-
-<script>
+<script setup>
 import RecursiveMenus from './LayoutRecursiveMenus.vue'
-import { defineComponent } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useStore } from 'vuex'
-import { useState, useMutations } from './composable'
+import { defineOptions } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAccountStore, useSettingStore } from '@/stores'
 
-export default defineComponent({
-  name: 'AppNavigation',
-  components: {
-    RecursiveMenus,
-  },
-  setup () {
-    const { lgAndUp } = useDisplay()
-    const store = useStore()
-    const state = useState()
-    const mutations = useMutations()
-
-    return {
-      lgAndUp,
-      store,
-      state,
-      mutations,
-    }
-  },
+defineOptions({
+  name: 'AppContent',
 })
+
+const accountStore = useAccountStore()
+
+const { toggleAppNavigation } = useSettingStore()
+const {
+  appPermanentNavigation, appNavigation,
+} = storeToRefs(useSettingStore())
 </script>
 
-<style>
-
-</style>
+<template>
+  <v-navigation-drawer
+    :model-value="appPermanentNavigation || appNavigation"
+    :permanent="appPermanentNavigation"
+    @update:modelValue="toggleAppNavigation"
+  >
+    <RecursiveMenus :items="accountStore.menus" />
+  </v-navigation-drawer>
+</template>

@@ -1,14 +1,26 @@
+<script setup>
+import { colors } from '@/config/themes'
+import { useSettingStore } from '@/stores'
+import { defineOptions } from 'vue'
+
+defineOptions({
+  name: 'AppSetting',
+})
+
+const store = useSettingStore()
+</script>
+
 <template>
   <div class="app-setting">
     <v-navigation-drawer
-      :model-value="state.appSetting"
+      :model-value="store.appSetting"
       location="right"
       temporary
-      @update:model-value="mutations.toggleAppSetting"
+      @update:model-value="store.toggleAppSetting"
     >
       <template #prepend>
         <v-toolbar
-          :height="state.appHeaderHeight"
+          :height="store.appHeaderHeight"
           slot="prepend"
           color="primary lighten-1"
         >
@@ -24,9 +36,9 @@
             </p>
             <v-switch
               color="primary"
-              :model-value="state.appPermanentNavigation"
+              :model-value="store.appPermanentNavigation"
               label="导航栏固定左侧"
-              @change="mutations.toggleAppPermanentNavigation"
+              @change="store.toggleAppPermanentNavigation"
             />
           </div>
           
@@ -36,9 +48,9 @@
             </p>
             <v-switch
               color="primary"
-              :model-value="state.appThemeDark"
+              :model-value="store.appThemeDark"
               label="深色模式"
-              @change="mutations.toggleAppThemeDark"
+              @change="store.toggleAppThemeDark"
             />
           </div>
 
@@ -48,9 +60,9 @@
             </p>
             <v-switch
               color="primary"
-              :model-value="state.appMultipleTabs"
+              :model-value="store.appMultipleTabs"
               label="多页签"
-              @change="mutations.toggleAppMultipleTabs"
+              @change="store.toggleAppMultipleTabs"
             />
           </div>
 
@@ -61,14 +73,14 @@
             <div class="color-option">
               <div class="d-flex flex-row flex-wrap">
                 <label
-                  v-for="colorName in colors"
+                  v-for="colorName in Object.keys(colors)"
                   :key="colorName"
                   class="app-setting__label flex pa-1"
                 >
                   <input
                     type="radio"
-                    :checked="colorName === state.appTheme"
-                    @input="mutations.setAppTheme(colorName)"
+                    :checked="colorName === store.appTheme"
+                    @input="store.setAppTheme(colorName)"
                   >
                   <span class="app-setting__item bg">
                     <span class="overlay">
@@ -87,23 +99,6 @@
     </v-navigation-drawer>
   </div>
 </template>
-
-<script>
-import { colors } from '@/config/themes'
-import { defineComponent } from 'vue'
-import { useMutations, useState } from './composable'
-
-export default defineComponent({
-  name: 'AppSetting',
-  setup () {
-    return {
-      mutations: useMutations(),
-      state: useState(),
-      colors: Object.keys(colors),
-    }
-  },
-})
-</script>
 
 <style lang="scss">
 .app-setting {

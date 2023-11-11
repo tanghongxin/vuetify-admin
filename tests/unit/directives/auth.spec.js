@@ -3,22 +3,18 @@ import auth from '@/directives/auth'
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 
 describe('permission', () => {
-  let store
   let wrapper
 
   const isRemoved = (selector) => !wrapper.find(selector).exists()
 
   beforeEach(() => {
-    vi.mock('@/store', () => ({
-      default: {
-        state: {
-          account: {
-            permissions: ['get'],
-            roles: ['student'],
-          },
+    vi.mock('@/stores', () => ({
+      useAccountStore: () => ({
+        account: {
+          permissions: ['get'],
+          roles: ['student'],
         },
-    
-      },
+      }),
     }))
 
     const Component = {

@@ -1,28 +1,29 @@
-import { AccountActions, SettingMutations } from '@/store/modules'
-import { useStore } from 'vuex'
+import { useAccountStore, useSettingStore } from '@/stores'
 import { useDisplay, useTheme } from 'vuetify'
 import { watch } from 'vue'
 
 export default function setup () {
-  const store = useStore()
+  const accountStore = useAccountStore()
+  const settingStore = useSettingStore()
   const { xs } = useDisplay()
   const theme = useTheme()
 
   watch(
     () => xs.value,
-    () => store.commit('setting/' + SettingMutations.SET_APP_HEADER_HEIGHT, xs.value ? 48 : 56),
+    () => settingStore.setAppHeaderHeight(xs.value ? 48 : 56),
     { immediate: true },
   )
 
   watch(
-    () => [store.state.setting.appTheme, store.state.setting.appThemeDark],
+    () => [settingStore.appTheme, settingStore.appThemeDark],
     ([appTheme, appThemeDark]) => {
       setTimeout(() => {
         theme.global.name.value = `${appTheme}${appThemeDark ? `DarkTheme` : 'LightTheme'}`
+        // TODO
       })
     },
     { immediate: true },
   )
 
-  store.dispatch('account/' + AccountActions.BUILD_ROUTES)
+  accountStore.buildRoutes()
 }

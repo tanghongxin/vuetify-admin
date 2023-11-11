@@ -1,18 +1,40 @@
+<script setup>
+import { useDisplay } from 'vuetify'
+import { defineOptions } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAccountStore, useSettingStore } from '@/stores'
+
+defineOptions({
+  name: 'AppHeader',
+})
+
+const { lgAndUp } = useDisplay()
+
+const { logout } = useAccountStore()
+const { username } = storeToRefs(useAccountStore())
+
+const { toggleAppNavigation, toggleAppSetting } = useSettingStore()
+const { appPermanentNavigation, appHeaderHeight } = storeToRefs(useSettingStore())
+
+const title = import.meta.env.VITE_APP_TITLE
+const repo = import.meta.env.VITE_GITHUB_REPO
+</script>
+
 <template>
   <v-app-bar
-    :clipped-left="state.appPermanentNavigation || state.lgAndUp"
+    :clipped-left="appPermanentNavigation || lgAndUp"
     app
     class="pr-4"
     color="primary darken-2"
     dark
     flat
-    :height="state.appHeaderHeight"
+    :height="appHeaderHeight"
   >
     <template #prepend>
       <v-expand-x-transition>
         <v-app-bar-nav-icon
-          v-show="!state.appPermanentNavigation"
-          @click.stop="mutations.toggleAppNavigation"
+          v-show="!appPermanentNavigation"
+          @click.stop="toggleAppNavigation"
         />
       </v-expand-x-transition>
     </template>
@@ -29,9 +51,9 @@
         class="text-none"
         dark
         variant="text"
-        @click="actions.logout"
+        @click="logout"
       >
-        {{ state.username }}
+        {{ username }}
         <v-tooltip
           activator="parent"
           location="bottom"
@@ -43,7 +65,7 @@
       <v-btn
         icon
         color="white"
-        @click="mutations.toggleAppSetting"
+        @click="toggleAppSetting"
       >
         <v-icon size="20">
           settings
@@ -84,27 +106,3 @@
     </template>
   </v-app-bar>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useActions, useMutations, useState } from './composable'
-
-export default defineComponent({
-  name: 'AppHeader',
-  setup () {
-    const { lgAndUp } = useDisplay()
-    return {
-      actions: useActions(),
-      mutations: useMutations(),
-      state: Object.assign(useState(), { lgAndUp }),
-      title: import.meta.env.VITE_APP_TITLE,
-      repo: import.meta.env.VITE_GITHUB_REPO,
-    }
-  },
-})
-</script>
-
-<style lang="scss">
-
-</style>

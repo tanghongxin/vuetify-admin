@@ -1,5 +1,30 @@
+<script setup>
+import { defineProps, defineOptions } from 'vue'
+import { useBreadcrumbs } from './composable'
+import { defineAsyncComponent } from 'vue'
+
+const LayoutRecursiveMenus = defineAsyncComponent(() => import('./LayoutRecursiveMenus.vue'))
+
+defineOptions({
+  name: 'LayoutRecursiveMenus',
+})
+
+defineProps({
+  items: {
+    type: Array,
+    default: () => [],
+  },
+  sub: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const breadcrumbs = useBreadcrumbs()
+</script>
+
 <template>
-  <v-list class="py-0 recursive-menus" :opened="$route.matched.slice(1).map(({ name }) => name)">
+  <v-list class="py-0 recursive-menus" :opened="breadcrumbs.map(({ title }) => title)">
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group
@@ -36,24 +61,6 @@
     </template>
   </v-list>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'LayoutRecursiveMenus',
-  props: {
-    items: {
-      type: Array,
-      default: () => [],
-    },
-    sub: {
-      type: Boolean,
-      default: false,
-    },
-  },
-})
-</script>
 
 <style lang="scss">
 .group-sub {

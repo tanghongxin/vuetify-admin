@@ -1,7 +1,7 @@
 import { createApp, h } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-import store from './store'
 
 import plugins from './plugins'
 import setup from './setup'
@@ -15,10 +15,10 @@ const app = createApp({
 })
 
 app
+  .use(createPinia())
   .use(plugins)
   .use(globalComponents)
   .use(globalDirectives)
-  .use(store)
   .use(router)
   .mount('#app')
 

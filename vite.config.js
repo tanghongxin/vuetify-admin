@@ -29,10 +29,11 @@ export default defineConfig(({ mode }) => {
           modules: [
             autoComplete('vue'),
             autoComplete('axios'),
+            autoComplete('@vueuse/core'),
             {
-              name: 'vuex',
-              var: 'Vuex',
-              path: 'dist/vuex.global.min.js',
+              name: 'pinia',
+              var: 'Pinia',
+              path: 'dist/pinia.iife.min.js',
             },
             {
               name: 'vue-router',

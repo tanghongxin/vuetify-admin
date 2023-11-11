@@ -3,11 +3,15 @@ import { FormDrawer } from '@/components/FormDrawer/index'
 import { vuetify } from 'tests/utils'
 import { VApp } from 'vuetify/components'
 
-vi.mock('vuex', () => ({
+vi.mock('@/stores', () => ({
+  useSettingStore: null,
+}))
+
+vi.mock('pinia', () => ({
   mapState () {
     return {
       appHeaderHeight () {
-        return 50
+        return 60
       },
     }
   },

@@ -1,3 +1,26 @@
+<script setup>
+import { useAccountStore } from '@/stores'
+import { reactive } from 'vue'
+import { ref } from 'vue'
+
+const formData = reactive({
+  username: 'Admin',
+  password: 'h97rpXts8',
+})
+const loading = ref(false)
+
+const accountStore = useAccountStore()
+
+const handleSubmit = async () => {
+  try {
+    loading.value = true
+    await accountStore.login(formData)
+  } finally {
+    loading.value = false
+  }
+}
+</script>
+
 <template>
   <v-container class="d-flex fill-height" fluid align="center" justify="center">
     <v-row class="full-height" align="center" justify="center">
@@ -53,45 +76,6 @@
     </v-row>
   </v-container>
 </template>
-
-<script>
-import { mapActions } from 'vuex'
-import { AccountActions } from '@/store/modules/account'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Login',
-  data: () => ({
-    formData: {
-      username: '',
-      password: '',
-    },
-    loading: false,
-  }),
-  methods: {
-    ...mapActions('account', {
-      login: AccountActions.LOGIN,
-    }),
-    async handleSubmit () {
-      if (!this.$refs.form.validate()) return
-      try {
-        this.loading = true
-        await this.login(this.formData)
-      } finally {
-        this.loading = false
-      }
-    },
-  },
-  mounted () {
-    setTimeout(() => {
-      this.formData = {
-        username: 'Admin',
-        password: 'h97rpXts8@qzj7wp',
-      }
-    }, 450)
-  },
-})
-</script>
 
 <style lang="scss">
 

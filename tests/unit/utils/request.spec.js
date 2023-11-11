@@ -1,28 +1,27 @@
 import request from '@/utils/request'
 import Adaptor from 'axios-mock-adapter'
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
-import store from '@/store'
+import { useAccountStore } from '@/stores'
 import { vuetify } from 'tests/utils'
 import { mount, DOMWrapper } from '@vue/test-utils'
 import Toast from '@/components/Toast/Toast.vue'
 
-vi.mock('@/store', async () => ({
-  default: {
-    state: {
-      account: {
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIyMDIxLTEwLTI0IDAwOjAwOjAwIiwibmFtZSI6InRvZ2V0dG95b3UifQ.XdF46NflSUjnt-adAc6rNZEXI1OD6nxtwGuhz9qkxUA',
-      },
+vi.mock('@/stores', async () => ({
+  useAccountStore: () => ({
+    account: {
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIyMDIxLTEwLTI0IDAwOjAwOjAwIiwibmFtZSI6InRvZ2V0dG95b3UifQ.XdF46NflSUjnt-adAc6rNZEXI1OD6nxtwGuhz9qkxUA',
     },
-  },
+  }),
 }))
 
 describe('request', async () => {
   const bodyWrapper = new DOMWrapper(document.body)
-  let adaptor, toast
+  let adaptor, toast, store
 
   beforeEach(() => {
     toast = mount(Toast, { global: { plugins: [vuetify()] } })
     adaptor = new Adaptor(request, { delayResponse: 300 })
+    store = useAccountStore()
   })
 
   afterEach(() => {
@@ -41,6 +40,6 @@ describe('request', async () => {
   it('Should have the same JWT token in header with Vuex', async () => {
     adaptor.onPost(/test/).reply(() => [200])
     const { config } = await request.post('/test')
-    expect(config.headers.Authorization).toEqual(`Bearer ${store.state.account.token}`)
+    expect(config.headers.Authorization).toEqual(`Bearer ${store.account.token}`)
   })
 })
