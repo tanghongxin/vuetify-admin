@@ -54,7 +54,7 @@
     "jsdom": "^22.1.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.56.1",
-    "vite": "^4.4.2",
+    "vite": "^4.4.12",
     "vite-plugin-cdn-import": "^0.3.5",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
