@@ -98,14 +98,4 @@ describe('DataTable', () => {
 
     refreshWrapper.trigger('click')
   }))
-
-  // TODO
-  it.skip('The first and the last columns can be fixed', async () => {
-    await wrapper.vm.$nextTick()
-    const ths = Array.from(wrapper.vm.$el.getElementsByTagName('th'))
-
-    // TODO: why need configure `attachTo: body`?
-    expect(window.getComputedStyle(ths[0]).position).toEqual('sticky')
-    expect(window.getComputedStyle(ths[ths.length - 1]).position).toEqual('sticky')
-  })
 })

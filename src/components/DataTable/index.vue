@@ -1,7 +1,5 @@
 <template>
   <div class="data-table fill-width fill-height d-flex flex-column">
-    <css-style :content="fixedColumnsStyle" />
-
     <v-form>
       <slot name="search" />
 
@@ -23,14 +21,14 @@
         fixed-header
         :headers="headers"
         :items="items"
-        :multi-sort="multiSort"
-        ref="table"
         :items-length="total"
         :loading="loading"
         loading-text="加载中"
-        :page="options.page"
-        v-model:items-per-page="options.itemsPerPage"
+        :multi-sort="multiSort"
         :no-data-text="loading ? '加载中...' : '暂无数据'"
+        :page="options.page"
+        ref="table"
+        v-model:items-per-page="options.itemsPerPage"
         @update:options="fetch($event)"
       >
         <template v-for="(_, slot) of $slots" #[slot]="scope">
@@ -70,16 +68,6 @@ export default defineComponent({
       total: 0,
     }
   },
-  computed: {
-    // FIXME: does not work
-    fixedColumnsStyle () {
-      const { left = [], right = [] } = this.pickFixedColumns()
-      return [
-        ...this.calcFixedColumnCls(left, true),
-        ...this.calcFixedColumnCls(right, false),
-      ].join('\r\n')
-    },
-  },
   methods: {
     async fetch (options = {}) {
       try {
@@ -88,10 +76,6 @@ export default defineComponent({
         Object.assign(this, { items, total })
         await this.$nextTick()
         await this.scrollToTop()
-      } catch (e) {
-        this.items = []
-        this.total = 0
-        throw e
       } finally {
         this.loading = false
       }
@@ -106,41 +90,6 @@ export default defineComponent({
     scrollToTop () {
       const tableWrapper = this.$refs['table'].$el.getElementsByClassName('v-table__wrapper')[0]
       tableWrapper.scroll({ top: 0, behavior: 'smooth' })
-    },
-    pickFixedColumns () {
-      if ([0, 1].includes(this.headers.length)) {
-        return {}
-      }
-
-      const [left] = this.headers
-      const [right] = this.headers.slice(-1)
-      return {
-        left: left.fixed ? [1] : [],
-        right: right.fixed ? [1] : [],
-      }
-    },
-    // TODO: calc multiple sticky items' left / right
-    calcFixedColumnCls (cols = [], left = false) {
-      const rootSelector = '.data-table:not(.v-data-table--mobile)'
-      const nth = num => `nth${left ? '' : '-last'}-child(${num})`
-
-      return cols.map(col => `
-        ${rootSelector} tbody tr > td:${nth(col)},
-        ${rootSelector} thead tr > th:${nth(col)} {
-          background: var(--background-color);
-          position: sticky;
-          ${left ? 'left' : 'right'}: 0;
-          z-index: 2;
-        }
-
-        ${rootSelector} tbody tr:hover > td:${nth(col)} {
-          background: inherit;
-        }
-
-        ${rootSelector} thead > tr > th:${nth(col)} {
-          z-index: 3;
-        }
-      `)
     },
   },
 })
