@@ -2,18 +2,15 @@
   <div class="t-search" :id="`${state.id}`">
     <v-autocomplete
       :attach="`#${state.id}`"
-      variant="solo"
       autofocus
       clearable
       color="primary"
       flat
+      :filter-keys="['name']"
       height="30"
+      hide-no-data
       :items="state.searchResults"
       item-title="name"
-      :filter-keys="['name']"
-      hide-no-data
-      return-object
-      placeholder="输入地址搜索"
       :loading="state.loading"
       :menu-props="{
         attach: `#${state.id}`,
@@ -22,6 +19,9 @@
         maxWidth: 350,
         transition: 'slide-y-transition',
       }"
+      placeholder="输入地址搜索"
+      return-object
+      variant="solo"
       @update:search="search"
       @update:model-value="select"
     >
