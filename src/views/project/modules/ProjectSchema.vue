@@ -5,6 +5,7 @@
     :title="`${formData.id ? '编辑' : '新增'}项目`"
     v-model="visible"
     :width="680"
+    @close="close"
   >
     <template #content>
       <v-form ref="form">

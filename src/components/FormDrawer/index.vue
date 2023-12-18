@@ -72,9 +72,18 @@ export default defineComponent({
       default: 650,
     },
   },
-  emits: ['update:model-value'],
+  emits: [
+    'update:model-value',
+    'open',
+    'close',
+  ],
   computed: {
     ...mapState(useSettingStore, ['appHeaderHeight']),
+  },
+  watch: {
+    modelValue (v) {
+      this.$emit(v ? 'open' : 'close')
+    },
   },
 })
 </script>
