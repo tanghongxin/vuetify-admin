@@ -17,6 +17,7 @@ const router = useRouter()
 const route = useRoute()
 const targetIndex = ref(-1)
 const followMenuRef = ref(null)
+const containerRef = ref(null)
 const { xs } = useDisplay()
 
 const breadcrumbs = useBreadcrumbs()
@@ -77,11 +78,9 @@ const updateScrollTop = (scrollTop) => {
 
 const restoreScrollTop = (scrollTop) => {
   updateScrollTop(scrollTop)
-  // TODO: 官方未发布最新 API
-  // setTimeout(this.$vuetify.goTo, 900, scrollTop, {
-  //   container: this.$refs['content'],
-  //   offset: this.appHeaderHeight * -1,
-  // })
+  setTimeout(() => {
+    containerRef.value.$el.scroll({ top: scrollTop, behavior: 'smooth' })
+  }, 800)
 }
 
 const handleRouteChange = async () => {
@@ -96,7 +95,6 @@ const handleRouteChange = async () => {
   }
   runtimeStore.setOpenedRoutes(openedRoutes)
 
-  // TODO: 记录可能不生效
   if (originalRoute && originalRoute.meta.scrollTop) {
     await nextTick()
     restoreScrollTop(originalRoute.meta.scrollTop)
@@ -178,7 +176,7 @@ watch(
       <v-container
         class="overflow-x-hidden overflow-y-auto py-1 px-1 "
         fluid
-        ref="content"
+        ref="containerRef"
         :style="{
           position: 'absolute',
           top: 0,
