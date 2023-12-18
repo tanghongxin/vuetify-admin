@@ -19,7 +19,6 @@ export default function setup () {
     ([appTheme, appThemeDark]) => {
       setTimeout(() => {
         theme.global.name.value = `${appTheme}${appThemeDark ? `DarkTheme` : 'LightTheme'}`
-        // TODO
       })
     },
     { immediate: true },

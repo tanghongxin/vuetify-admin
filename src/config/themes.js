@@ -33,19 +33,11 @@ const colors = {
 const themes = {}
 
 Object.keys(colors).forEach((color) => {
-  // TODO: 主题色搭配
   Object.assign(themes, {
     [`${color}LightTheme`]: {
       dark: false,
       colors: {
         primary: colors[color].base,
-        background: '#FFFFFF',
-        surface: '#FFFFFF',
-        secondary: '#03DAC6',
-        error: '#B00020',
-        info: '#2196F3',
-        success: '#4CAF50',
-        warning: '#FB8C00',
       },
     },
   }, {
@@ -53,10 +45,6 @@ Object.keys(colors).forEach((color) => {
       dark: true,
       colors: {
         primary: colors[color].base,
-        accent: colors[color].darken1,
-        error: colors[color].accent3,
-        background: colors[color].lighten5,
-        info: colors[color].darken1,
       },
     },
   })
