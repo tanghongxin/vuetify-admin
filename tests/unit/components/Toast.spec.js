@@ -64,18 +64,30 @@ describe('Toast', () => {
     expect(bodyWrapper.find('.v-snackbar__content').exists()).toBe(false)
   })
 
-  it.skip('Only Render close button when length < 2', async () => {
+  it('Render close button', async () => {
     toast.success({ message })
     await wrapper.vm.$nextTick()
-    expect(bodyWrapper.findAll('button').length).toEqual(1)
+    const buttonWrapper = bodyWrapper.find('.v-btn')
+    expect(buttonWrapper.exists()).toBe(true)
+
+    buttonWrapper.element.click()
+    await wrapper.vm.$nextTick()
+    expect(bodyWrapper.find('.v-btn').exists()).toBe(false)
   })
 
-  // TODO
-  it.skip('Render next and close buttons when length > 2', async () => {
-    // toast.success({ message })
-    // toast.success({ message })
-    // await wrapper.vm.$nextTick()
-    // const buttonWrapperArray = bodyWrapper.findAll('button')
-    // expect(buttonWrapperArray.length).toEqual(2)
+  it('Render next button when length > 1', async () => {
+    toast.success({ message })
+    toast.success({ message })
+    await wrapper.vm.$nextTick()
+    const buttonWrapper = bodyWrapper.find('.v-btn')
+    expect(
+      buttonWrapper.text().includes('下一条 （1 +）'),
+    ).toBe(true)
+
+    toast.success({ message })
+    await wrapper.vm.$nextTick()
+    expect(
+      buttonWrapper.text().includes('下一条 （2 +）'),
+    ).toBe(true)
   })
 })

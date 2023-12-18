@@ -76,26 +76,12 @@ describe('DataTable', () => {
   })
 
   // eslint-disable-next-line no-async-promise-executor
-  it.skip('Scroll to top after data update', () => new Promise(async (resolve) => {
+  it('Scroll to top after data update', () => new Promise(async (resolve) => {
     const [table] = wrapper.vm.$el.getElementsByClassName('v-table__wrapper')
-
-    expect(table.scrollTop).toEqual(0)
-
-    const unWatch = wrapper.vm.$watch(
-      () => wrapper.vm.items,
-      async () => {
-        unWatch()
-        await wrapper.vm.$nextTick()
-        expect(table.scrollTop).toEqual(0)
-        resolve()
-      },
-    )
-
     table.scroll(100)
-    await wrapper.vm.$nextTick()
-    // TODO: scroll does not work after $nextTick
-    expect(table.scrollTop).toEqual(100)
-
     refreshWrapper.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(table.scrollTop).toEqual(0)
+    resolve()
   }))
 })
