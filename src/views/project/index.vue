@@ -14,7 +14,7 @@
       </template>
 
       <template #actions>
-        <v-btn class="mr-2" variant="flat" tile @click="handleAdd">
+        <v-btn class="mr-2" variant="tonal" tile @click="handleAdd">
           新增项目
         </v-btn>
       </template>

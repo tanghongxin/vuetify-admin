@@ -8,7 +8,6 @@ describe('VImgUpload', () => {
   let wrapper, toast
 
   beforeEach(() => {
-    // TODO: 复用
     toast = mount(Toast, { global: { plugins: [vuetify()] } })
     wrapper = mount(VImgUpload)
   })

@@ -6,10 +6,10 @@
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" variant="flat" tile type="submit" @click.stop.prevent="refresh(true)">
+        <v-btn class="mr-2" variant="tonal" tile type="submit" @click.stop.prevent="refresh(true)">
           查询
         </v-btn>
-        <v-btn variant="flat" tile @click="refresh()">
+        <v-btn variant="tonal" tile @click="refresh()">
           刷新
         </v-btn>
       </div>

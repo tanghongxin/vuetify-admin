@@ -1,5 +1,4 @@
 import TMapLoader from '@/components/TMap/TMapLoader'
-// import { sleep } from '../../utils'
 import jsdom from 'jsdom'
 
 describe('TMapLoader', () => {
@@ -27,8 +26,6 @@ describe('TMapLoader', () => {
       includeNodeLocations: true,
     })
 
-    // // wait for window load
-    // await sleep(100) // TODO: 使用 sleep 导致超时
     vi.spyOn(global, "document", "get").mockImplementation(() => DOM.window.document)
     vi.spyOn(global, "window", "get").mockImplementation(() => DOM.window)
 

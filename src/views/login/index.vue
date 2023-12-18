@@ -28,7 +28,7 @@ const handleSubmit = async () => {
         <v-form ref="form">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
-              <v-toolbar-title>Login form</v-toolbar-title>
+              <v-toolbar-title>用户登录</v-toolbar-title>
               <v-spacer />
             </v-toolbar>
           
@@ -36,7 +36,7 @@ const handleSubmit = async () => {
               <v-text-field
                 variant="underlined"
                 autofocus
-                label="Login"
+                label="用户名"
                 name="login"
                 prepend-icon="person"
                 :rules="[v => !!v || '请输入用户名']"
@@ -48,7 +48,7 @@ const handleSubmit = async () => {
               <v-text-field
                 variant="underlined"
                 id="password"
-                label="Password"
+                label="密码"
                 name="password"
                 prepend-icon="lock"
                 :rules="[v => !!v || '请输入密码']"

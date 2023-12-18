@@ -6,7 +6,6 @@ class PermissionsHelper {
       this.accountStore = useAccountStore()
       
       PermissionsHelper.prototype.instance = this
-
     }
     return PermissionsHelper.prototype.instance
   }
@@ -38,7 +37,6 @@ class PermissionsHelper {
 
 export default {
   install (app) {
-    // TODO: 确保 install 前 pinia 已被正确 install
     const permissionHelper = new PermissionsHelper()
 
     const directives = {
