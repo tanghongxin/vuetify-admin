@@ -5,7 +5,7 @@
     :title="`${formData.id ? '编辑' : '新增'}项目`"
     v-model="visible"
     :width="680"
-    @close="close"
+    :after-close="reset"
   >
     <template #content>
       <v-form ref="form">
@@ -195,10 +195,11 @@ export default defineComponent({
     },
     async close () {
       this.visible = false
-      await this.$nextTick()
-      Object.assign(this, this.$options.data.apply(this))
+    },
+    reset () {
       this.$refs.form.resetValidation()
       this.$refs.upload.reset()
+      Object.assign(this, this.$options.data.apply(this))
     },
     async submit () {
       const { valid } = await this.$refs.form.validate()

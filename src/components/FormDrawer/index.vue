@@ -71,6 +71,10 @@ export default defineComponent({
       type: Number,
       default: 650,
     },
+    afterClose: {
+      type: Function,
+      default: () => {},
+    },
   },
   emits: [
     'update:model-value',
@@ -81,8 +85,14 @@ export default defineComponent({
     ...mapState(useSettingStore, ['appHeaderHeight']),
   },
   watch: {
-    modelValue (v) {
-      this.$emit(v ? 'open' : 'close')
+    async modelValue (v) {
+      if (v) {
+        this.$emit('open')
+      } else {
+        this.$emit('close')
+        await this.$nextTick()
+        this.afterClose()
+      }
     },
   },
 })
