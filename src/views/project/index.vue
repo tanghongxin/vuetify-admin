@@ -20,19 +20,19 @@
       </template>
 
       <template #item.time="{ item }">
-        <v-chip :color="item.raw.time >= 60 ? 'primary' : 'dark'">
-          {{ item.raw.time }}
+        <v-chip :color="item.time >= 60 ? 'primary' : 'dark'">
+          {{ item.time }}
         </v-chip>
       </template>
 
       <template #item.occupy="{ item }">
-        {{ item.raw.occupy ? '是' : '否' }}
+        {{ item.occupy ? '是' : '否' }}
       </template>
 
       <template #item.actions="{ item }">
         <v-tooltip top>
           <template #activator>
-            <v-icon color="blue darken-3" class="mr-4" @click="handleEdit(item.raw.id)">
+            <v-icon color="blue darken-3" class="mr-4" @click="handleEdit(item.id)">
               edit
             </v-icon>
           </template>
@@ -41,7 +41,7 @@
 
         <v-tooltip top>
           <template #activator>
-            <v-icon color="red" @click="handleDelete(item.raw.id)">
+            <v-icon color="red" @click="handleDelete(item.id)">
               delete
             </v-icon>
           </template>
