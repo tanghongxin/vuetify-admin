@@ -1,6 +1,6 @@
 <template>
   <div class="data-table fill-width fill-height d-flex flex-column">
-    <v-form>
+    <v-form ref="form">
       <slot name="search" />
 
       <div class="d-flex flex-row pb-1 px-2">
@@ -80,11 +80,14 @@ export default defineComponent({
         this.loading = false
       }
     },
-    refresh (firstPage = false) {
-      if (firstPage && this.options.page !== 1) {
-        this.options.page = 1
-      } else {
-        this.fetch(this.options)
+    async refresh (firstPage = false) {
+      const { valid } = await this.$refs.form.validate()
+      if (valid) {
+        if (firstPage && this.options.page !== 1) {
+          this.options.page = 1
+        } else {
+          this.fetch(this.options)
+        }
       }
     },
     scrollToTop () {

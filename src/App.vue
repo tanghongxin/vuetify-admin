@@ -5,19 +5,13 @@
         <component :is="Component" />
       </v-fade-transition>
     </router-view>
-    <Toast :dark="settingStore.appThemeDark" />
+    <Toast />
   </v-app>
 </template>
 
 <script>
-import { useSettingStore } from '@/stores'
 export default {
   name: 'App',
-  setup () {
-    return {
-      settingStore: useSettingStore(),
-    }
-  },
 }
 </script>
 
