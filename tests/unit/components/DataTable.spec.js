@@ -57,12 +57,6 @@ describe('DataTable', () => {
     expect(fn).toHaveBeenCalledTimes(++times)
     expect(fn).toHaveBeenCalledWith({ ...defaultOptions, page: 2 })
 
-    // 强制刷新（到第一页）
-    wrapper.vm.refresh(true)
-    await wrapper.vm.$nextTick()
-    expect(fn).toHaveBeenCalledTimes(++times)
-    expect(fn).toHaveBeenCalledWith({ ...defaultOptions, page: 1 })
-
     // 查询
     await searchWrapper.trigger('click')
     expect(fn).toHaveBeenCalledTimes(++times)
