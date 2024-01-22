@@ -7,7 +7,6 @@ import { useRuntimeStore } from './runtime'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
-    // FIXME: does not work on pnpm preview
     account: JSON.parse(useLocalStorage('account', null).value),
   }),
   getters: {
