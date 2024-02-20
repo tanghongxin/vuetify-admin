@@ -8,6 +8,7 @@ import vuetify from 'vite-plugin-vuetify'
 import path from 'node:path'
 import eslint from 'vite-plugin-eslint';
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
+import { codeInspectorPlugin } from 'code-inspector-plugin'
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -50,7 +51,11 @@ export default defineConfig(({ mode }) => {
           brotliSize: true,
           filename: "bundle-analyze.html",
         }),
-      ] : [],
+      ] : [
+        codeInspectorPlugin({
+          bundler: 'vite',
+        }),
+      ],
     ],
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
