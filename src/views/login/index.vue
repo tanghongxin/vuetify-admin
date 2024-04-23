@@ -1,24 +1,22 @@
-<script setup>
-import { useAccountStore } from '@/stores'
-import { reactive } from 'vue'
-import { ref } from 'vue'
+<script setup lang="ts">
+import { useAccountStore } from '@/store/modules/account';
 
 const formData = reactive({
   username: 'Admin',
   password: 'h97rpXts8',
-})
-const loading = ref(false)
+});
+const loading = ref(false);
 
-const accountStore = useAccountStore()
+const accountStore = useAccountStore();
 
 const handleSubmit = async () => {
   try {
-    loading.value = true
-    await accountStore.login(formData)
+    loading.value = true;
+    await accountStore.login(formData);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <template>
@@ -31,30 +29,30 @@ const handleSubmit = async () => {
               <v-toolbar-title>用户登录</v-toolbar-title>
               <v-spacer />
             </v-toolbar>
-          
+
             <v-card-text>
               <v-text-field
+                v-model="formData.username"
                 variant="underlined"
                 autofocus
                 label="用户名"
                 name="login"
                 prepend-icon="person"
-                :rules="[v => !!v || '请输入用户名']"
+                :rules="[(v) => !!v || '请输入用户名']"
                 type="text"
                 validate-on-blur
-                v-model="formData.username"
                 autocomplete="username"
               />
               <v-text-field
-                variant="underlined"
                 id="password"
+                v-model="formData.password"
+                variant="underlined"
                 label="密码"
                 name="password"
                 prepend-icon="lock"
-                :rules="[v => !!v || '请输入密码']"
+                :rules="[(v) => !!v || '请输入密码']"
                 type="password"
                 validate-on-blur
-                v-model="formData.password"
                 autocomplete="current-password"
               />
             </v-card-text>
@@ -77,6 +75,4 @@ const handleSubmit = async () => {
   </v-container>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

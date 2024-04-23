@@ -1,28 +1,34 @@
+<script setup lang="ts">
+import { useSettingStore } from '@/store/modules/settings';
+
+// eslint-disable-next-line vue/no-reserved-component-names
+defineOptions({ name: 'Map' });
+
+const { appThemeDark } = storeToRefs(useSettingStore());
+
+const loading = ref(true);
+</script>
+
 <template>
   <div class="map">
-    <TMap :dark="appThemeDark">
-      <TSearch />
-    </TMap>
+    <Spin :model-value="loading">
+      <AMapMap
+        :map-style="appThemeDark ? 'dark' : 'normal'"
+        @complete="loading = false"
+      >
+        <a-map-fit-view />
+        <a-map-toolbar />
+        <a-map-scale />
+        <a-map-control-bar />
+      </AMapMap>
+    </Spin>
   </div>
 </template>
 
-<script>
-import { mapState } from 'pinia'
-import { useSettingStore } from '@/stores'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Map',
-  computed: {
-    ...mapState(useSettingStore, ['appThemeDark']),
-  },
-})
-</script>
-
 <style lang="scss">
 .map {
-  height: 100%;
   position: relative;
+  height: 100%;
   width: 100%;
 }
 </style>

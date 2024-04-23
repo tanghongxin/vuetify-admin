@@ -3,7 +3,6 @@ node_modules
 /dist
 
 # cache
-.stylelintcache
 
 # local env files
 .env.local

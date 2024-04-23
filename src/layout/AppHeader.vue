@@ -1,23 +1,23 @@
-<script setup>
-import { useDisplay } from 'vuetify'
-import { defineOptions } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useAccountStore, useSettingStore } from '@/stores'
+<script setup lang="ts">
+import { useDisplay } from 'vuetify';
+import { useAccountStore } from '@/store/modules/account';
+import { useSettingStore } from '@/store/modules/settings';
 
 defineOptions({
   name: 'AppHeader',
-})
+});
 
-const { lgAndUp } = useDisplay()
+const { lgAndUp } = useDisplay();
 
-const { logout } = useAccountStore()
-const { username } = storeToRefs(useAccountStore())
+const { logout } = useAccountStore();
+const { username } = storeToRefs(useAccountStore());
 
-const { toggleAppNavigation, toggleAppSetting } = useSettingStore()
-const { appPermanentNavigation, appHeaderHeight } = storeToRefs(useSettingStore())
+const { toggleAppNavigation, toggleAppSetting } = useSettingStore();
+const { appPermanentNavigation, appHeaderHeight } =
+  storeToRefs(useSettingStore());
 
-const title = import.meta.env.VITE_APP_TITLE
-const repo = import.meta.env.VITE_GITHUB_REPO
+const title = import.meta.env.VITE_APP_TITLE;
+const repo = import.meta.env.VITE_GITHUB_REPO;
 </script>
 
 <template>
@@ -45,45 +45,19 @@ const repo = import.meta.env.VITE_GITHUB_REPO
       </v-app-bar-title>
       <v-spacer />
     </template>
-    
+
     <template #append>
-      <v-btn
-        class="text-none"
-        dark
-        variant="text"
-        @click="logout"
-      >
+      <v-btn class="text-none" dark variant="text" @click="logout">
         {{ username }}
-        <v-tooltip
-          activator="parent"
-          location="bottom"
-        >
-          注销
-        </v-tooltip>
+        <v-tooltip activator="parent" location="bottom"> 注销 </v-tooltip>
       </v-btn>
 
-      <v-btn
-        icon
-        color="white"
-        @click="toggleAppSetting"
-      >
-        <v-icon size="20">
-          settings
-        </v-icon>
-        <v-tooltip
-          activator="parent"
-          location="bottom"
-        >
-          个性化设置
-        </v-tooltip>
+      <v-btn icon color="white" @click="toggleAppSetting">
+        <v-icon size="20"> settings </v-icon>
+        <v-tooltip activator="parent" location="bottom"> 个性化设置 </v-tooltip>
       </v-btn>
 
-      <v-btn
-        icon
-        color="white"
-        :href="repo"
-        target="_blank"
-      >
+      <v-btn icon color="white" :href="repo" target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -95,13 +69,12 @@ const repo = import.meta.env.VITE_GITHUB_REPO
           stroke-linecap="round"
           stroke-linejoin="round"
           class="feather feather-github"
-        ><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
-        <v-tooltip
-          activator="parent"
-          location="bottom"
         >
-          Github
-        </v-tooltip>
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          />
+        </svg>
+        <v-tooltip activator="parent" location="bottom"> Github </v-tooltip>
       </v-btn>
     </template>
   </v-app-bar>

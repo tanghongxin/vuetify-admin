@@ -1,16 +1,12 @@
+<script setup lang="ts">
+defineOptions({ name: 'Home' });
+</script>
+
 <template>
   <div class="home">
     <p>Welcome</p>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Home',
-})
-</script>
 
 <style lang="scss">
 .home {

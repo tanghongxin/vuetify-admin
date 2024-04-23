@@ -1,62 +1,70 @@
-<script setup>
-import { defineOptions } from 'vue'
-import { useBreadcrumbs } from './composable'
-import { defineAsyncComponent } from 'vue'
+<script setup lang="ts">
+import { useBreadcrumbs } from '@/composables/layout';
+import { RoutesConfig } from '@/types';
 
-const LayoutRecursiveMenus = defineAsyncComponent(() => import('./LayoutRecursiveMenus.vue'))
+const LayoutRecursiveMenus = defineAsyncComponent(
+  () => import('./LayoutRecursiveMenus.vue'),
+);
 
 defineOptions({
   name: 'LayoutRecursiveMenus',
-})
+});
 
 defineProps({
   items: {
-    type: Array,
+    type: Array<RoutesConfig>,
     default: () => [],
   },
   sub: {
     type: Boolean,
     default: false,
   },
-})
+});
 
-const breadcrumbs = useBreadcrumbs()
+const breadcrumbs = useBreadcrumbs();
 </script>
 
 <template>
-  <v-list class="py-0 recursive-menus" :opened="breadcrumbs.map(({ title }) => title)">
+  <v-list
+    class="py-0 recursive-menus"
+    :opened="breadcrumbs.map(({ title }) => title)"
+  >
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group
+        v-if="item.type === 'MENU' && !item.meta?.isHidden"
+        :key="item.path"
         selected-class="primary--text"
         :class="sub ? 'group-sub' : ''"
-        v-if="item.type === 'MENU' && !item.hidden"
-        :key="item.to"
-        :value="item.text"
+        :value="item.name"
       >
         <template #activator="{ props }">
           <v-list-item
             v-bind="props"
             :prepend-icon="item.icon"
-            :title="item.text"
+            :title="item.name"
           />
         </template>
 
-        <LayoutRecursiveMenus sub :items="item.children" v-if="item.children.length" />
+        <LayoutRecursiveMenus
+          v-if="item.children.length"
+          sub
+          :items="item.children"
+        />
       </v-list-group>
 
       <!-- / leaf nodes -->
       <v-list-item
+        v-if="item.type === 'VIEW' && !item.meta?.isHidden"
+        :key="item.path"
         selected-class="primary--text"
-        v-if="item.type === 'VIEW' && !item.hidden"
-        :key="item.to"
-        :to="item.to || item.redirect"
+        :to="item.path || item.redirect"
         link
       >
         <template #prepend>
           <v-icon>{{ item.icon }}</v-icon>
         </template>
-        <v-list-item-title>{{ item.text }}</v-list-item-title>
+        <v-list-item-title>{{ item.name }}</v-list-item-title>
       </v-list-item>
     </template>
   </v-list>
@@ -66,7 +74,6 @@ const breadcrumbs = useBreadcrumbs()
 .group-sub {
   padding-left: 1rem;
 
-  /* stylelint-disable-next-line */
   & > .v-list-group__items {
     padding-left: 1rem;
   }

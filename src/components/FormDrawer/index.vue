@@ -1,3 +1,50 @@
+<script setup lang="ts">
+import { useSettingStore } from '@/store/modules/settings';
+
+const props = defineProps({
+  flat: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+  width: {
+    type: Number,
+    default: 650,
+  },
+  afterClose: {
+    type: Function,
+    default: () => {},
+  },
+});
+
+const emit = defineEmits(['open', 'close', 'update:model-value']);
+
+const { appHeaderHeight } = storeToRefs(useSettingStore());
+
+watch(
+  () => props.modelValue,
+  async (v) => {
+    if (v) {
+      emit('open');
+    } else {
+      emit('close');
+      props.afterClose();
+    }
+  },
+);
+</script>
+
 <template>
   <Teleport to="#v-application">
     <v-navigation-drawer
@@ -8,7 +55,7 @@
       :order="-1"
       :width="width"
       :model-value="modelValue"
-      @update:model-value="$emit('update:model-value', $event)"
+      @update:model-value="emit('update:model-value', $event)"
     >
       <template #prepend>
         <v-toolbar :height="appHeaderHeight" color="primary darken-1">
@@ -17,17 +64,17 @@
           </v-toolbar-title>
         </v-toolbar>
       </template>
-    
+
       <v-container>
         <v-card :flat="flat" height="100%" class="overflow-y-auto">
           <v-card-text class="flex-grow-1">
             <slot name="content" />
           </v-card-text>
         </v-card>
-    
-        <VLoading absolute attach :model-value="loading" />
+
+        <Spin :model-value="loading" />
       </v-container>
-    
+
       <!-- / Footer -->
       <template #append>
         <v-divider />
@@ -39,64 +86,4 @@
   </Teleport>
 </template>
 
-<script>
-import { mapState } from 'pinia'
-import { useSettingStore } from '@/stores'
-import VLoading from '@/components/VImplements/VLoading.vue'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'FormDrawer',
-  components: {
-    VLoading,
-  },
-  props: {
-    flat: {
-      type: Boolean,
-      default: false,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-    width: {
-      type: Number,
-      default: 650,
-    },
-    afterClose: {
-      type: Function,
-      default: () => {},
-    },
-  },
-  emits: [
-    'update:model-value',
-    'open',
-    'close',
-  ],
-  computed: {
-    ...mapState(useSettingStore, ['appHeaderHeight']),
-  },
-  watch: {
-    async modelValue (v) {
-      if (v) {
-        this.$emit('open')
-      } else {
-        this.$emit('close')
-        await this.$nextTick()
-        this.afterClose()
-      }
-    },
-  },
-})
-</script>
-
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -1,13 +1,13 @@
-<script setup>
-import { colors } from '@/config/themes'
-import { useSettingStore } from '@/stores'
-import { defineOptions } from 'vue'
+<script setup lang="ts">
+// eslint-disable vue/no-deprecated-slot-attribute
+import { colors } from '@/plugins/vuetify/theme';
+import { useSettingStore } from '@/store/modules/settings';
 
 defineOptions({
   name: 'AppSetting',
-})
+});
 
-const store = useSettingStore()
+const store = useSettingStore();
 </script>
 
 <template>
@@ -19,11 +19,7 @@ const store = useSettingStore()
       @update:model-value="store.toggleAppSetting"
     >
       <template #prepend>
-        <v-toolbar
-          :height="store.appHeaderHeight"
-          slot="prepend"
-          color="primary lighten-1"
-        >
+        <v-toolbar :height="store.appHeaderHeight" color="primary lighten-1">
           <v-toolbar-title>个性化设置</v-toolbar-title>
         </v-toolbar>
       </template>
@@ -31,9 +27,7 @@ const store = useSettingStore()
       <v-container>
         <div class="d-flex flex-column">
           <div>
-            <p class="px-1 my-2">
-              导航栏设置
-            </p>
+            <p class="px-1 my-2">导航栏设置</p>
             <v-switch
               color="primary"
               :model-value="store.appPermanentNavigation"
@@ -41,11 +35,9 @@ const store = useSettingStore()
               @change="store.toggleAppPermanentNavigation"
             />
           </div>
-          
+
           <div>
-            <p class="px-1 my-2">
-              外观
-            </p>
+            <p class="px-1 my-2">外观</p>
             <v-switch
               color="primary"
               :model-value="store.appThemeDark"
@@ -55,9 +47,7 @@ const store = useSettingStore()
           </div>
 
           <div>
-            <p class="px-1 my-2">
-              页签模式
-            </p>
+            <p class="px-1 my-2">页签模式</p>
             <v-switch
               color="primary"
               :model-value="store.appMultipleTabs"
@@ -67,9 +57,7 @@ const store = useSettingStore()
           </div>
 
           <div>
-            <p class="px-1 my-2">
-              主题色设置
-            </p>
+            <p class="px-1 my-2">主题色设置</p>
             <div class="color-option">
               <div class="d-flex flex-row flex-wrap">
                 <label
@@ -81,13 +69,19 @@ const store = useSettingStore()
                     type="radio"
                     :checked="colorName === store.appTheme"
                     @input="store.setAppTheme(colorName)"
-                  >
+                  />
                   <span class="app-setting__item bg">
                     <span class="overlay">
                       <span class="material-icons">check</span>
                     </span>
-                    <span class="app-setting__item-header" :class="`bg-${colorName}`" />
-                    <span class="app-setting__item-header" :class="`bg-${colorName}`" />
+                    <span
+                      class="app-setting__item-header"
+                      :class="`bg-${colorName}`"
+                    />
+                    <span
+                      class="app-setting__item-header"
+                      :class="`bg-${colorName}`"
+                    />
                     <span class="bg-white" />
                   </span>
                 </label>
@@ -115,15 +109,15 @@ const store = useSettingStore()
     max-width: 50%;
   }
 
-  &__label input[type="radio"] {
+  &__label input[type='radio'] {
     display: none;
   }
 
-  &__label input[type="radio"] + span {
+  &__label input[type='radio'] + span {
     position: relative;
   }
 
-  &__label input[type="radio"] + span > .overlay {
+  &__label input[type='radio'] + span > .overlay {
     background-color: rgb(0 0 0 / 30%);
     bottom: 0;
     color: #fff;
@@ -138,7 +132,7 @@ const store = useSettingStore()
     width: 100%;
   }
 
-  &__label input[type="radio"]:checked + span > .overlay {
+  &__label input[type='radio']:checked + span > .overlay {
     display: block;
   }
 

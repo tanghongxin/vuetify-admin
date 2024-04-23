@@ -1,26 +1,24 @@
-<script setup>
-import RecursiveMenus from './LayoutRecursiveMenus.vue'
-import { defineOptions } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useAccountStore, useSettingStore } from '@/stores'
+<script setup lang="ts">
+import { useAccountStore } from '@/store/modules/account';
+import { useSettingStore } from '@/store/modules/settings';
+import RecursiveMenus from './LayoutRecursiveMenus.vue';
 
 defineOptions({
-  name: 'AppContent',
-})
+  name: 'AppNavigation',
+});
 
-const accountStore = useAccountStore()
+const accountStore = useAccountStore();
 
-const { toggleAppNavigation } = useSettingStore()
-const {
-  appPermanentNavigation, appNavigation,
-} = storeToRefs(useSettingStore())
+const { toggleAppNavigation } = useSettingStore();
+const { appPermanentNavigation, appNavigation } =
+  storeToRefs(useSettingStore());
 </script>
 
 <template>
   <v-navigation-drawer
     :model-value="appPermanentNavigation || appNavigation"
     :permanent="appPermanentNavigation"
-    @update:modelValue="toggleAppNavigation"
+    @update:model-value="toggleAppNavigation"
   >
     <RecursiveMenus :items="accountStore.menus" />
   </v-navigation-drawer>
