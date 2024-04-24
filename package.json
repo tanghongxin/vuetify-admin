@@ -1,7 +1,7 @@
 {
   "name": "vuetify-admin",
   "version": "0.0.2",
-  "private": false,
+  "private": true,
   "author": "hongxin.tang@hotmail.com",
   "license": "MIT",
   "description": "基于 vuetify3 的自带诸多后台管理系统模板，内置动态路由、权限验证等功能",
@@ -24,8 +24,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@rthx/utils": "^0.1.7",
-    "@rthx/vue3-amap": "^0.1.8",
+    "@rthx/utils": "~0.2.0",
+    "@rthx/vue3-amap": "~0.1.8",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
     "material-design-icons-iconfont": "^6.7.0",

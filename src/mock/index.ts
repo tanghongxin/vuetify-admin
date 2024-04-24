@@ -42,16 +42,9 @@ const item = (id = 1) => ({
   tags: ['除湿', '活血', '助眠', '通气', '养颜'][
     `${Math.abs(Math.random() - 0.5)}`[2]
   ],
-  lastModifyTime: (function (d) {
-    const Y = d.getFullYear();
-    const M = d.getMonth() + 1;
-    const D = d.getDate();
-    const H = d.getHours();
-    const m = d.getMinutes();
-    const s = d.getSeconds();
-    const pad = (num) => num.toString().padStart(2, '0');
-    return `${Y}-${pad(M)}-${pad(D)} ${pad(H)}:${pad(m)}:${pad(s)}`;
-  })(new Date(+new Date() - Math.floor(Math.random() * 10000000000))),
+  lastModifyTime: new Date(
+    +new Date() - Math.floor(Math.random() * 10000000000),
+  ),
 });
 
 adaptor.onPost(/\/api\/project/).reply(200);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProjectSchema from './components/ProjectSchema.vue';
 import { deleteProject, getProjectList } from '@/api/project';
+import { formatDate } from '@rthx/utils';
 import toast from '@/utils/toast';
 
 defineOptions({ name: 'ProjectList' });
@@ -130,6 +131,10 @@ async function handleDelete(id) {
 
       <template #item.occupy="{ item }">
         {{ item.occupy ? '是' : '否' }}
+      </template>
+
+      <template #item.lastModifyTime="{ item }">
+        {{ formatDate(item.lastModifyTime, 'yyyy-MM-dd HH:mm:ss') }}
       </template>
 
       <template #item.actions="{ item }">
