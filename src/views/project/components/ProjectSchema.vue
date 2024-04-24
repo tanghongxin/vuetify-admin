@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { addProject, editProject, getProject } from '@/api/project';
-import { Project } from '@/types';
+import { VForm } from 'vuetify/components';
+import type { Project } from '@/types';
 
 defineOptions({ name: 'ProjectSchema' });
 
 const emit = defineEmits(['addSuccess', 'editSuccess']);
 
-const formRef = ref(null);
+const formRef = ref<VForm>(null);
 const uploadRef = ref(null);
 
 const formData = ref<Project>({
@@ -68,9 +69,7 @@ const reset = () => {
 
 const submit = async () => {
   const { valid } = await formRef.value.validate();
-  if (!valid) {
-    return;
-  }
+  if (!valid) return;
   try {
     loading.value = true;
     await (formData.value.id ? edit() : add());

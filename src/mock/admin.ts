@@ -1,4 +1,4 @@
-import { RoutesConfig } from '@/types';
+import type { RouteConfig } from '@/types';
 
 const res = {
   username: 'admin',
@@ -52,7 +52,7 @@ const res = {
       component: '',
       meta: {},
     },
-  ] as RoutesConfig[],
+  ] as RouteConfig[],
 };
 
 export default res;

@@ -5,7 +5,7 @@ import { aliases, md } from 'vuetify/iconsets/md';
 import { zhHans } from 'vuetify/locale';
 // https://next.vuetifyjs.com/en/labs/introduction/#available-components
 import * as labs from 'vuetify/labs/components';
-import { Plugin } from 'vue';
+import type { Plugin } from 'vue';
 import theme from './theme';
 
 const plugin: Plugin = function (app) {

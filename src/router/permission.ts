@@ -2,23 +2,25 @@ import router from './index';
 import { NProgress } from '@/components/NProgress';
 import { useAccountStore } from '@/store/modules/account';
 import { LOGIN_ROUTE } from './routes';
+import { setDocumentTitle } from '@rthx/utils';
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
+
   const accountStore = useAccountStore();
+  const isToLogin = to.name === LOGIN_ROUTE.name;
+
   if (!accountStore.hasLoggedIn) {
-    if (to.name === LOGIN_ROUTE.name) return next();
+    if (isToLogin) return next();
     return next(LOGIN_ROUTE.path);
   }
 
-  if (to.name === LOGIN_ROUTE.name) {
-    return next('/');
-  }
+  if (isToLogin) return next('/');
 
   return next();
 });
 
 router.afterEach((to) => {
-  document.title = `${import.meta.env.VITE_APP_TITLE} - ${to.name as string}`;
+  setDocumentTitle(`${import.meta.env.VITE_APP_TITLE} - ${to.name as string}`);
   NProgress.done();
 });

@@ -1,7 +1,9 @@
+import { useRuntimeStore } from './runtime';
 import { useDisplay, useTheme } from 'vuetify';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useSettingStore = defineStore('setting', () => {
+  const runtimeStore = useRuntimeStore();
   const { xs } = useDisplay();
   const theme = useTheme();
 
@@ -48,6 +50,9 @@ export const useSettingStore = defineStore('setting', () => {
 
   function toggleAppMultipleTabs() {
     appMultipleTabs.value = !appMultipleTabs.value;
+    if (!appMultipleTabs.value) {
+      runtimeStore.setOpenedRoutes([]);
+    }
   }
 
   return {

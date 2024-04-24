@@ -1,13 +1,14 @@
-export interface RoutesConfig {
+export interface RouteConfig {
   name: string;
   icon: string;
   path: string;
   redirect: string;
   type: 'MENU' | 'VIEW';
   component: string;
-  children?: RoutesConfig[];
+  children?: RouteConfig[];
   meta: {
     isKeepAlive: boolean;
+    compName?: string;
     isHidden: boolean;
     [key: string]: any;
   };
@@ -24,7 +25,7 @@ export interface LoginSuccessRes {
   token: string;
   roles: string[];
   permissions: [];
-  menus: RoutesConfig[];
+  menus: RouteConfig[];
 }
 
 export interface Project {

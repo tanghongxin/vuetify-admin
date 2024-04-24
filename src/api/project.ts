@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import { Project } from '@/types';
+import type { Project } from '@/types';
 
 export const addProject = function (data: Project) {
   return request.post('/project', data);

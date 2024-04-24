@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useSettingStore } from '@/store/modules/settings';
+import { useKeepAliveInclude } from '@/composables/layout';
 
 defineOptions({
   name: 'AppContent',
 });
 
-const settingStore = useSettingStore();
+const { appMultipleTabs } = storeToRefs(useSettingStore());
 const route = useRoute();
+const include = useKeepAliveInclude();
 
 const updateScrollTop = (scrollTop) => {
   route.meta.scrollTop = scrollTop;
@@ -16,7 +18,9 @@ const updateScrollTop = (scrollTop) => {
 <template>
   <v-main class="app-content fill-height overflow-hidden">
     <div class="fill-height d-flex flex-column align-center justify-center">
-      <TagsView v-if="settingStore.appMultipleTabs" />
+      <v-expand-transition>
+        <TagsView v-if="appMultipleTabs" />
+      </v-expand-transition>
       <div class="fill-width flex-grow-1" :style="{ position: 'relative' }">
         <v-container
           ref="containerRef"
@@ -29,19 +33,14 @@ const updateScrollTop = (scrollTop) => {
             right: 0,
             bottom: 0,
             left: 0,
-            // padding: '0 !important'
           }"
         >
           <div class="fill-height">
             <router-view v-slot="{ Component }">
               <v-slide-x-transition mode="out-in">
-                <!-- FIXME -->
-                <keep-alive
-                  v-if="settingStore.appMultipleTabs && route.meta.isKeepAlive"
-                >
-                  <component :is="Component" :key="route.name" />
+                <keep-alive :include="appMultipleTabs ? include : []">
+                  <component :is="Component" :key="route.path" />
                 </keep-alive>
-                <component v-else :is="Component" :key="route.name" />
               </v-slide-x-transition>
             </router-view>
           </div>

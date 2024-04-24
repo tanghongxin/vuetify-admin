@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBreadcrumbs } from '@/composables/layout';
-import { RoutesConfig } from '@/types';
+import type { RouteConfig } from '@/types';
 
 const LayoutRecursiveMenus = defineAsyncComponent(
   () => import('./LayoutRecursiveMenus.vue'),
@@ -12,7 +12,7 @@ defineOptions({
 
 defineProps({
   items: {
-    type: Array<RoutesConfig>,
+    type: Array<RouteConfig>,
     default: () => [],
   },
   sub: {

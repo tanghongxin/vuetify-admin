@@ -1,4 +1,4 @@
-import { Plugin } from 'vue';
+import type { Plugin } from 'vue';
 import store from '@/store';
 import { useAccountStore } from '@/store/modules/account';
 

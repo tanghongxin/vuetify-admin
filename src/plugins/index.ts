@@ -1,5 +1,4 @@
-import { Plugin } from 'vue';
-import type { App } from 'vue';
+import type { App, Plugin } from 'vue';
 
 const plugin: Plugin = function (app) {
   const imports = import.meta.glob<{ default: (app: App) => void }>(

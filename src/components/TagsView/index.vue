@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRuntimeStore } from '@/store/modules/runtime';
+import { DEFAULT_ROUTE } from '@/router/routes';
 import Manager from './Manager.vue';
 import Breadcrumbs from './Breadcrumbs.vue';
 
@@ -13,7 +14,7 @@ const containerRef = ref(null);
 const close = (index) => {
   // 当只有一个页签且为首页时，保持不动
   if (
-    runtimeStore.openedRoutes[index].path === '/home' &&
+    runtimeStore.openedRoutes[index].path === DEFAULT_ROUTE.path &&
     runtimeStore.openedRoutes.length <= 1
   ) {
     return;
@@ -88,44 +89,42 @@ watch(() => route, handleRouteChange, { immediate: true, deep: true });
 </script>
 
 <template>
-  <v-expand-transition>
-    <div class="fill-width">
-      <v-tabs
-        :model-value="route.fullPath"
-        show-arrows
-        slider-color="primary darken-1"
-        :height="48"
+  <div class="fill-width">
+    <v-tabs
+      :model-value="route.fullPath"
+      show-arrows
+      slider-color="primary darken-1"
+      :height="48"
+      @update:modelValue="() => {}"
+    >
+      <v-tab
+        v-for="(r, index) in runtimeStore.openedRoutes"
+        :key="r.name"
+        :value="r.fullPath"
+        :exact="r.name === route.name"
+        :to="r.fullPath"
+        @contextmenu="handleCtxMenu($event, index)"
       >
-        <v-tab
-          v-for="(r, index) in runtimeStore.openedRoutes"
-          :key="r.name"
-          :value="r.fullPath"
-          :exact="r.name === r.name"
-          :to="r.fullPath"
-          @contextmenu="handleCtxMenu($event, index)"
-        >
-          <span class="subtitle-1">{{ r.name }}</span>
-          <v-spacer tag="span" />
-          <v-btn icon ripple small variant="text" @click.prevent="close(index)">
-            <v-icon small> close </v-icon>
-          </v-btn>
-        </v-tab>
-      </v-tabs>
-      <v-divider />
-      <Breadcrumbs />
-    </div>
-  </v-expand-transition>
-
-  <FollowMenu ref="followMenuRef">
-    <Manager
-      :targetIndex
-      :openedRoutes="runtimeStore.openedRoutes"
-      @close="close"
-      @closeRight="closeRight"
-      @closeLeft="closeLeft"
-      @closeOthers="closeOthers"
-    />
-  </FollowMenu>
+        <span class="subtitle-1">{{ r.name }}</span>
+        <v-spacer tag="span" />
+        <v-btn icon ripple small variant="text" @click.prevent="close(index)">
+          <v-icon small> close </v-icon>
+        </v-btn>
+      </v-tab>
+    </v-tabs>
+    <v-divider />
+    <Breadcrumbs />
+    <FollowMenu ref="followMenuRef">
+      <Manager
+        :targetIndex
+        :openedRoutes="runtimeStore.openedRoutes"
+        @close="close"
+        @closeRight="closeRight"
+        @closeLeft="closeLeft"
+        @closeOthers="closeOthers"
+      />
+    </FollowMenu>
+  </div>
 </template>
 
 <style lang="scss"></style>

@@ -17,3 +17,9 @@ export const FALLBACK_ROUTE = {
   path: '/:pathMatch(.*)*',
   redirect: () => NOT_FOUND_ROUTE.path,
 };
+
+export const DEFAULT_ROUTE = {
+  name: '首页',
+  path: '/home',
+  component: dynamicImport('home/index'),
+};
