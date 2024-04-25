@@ -33,9 +33,10 @@ adaptor
   .reply(() => res(HttpStatusCode.Ok, item()));
 
 adaptor.onGet(/\/api\/project\/list/).reply((config) => {
-  const { sortBy, itemsPerPage = 15 } = config.params;
+  const { sortBy, itemsPerPage = -1 } = config.params;
 
-  let items = Array(itemsPerPage)
+  const total = itemsPerPage === -1 ? 20 : itemsPerPage * 3 + 3;
+  let items = Array(itemsPerPage === -1 ? 20 : itemsPerPage)
     .fill(null)
     .map(() => item());
 
@@ -44,7 +45,7 @@ adaptor.onGet(/\/api\/project\/list/).reply((config) => {
     items = sort(items, (el) => el[key], order === 'desc');
   }
 
-  return res(HttpStatusCode.Ok, { total: itemsPerPage * 3 + 3, items });
+  return res(HttpStatusCode.Ok, { total, items });
 });
 
 async function res<T>(

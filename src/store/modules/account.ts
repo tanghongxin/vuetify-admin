@@ -1,34 +1,34 @@
 import { useLocalStorage } from '@vueuse/core';
-import { login as l } from '@/api/account';
+import { login as apiLogin, LoginReq, AccountInfo } from '@/api/account';
 import { buildRoutes, resetRouter } from '@/router';
-import { LoginReq, AccountInfo } from '@/api/account/types';
 import store from '@/store';
 
-const getDefaultAccount = (): AccountInfo => ({
-  username: '',
-  token: '',
-  roles: [],
-  permissions: [],
-  menus: [],
-});
+const getInitialState = () =>
+  ({
+    username: '',
+    token: '',
+    roles: [],
+    permissions: [],
+    menus: [],
+  }) as AccountInfo;
 
 export const useAccountStore = defineStore('account', () => {
-  const account = useLocalStorage<AccountInfo>('account', getDefaultAccount());
+  const account = useLocalStorage('account', getInitialState());
 
-  const hasLoggedIn = computed(() => !!account.value.token);
+  const loggedIn = computed(() => !!account.value.token);
   const username = computed(() => account.value.username);
   const menus = computed(() => account.value.menus);
 
   function $reset() {
-    account.value = getDefaultAccount();
+    account.value = getInitialState();
   }
 
   async function login(payload: LoginReq) {
-    account.value = await l(payload);
+    account.value = await apiLogin(payload);
   }
 
   function generateRoutes() {
-    if (hasLoggedIn.value) {
+    if (loggedIn.value) {
       buildRoutes(account.value.menus);
     } else {
       resetRouter();
@@ -43,7 +43,7 @@ export const useAccountStore = defineStore('account', () => {
 
   return {
     account,
-    hasLoggedIn,
+    loggedIn,
     username,
     menus,
     generateRoutes,
@@ -52,4 +52,5 @@ export const useAccountStore = defineStore('account', () => {
   };
 });
 
+// use outside setup
 export const getAccountStore = () => useAccountStore(store);

@@ -6,18 +6,19 @@
   "menus": [
     {
       "name": "首页",
-      "icon": "home",
       "path": "/home",
-      "type": "VIEW",
       "component": "home/index",
-      "meta": {}
+      "meta": {
+        "icon": "home"
+      }
     },
     {
       "name": "项目管理",
-      "icon": "apps",
       "path": "/project",
       "component": "",
-      "meta": {},
+      "meta": {
+        "icon": "apps"
+      },
       "children": [
         {
           "name": "项目列表",
@@ -32,22 +33,20 @@
     },
     {
       "name": "高德地图",
-      "icon": "place",
       "path": "/map",
-      "type": "VIEW",
       "component": "map/index",
       "meta": {
+        "icon": "place",
         "isKeepAlive": true
       }
     },
     {
       "name": "404",
-      "icon": "priority_high",
-      "path": "404_test",
-      "redirect": "/exception/404",
-      "type": "VIEW",
-      "component": "",
-      "meta": {}
+      "path": "/exception/404",
+      "component": "exception/index",
+      "meta": {
+        "icon": "priority_high"
+      }
     }
   ]
 }

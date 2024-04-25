@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import event, { Payload } from './event';
 
+defineOptions({ name: 'Toast' });
+
 const timeoutId = ref<ReturnType<typeof setTimeout> | null>(null);
 const items = ref<Payload[]>([]);
 

@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { VForm } from 'vuetify/components';
+defineOptions({
+  name: 'DataTable',
+});
 
 interface Props {
-  loadData: (req: TableReq) => Promise<TableRes<any>>;
+  loadDataFn: (req: TableReq) => Promise<TableRes<any>>;
   headers: any[];
   multiSort?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  loadData: () => Promise.resolve({ items: [], total: 0 }),
+  loadDataFn: () => Promise.resolve({ items: [], total: 0 }),
   headers: () => [],
   multiSort: false,
 });
 
-const formRef = ref<VForm>(null);
+const formRef = ref<IOGC<'VForm'>>(null);
 const items = ref([]);
 const loading = ref(false);
 const options = ref<TableReq>({
@@ -29,7 +31,7 @@ watch(options, fetch, { immediate: true });
 async function fetch(ops = {}) {
   try {
     loading.value = true;
-    const data = await props.loadData(Object.assign({}, options.value, ops));
+    const data = await props.loadDataFn(Object.assign({}, options.value, ops));
     items.value = data.items;
     total.value = data.total;
     await nextTick();
@@ -124,6 +126,10 @@ defineExpose({ refresh });
 
   .v-data-footer {
     font-size: 14px;
+  }
+
+  .v-data-table-footer__items-per-page {
+    min-width: 180px;
   }
 
   th,

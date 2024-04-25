@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // eslint-disable vue/no-deprecated-slot-attribute
-import { colors } from '@/plugins/vuetify/theme';
+import { colors } from '@/config/theme';
 import { useSettingStore } from '@/store/modules/settings';
 
 defineOptions({
@@ -16,7 +16,7 @@ const store = useSettingStore();
       :model-value="store.setting"
       location="right"
       temporary
-      @update:model-value="store.toggleAppSetting"
+      @update:model-value="store.toggleSetting"
     >
       <template #prepend>
         <v-toolbar :height="store.headerHeight" color="primary lighten-1">
@@ -32,7 +32,7 @@ const store = useSettingStore();
               color="primary"
               :model-value="store.permanentNavigation"
               label="导航栏固定左侧"
-              @change="store.toggleAppPermanentNavigation"
+              @change="store.togglePermanentNavigation"
             />
           </div>
 
@@ -40,9 +40,9 @@ const store = useSettingStore();
             <p class="px-1 my-2">外观</p>
             <v-switch
               color="primary"
-              :model-value="store.themeDark"
+              :model-value="store.dark"
               label="深色模式"
-              @change="store.toggleAppThemeDark"
+              @change="store.toggleDark"
             />
           </div>
 
@@ -50,9 +50,9 @@ const store = useSettingStore();
             <p class="px-1 my-2">页签模式</p>
             <v-switch
               color="primary"
-              :model-value="store.multipleTabs"
+              :model-value="store.tagsView"
               label="多页签"
-              @change="store.toggleAppMultipleTabs"
+              @change="store.toggleTagsView"
             />
           </div>
 
@@ -67,8 +67,8 @@ const store = useSettingStore();
                 >
                   <input
                     type="radio"
-                    :checked="colorName === store.theme"
-                    @input="store.setAppTheme(colorName)"
+                    :checked="colorName === store.color"
+                    @input="store.setColor(colorName)"
                   />
                   <span class="app-setting__item bg">
                     <span class="overlay">

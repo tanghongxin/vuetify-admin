@@ -1,4 +1,4 @@
-import { dynamicImport } from './helper';
+import { dynamicImport } from '@/router/helper';
 
 export const LOGIN_ROUTE = {
   name: '登录',

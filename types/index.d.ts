@@ -1,37 +1,54 @@
 /// <reference path="auto-imports.d.ts" />
 /// <reference path="components.d.ts" />
 
-interface ApiRes<T> {
-  data: T;
-  message: string;
-  success: boolean;
-}
+import { GlobalComponents } from 'vue';
 
-interface TableReq {
-  page: number;
-  itemsPerPage: number;
-  sortBy: string[];
-  groupBy: string[];
-  [key: string]: any;
-}
+type K = keyof GlobalComponents;
+type GlobalComponent<T extends K> = GlobalComponents[T];
 
-interface TableRes<T> {
-  items: T[];
-  total: number;
-}
+declare global {
+  /**
+   * InstanceType of globally registered component
+   */
+  type IOGC<T extends K> = InstanceType<GlobalComponent<T>>;
 
-interface RouteConfig {
-  name: string;
-  icon: string;
-  path: string;
-  redirect: string;
-  component: string;
-  children?: RouteConfig[];
-  meta: {
-    isKeepAlive: boolean;
-    compName?: string;
-    isHidden: boolean;
+  /**
+   * InstanceType of manually imported component
+   */
+  type IOC<T extends abstract new (...args: any[]) => any> = InstanceType<T>;
+
+  interface ApiRes<T> {
+    data: T;
+    message: string;
+    success: boolean;
+  }
+
+  interface TableReq {
+    page: number;
+    itemsPerPage: number;
+    sortBy: string[];
+    groupBy: string[];
     [key: string]: any;
-  };
-  props: boolean;
+  }
+
+  interface TableRes<T> {
+    items: T[];
+    total: number;
+  }
+
+  interface RouteConfig {
+    name: string;
+    path: string;
+    redirect: string;
+    component: string;
+    children?: RouteConfig[];
+    meta: {
+      isKeepAlive: boolean;
+      icon: string;
+      compName?: string;
+      isHidden: boolean;
+      [key: string]: any;
+    };
+    props: boolean;
+  }
 }

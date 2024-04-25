@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useSettingStore } from '@/store/modules/settings';
 
+defineOptions({ name: 'FormDrawer' });
+
 const props = defineProps({
   flat: {
     type: Boolean,

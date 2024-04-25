@@ -11,4 +11,6 @@ export interface ProjectInfo {
   occupy: boolean;
 }
 
-export type GetTableResponseData = TableRes<ProjectInfo>;
+export interface ProjectTableReq extends TableReq {}
+
+export type ProjectTableRes = TableRes<ProjectInfo>;

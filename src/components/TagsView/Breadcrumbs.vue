@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify';
 import { useBreadcrumbs } from '@/composables/layout';
 
-const { xs } = useDisplay();
-const breadcrumbs = useBreadcrumbs();
+const items = useBreadcrumbs();
 </script>
 
 <template>
-  <v-breadcrumbs v-show="!xs" class="pt-2 pb-2" :items="breadcrumbs">
+  <v-breadcrumbs class="pt-2 pb-2 d-none d-sm-flex" :items>
     <template #divider>
       <v-icon>forward</v-icon>
     </template>

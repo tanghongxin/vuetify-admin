@@ -1,5 +1,7 @@
 import request from '@/utils/request';
-import { ProjectInfo, GetTableResponseData } from './types';
+import { ProjectInfo, ProjectTableReq, ProjectTableRes } from './types';
+
+export * from './types';
 
 export function addProject(data: ProjectInfo) {
   return request.post('/project', data);
@@ -17,8 +19,8 @@ export function getProject(id) {
   return request.get<never, ProjectInfo>(`/project/${id}`);
 }
 
-export function getProjectList(params: TableReq) {
-  return request.get<TableReq, GetTableResponseData>('/project/list', {
+export function getProjectList(params: ProjectTableReq) {
+  return request.get<ProjectTableReq, ProjectTableRes>('/project/list', {
     params,
   });
 }

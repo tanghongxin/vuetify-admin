@@ -12,7 +12,7 @@ const { lgAndUp } = useDisplay();
 const { logout } = useAccountStore();
 const { username } = storeToRefs(useAccountStore());
 
-const { toggleAppNavigation, toggleAppSetting } = useSettingStore();
+const { toggleNavigation, toggleSetting } = useSettingStore();
 const { permanentNavigation, headerHeight } = storeToRefs(useSettingStore());
 
 const title = import.meta.env.VITE_APP_TITLE;
@@ -33,7 +33,7 @@ const repo = import.meta.env.VITE_GITHUB_REPO;
       <v-expand-x-transition>
         <v-app-bar-nav-icon
           v-show="!permanentNavigation"
-          @click.stop="toggleAppNavigation"
+          @click.stop="toggleNavigation"
         />
       </v-expand-x-transition>
     </template>
@@ -51,7 +51,7 @@ const repo = import.meta.env.VITE_GITHUB_REPO;
         <v-tooltip activator="parent" location="bottom"> 注销 </v-tooltip>
       </v-btn>
 
-      <v-btn icon color="white" @click="toggleAppSetting">
+      <v-btn icon color="white" @click="toggleSetting">
         <v-icon size="20"> settings </v-icon>
         <v-tooltip activator="parent" location="bottom"> 个性化设置 </v-tooltip>
       </v-btn>

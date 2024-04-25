@@ -1,15 +1,23 @@
 import { useTagsViewStore } from '@/store/modules/tagsView';
 
-export const useBreadcrumbs = () => {
+const useRouteMatched = () => {
   const route = useRoute();
+  return computed(() => route.matched.slice(1));
+};
+
+export const useBreadcrumbs = () => {
+  const matched = useRouteMatched();
   return computed(() =>
-    route.matched
-      .map(({ name }) => {
-        const title = name as string;
-        return { title };
-      })
-      .slice(1),
+    matched.value.map(({ name }) => {
+      const title = name as string;
+      return { title };
+    }),
   );
+};
+
+export const useOpenedMenus = () => {
+  const matched = useRouteMatched();
+  return computed(() => matched.value.map(({ path }) => path));
 };
 
 export const useKeepAliveInclude = () => {

@@ -1,5 +1,5 @@
 import { useSessionStorage } from '@vueuse/core';
-import { DEFAULT_ROUTE } from '@/router/routes';
+import { DEFAULT_ROUTE } from '@/config/routes';
 import store from '@/store';
 import { WatchStopHandle } from 'vue';
 

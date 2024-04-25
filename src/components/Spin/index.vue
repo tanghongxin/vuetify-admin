@@ -22,10 +22,10 @@ defineProps({
   },
 });
 
-const { themeDark } = storeToRefs(useSettingStore());
+const { dark } = storeToRefs(useSettingStore());
 
 const bgColor = computed(() =>
-  themeDark.value ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+  dark.value ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
 );
 </script>
 

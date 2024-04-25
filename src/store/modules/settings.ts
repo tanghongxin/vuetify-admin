@@ -1,65 +1,61 @@
 import { useDisplay, useTheme } from 'vuetify';
 import { useLocalStorage } from '@vueuse/core';
+import { Color, ThemeName } from '@/config/theme';
 
 export const useSettingStore = defineStore('setting', () => {
-  const { xs } = useDisplay();
-  const t = useTheme();
+  const { xs, lgAndUp } = useDisplay();
 
   const headerHeight = computed(() => (xs.value ? 48 : 56));
-  const navigation = ref(document.body.clientWidth > 1264);
+  const navigation = ref(!!lgAndUp.value);
   const permanentNavigation = useLocalStorage('permanentNavigation', true);
-  const theme = useLocalStorage('theme', 'indigo');
-  const themeDark = useLocalStorage('themeDark', false);
+  const color = useLocalStorage<Color>('color', 'indigo');
+  const dark = useLocalStorage('dark', false);
   const setting = useLocalStorage('setting', false);
-  const multipleTabs = useLocalStorage('multipleTabs', true);
+  const tagsView = useLocalStorage('tagsView', true);
 
-  watch(
-    () => [theme.value, themeDark.value],
-    ([theme, themeDark]) => {
-      setTimeout(() => {
-        t.global.name.value = `${theme}${themeDark ? 'DarkTheme' : 'LightTheme'}`;
-      });
-    },
-    { immediate: true },
+  const { name } = useTheme().global;
+  const tn = computed<ThemeName>(
+    () => `${color.value}${dark.value ? '_dark' : '_light'}`,
   );
+  watch(tn, () => (name.value = tn.value), { immediate: true });
 
-  function setAppTheme(theme) {
-    theme.value = theme;
+  function setColor(c: Color) {
+    color.value = c;
   }
 
-  function toggleAppThemeDark() {
-    themeDark.value = !themeDark.value;
+  function toggleDark() {
+    dark.value = !dark.value;
   }
 
-  function toggleAppNavigation() {
+  function toggleNavigation() {
     navigation.value = !navigation.value;
   }
 
-  function toggleAppPermanentNavigation() {
+  function togglePermanentNavigation() {
     permanentNavigation.value = !permanentNavigation.value;
   }
 
-  function toggleAppSetting() {
+  function toggleSetting() {
     setting.value = !setting.value;
   }
 
-  function toggleAppMultipleTabs() {
-    multipleTabs.value = !multipleTabs.value;
+  function toggleTagsView() {
+    tagsView.value = !tagsView.value;
   }
 
   return {
     headerHeight,
     navigation,
     permanentNavigation,
-    theme,
-    themeDark,
+    color,
+    dark,
     setting,
-    multipleTabs,
-    setAppTheme,
-    toggleAppThemeDark,
-    toggleAppNavigation,
-    toggleAppPermanentNavigation,
-    toggleAppSetting,
-    toggleAppMultipleTabs,
+    tagsView,
+    setColor,
+    toggleDark,
+    toggleNavigation,
+    togglePermanentNavigation,
+    toggleSetting,
+    toggleTagsView,
   };
 });

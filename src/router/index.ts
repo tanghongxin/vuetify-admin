@@ -8,7 +8,7 @@ import {
   NOT_FOUND_ROUTE,
   FALLBACK_ROUTE,
   DEFAULT_ROUTE,
-} from './routes';
+} from '@/config/routes';
 import { dynamicImport } from './helper';
 import { uuid } from '@rthx/utils';
 import { RouteRecordRaw } from 'vue-router';

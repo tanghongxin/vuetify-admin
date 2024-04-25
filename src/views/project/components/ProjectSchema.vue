@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { addProject, editProject, getProject } from '@/api/project';
-import { VForm } from 'vuetify/components';
-import { ProjectInfo } from '@/api/project/types';
+import {
+  addProject,
+  editProject,
+  getProject,
+  ProjectInfo,
+} from '@/api/project';
+import toast from '@/utils/toast';
 
 defineOptions({ name: 'ProjectSchema' });
 
@@ -10,10 +14,10 @@ const emit = defineEmits<{
   (e: 'editSuccess'): void;
 }>();
 
-const formRef = ref<VForm>(null);
-const uploadRef = ref(null);
+const formRef = ref<IOGC<'VForm'>>(null);
+const uploadRef = ref<IOGC<'ImgUpload'>>(null);
 
-const formData = ref<ProjectInfo>({
+const model = ref<ProjectInfo>({
   id: '',
   name: '',
   type: '',
@@ -28,21 +32,23 @@ const loading = ref(false);
 const visible = ref(false);
 
 const add = async () => {
-  await addProject(formData.value);
+  await addProject(model.value);
+  toast.success({ message: '新增项目成功' });
   emit('addSuccess');
 };
 
 const edit = async () => {
-  await editProject(formData.value);
+  await editProject(model.value);
+  toast.success({ message: '编辑项目成功' });
   emit('editSuccess');
 };
 
-const open = async (id: string | undefined) => {
+const open = async (id?: string) => {
   try {
     visible.value = true;
     loading.value = true;
-    if (id !== undefined) {
-      formData.value = await getProject(id);
+    if (id) {
+      model.value = await getProject(id);
     }
   } finally {
     loading.value = false;
@@ -65,7 +71,7 @@ const reset = () => {
     occupy: null,
     tags: '',
   };
-  Object.assign(formData, defaultFormData);
+  Object.assign(model, defaultFormData);
   formRef.value.resetValidation();
   uploadRef.value.reset();
 };
@@ -75,7 +81,7 @@ const submit = async () => {
   if (!valid) return;
   try {
     loading.value = true;
-    await (formData.value.id ? edit() : add());
+    await (model.value.id ? edit() : add());
     close();
   } finally {
     loading.value = false;
@@ -90,7 +96,7 @@ defineExpose({ open });
     v-model="visible"
     flat
     :loading="loading"
-    :title="`${formData.id ? '编辑' : '新增'}项目`"
+    :title="`${model.id ? '编辑' : '新增'}项目`"
     :width="680"
     :after-close="reset"
   >
@@ -100,7 +106,7 @@ defineExpose({ open });
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-model="formData.name"
+                v-model="model.name"
                 variant="underlined"
                 label="项目名称"
                 :rules="[(v) => !!v || '请输入项目名称']"
@@ -110,30 +116,29 @@ defineExpose({ open });
           <v-row>
             <v-col cols="6">
               <v-select
-                v-model="formData.type"
+                v-model="model.type"
                 variant="underlined"
-                :items="['足道', '全身按摩', '中医调理', 'SPA', '套餐']"
+                :items="['拔罐', '推拿', '足疗']"
                 :rules="[(v) => !!v || '请选择项目类型']"
                 label="项目类型"
               />
             </v-col>
             <v-col cols="6">
               <v-radio-group
-                v-model="formData.category"
-                :items="['公共项目', '其他项目']"
+                v-model="model.category"
                 :rules="[(v) => !!v || '请选择项目类别']"
                 label="项目类别"
                 inline
               >
-                <v-radio color="primary" label="公共项目" value="公共项目" />
-                <v-radio color="primary" label="其他项目" value="其他项目" />
+                <v-radio color="primary" label="常规" value="常规" />
+                <v-radio color="primary" label="会员" value="会员" />
               </v-radio-group>
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="6">
               <v-text-field
-                v-model.number="formData.price"
+                v-model.number="model.price"
                 variant="underlined"
                 :rules="[(v) => !!v || '请输入展示价格']"
                 label="展示价格（¥）"
@@ -141,17 +146,17 @@ defineExpose({ open });
             </v-col>
             <v-col cols="6">
               <v-text-field
-                v-model.number="formData.time"
+                v-model.number="model.time"
                 variant="underlined"
                 :rules="[(v) => !!v || '请输入总时长']"
-                label="总时长（分钟）"
+                label="分钟"
               />
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="6">
               <v-text-field
-                v-model.number="formData.percent"
+                v-model.number="model.percent"
                 variant="underlined"
                 type="number"
                 :rules="[(v) => !!v || '请输入成本比例']"
@@ -160,7 +165,7 @@ defineExpose({ open });
             </v-col>
             <v-col cols="6">
               <v-radio-group
-                v-model="formData.occupy"
+                v-model="model.occupy"
                 color="primary"
                 :rules="[(v) => typeof v === 'boolean' || '请选择独享房间']"
                 label="独享房间"
@@ -174,7 +179,7 @@ defineExpose({ open });
           <v-row>
             <v-col class="py-0" cols="12">
               <v-text-field
-                v-model="formData.tags"
+                v-model="model.tags"
                 variant="underlined"
                 counter="12"
                 label="功效标签"

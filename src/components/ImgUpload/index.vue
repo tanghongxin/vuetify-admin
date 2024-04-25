@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import toast from '@/utils/toast';
-import ImgInputer from './ImgInputer/index.vue';
 import { PropType } from 'vue';
 
 defineOptions({
@@ -35,7 +34,7 @@ const props = defineProps({
   },
 });
 
-const imgInputerRef = ref(null);
+const imgInputerRef = ref<IOGC<'ImgInputer'>>(null);
 const file = ref(null);
 
 const maxMB = computed(() => props.maxSize / 1024);

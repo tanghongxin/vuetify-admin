@@ -6,23 +6,23 @@
   "menus": [
     {
       "name": "首页",
-      "icon": "home",
       "path": "/home",
-      "type": "VIEW",
       "component": "home/index",
-      "meta": {}
+      "meta": {
+        "icon": "home"
+      }
     },
     {
       "name": "项目管理",
-      "icon": "apps",
       "path": "/project",
-      "meta": {},
+      "meta": {
+        "icon": "apps"
+      },
       "component": "",
       "children": [
         {
           "name": "项目列表",
           "path": "/project/list",
-          "type": "VIEW",
           "component": "project/index",
           "meta": {
             "isKeepAlive": true
@@ -32,12 +32,11 @@
     },
     {
       "name": "404",
-      "icon": "priority_high",
-      "path": "404_test",
-      "redirect": "/exception/404",
-      "type": "VIEW",
-      "component": "",
-      "meta": {}
+      "path": "/exception/404",
+      "component": "exception/index",
+      "meta": {
+        "icon": "priority_high"
+      }
     }
   ]
 }

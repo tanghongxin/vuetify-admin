@@ -1,18 +1,25 @@
 <script setup lang="ts">
 import { useAccountStore } from '@/store/modules/account';
+import { LoginReq } from '@/api/account';
 
-const formData = reactive({
+defineOptions({ name: 'Login' });
+
+const model = reactive<LoginReq>({
   username: 'Admin',
   password: 'h97rpXts8',
 });
+
+const formRef = ref<IOGC<'VForm'>>(null);
 const loading = ref(false);
 
 const accountStore = useAccountStore();
 
 const handleSubmit = async () => {
+  const { valid } = await formRef.value.validate();
+  if (!valid) return;
   try {
     loading.value = true;
-    await accountStore.login(formData);
+    await accountStore.login(model);
   } finally {
     loading.value = false;
   }
@@ -23,7 +30,7 @@ const handleSubmit = async () => {
   <v-container class="d-flex fill-height" fluid align="center" justify="center">
     <v-row class="full-height" align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
-        <v-form ref="form">
+        <v-form ref="formRef">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>用户登录</v-toolbar-title>
@@ -32,7 +39,7 @@ const handleSubmit = async () => {
 
             <v-card-text>
               <v-text-field
-                v-model="formData.username"
+                v-model="model.username"
                 variant="underlined"
                 autofocus
                 label="用户名"
@@ -45,7 +52,7 @@ const handleSubmit = async () => {
               />
               <v-text-field
                 id="password"
-                v-model="formData.password"
+                v-model="model.password"
                 variant="underlined"
                 label="密码"
                 name="password"

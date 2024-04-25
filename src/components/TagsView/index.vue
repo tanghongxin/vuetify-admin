@@ -3,10 +3,12 @@ import { useTagsViewStore } from '@/store/modules/tagsView';
 import Manager from './Manager.vue';
 import Breadcrumbs from './Breadcrumbs.vue';
 
+defineOptions({ name: 'TagsView' });
+
 const tagsViewStore = useTagsViewStore();
 const route = useRoute();
 const targetIndex = ref(-1);
-const followMenuRef = ref(null);
+const followMenuRef = ref<IOGC<'FollowMenu'>>(null);
 
 onMounted(() => {
   tagsViewStore.useActivate();
