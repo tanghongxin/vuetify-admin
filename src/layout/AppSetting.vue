@@ -13,13 +13,13 @@ const store = useSettingStore();
 <template>
   <div class="app-setting">
     <v-navigation-drawer
-      :model-value="store.appSetting"
+      :model-value="store.setting"
       location="right"
       temporary
       @update:model-value="store.toggleAppSetting"
     >
       <template #prepend>
-        <v-toolbar :height="store.appHeaderHeight" color="primary lighten-1">
+        <v-toolbar :height="store.headerHeight" color="primary lighten-1">
           <v-toolbar-title>个性化设置</v-toolbar-title>
         </v-toolbar>
       </template>
@@ -30,7 +30,7 @@ const store = useSettingStore();
             <p class="px-1 my-2">导航栏设置</p>
             <v-switch
               color="primary"
-              :model-value="store.appPermanentNavigation"
+              :model-value="store.permanentNavigation"
               label="导航栏固定左侧"
               @change="store.toggleAppPermanentNavigation"
             />
@@ -40,7 +40,7 @@ const store = useSettingStore();
             <p class="px-1 my-2">外观</p>
             <v-switch
               color="primary"
-              :model-value="store.appThemeDark"
+              :model-value="store.themeDark"
               label="深色模式"
               @change="store.toggleAppThemeDark"
             />
@@ -50,7 +50,7 @@ const store = useSettingStore();
             <p class="px-1 my-2">页签模式</p>
             <v-switch
               color="primary"
-              :model-value="store.appMultipleTabs"
+              :model-value="store.multipleTabs"
               label="多页签"
               @change="store.toggleAppMultipleTabs"
             />
@@ -67,7 +67,7 @@ const store = useSettingStore();
                 >
                   <input
                     type="radio"
-                    :checked="colorName === store.appTheme"
+                    :checked="colorName === store.theme"
                     @input="store.setAppTheme(colorName)"
                   />
                   <span class="app-setting__item bg">

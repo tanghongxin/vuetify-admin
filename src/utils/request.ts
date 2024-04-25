@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { parse, stringify } from 'qs';
 import toast from '@/utils/toast';
-import { useAccountStore } from '@/store/modules/account';
+import { getAccountStore } from '@/store/modules/account';
 
 const request = axios.create({
   baseURL: '/api',
@@ -14,16 +14,24 @@ const request = axios.create({
   },
 });
 
-request.interceptors.request.use(async (config) => {
-  const { account } = useAccountStore();
-  if (account.token) {
-    config.headers.Authorization = `Bearer ${account.token}`;
+request.interceptors.request.use((config) => {
+  const { account } = getAccountStore();
+  const { token } = account;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
 request.interceptors.response.use(
-  ({ data }) => data,
+  (config) => {
+    const { data, message, success } = config.data as ApiRes<any>;
+    if (!success) {
+      toast.error({ message });
+      return Promise.reject(new Error(message));
+    }
+    return data;
+  },
   (error) => {
     let message = '';
     if (error.response) {

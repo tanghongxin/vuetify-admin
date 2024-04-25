@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@rthx/utils':
-        specifier: ~0.2.0
-        version: 0.2.0
+        specifier: ~0.2.1
+        version: 0.2.1
       '@rthx/vue3-amap':
         specifier: ~0.1.8
         version: 0.1.8(vue@3.4.23(typescript@5.4.5))
@@ -566,8 +566,8 @@ packages:
   '@rthx/utils@0.1.7':
     resolution: {integrity: sha512-TYtFSwkxpjGCkVG6ZLZh1KI66BFqzYs5S3/UzHjapHjM5+mfcRJIaHSlsMz0u2fE2llSjQZmSrLScw9nDrt0Xw==}
 
-  '@rthx/utils@0.2.0':
-    resolution: {integrity: sha512-KQzFDBoshJXU8iyIk3FpiMMtT1X8c0HhxaefF7R0/TVwefIGqT2XYr70fjs89rQl0akasM9XkYDCkR8r+0GlrQ==}
+  '@rthx/utils@0.2.1':
+    resolution: {integrity: sha512-yM7C24cgBV8hyPM6uPoKv7rgwdz3sTnI6GgUy36R4XAEQYJeVpQwPLa+KlJqeIsmeUa26db+otMmIhEuaCb6uQ==}
 
   '@rthx/vue3-amap@0.1.8':
     resolution: {integrity: sha512-OAOxztkMMSQhdX8T1l+AA1FLp0tX/l8Yk1cBzkRgwzVlJgt6jggD21tljTR3E6AtJi2vX/VCIpCSa7nZ6KZe3g==}
@@ -2566,7 +2566,7 @@ snapshots:
 
   '@rthx/utils@0.1.7': {}
 
-  '@rthx/utils@0.2.0': {}
+  '@rthx/utils@0.2.1': {}
 
   '@rthx/vue3-amap@0.1.8(vue@3.4.23(typescript@5.4.5))':
     dependencies:

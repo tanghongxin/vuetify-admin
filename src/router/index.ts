@@ -11,8 +11,7 @@ import {
 } from './routes';
 import { dynamicImport } from './helper';
 import { uuid } from '@rthx/utils';
-import type { RouteConfig } from '@/types';
-import type { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router';
 
 const isHash = import.meta.env.VITE_ROUTER_HISTORY === 'hash';
 
@@ -33,14 +32,14 @@ const buildRoutes = (routesConfig: RouteConfig[] = []) => {
     return {
       ...rest,
       component: component ? dynamicImport(component, compName) : '',
-      meta: { ...meta, compName },
+      meta: Object.assign({}, meta, compName ? { compName } : {}),
       children: children?.map(cb),
     } as RouteRecordRaw;
   };
 
   if (routesConfig.length) {
     router.addRoute({
-      name: 'Layout',
+      name: Symbol('Layout'),
       path: '/',
       component: () => import('@/layout/AppPage.vue'),
       redirect: DEFAULT_ROUTE.path,
@@ -57,7 +56,13 @@ const buildRoutes = (routesConfig: RouteConfig[] = []) => {
   );
 };
 
-const resetRouter = () => buildRoutes();
+const resetRouter = () => {
+  try {
+    buildRoutes();
+  } catch {
+    window.location.reload();
+  }
+};
 
 export default router;
 export { buildRoutes, resetRouter };

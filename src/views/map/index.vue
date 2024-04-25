@@ -4,7 +4,7 @@ import { useSettingStore } from '@/store/modules/settings';
 // eslint-disable-next-line vue/no-reserved-component-names
 defineOptions({ name: 'Map' });
 
-const { appThemeDark } = storeToRefs(useSettingStore());
+const { themeDark } = storeToRefs(useSettingStore());
 
 const loading = ref(true);
 </script>
@@ -13,7 +13,7 @@ const loading = ref(true);
   <div class="map">
     <Spin :model-value="loading">
       <AMapMap
-        :map-style="appThemeDark ? 'dark' : 'normal'"
+        :map-style="themeDark ? 'dark' : 'normal'"
         @complete="loading = false"
       >
         <a-map-fit-view />

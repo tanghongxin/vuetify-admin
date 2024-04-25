@@ -10,14 +10,13 @@ defineOptions({
 const accountStore = useAccountStore();
 
 const { toggleAppNavigation } = useSettingStore();
-const { appPermanentNavigation, appNavigation } =
-  storeToRefs(useSettingStore());
+const { permanentNavigation, navigation } = storeToRefs(useSettingStore());
 </script>
 
 <template>
   <v-navigation-drawer
-    :model-value="appPermanentNavigation || appNavigation"
-    :permanent="appPermanentNavigation"
+    :model-value="permanentNavigation || navigation"
+    :permanent="permanentNavigation"
     @update:model-value="toggleAppNavigation"
   >
     <RecursiveMenus :items="accountStore.menus" />

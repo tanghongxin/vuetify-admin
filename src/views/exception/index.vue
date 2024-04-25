@@ -3,7 +3,7 @@ import { useSettingStore } from '@/store/modules/settings';
 
 defineOptions({ name: 'Exception' });
 
-const { appThemeDark } = storeToRefs(useSettingStore());
+const { themeDark } = storeToRefs(useSettingStore());
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const { appThemeDark } = storeToRefs(useSettingStore());
   >
     <div
       class="exception-img mb-6"
-      :style="{ filter: appThemeDark ? 'invert(100%)' : 'none' }"
+      :style="{ filter: themeDark ? 'invert(100%)' : 'none' }"
     />
     <h1>{{ 404 }}</h1>
     <h2>抱歉，您访问的页面不存在或仍在开发中</h2>

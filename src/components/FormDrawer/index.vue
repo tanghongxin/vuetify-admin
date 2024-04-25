@@ -28,9 +28,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['open', 'close', 'update:model-value']);
+const emit = defineEmits<{
+  open: [];
+  close: [];
+  'update:model-value': [value: boolean];
+}>();
 
-const { appHeaderHeight } = storeToRefs(useSettingStore());
+const { headerHeight } = storeToRefs(useSettingStore());
 
 watch(
   () => props.modelValue,
@@ -58,7 +62,7 @@ watch(
       @update:model-value="emit('update:model-value', $event)"
     >
       <template #prepend>
-        <v-toolbar :height="appHeaderHeight" color="primary darken-1">
+        <v-toolbar :height="headerHeight" color="primary darken-1">
           <v-toolbar-title>
             {{ title }}
           </v-toolbar-title>

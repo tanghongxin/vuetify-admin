@@ -13,8 +13,7 @@ const { logout } = useAccountStore();
 const { username } = storeToRefs(useAccountStore());
 
 const { toggleAppNavigation, toggleAppSetting } = useSettingStore();
-const { appPermanentNavigation, appHeaderHeight } =
-  storeToRefs(useSettingStore());
+const { permanentNavigation, headerHeight } = storeToRefs(useSettingStore());
 
 const title = import.meta.env.VITE_APP_TITLE;
 const repo = import.meta.env.VITE_GITHUB_REPO;
@@ -22,18 +21,18 @@ const repo = import.meta.env.VITE_GITHUB_REPO;
 
 <template>
   <v-app-bar
-    :clipped-left="appPermanentNavigation || lgAndUp"
+    :clipped-left="permanentNavigation || lgAndUp"
     app
     class="pr-4"
     color="primary darken-2"
     dark
     flat
-    :height="appHeaderHeight"
+    :height="headerHeight"
   >
     <template #prepend>
       <v-expand-x-transition>
         <v-app-bar-nav-icon
-          v-show="!appPermanentNavigation"
+          v-show="!permanentNavigation"
           @click.stop="toggleAppNavigation"
         />
       </v-expand-x-transition>

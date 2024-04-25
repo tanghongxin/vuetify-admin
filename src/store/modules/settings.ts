@@ -1,68 +1,60 @@
-import { useRuntimeStore } from './runtime';
 import { useDisplay, useTheme } from 'vuetify';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useSettingStore = defineStore('setting', () => {
-  const runtimeStore = useRuntimeStore();
   const { xs } = useDisplay();
-  const theme = useTheme();
+  const t = useTheme();
 
-  const appHeaderHeight = computed(() => (xs.value ? 48 : 56));
-  const appNavigation = ref(document.body.clientWidth > 1264);
-  const appPermanentNavigation = useLocalStorage(
-    'appPermanentNavigation',
-    true,
-  );
-  const appTheme = useLocalStorage('appTheme', 'indigo');
-  const appThemeDark = useLocalStorage('appThemeDark', false);
-  const appSetting = useLocalStorage('appSetting', false);
-  const appMultipleTabs = useLocalStorage('appMultipleTabs', true);
+  const headerHeight = computed(() => (xs.value ? 48 : 56));
+  const navigation = ref(document.body.clientWidth > 1264);
+  const permanentNavigation = useLocalStorage('permanentNavigation', true);
+  const theme = useLocalStorage('theme', 'indigo');
+  const themeDark = useLocalStorage('themeDark', false);
+  const setting = useLocalStorage('setting', false);
+  const multipleTabs = useLocalStorage('multipleTabs', true);
 
   watch(
-    () => [appTheme.value, appThemeDark.value],
-    ([appTheme, appThemeDark]) => {
+    () => [theme.value, themeDark.value],
+    ([theme, themeDark]) => {
       setTimeout(() => {
-        theme.global.name.value = `${appTheme}${appThemeDark ? 'DarkTheme' : 'LightTheme'}`;
+        t.global.name.value = `${theme}${themeDark ? 'DarkTheme' : 'LightTheme'}`;
       });
     },
     { immediate: true },
   );
 
   function setAppTheme(theme) {
-    appTheme.value = theme;
+    theme.value = theme;
   }
 
   function toggleAppThemeDark() {
-    appThemeDark.value = !appThemeDark.value;
+    themeDark.value = !themeDark.value;
   }
 
   function toggleAppNavigation() {
-    appNavigation.value = !appNavigation.value;
+    navigation.value = !navigation.value;
   }
 
   function toggleAppPermanentNavigation() {
-    appPermanentNavigation.value = !appPermanentNavigation.value;
+    permanentNavigation.value = !permanentNavigation.value;
   }
 
   function toggleAppSetting() {
-    appSetting.value = !appSetting.value;
+    setting.value = !setting.value;
   }
 
   function toggleAppMultipleTabs() {
-    appMultipleTabs.value = !appMultipleTabs.value;
-    if (!appMultipleTabs.value) {
-      runtimeStore.setOpenedRoutes([]);
-    }
+    multipleTabs.value = !multipleTabs.value;
   }
 
   return {
-    appHeaderHeight,
-    appNavigation,
-    appPermanentNavigation,
-    appTheme,
-    appThemeDark,
-    appSetting,
-    appMultipleTabs,
+    headerHeight,
+    navigation,
+    permanentNavigation,
+    theme,
+    themeDark,
+    setting,
+    multipleTabs,
     setAppTheme,
     toggleAppThemeDark,
     toggleAppNavigation,

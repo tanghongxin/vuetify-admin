@@ -1,28 +1,35 @@
 <script setup lang="ts">
 import { useSettingStore } from '@/store/modules/settings';
 import { useKeepAliveInclude } from '@/composables/layout';
+import { VContainer } from 'vuetify/components';
+import { debounce } from 'radash';
+import { uuid } from '@rthx/utils';
 
 defineOptions({
   name: 'AppContent',
 });
 
-const { appMultipleTabs } = storeToRefs(useSettingStore());
+const { multipleTabs } = storeToRefs(useSettingStore());
 const route = useRoute();
 const include = useKeepAliveInclude();
-
-const updateScrollTop = (scrollTop) => {
-  route.meta.scrollTop = scrollTop;
-};
+const containerRef = ref<VContainer>(null);
+const containerId = uuid();
+const updateScrollTop = debounce({ delay: 100 }, (top: number) => {
+  Object.assign(route.meta, {
+    scroll: { top, el: containerId },
+  });
+});
 </script>
 
 <template>
   <v-main class="app-content fill-height overflow-hidden">
     <div class="fill-height d-flex flex-column align-center justify-center">
       <v-expand-transition>
-        <TagsView v-if="appMultipleTabs" />
+        <TagsView v-if="multipleTabs" />
       </v-expand-transition>
       <div class="fill-width flex-grow-1" :style="{ position: 'relative' }">
         <v-container
+          :id="containerId"
           ref="containerRef"
           v-scroll.self="(e) => updateScrollTop(e.target.scrollTop)"
           class="overflow-x-hidden overflow-y-auto py-1 px-1"
@@ -38,7 +45,7 @@ const updateScrollTop = (scrollTop) => {
           <div class="fill-height">
             <router-view v-slot="{ Component }">
               <v-slide-x-transition mode="out-in">
-                <keep-alive :include="appMultipleTabs ? include : []">
+                <keep-alive :include="multipleTabs ? include : []">
                   <component :is="Component" :key="route.path" />
                 </keep-alive>
               </v-slide-x-transition>

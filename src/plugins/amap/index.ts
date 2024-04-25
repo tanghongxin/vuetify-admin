@@ -1,4 +1,4 @@
-import type { Plugin } from 'vue';
+import { Plugin } from 'vue';
 import Vue3AMap from '@rthx/vue3-amap';
 import '@rthx/vue3-amap/dist/style.css';
 import toast from '@/utils/toast';

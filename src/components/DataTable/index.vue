@@ -1,28 +1,22 @@
 <script setup lang="ts">
 import { VForm } from 'vuetify/components';
 
-const { loadData, headers, multiSort } = defineProps({
-  loadData: {
-    type: Function,
-    default: (): Promise<{ items: any[]; total: number }> =>
-      Promise.resolve({ items: [], total: 0 }),
-    required: true,
-  },
-  headers: {
-    type: Array,
-    default: () => [],
-    required: true,
-  },
-  multiSort: {
-    type: Boolean,
-    default: false,
-  },
+interface Props {
+  loadData: (req: TableReq) => Promise<TableRes<any>>;
+  headers: any[];
+  multiSort?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  loadData: () => Promise.resolve({ items: [], total: 0 }),
+  headers: () => [],
+  multiSort: false,
 });
 
 const formRef = ref<VForm>(null);
 const items = ref([]);
 const loading = ref(false);
-const options = ref({
+const options = ref<TableReq>({
   page: 1,
   itemsPerPage: 10,
   sortBy: [],
@@ -35,7 +29,7 @@ watch(options, fetch, { immediate: true });
 async function fetch(ops = {}) {
   try {
     loading.value = true;
-    const data = await loadData(Object.assign({}, options.value, ops));
+    const data = await props.loadData(Object.assign({}, options.value, ops));
     items.value = data.items;
     total.value = data.total;
     await nextTick();
@@ -91,12 +85,12 @@ defineExpose({ refresh });
         v-model:items-per-page="options.itemsPerPage"
         class="elevation-0 fill-width fill-height d-flex flex-column overflow-x-hidden"
         fixed-header
-        :headers="headers"
+        :headers="props.headers"
         :items="items"
         :items-length="total"
         :loading="loading"
         loading-text="加载中"
-        :multi-sort="multiSort"
+        :multi-sort="props.multiSort"
         :no-data-text="loading ? '加载中...' : '暂无数据'"
         :page="options.page"
         @update:options="fetch($event)"

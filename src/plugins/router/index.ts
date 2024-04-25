@@ -1,4 +1,4 @@
-import type { Plugin } from 'vue';
+import { Plugin } from 'vue';
 import router from '@/router';
 import '@/router/permission';
 

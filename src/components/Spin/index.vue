@@ -12,7 +12,9 @@
 
 <script setup lang="ts">
 import { useSettingStore } from '@/store/modules/settings';
+
 defineOptions({ name: 'Spin' });
+
 defineProps({
   modelValue: {
     type: Boolean,
@@ -20,11 +22,10 @@ defineProps({
   },
 });
 
-const store = useSettingStore();
-const { appThemeDark } = storeToRefs(store);
+const { themeDark } = storeToRefs(useSettingStore());
 
 const bgColor = computed(() =>
-  appThemeDark.value ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+  themeDark.value ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
 );
 </script>
 

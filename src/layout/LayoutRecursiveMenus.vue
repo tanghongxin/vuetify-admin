@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useBreadcrumbs } from '@/composables/layout';
-import type { RouteConfig } from '@/types';
 
 const LayoutRecursiveMenus = defineAsyncComponent(
   () => import('./LayoutRecursiveMenus.vue'),
@@ -32,7 +31,7 @@ const breadcrumbs = useBreadcrumbs();
     <template v-for="item in items">
       <!-- / branch nodes -->
       <v-list-group
-        v-if="item.type === 'MENU' && !item.meta?.isHidden"
+        v-if="item.children?.length && !item.meta?.isHidden"
         :key="item.path"
         selected-class="primary--text"
         :class="sub ? 'group-sub' : ''"
@@ -55,7 +54,7 @@ const breadcrumbs = useBreadcrumbs();
 
       <!-- / leaf nodes -->
       <v-list-item
-        v-if="item.type === 'VIEW' && !item.meta?.isHidden"
+        v-if="!item.children?.length && !item.meta?.isHidden"
         :key="item.path"
         selected-class="primary--text"
         :to="item.path || item.redirect"

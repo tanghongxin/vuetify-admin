@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { addProject, editProject, getProject } from '@/api/project';
 import { VForm } from 'vuetify/components';
-import type { Project } from '@/types';
+import { ProjectInfo } from '@/api/project/types';
 
 defineOptions({ name: 'ProjectSchema' });
 
-const emit = defineEmits(['addSuccess', 'editSuccess']);
+const emit = defineEmits<{
+  (e: 'addSuccess'): void;
+  (e: 'editSuccess'): void;
+}>();
 
 const formRef = ref<VForm>(null);
 const uploadRef = ref(null);
 
-const formData = ref<Project>({
+const formData = ref<ProjectInfo>({
   id: '',
   name: '',
   type: '',

@@ -3,8 +3,8 @@ import { sleep } from '@rthx/utils';
 
 defineOptions({ name: 'FollowMenu' });
 
-const wrapperRef = ref(null);
-const menu = ref(false);
+const wrapperRef = ref<Element>(null);
+const menu = ref<boolean>(false);
 const x = ref<string | number>(0);
 const y = ref<string | number>(0);
 

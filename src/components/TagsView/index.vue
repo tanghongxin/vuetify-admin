@@ -1,91 +1,25 @@
 <script setup lang="ts">
-import { useRuntimeStore } from '@/store/modules/runtime';
-import { DEFAULT_ROUTE } from '@/router/routes';
+import { useTagsViewStore } from '@/store/modules/tagsView';
 import Manager from './Manager.vue';
 import Breadcrumbs from './Breadcrumbs.vue';
 
-const runtimeStore = useRuntimeStore();
-const router = useRouter();
+const tagsViewStore = useTagsViewStore();
 const route = useRoute();
 const targetIndex = ref(-1);
 const followMenuRef = ref(null);
-const containerRef = ref(null);
 
-const close = (index) => {
-  // 当只有一个页签且为首页时，保持不动
-  if (
-    runtimeStore.openedRoutes[index].path === DEFAULT_ROUTE.path &&
-    runtimeStore.openedRoutes.length <= 1
-  ) {
-    return;
-  }
+onMounted(() => {
+  tagsViewStore.useActivate();
+});
 
-  // 关闭当前激活页签
-  if (runtimeStore.openedRoutes[index].fullPath === route.fullPath) {
-    let to;
-    // 优化向右移动
-    if (index <= runtimeStore.openedRoutes.length - 2) {
-      to = runtimeStore.openedRoutes[index + 1].fullPath;
-    } else if (index >= 1) {
-      to = runtimeStore.openedRoutes[index - 1].fullPath;
-    } else {
-      to = '/home';
-    }
-    router.push(to);
-  }
-  runtimeStore.setOpenedRoutes([
-    ...runtimeStore.openedRoutes.slice(0, index),
-    ...runtimeStore.openedRoutes.slice(index + 1),
-  ]);
-};
+onBeforeUnmount(() => {
+  tagsViewStore.useDeactivated();
+});
 
-const closeLeft = (index) => {
-  runtimeStore.setOpenedRoutes(runtimeStore.openedRoutes.slice(index));
-};
-
-const closeRight = (index) => {
-  runtimeStore.setOpenedRoutes(runtimeStore.openedRoutes.slice(0, index + 1));
-};
-
-const closeOthers = (index) => {
-  runtimeStore.setOpenedRoutes([runtimeStore.openedRoutes[index]]);
-};
-
-const updateScrollTop = (scrollTop) => {
-  route.meta.scrollTop = scrollTop;
-};
-
-const restoreScrollTop = (scrollTop) => {
-  updateScrollTop(scrollTop);
-  setTimeout(() => {
-    containerRef.value.$el.scroll({ top: scrollTop, behavior: 'smooth' });
-  }, 800);
-};
-
-const handleRouteChange = async () => {
-  const openedRoutes = runtimeStore.openedRoutes.slice();
-  const index = openedRoutes.findIndex((r) => r.name === route.name);
-  const originalRoute = openedRoutes[index];
-
-  if (index === -1) {
-    openedRoutes.push({ ...route });
-  } else {
-    openedRoutes.splice(index, 1, { ...route });
-  }
-  runtimeStore.setOpenedRoutes(openedRoutes);
-
-  if (originalRoute && originalRoute.meta.scrollTop) {
-    await nextTick();
-    restoreScrollTop(originalRoute.meta.scrollTop);
-  }
-};
-
-const handleCtxMenu = (e, index) => {
+const ctxMenu = (e: MouseEvent, index: number) => {
   targetIndex.value = index;
   followMenuRef.value.show(e);
 };
-
-watch(() => route, handleRouteChange, { immediate: true, deep: true });
 </script>
 
 <template>
@@ -98,16 +32,22 @@ watch(() => route, handleRouteChange, { immediate: true, deep: true });
       @update:modelValue="() => {}"
     >
       <v-tab
-        v-for="(r, index) in runtimeStore.openedRoutes"
+        v-for="(r, index) in tagsViewStore.views"
         :key="r.name"
         :value="r.fullPath"
         :exact="r.name === route.name"
         :to="r.fullPath"
-        @contextmenu="handleCtxMenu($event, index)"
+        @contextmenu="ctxMenu($event, index)"
       >
         <span class="subtitle-1">{{ r.name }}</span>
         <v-spacer tag="span" />
-        <v-btn icon ripple small variant="text" @click.prevent="close(index)">
+        <v-btn
+          icon
+          ripple
+          small
+          variant="text"
+          @click.prevent="tagsViewStore.close(index)"
+        >
           <v-icon small> close </v-icon>
         </v-btn>
       </v-tab>
@@ -117,11 +57,10 @@ watch(() => route, handleRouteChange, { immediate: true, deep: true });
     <FollowMenu ref="followMenuRef">
       <Manager
         :targetIndex
-        :openedRoutes="runtimeStore.openedRoutes"
-        @close="close"
-        @closeRight="closeRight"
-        @closeLeft="closeLeft"
-        @closeOthers="closeOthers"
+        @close="tagsViewStore.close"
+        @closeRight="tagsViewStore.closeRight"
+        @closeLeft="tagsViewStore.closeLeft"
+        @closeOthers="tagsViewStore.closeOthers"
       />
     </FollowMenu>
   </div>

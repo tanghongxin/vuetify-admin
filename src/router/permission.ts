@@ -21,6 +21,10 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to) => {
-  setDocumentTitle(`${import.meta.env.VITE_APP_TITLE} - ${to.name as string}`);
+  let title = import.meta.env.VITE_APP_TITLE;
+  if (typeof to.name === 'string' && to.name) {
+    title += ` - ${to.name}`;
+  }
+  setDocumentTitle(title);
   NProgress.done();
 });

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import toast from '@/utils/toast';
 import ImgInputer from './ImgInputer/index.vue';
+import { PropType } from 'vue';
+
+defineOptions({
+  name: 'ImgUpload',
+});
 
 const props = defineProps({
   flat: {
@@ -24,7 +29,7 @@ const props = defineProps({
     default: false,
   },
   size: {
-    type: String,
+    type: String as PropType<'small' | 'normal' | 'large'>,
     default: 'normal',
     validator: (size: string) => ['small', 'normal', 'large'].includes(size),
   },

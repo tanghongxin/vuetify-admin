@@ -1,16 +1,20 @@
 <script setup lang="ts">
-const props = defineProps({
-  openedRoutes: {
-    type: Array,
-    default: () => [],
-  },
+import { useTagsViewStore } from '@/store/modules/tagsView';
+
+defineProps({
   targetIndex: {
     type: Number,
     default: 0,
   },
 });
 
-const emit = defineEmits(['close', 'closeRight', 'closeLeft', 'closeOthers']);
+const { views } = storeToRefs(useTagsViewStore());
+const emit = defineEmits<{
+  close: [targetIndex: number];
+  closeRight: [targetIndex: number];
+  closeLeft: [targetIndex: number];
+  closeOthers: [targetIndex: number];
+}>();
 </script>
 
 <template>
@@ -25,7 +29,7 @@ const emit = defineEmits(['close', 'closeRight', 'closeLeft', 'closeOthers']);
     </v-list-item>
     <v-list-item
       dense
-      :disabled="targetIndex >= props.openedRoutes.length - 1"
+      :disabled="targetIndex >= views.length - 1"
       @click="() => emit('closeRight', targetIndex)"
     >
       <template #prepend>
@@ -49,7 +53,7 @@ const emit = defineEmits(['close', 'closeRight', 'closeLeft', 'closeOthers']);
     </v-list-item>
     <v-list-item
       dense
-      :disabled="props.openedRoutes.length <= 1"
+      :disabled="views.length <= 1"
       @click="emit('closeOthers', targetIndex)"
     >
       <template #prepend>

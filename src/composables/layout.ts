@@ -1,4 +1,4 @@
-import { useRuntimeStore } from '@/store/modules/runtime';
+import { useTagsViewStore } from '@/store/modules/tagsView';
 
 export const useBreadcrumbs = () => {
   const route = useRoute();
@@ -13,10 +13,10 @@ export const useBreadcrumbs = () => {
 };
 
 export const useKeepAliveInclude = () => {
-  const { openedRoutes } = storeToRefs(useRuntimeStore());
+  const { views } = storeToRefs(useTagsViewStore());
 
   return computed(() =>
-    openedRoutes.value
+    views.value
       .filter(({ meta }) => meta.isKeepAlive)
       .map(({ meta }) => meta.compName),
   );

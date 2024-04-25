@@ -73,10 +73,6 @@ const headers = computed(() => [
   },
 ]);
 
-async function loadData(options = {}) {
-  return getProjectList({ ...query, ...options });
-}
-
 async function handleAdd() {
   projectSchemaRef.value.open();
 }
@@ -102,7 +98,11 @@ async function handleDelete(id) {
 
 <template>
   <div class="fill-height fill-width overflow-hidden">
-    <DataTable ref="tableRef" :headers="headers" :load-data="loadData">
+    <DataTable
+      ref="tableRef"
+      :headers="headers"
+      :load-data="(options) => getProjectList({ ...query, ...options })"
+    >
       <template #search>
         <v-row class="px-4">
           <v-col class="py-0" cols="12">

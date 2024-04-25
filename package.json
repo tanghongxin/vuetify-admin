@@ -24,7 +24,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@rthx/utils": "~0.2.0",
+    "@rthx/utils": "~0.2.1",
     "@rthx/vue3-amap": "~0.1.8",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
