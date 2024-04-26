@@ -1,6 +1,6 @@
 import vue from '@vitejs/plugin-vue';
 import { defineConfig, loadEnv, UserConfig } from 'vite';
-// import { Plugin as importToCDN, autoComplete } from 'vite-plugin-cdn-import';
+import { cdn } from 'vite-plugin-cdn2';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
 import vuetify from 'vite-plugin-vuetify';
@@ -40,22 +40,10 @@ export default defineConfig(({ mode }) => {
       }),
       ...(isProd
         ? [
-            // FIXME: https://github.com/MMF-FE/vite-plugin-cdn-import/issues/13
-            // importToCDN({
-            //   modules: [
-            //     autoComplete('@vueuse/core'),
-            //     {
-            //       name: 'pinia',
-            //       var: 'Pinia',
-            //       path: 'dist/pinia.iife.min.js',
-            //     },
-            //     {
-            //       name: 'vue-router',
-            //       var: 'VueRouter',
-            //       path: 'dist/vue-router.global.min.js',
-            //     },
-            //   ],
-            // }),
+            // https://github.com/MMF-FE/vite-plugin-cdn-import/issues/13#issuecomment-1647523134
+            cdn({
+              modules: ['vue', 'vue-demi', 'pinia', 'vue-router'],
+            }),
             viteCompression(),
             visualizer({
               template: 'treemap', // or sunburst
