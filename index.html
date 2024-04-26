@@ -8,24 +8,33 @@
   <title>%VITE_APP_TITLE%</title>
   <link rel="icon" href="/logo.svg">
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+</head>
+
+<body>
   <style>
     * {
       margin: 0;
       padding: 0;
     }
 
-    html {
+    html, body {
       height: 100vh;
+      width: 100vw;
       overflow-x: hidden;
       overflow-y: auto !important;
-      width: 100vw;
     }
 
-    body {
-      align-items: center;
+    #app_spinner_wrapper{
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
       display: flex;
-      height: 100%;
       justify-content: center;
+      align-items: center;
+      background-color: var(--spinner-bg-color);
     }
 
     #app_spinner {
@@ -136,11 +145,12 @@
       }
     }
   </style>
-
-</head>
-
-<body>
-  <div id="app">
+  <script>
+    const dark = localStorage.getItem('dark') === 'true'
+    document.body.style.setProperty('--spinner-bg-color', dark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)')
+  </script>
+  <div id="app"></div>
+  <div id="app_spinner_wrapper">
     <svg id="app_spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
       <circle id="app_spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30" />
     </svg>
