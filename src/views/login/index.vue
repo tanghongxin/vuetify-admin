@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAccountStore } from '@/store/modules/account';
 import { LoginReq } from '@/api/account';
+import { usePromiseFn } from '@/composables';
 
 defineOptions({ name: 'Login' });
 
@@ -10,19 +11,13 @@ const model = reactive<LoginReq>({
 });
 
 const formRef = ref<IOGC<'VForm'>>(null);
-const loading = ref(false);
 
-const accountStore = useAccountStore();
+const { login } = useAccountStore();
+const { loading, exec } = usePromiseFn(login);
 
-const handleSubmit = async () => {
+const submit = async () => {
   const { valid } = await formRef.value.validate();
-  if (!valid) return;
-  try {
-    loading.value = true;
-    await accountStore.login(model);
-  } finally {
-    loading.value = false;
-  }
+  if (valid) exec(model);
 };
 </script>
 
@@ -30,7 +25,7 @@ const handleSubmit = async () => {
   <v-container class="d-flex fill-height" fluid align="center" justify="center">
     <v-row class="full-height" align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
-        <v-form ref="formRef">
+        <v-form ref="formRef" @submit.prevent="submit">
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>用户登录</v-toolbar-title>
@@ -66,12 +61,7 @@ const handleSubmit = async () => {
 
             <v-card-actions>
               <v-spacer />
-              <v-btn
-                color="primary"
-                :loading="loading"
-                type="submit"
-                @click.prevent="handleSubmit"
-              >
+              <v-btn color="primary" :loading="loading" type="submit">
                 登录
               </v-btn>
             </v-card-actions>

@@ -31,24 +31,31 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
-  open: [];
-  close: [];
+  submit: [];
   'update:model-value': [value: boolean];
 }>();
+
+const formRef = ref<IOGC<'VForm'>>(null);
 
 const { headerHeight } = storeToRefs(useSettingStore());
 
 watch(
   () => props.modelValue,
-  async (v) => {
-    if (v) {
-      emit('open');
-    } else {
-      emit('close');
-      props.afterClose();
-    }
+  (open) => {
+    if (!open) afterClose();
   },
 );
+
+const afterClose = async () => {
+  props.afterClose();
+  await nextTick();
+  formRef.value.resetValidation();
+};
+
+const submit = async () => {
+  const { valid } = await formRef.value.validate();
+  if (valid) emit('submit');
+};
 </script>
 
 <template>
@@ -71,25 +78,31 @@ watch(
         </v-toolbar>
       </template>
 
-      <v-container>
-        <v-card :flat="flat" height="100%" class="overflow-y-auto">
+      <v-form
+        class="d-flex flex-column fill-height"
+        ref="formRef"
+        @submit.prevent="submit"
+      >
+        <v-card :flat="flat" class="overflow-y-auto flex-1-0">
           <v-card-text class="flex-grow-1">
             <slot name="content" />
           </v-card-text>
         </v-card>
 
         <Spin :model-value="loading" />
-      </v-container>
-
-      <!-- / Footer -->
-      <template #append>
         <v-divider />
         <div class="fill-width d-flex flex-row">
           <slot name="actions" />
         </div>
-      </template>
+      </v-form>
     </v-navigation-drawer>
   </Teleport>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.FormWrapper {
+  .v-navigation-drawer__content {
+    flex: 1;
+  }
+}
+</style>
