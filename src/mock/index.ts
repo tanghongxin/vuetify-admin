@@ -35,8 +35,8 @@ adaptor
 adaptor.onGet(/\/api\/project\/list/).reply((config) => {
   const { sortBy, itemsPerPage = -1 } = config.params;
 
-  const total = itemsPerPage === -1 ? 20 : itemsPerPage * 3 + 3;
-  let items = Array(itemsPerPage === -1 ? 20 : itemsPerPage)
+  const total = itemsPerPage === -1 ? 400 : itemsPerPage * 3 + 3;
+  let items = Array(itemsPerPage === -1 ? 400 : itemsPerPage)
     .fill(null)
     .map(() => item());
 
