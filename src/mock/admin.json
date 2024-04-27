@@ -2,7 +2,11 @@
   "username": "admin",
   "token": "ac21ebab-bddc-41a3-bef5-4ecf3325c888",
   "roles": [],
-  "permissions": [],
+  "permissions": [
+    "project:add",
+    "project:update",
+    "project:delete"
+  ],
   "menus": [
     {
       "name": "首页",
