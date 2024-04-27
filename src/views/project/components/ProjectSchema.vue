@@ -14,7 +14,7 @@ const emit = defineEmits<{
   (e: 'editSuccess'): void;
 }>();
 
-const uploadRef = ref<IOGC<'ImgUpload'>>(null);
+const uploadRef = ref<IoGC<'ImgUpload'>>(null);
 
 const getDefaultModel = () =>
   ({

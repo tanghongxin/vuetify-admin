@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
   multiSort: false,
 });
 
-const formRef = ref<IOGC<'VForm'>>(null);
+const formRef = ref<IoGC<'VForm'>>(null);
 const options = ref<TableReq>({
   page: 1,
   itemsPerPage: 25,
@@ -54,22 +54,22 @@ defineExpose({ refresh });
 </script>
 
 <template>
-  <div class="data-table fill-width fill-height d-flex flex-column">
-    <v-form ref="formRef" @submit.prevent="refresh(true)">
+  <div class="data-table w-100 h-100 d-flex flex-column">
+    <v-form class="mt-4 mb-4" ref="formRef" @submit.prevent="refresh(true)">
       <slot name="search" />
 
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" variant="tonal" tile type="submit"> 查询 </v-btn>
-        <v-btn variant="tonal" tile @click="refresh()"> 刷新 </v-btn>
+        <v-btn class="mr-2" variant="tonal" type="submit"> 查询 </v-btn>
+        <v-btn variant="tonal" @click="refresh()"> 刷新 </v-btn>
       </div>
     </v-form>
 
     <div class="flex-grow-1 overflow-hidden">
       <v-data-table-virtual
         ref="table"
-        class="elevation-0 fill-width fill-height d-flex flex-column overflow-x-hidden"
+        class="elevation-0 w-100 h-100 d-flex flex-column overflow-x-hidden"
         fixed-header
         :headers="props.headers"
         :items="result.items"
@@ -90,22 +90,4 @@ defineExpose({ refresh });
   </div>
 </template>
 
-<style lang="scss">
-.theme--dark .data-table {
-  --background-color: #1e1e1e;
-}
-
-.data-table {
-  --background-color: #fff;
-
-  .v-toolbar__content {
-    padding-bottom: 0;
-    padding-top: 0;
-  }
-
-  th,
-  td {
-    @extend .text-no-wrap !optional;
-  }
-}
-</style>
+<style lang="scss"></style>

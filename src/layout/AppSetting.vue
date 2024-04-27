@@ -1,25 +1,27 @@
 <script setup lang="ts">
-// eslint-disable vue/no-deprecated-slot-attribute
-import { colors } from '@/config/theme';
+import { Color, colors } from '@/config/theme';
 import { useSettingStore } from '@/store/modules/settings';
 
 defineOptions({
   name: 'AppSetting',
 });
 
-const store = useSettingStore();
+const settingStore = useSettingStore();
 </script>
 
 <template>
   <div class="app-setting">
     <v-navigation-drawer
-      :model-value="store.setting"
+      :model-value="settingStore.setting"
       location="right"
       temporary
-      @update:model-value="store.toggleSetting"
+      @update:model-value="settingStore.toggleSetting"
     >
       <template #prepend>
-        <v-toolbar :height="store.headerHeight" color="primary lighten-1">
+        <v-toolbar
+          :height="settingStore.headerHeight"
+          color="primary lighten-1"
+        >
           <v-toolbar-title>个性化设置</v-toolbar-title>
         </v-toolbar>
       </template>
@@ -30,9 +32,9 @@ const store = useSettingStore();
             <p class="px-1 my-2">导航栏设置</p>
             <v-switch
               color="primary"
-              :model-value="store.permanentNavigation"
+              :model-value="settingStore.permanentNavigation"
               label="导航栏固定左侧"
-              @change="store.togglePermanentNavigation"
+              @change="settingStore.togglePermanentNavigation"
             />
           </div>
 
@@ -40,9 +42,9 @@ const store = useSettingStore();
             <p class="px-1 my-2">外观</p>
             <v-switch
               color="primary"
-              :model-value="store.dark"
               label="深色模式"
-              @change="store.toggleDark"
+              :model-value="settingStore.dark"
+              @change="settingStore.toggleDark"
             />
           </div>
 
@@ -50,9 +52,9 @@ const store = useSettingStore();
             <p class="px-1 my-2">页签模式</p>
             <v-switch
               color="primary"
-              :model-value="store.tagsView"
               label="多页签"
-              @change="store.toggleTagsView"
+              :model-value="settingStore.tagsView"
+              @change="settingStore.toggleTagsView"
             />
           </div>
 
@@ -61,27 +63,21 @@ const store = useSettingStore();
             <div class="color-option">
               <div class="d-flex flex-row flex-wrap">
                 <label
-                  v-for="colorName in Object.keys(colors)"
-                  :key="colorName"
-                  class="app-setting__label flex pa-1"
+                  v-for="c in Object.keys(colors)"
+                  :key="c"
+                  class="app-setting__label pa-1"
                 >
                   <input
                     type="radio"
-                    :checked="colorName === store.color"
-                    @input="store.setColor(colorName)"
+                    :checked="c === settingStore.color"
+                    @input="settingStore.setColor(c as Color)"
                   />
                   <span class="app-setting__item bg">
                     <span class="overlay">
                       <span class="material-icons">check</span>
                     </span>
-                    <span
-                      class="app-setting__item-header"
-                      :class="`bg-${colorName}`"
-                    />
-                    <span
-                      class="app-setting__item-header"
-                      :class="`bg-${colorName}`"
-                    />
+                    <span class="app-setting__item-header" :class="`bg-${c}`" />
+                    <span class="app-setting__item-header" :class="`bg-${c}`" />
                     <span class="bg-white" />
                   </span>
                 </label>

@@ -34,7 +34,6 @@ const range = computed(() => {
 <template>
   <!-- eslint-disable vue/no-mutating-props -->
   <div class="v-data-table-footer">
-    <v-spacer></v-spacer>
     <div class="v-data-table-footer__items-per-page">
       <span>每页数目：</span>
     </div>

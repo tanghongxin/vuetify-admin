@@ -32,7 +32,7 @@ const buildRoutes = (routesConfig: RouteConfig[] = []) => {
     return {
       ...rest,
       component: component ? dynamicImport(component, compName) : '',
-      meta: Object.assign({}, meta, compName ? { compName } : {}),
+      meta: Object.assign({}, meta, { compName }),
       children: children?.map(cb),
     } as RouteRecordRaw;
   };

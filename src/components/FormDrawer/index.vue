@@ -35,7 +35,7 @@ const emit = defineEmits<{
   'update:model-value': [value: boolean];
 }>();
 
-const formRef = ref<IOGC<'VForm'>>(null);
+const formRef = ref<IoGC<'VForm'>>(null);
 
 const { headerHeight } = storeToRefs(useSettingStore());
 
@@ -79,7 +79,7 @@ const submit = async () => {
       </template>
 
       <v-form
-        class="d-flex flex-column fill-height"
+        class="d-flex flex-column h-100"
         ref="formRef"
         @submit.prevent="submit"
       >
@@ -91,7 +91,7 @@ const submit = async () => {
 
         <Spin :model-value="loading" />
         <v-divider />
-        <div class="fill-width d-flex flex-row">
+        <div class="w-100 d-flex flex-row">
           <slot name="actions" />
         </div>
       </v-form>

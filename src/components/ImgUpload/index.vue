@@ -34,7 +34,7 @@ const props = defineProps({
   },
 });
 
-const imgInputerRef = ref<IOGC<'ImgInputer'>>(null);
+const imgInputerRef = ref<IoGC<'ImgInputer'>>(null);
 const file = ref(null);
 
 const maxMB = computed(() => props.maxSize / 1024);

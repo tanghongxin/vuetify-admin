@@ -10,12 +10,12 @@ declare global {
   /**
    * InstanceType of globally registered component
    */
-  type IOGC<T extends K> = InstanceType<GlobalComponent<T>>;
+  type IoGC<T extends K> = InstanceType<GlobalComponent<T>>;
 
   /**
    * InstanceType of manually imported component
    */
-  type IOC<T extends abstract new (...args: any[]) => any> = InstanceType<T>;
+  type IoC<T extends abstract new (...args: any[]) => any> = InstanceType<T>;
 
   interface ApiRes<T> {
     data: T;
@@ -45,7 +45,7 @@ declare global {
     meta: {
       isKeepAlive: boolean;
       icon: string;
-      compName?: string;
+      compName: string;
       isHidden: boolean;
       [key: string]: any;
     };

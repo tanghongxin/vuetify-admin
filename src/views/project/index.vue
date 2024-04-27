@@ -7,8 +7,8 @@ import { useFocus } from '@vueuse/core';
 
 defineOptions({ name: 'ProjectList' });
 
-const tableRef = ref<IOGC<'DataTable'>>(null);
-const projectSchemaRef = ref<IOC<typeof ProjectSchema>>(null);
+const tableRef = ref<IoGC<'DataTable'>>(null);
+const projectSchemaRef = ref<IoC<typeof ProjectSchema>>(null);
 const nameRef = ref(null);
 
 useFocus(nameRef);
@@ -82,7 +82,7 @@ const headers = computed(() => [
 </script>
 
 <template>
-  <div class="fill-height fill-width overflow-hidden">
+  <div class="h-100 w-100 overflow-hidden">
     <DataTable
       ref="tableRef"
       :headers
@@ -104,12 +104,7 @@ const headers = computed(() => [
       </template>
 
       <template #actions>
-        <v-btn
-          class="mr-2"
-          variant="tonal"
-          tile
-          @click="projectSchemaRef.open()"
-        >
+        <v-btn class="mr-2" variant="tonal" @click="projectSchemaRef.open()">
           新增项目
         </v-btn>
       </template>

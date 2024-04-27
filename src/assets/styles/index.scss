@@ -2,20 +2,6 @@ html {
   overflow-y: auto;
 }
 
-#app {
-  width: 100vw;
-  height: 100vh;
+.p-relative {
   position: relative;
-}
-
-.fill-width {
-  width: 100%;
-}
-
-.fill-height {
-  height: 100%;
-}
-
-.text-no-wrap {
-  white-space: nowrap !important;
 }
