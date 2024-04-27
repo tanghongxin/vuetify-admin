@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePromiseFn } from '@/composables';
 import { Res, Props, getDefaultRes } from './types';
+import TableFooter from './TableFooter.vue';
 
 defineOptions({
   name: 'DataTable',
@@ -12,20 +13,29 @@ const props = withDefaults(defineProps<Props>(), {
   multiSort: false,
 });
 
-const formRef = ref<IOGC<'VForm'>>(null);
+const headers = computed(() =>
+  props.headers.map((item) => ({
+    ...item,
+    // 禁用 v-data-table-virtual 本地排序，而使用远程排序
+    sortRaw: () => {},
+    sort: () => {},
+  })),
+);
+
+const formRef = ref<IoGC<'VForm'>>(null);
 const options = ref<TableReq>({
   page: 1,
-  itemsPerPage: 10,
+  itemsPerPage: 25,
   sortBy: [],
   groupBy: [],
 });
 
-const { loading, result, exec } = usePromiseFn<Res>(
+const { loading, result, error, exec } = usePromiseFn<Res>(
   props.loadDataFn,
   getDefaultRes(),
 );
 
-watch(options, fetch, { immediate: true });
+watch(options, fetch, { immediate: true, deep: true });
 
 async function fetch(ops = {}) {
   await nextTick();
@@ -53,72 +63,49 @@ defineExpose({ refresh });
 </script>
 
 <template>
-  <div class="data-table fill-width fill-height d-flex flex-column">
-    <v-form ref="formRef" @submit.prevent="refresh(true)">
+  <div class="data-table w-100 h-100 d-flex flex-column">
+    <v-form class="mt-4 mb-4" ref="formRef" @submit.prevent="refresh(true)">
       <slot name="search" />
 
       <div class="d-flex flex-row pb-1 px-2">
         <slot name="actions" />
         <v-spacer />
-        <v-btn class="mr-2" variant="tonal" tile type="submit"> 查询 </v-btn>
-        <v-btn variant="tonal" tile @click="refresh()"> 刷新 </v-btn>
+        <v-btn class="mr-2" variant="tonal" type="submit"> 查询 </v-btn>
+        <v-btn variant="tonal" @click="refresh()"> 刷新 </v-btn>
       </div>
     </v-form>
 
-    <div class="flex-grow-1 overflow-hidden" :style="{ position: 'relative' }">
-      <v-data-table-server
+    <div class="flex-grow-1 overflow-hidden">
+      <v-data-table-virtual
         ref="table"
-        v-model:items-per-page="options.itemsPerPage"
-        class="elevation-0 fill-width fill-height d-flex flex-column overflow-x-hidden"
+        class="elevation-0 w-100 h-100 d-flex flex-column overflow-x-hidden"
         fixed-header
-        :headers="props.headers"
+        fixed-footer
+        :headers
         :items="result.items"
-        :items-length="result.total"
-        :loading="loading"
+        :loading
         loading-text="加载中"
         :multi-sort="props.multiSort"
-        :no-data-text="loading ? '加载中...' : '暂无数据'"
-        :page="options.page"
-        @update:options="fetch($event)"
+        :no-data-text="error ? '加载失败' : loading ? '加载中' : '暂无数据'"
+        v-model:sort-by="options.sortBy"
+        v-model:group-by="options.groupBy"
       >
         <template v-for="(_, slot) of $slots" #[slot]="scope">
           <slot :name="slot" v-bind="scope" />
         </template>
-      </v-data-table-server>
+
+        <template #bottom>
+          <TableFooter :options :result />
+        </template>
+      </v-data-table-virtual>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-.theme--dark .data-table {
-  --background-color: #1e1e1e;
-}
-
 .data-table {
-  --background-color: #fff;
-  position: static !important;
-
-  .v-pagination {
-    text-align: right !important;
-    width: auto !important;
-  }
-
-  .v-toolbar__content {
-    padding-bottom: 0;
-    padding-top: 0;
-  }
-
-  .v-data-footer {
-    font-size: 14px;
-  }
-
-  .v-data-table-footer__items-per-page {
-    min-width: 180px;
-  }
-
-  th,
-  td {
-    @extend .text-no-wrap !optional;
+  .v-table--fixed-header thead tr {
+    background-color: rgb(var(--v-theme-background));
   }
 }
 </style>

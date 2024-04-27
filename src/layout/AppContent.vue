@@ -11,7 +11,7 @@ defineOptions({
 const { tagsView } = storeToRefs(useSettingStore());
 const route = useRoute();
 const include = useKeepAliveInclude();
-const containerRef = ref<IOGC<'VContainer'>>(null);
+const containerRef = ref<IoGC<'VContainer'>>(null);
 const containerId = uuid();
 const updateScrollTop = debounce({ delay: 100 }, (top: number) => {
   Object.assign(route.meta, {
@@ -21,12 +21,12 @@ const updateScrollTop = debounce({ delay: 100 }, (top: number) => {
 </script>
 
 <template>
-  <v-main class="app-content fill-height overflow-hidden">
-    <div class="fill-height d-flex flex-column align-center justify-center">
+  <v-main class="app-content h-100 overflow-hidden">
+    <div class="h-100 d-flex flex-column align-center justify-center">
       <v-expand-transition>
         <TagsView v-if="tagsView" />
       </v-expand-transition>
-      <div class="fill-width flex-grow-1" :style="{ position: 'relative' }">
+      <div class="w-100 flex-grow-1 p-relative">
         <v-container
           :id="containerId"
           ref="containerRef"
@@ -41,7 +41,7 @@ const updateScrollTop = debounce({ delay: 100 }, (top: number) => {
             left: 0,
           }"
         >
-          <div class="fill-height">
+          <div class="h-100 w-100">
             <router-view v-slot="{ Component }">
               <v-slide-x-transition mode="out-in">
                 <keep-alive :include="tagsView ? include : []">

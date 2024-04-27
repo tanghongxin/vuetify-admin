@@ -1,6 +1,6 @@
 <template>
   <v-overlay
-    content-class="fill-width fill-height d-flex flex-row align-center justify-center"
+    content-class="w-100 h-100 d-flex flex-row align-center justify-center"
     contained
     attach
     :model-value="modelValue"

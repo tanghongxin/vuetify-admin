@@ -7,8 +7,8 @@ import { useFocus } from '@vueuse/core';
 
 defineOptions({ name: 'ProjectList' });
 
-const tableRef = ref<IOGC<'DataTable'>>(null);
-const projectSchemaRef = ref<IOC<typeof ProjectSchema>>(null);
+const tableRef = ref<IoGC<'DataTable'>>(null);
+const projectSchemaRef = ref<IoC<typeof ProjectSchema>>(null);
 const nameRef = ref(null);
 
 useFocus(nameRef);
@@ -75,14 +75,14 @@ const headers = computed(() => [
     align: 'center',
     sortable: false,
     key: 'actions',
-    minWidth: 110,
+    minWidth: 200,
     fixed: true,
   },
 ]);
 </script>
 
 <template>
-  <div class="fill-height fill-width overflow-hidden">
+  <div class="h-100 w-100 overflow-hidden">
     <DataTable
       ref="tableRef"
       :headers
@@ -104,14 +104,11 @@ const headers = computed(() => [
       </template>
 
       <template #actions>
-        <v-btn
-          class="mr-2"
-          variant="tonal"
-          tile
-          @click="projectSchemaRef.open()"
-        >
-          新增项目
-        </v-btn>
+        <AuthProvider :required="['project:add']">
+          <v-btn class="mr-2" variant="tonal" @click="projectSchemaRef.open()">
+            新增项目
+          </v-btn>
+        </AuthProvider>
       </template>
 
       <template #item.time="{ item }">
@@ -121,36 +118,24 @@ const headers = computed(() => [
       </template>
 
       <template #item.actions="{ item }">
-        <v-tooltip top>
-          <template #activator>
-            <v-icon
-              color="blue darken-3"
-              class="mr-4"
-              @click="projectSchemaRef.open(item.id)"
-            >
-              edit
-            </v-icon>
-          </template>
-          <span>编辑</span>
-        </v-tooltip>
+        <ActionBtn type="view" @click="projectSchemaRef.open(item.id)" />
 
-        <v-tooltip top>
-          <template #activator>
-            <v-icon
-              color="red"
-              @click="
-                async () => {
-                  await deleteProject(item.id);
-                  toast.success({ message: '删除项目成功' });
-                  tableRef.refresh();
-                }
-              "
-            >
-              delete
-            </v-icon>
-          </template>
-          <span>删除</span>
-        </v-tooltip>
+        <AuthProvider :required="['project:update']">
+          <ActionBtn type="edit" @click="projectSchemaRef.open(item.id)" />
+        </AuthProvider>
+
+        <AuthProvider :required="['project:delete']">
+          <ActionBtn
+            type="delete"
+            @click="
+              async () => {
+                await deleteProject(item.id);
+                toast.success({ message: '删除项目成功' });
+                tableRef.refresh();
+              }
+            "
+          />
+        </AuthProvider>
       </template>
     </DataTable>
 

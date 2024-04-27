@@ -11,11 +11,8 @@ const y = ref<string | number>(0);
 const show = async (e: MouseEvent) => {
   e.preventDefault();
   if (menu.value) {
-    // trigger leave transition
-    await sleep(120);
     menu.value = false;
-  } else {
-    await nextTick();
+    await sleep(130);
   }
   x.value = `${e.clientX}px`;
   y.value = `${e.clientY}px`;
@@ -33,8 +30,6 @@ defineExpose({
       <v-menu
         v-model="menu"
         :attach="wrapperRef"
-        absolute
-        offset-y
         location="end"
         transition="scale-transition"
       >

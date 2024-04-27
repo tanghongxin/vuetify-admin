@@ -2,7 +2,7 @@ export interface AccountInfo {
   username: string;
   token: string;
   roles: string[];
-  permissions: [];
+  permissions: string[];
   menus: RouteConfig[];
 }
 

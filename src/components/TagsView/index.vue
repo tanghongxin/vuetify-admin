@@ -8,7 +8,7 @@ defineOptions({ name: 'TagsView' });
 const tagsViewStore = useTagsViewStore();
 const route = useRoute();
 const targetIndex = ref(-1);
-const followMenuRef = ref<IOGC<'FollowMenu'>>(null);
+const followMenuRef = ref<IoGC<'FollowMenu'>>(null);
 
 onMounted(() => {
   tagsViewStore.useActivate();
@@ -25,7 +25,7 @@ const ctxMenu = (e: MouseEvent, index: number) => {
 </script>
 
 <template>
-  <div class="fill-width">
+  <div class="w-100">
     <v-tabs
       :model-value="route.fullPath"
       show-arrows

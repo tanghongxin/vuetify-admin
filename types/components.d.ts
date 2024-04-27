@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionBtn: typeof import('./../src/components/ActionBtn/index.vue')['default']
+    AuthProvider: typeof import('./../src/components/AuthProvider/index.vue')['default']
     DataTable: typeof import('./../src/components/DataTable/index.vue')['default']
     FollowMenu: typeof import('./../src/components/FollowMenu/index.vue')['default']
     FormDrawer: typeof import('./../src/components/FormDrawer/index.vue')['default']

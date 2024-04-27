@@ -18,6 +18,7 @@ export const useAccountStore = defineStore('account', () => {
   const loggedIn = computed(() => !!account.value.token);
   const username = computed(() => account.value.username);
   const menus = computed(() => account.value.menus);
+  const permissions = computed(() => account.value.permissions);
 
   function $reset() {
     account.value = getInitialState();
@@ -46,11 +47,11 @@ export const useAccountStore = defineStore('account', () => {
     loggedIn,
     username,
     menus,
+    permissions,
     generateRoutes,
     login,
     logout,
   };
 });
 
-// use outside setup
 export const getAccountStore = () => useAccountStore(store);

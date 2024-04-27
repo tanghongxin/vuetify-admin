@@ -10,7 +10,7 @@ const model = reactive<LoginReq>({
   password: 'h97rpXts8',
 });
 
-const formRef = ref<IOGC<'VForm'>>(null);
+const formRef = ref<IoGC<'VForm'>>(null);
 
 const { login } = useAccountStore();
 const { loading, exec } = usePromiseFn(login);
@@ -22,7 +22,7 @@ const submit = async () => {
 </script>
 
 <template>
-  <v-container class="d-flex fill-height" fluid align="center" justify="center">
+  <v-container class="d-flex h-100" fluid align="center" justify="center">
     <v-row class="full-height" align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-form ref="formRef" @submit.prevent="submit">
