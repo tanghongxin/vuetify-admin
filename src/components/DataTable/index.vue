@@ -80,9 +80,10 @@ defineExpose({ refresh });
         ref="table"
         class="elevation-0 w-100 h-100 d-flex flex-column overflow-x-hidden"
         fixed-header
+        fixed-footer
         :headers
         :items="result.items"
-        :loading="loading"
+        :loading
         loading-text="加载中"
         :multi-sort="props.multiSort"
         :no-data-text="error ? '加载失败' : loading ? '加载中' : '暂无数据'"
@@ -101,4 +102,10 @@ defineExpose({ refresh });
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.data-table {
+  .v-table--fixed-header thead tr {
+    background-color: rgb(var(--v-theme-background));
+  }
+}
+</style>
