@@ -51,4 +51,19 @@ declare global {
     };
     props: boolean;
   }
+
+  interface WorkerSendMsgContent {
+    type: string;
+    payload?: any;
+  }
+
+  interface WorkerSendMsg {
+    requestId: number;
+    message: WorkerSendMsgContent;
+  }
+
+  interface WorkerReceiveMsg {
+    requestId: number;
+    response: any;
+  }
 }
