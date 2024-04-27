@@ -13,6 +13,15 @@ const props = withDefaults(defineProps<Props>(), {
   multiSort: false,
 });
 
+const headers = computed(() =>
+  props.headers.map((item) => ({
+    ...item,
+    // 禁用 v-data-table-virtual 本地排序，而使用远程排序
+    sortRaw: () => {},
+    sort: () => {},
+  })),
+);
+
 const formRef = ref<IoGC<'VForm'>>(null);
 const options = ref<TableReq>({
   page: 1,
@@ -71,12 +80,14 @@ defineExpose({ refresh });
         ref="table"
         class="elevation-0 w-100 h-100 d-flex flex-column overflow-x-hidden"
         fixed-header
-        :headers="props.headers"
+        :headers
         :items="result.items"
         :loading="loading"
         loading-text="加载中"
         :multi-sort="props.multiSort"
         :no-data-text="error ? '加载失败' : loading ? '加载中' : '暂无数据'"
+        v-model:sort-by="options.sortBy"
+        v-model:group-by="options.groupBy"
       >
         <template v-for="(_, slot) of $slots" #[slot]="scope">
           <slot :name="slot" v-bind="scope" />

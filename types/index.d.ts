@@ -26,8 +26,8 @@ declare global {
   interface TableReq {
     page: number;
     itemsPerPage: number;
-    sortBy: string[];
-    groupBy: string[];
+    sortBy: any[];
+    groupBy: any[];
     [key: string]: any;
   }
 
