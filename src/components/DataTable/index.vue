@@ -35,7 +35,9 @@ const { loading, result, error, exec } = usePromiseFn<Res>(
   getDefaultRes(),
 );
 
-watch(options, fetch, { immediate: true, deep: true });
+onMounted(() => {
+  watch(options, fetch, { immediate: true, deep: true });
+});
 
 async function fetch(ops = {}) {
   await nextTick();
@@ -77,7 +79,7 @@ defineExpose({ refresh });
 
     <div class="flex-grow-1 overflow-hidden">
       <v-data-table-virtual
-        ref="table"
+        v-keep-scroll="['.v-table__wrapper']"
         class="elevation-0 w-100 h-100 d-flex flex-column overflow-x-hidden"
         fixed-header
         fixed-footer
