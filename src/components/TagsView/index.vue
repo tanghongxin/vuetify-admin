@@ -37,7 +37,7 @@ const ctxMenu = (e: MouseEvent, index: number) => {
         v-for="(r, index) in tagsViewStore.views"
         :key="r.name"
         :value="r.fullPath"
-        :exact="r.name === route.name"
+        :exact="r.path === route.path"
         :to="r.fullPath"
         @contextmenu="ctxMenu($event, index)"
       >

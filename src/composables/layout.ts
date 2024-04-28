@@ -26,6 +26,6 @@ export const useKeepAliveInclude = () => {
   return computed(() =>
     views.value
       .filter(({ meta }) => meta.isKeepAlive)
-      .map(({ meta }) => meta.compName),
+      .map(({ meta }) => meta.wrapCompName),
   );
 };

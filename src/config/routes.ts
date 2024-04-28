@@ -1,15 +1,15 @@
-import { dynamicImport } from '@/router/helper';
+import { lazyImport } from '@/router/helper';
 
 export const LOGIN_ROUTE = {
   name: '登录',
   path: '/login',
-  component: dynamicImport('login/index'),
+  component: lazyImport('login/index'),
 };
 
 export const NOT_FOUND_ROUTE = {
   name: '404',
   path: '/exception/404',
-  component: dynamicImport('exception/index'),
+  component: lazyImport('exception/index'),
 };
 
 export const FALLBACK_ROUTE = {
@@ -21,5 +21,5 @@ export const FALLBACK_ROUTE = {
 export const DEFAULT_ROUTE = {
   name: '首页',
   path: '/home',
-  component: dynamicImport('home/index'),
+  component: lazyImport('home/index'),
 };
