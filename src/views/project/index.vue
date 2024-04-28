@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ProjectSchema from './components/ProjectSchema.vue';
-import { deleteProject, getProjectList } from '@/api/project';
+import { deleteProject, getProjects } from '@/api/project';
 import { formatDate } from '@rthx/utils';
 import toast from '@/utils/toast';
 import { useFocus } from '@vueuse/core';
@@ -86,7 +86,7 @@ const headers = computed(() => [
     <DataTable
       ref="tableRef"
       :headers
-      :load-data-fn="(options) => getProjectList({ ...query, ...options })"
+      :load-data-fn="(options) => getProjects({ ...query, ...options })"
     >
       <template #search>
         <v-row class="px-4">

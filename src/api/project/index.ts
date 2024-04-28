@@ -19,8 +19,8 @@ export function getProject(id) {
   return request.get<never, ProjectInfo>(`/project/${id}`);
 }
 
-export function getProjectList(params: ProjectTableReq) {
-  return request.get<ProjectTableReq, ProjectTableRes>('/project/list', {
+export function getProjects(params: ProjectTableReq) {
+  return request.get<ProjectTableReq, ProjectTableRes>('/projects', {
     params,
   });
 }

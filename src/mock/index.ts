@@ -38,9 +38,9 @@ adaptor.onGet(/\/api\/project\/\d+/).reply(() =>
   }),
 );
 
-adaptor.onGet(/\/api\/project\/list/).reply((config) =>
+adaptor.onGet(/\/api\/projects/).reply((config) =>
   conn.send({
-    type: 'getProjectList',
+    type: 'getProjects',
     payload: config.params,
   }),
 );

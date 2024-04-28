@@ -4,6 +4,7 @@ import { HttpStatusCode } from 'axios';
 
 import admin from './admin.json';
 import guest from './guest.json';
+import projects from './projects.json';
 
 class Mocker {
   static dispatch(request: WorkerSendMsg) {
@@ -23,11 +24,20 @@ class Mocker {
     return [Mocker.res()];
   }
 
-  static getProjectList({ sortBy, itemsPerPage = -1 }) {
-    const total = itemsPerPage === -1 ? 800 : itemsPerPage * 3 + 3;
-    let items = Array(itemsPerPage === -1 ? 800 : itemsPerPage)
-      .fill(null)
-      .map(() => Mocker.mockProject());
+  static getProjects({ sortBy, page = 1, itemsPerPage = -1 }) {
+    const total = projects.length;
+
+    let items = projects;
+
+    if (sortBy?.length) {
+      const [{ key, order }] = sortBy;
+      items = sort(items, (el) => el[key], order === 'desc');
+    }
+
+    items =
+      itemsPerPage === -1
+        ? items
+        : items.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
     if (sortBy?.length) {
       const [{ key, order }] = sortBy;
