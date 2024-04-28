@@ -9,6 +9,10 @@ export const useTagsViewStore = defineStore('tagsView', () => {
 
   const views = useSessionStorage('views', []);
 
+  const activeIndex = computed(() =>
+    views.value.findIndex((v) => v.path === route.path),
+  );
+
   function setViews(value = []) {
     views.value = value;
   }
@@ -20,36 +24,42 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     ) {
       return;
     }
-
-    if (views.value[index].fullPath === route.fullPath) {
+    if (index === activeIndex.value) {
       let to;
       if (index <= views.value.length - 2) {
-        to = views.value[index + 1].fullPath;
+        to = views.value[index + 1];
       } else if (index >= 1) {
-        to = views.value[index - 1].fullPath;
+        to = views.value[index - 1];
       } else {
-        to = DEFAULT_ROUTE.path;
+        to = { ...DEFAULT_ROUTE };
       }
       router.push(to);
     }
-
     views.value.splice(index, 1);
   }
 
   function closeRight(index: number) {
+    if (index < activeIndex.value) {
+      router.push(views.value[index]);
+    }
     views.value = views.value.slice(0, index + 1);
   }
 
   function closeLeft(index: number) {
+    if (index > activeIndex.value) {
+      router.push(views.value[index]);
+    }
     views.value = views.value.slice(index);
   }
 
   function closeOthers(index: number) {
-    views.value = views.value[index];
+    const view = views.value[index];
+    router.push(view);
+    views.value = [view];
   }
 
   function switchTo({ ...to }) {
-    const index = views.value.findIndex((r) => r.fullPath === to.fullPath);
+    const index = views.value.findIndex((r) => r.path === to.path);
     const originalView = views.value[index];
 
     if (index === -1) {
