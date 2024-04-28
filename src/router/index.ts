@@ -9,7 +9,7 @@ import {
   FALLBACK_ROUTE,
   DEFAULT_ROUTE,
 } from '@/config/routes';
-import { dynamicImport } from './helper';
+import { lazyImport } from './helper';
 import { uuid } from '@rthx/utils';
 import { RouteRecordRaw } from 'vue-router';
 
@@ -28,11 +28,13 @@ const buildRoutes = (routesConfig: RouteConfig[] = []) => {
   });
 
   const cb = ({ component, meta, children, ...rest }: RouteConfig) => {
-    const compName = meta.isKeepAlive ? uuid() : '';
+    const wrapCompName = meta.isKeepAlive
+      ? `warp-for-keep-alive-${uuid()}`
+      : '';
     return {
       ...rest,
-      component: component ? dynamicImport(component, compName) : '',
-      meta: Object.assign({}, meta, { compName }),
+      component: component ? lazyImport(component, wrapCompName) : '',
+      meta: Object.assign({}, meta, wrapCompName ? { wrapCompName } : {}),
       children: children?.map(cb),
     } as RouteRecordRaw;
   };

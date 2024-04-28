@@ -45,7 +45,7 @@ declare global {
     meta: {
       isKeepAlive: boolean;
       icon: string;
-      compName: string;
+      wrapCompName?: string;
       isHidden: boolean;
       [key: string]: any;
     };
