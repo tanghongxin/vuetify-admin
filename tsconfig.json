@@ -12,12 +12,13 @@
       "@/*": ["src/*"]
     },
     "types": [
-      "vite/client"
+      "vite/client",
+      "v-keep-scroll/types"
     ]
   },
   "include": [
     "src/**/*",
-    "types/index.d.ts",
+    "types/index.d.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
