@@ -6,7 +6,7 @@
 
 ## 在线尝试
 
-[Live Demo](https://www.ado.icu/vuetify-admin)
+[Live Demo](https://vuetify.ado.icu)
 
 ## Features
 
@@ -38,5 +38,5 @@
 git clone https://github.com/tanghongxin/vuetify-admin.git
 cd vuetify-admin
 pnpm i
-pnpm serve
+pnpm dev
 ```

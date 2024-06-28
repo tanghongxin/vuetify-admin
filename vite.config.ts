@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === 'production';
 
   return {
-    base: isProd ? '/vuetify-admin/' : './',
     plugins: [
       AutoImport({
         imports: ['vue', 'vue-router', 'pinia'],
