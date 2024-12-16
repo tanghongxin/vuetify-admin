@@ -50,6 +50,6 @@ steps:
     runOptions: 'inline'
     inline: |
       tar -zxvf /tmp/dist.tar.gz -C /tmp
-      rm -rf $(DEPLOY_DIR) /tmp/dist.tar.gz
-      mv /tmp/dist $(DEPLOY_DIR)
+      rm -rf $(DEPLOY_DIR)/dist /tmp/dist.tar.gz
+      mv /tmp/dist $(DEPLOY_DIR)/dist
   displayName: 'Deploy'
