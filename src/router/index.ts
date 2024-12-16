@@ -29,7 +29,7 @@ const buildRoutes = (routesConfig: RouteConfig[] = []) => {
 
   const cb = ({ component, meta, children, ...rest }: RouteConfig) => {
     const wrapCompName = meta.isKeepAlive
-      ? `warp-for-keep-alive-${uuid()}`
+      ? `wrap-for-keep-alive-${uuid()}`
       : '';
     return {
       ...rest,
