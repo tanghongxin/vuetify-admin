@@ -45,7 +45,7 @@ importers:
         specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.7.2))
       vuetify:
-        specifier: ^3.5.9
+        specifier: 3.5.9
         version: 3.5.9(typescript@5.7.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.13(typescript@5.7.2))
     devDependencies:
       '@eslint/compat':
